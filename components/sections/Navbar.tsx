@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { OWNER } from '@/lib/data'
 
-const NAV_LINKS = ['About','Skills','Experience','Projects','Education','Contact']
+const NAV_LINKS = ['About', 'Experience', 'Education', 'Projects', 'Contact']
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)

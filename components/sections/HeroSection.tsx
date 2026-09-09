@@ -37,8 +37,8 @@ function StarField(props: any) {
 export default function HeroSection() {
   return (
     <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-      {/* 3D Background */}
-      <div className="absolute inset-0 z-0">
+      {/* 3D Background Canvas - pointer-events-none so it doesn't trap clicks */}
+      <div className="pointer-events-none absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 0, 1] }}>
           <Suspense fallback={null}>
             <StarField />
@@ -46,13 +46,13 @@ export default function HeroSection() {
         </Canvas>
       </div>
 
-      {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0a0f]/50 to-[#0a0a0f] z-10" />
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[120px] z-10" />
-      <div className="absolute top-1/2 left-1/4 w-[300px] h-[300px] bg-cyan-400/10 rounded-full blur-[100px] z-10" />
+      {/* Gradient overlays with pointer-events-none */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0a0f]/50 to-[#0a0a0f] z-10" />
+      <div className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6c63ff]/10 rounded-full blur-[120px] z-10" />
+      <div className="pointer-events-none absolute top-1/2 left-1/4 w-[300px] h-[300px] bg-[#00d4ff]/10 rounded-full blur-[100px] z-10" />
 
-      {/* Content */}
-      <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
+      {/* Interactive Content */}
+      <div className="relative z-20 text-center px-6 max-w-4xl mx-auto pointer-events-auto">
         <div className="inline-block px-4 py-1.5 rounded-full border border-purple-500/40 text-purple-300 text-sm mb-6 glass">
           👋 Welcome to my portfolio
         </div>
@@ -74,22 +74,30 @@ export default function HeroSection() {
         </div>
         <p className="text-slate-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">{OWNER.bio}</p>
         <div className="flex flex-wrap gap-4 justify-center">
-          <a href="#projects"
-            className="px-8 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-semibold hover:opacity-90 transition-all glow-purple">
+          <a
+            href="#featured-projects"
+            className="px-8 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-semibold hover:opacity-90 transition-all glow-purple cursor-pointer"
+          >
             View Projects
           </a>
-          <a href="#contact"
-            className="px-8 py-3 rounded-xl glass border border-purple-500/40 text-purple-300 font-semibold hover:bg-purple-500/10 transition-all">
+          <a
+            href="#contact"
+            className="px-8 py-3 rounded-xl glass border border-purple-500/40 text-purple-300 font-semibold hover:bg-purple-500/10 transition-all cursor-pointer"
+          >
             Contact Me
           </a>
-          <a href={OWNER.github} target="_blank" rel="noopener noreferrer"
-            className="px-8 py-3 rounded-xl glass border border-slate-500/40 text-slate-300 font-semibold hover:border-purple-400/50 transition-all">
+          <a
+            href={OWNER.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-3 rounded-xl glass border border-slate-500/40 text-slate-300 font-semibold hover:border-purple-400/50 transition-all cursor-pointer"
+          >
             GitHub ↗
           </a>
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500">
+        <div className="pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500">
           <span className="text-xs">Scroll to explore</span>
           <div className="w-px h-12 bg-gradient-to-b from-purple-500 to-transparent animate-pulse" />
         </div>

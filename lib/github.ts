@@ -1,18 +1,164 @@
 const USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME || 'OxDurgeshxO'
 
 export interface GitHubProfile {
-  login: string; name: string; bio: string | null;
-  avatar_url: string; public_repos: number;
-  followers: number; following: number; html_url: string;
-  location: string | null; blog: string | null;
+  login: string
+  name: string
+  bio: string | null
+  avatar_url: string
+  public_repos: number
+  followers: number
+  following: number
+  html_url: string
+  location: string | null
+  blog: string | null
 }
 
 export interface GitHubRepo {
-  id: number; name: string; description: string | null;
-  stargazers_count: number; forks_count: number;
-  language: string | null; html_url: string;
-  topics: string[]; updated_at: string;
+  id: number
+  name: string
+  description: string | null
+  stargazers_count: number
+  forks_count: number
+  language: string | null
+  html_url: string
+  topics: string[]
+  updated_at: string
+  fork?: boolean
+  size?: number
+  homepage?: string | null
+  rating?: number
+  category?: string
+  highlights?: string[]
+  live_url?: string | null
 }
+
+export const TOP_5_CURATED_METADATA: Record<string, {
+  rating: number
+  category: string
+  description: string
+  highlights: string[]
+  live_url: string | null
+  language: string
+}> = {
+  'MarketMatch-AI': {
+    rating: 9.6,
+    category: 'Customer Analytics & Recommenders',
+    description: 'End-to-end Machine Learning pipeline using K-Means and DBSCAN clustering with a Nearest Neighbors recommendation engine for retail customer targeting.',
+    highlights: ['K-Means & DBSCAN', 'Nearest Neighbors', 'Targeted Marketing'],
+    live_url: null,
+    language: 'Python',
+  },
+  'bank-churn-prediction-studio': {
+    rating: 9.5,
+    category: 'Financial AI & Predictive Analytics',
+    description: 'AI-Powered Customer Churn Prediction Dashboard built with Streamlit, Scikit-Learn, and SMOTE for handling class imbalance with real-time risk scoring.',
+    highlights: ['Streamlit Cloud', 'SMOTE Balancing', 'Real-time Risk Scoring'],
+    live_url: 'https://bank-churn-prediction-studio-mrl8whyxpnhkyfvfwmtqwq.streamlit.app/',
+    language: 'Python',
+  },
+  'inamigos-ngo-3d-website': {
+    rating: 9.2,
+    category: 'Interactive 3D WebGL Experience',
+    description: 'Immersive 3D NGO web platform built with Three.js, React, and TypeScript featuring interactive WebGL donation and social impact visualizations.',
+    highlights: ['Three.js & WebGL', 'React / TypeScript', 'Social Impact Tech'],
+    live_url: 'https://inamigos-foundation-web.vercel.app',
+    language: 'TypeScript',
+  },
+  'CNN-STREAMLIT': {
+    rating: 8.9,
+    category: 'Computer Vision & Deep Learning',
+    description: 'End-to-end Deep Learning Convolutional Neural Network trained on Fashion MNIST with 89.3% accuracy and interactive real-time Streamlit image classifier.',
+    highlights: ['CNN / TensorFlow', '89.3% Accuracy', 'Interactive Inference'],
+    live_url: null,
+    language: 'Python',
+  },
+  'durgesh-portfolio': {
+    rating: 8.5,
+    category: 'Full-Stack Modern Web',
+    description: 'High-performance digital portfolio showcasing modern web architecture, responsive layouts, smooth micro-animations, and AI project integrations.',
+    highlights: ['Next.js 14', 'Tailwind CSS', 'Framer Motion'],
+    live_url: null,
+    language: 'TypeScript',
+  },
+}
+
+export const FALLBACK_TOP_5_REPOS: GitHubRepo[] = [
+  {
+    id: 101,
+    name: 'MarketMatch-AI',
+    description: TOP_5_CURATED_METADATA['MarketMatch-AI'].description,
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'Python',
+    html_url: `https://github.com/${USERNAME}/MarketMatch-AI`,
+    topics: ['machine-learning', 'clustering', 'recommendation-engine'],
+    updated_at: '2026-08-02',
+    rating: 9.6,
+    category: 'Customer Analytics & Recommenders',
+    highlights: ['K-Means & DBSCAN', 'Nearest Neighbors', 'Targeted Marketing'],
+    live_url: null,
+  },
+  {
+    id: 102,
+    name: 'bank-churn-prediction-studio',
+    description: TOP_5_CURATED_METADATA['bank-churn-prediction-studio'].description,
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'Python',
+    html_url: `https://github.com/${USERNAME}/bank-churn-prediction-studio`,
+    topics: ['streamlit', 'scikit-learn', 'smote', 'fintech'],
+    updated_at: '2026-08-02',
+    rating: 9.5,
+    category: 'Financial AI & Predictive Analytics',
+    highlights: ['Streamlit Cloud', 'SMOTE Balancing', 'Real-time Risk Scoring'],
+    live_url: 'https://bank-churn-prediction-studio-mrl8whyxpnhkyfvfwmtqwq.streamlit.app/',
+  },
+  {
+    id: 103,
+    name: 'inamigos-ngo-3d-website',
+    description: TOP_5_CURATED_METADATA['inamigos-ngo-3d-website'].description,
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'TypeScript',
+    html_url: `https://github.com/${USERNAME}/inamigos-ngo-3d-website`,
+    topics: ['threejs', 'react', 'webgl', 'social-good'],
+    updated_at: '2026-07-25',
+    rating: 9.2,
+    category: 'Interactive 3D WebGL Experience',
+    highlights: ['Three.js & WebGL', 'React / TypeScript', 'Social Impact Tech'],
+    live_url: 'https://inamigos-foundation-web.vercel.app',
+  },
+  {
+    id: 104,
+    name: 'CNN-STREAMLIT',
+    description: TOP_5_CURATED_METADATA['CNN-STREAMLIT'].description,
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'Python',
+    html_url: `https://github.com/${USERNAME}/CNN-STREAMLIT`,
+    topics: ['deep-learning', 'cnn', 'tensorflow', 'computer-vision'],
+    updated_at: '2026-07-25',
+    rating: 8.9,
+    category: 'Computer Vision & Deep Learning',
+    highlights: ['CNN / TensorFlow', '89.3% Accuracy', 'Interactive Inference'],
+    live_url: null,
+  },
+  {
+    id: 105,
+    name: 'durgesh-portfolio',
+    description: TOP_5_CURATED_METADATA['durgesh-portfolio'].description,
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'TypeScript',
+    html_url: `https://github.com/${USERNAME}/durgesh-portfolio`,
+    topics: ['nextjs', 'tailwindcss', 'portfolio'],
+    updated_at: '2026-07-25',
+    rating: 8.5,
+    category: 'Full-Stack Modern Web',
+    highlights: ['Next.js 14', 'Tailwind CSS', 'Framer Motion'],
+    live_url: null,
+  },
+]
 
 export async function fetchGitHubProfile(): Promise<GitHubProfile> {
   const res = await fetch(`https://api.github.com/users/${USERNAME}`, {
@@ -23,14 +169,40 @@ export async function fetchGitHubProfile(): Promise<GitHubProfile> {
 }
 
 export async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
-  const res = await fetch(
-    `https://api.github.com/users/${USERNAME}/repos?sort=updated&per_page=9&type=public`,
-    { next: { revalidate: 3600 } }
-  )
-  if (!res.ok) throw new Error('Failed to fetch GitHub repos')
-  const data = await res.json()
-  // Guard: API rate-limit returns an object, not an array
-  if (!Array.isArray(data)) throw new Error('GitHub repos response is not an array')
-  const repos = data as GitHubRepo[]
-  return repos.filter(r => !r.name.startsWith('.')).slice(0, 9)
+  try {
+    const res = await fetch(
+      `https://api.github.com/users/${USERNAME}/repos?per_page=100&type=public`,
+      { next: { revalidate: 3600 } }
+    )
+    if (!res.ok) return FALLBACK_TOP_5_REPOS
+
+    const data = await res.json()
+    if (!Array.isArray(data)) return FALLBACK_TOP_5_REPOS
+
+    // Filter out forks, dotfiles, and empty stubs
+    const nonForkRepos = (data as any[]).filter(
+      r => !r.fork && !r.name.startsWith('.')
+    )
+
+    // Rate, enrich, and rank repositories
+    const ratedRepos: GitHubRepo[] = nonForkRepos.map(r => {
+      const meta = TOP_5_CURATED_METADATA[r.name]
+      const defaultScore = (r.description ? 7.0 : 4.0) + (r.size > 100 ? 1.0 : 0)
+      return {
+        ...r,
+        rating: meta?.rating ?? defaultScore,
+        category: meta?.category ?? (r.language ? `${r.language} Project` : 'Software Engineering'),
+        description: meta?.description ?? r.description ?? 'Project repository on GitHub',
+        highlights: meta?.highlights ?? (r.topics && r.topics.length ? r.topics : [r.language || 'Code']),
+        live_url: meta?.live_url ?? r.homepage ?? null,
+        language: meta?.language ?? r.language ?? 'Code',
+      }
+    })
+
+    // Sort by rating descending and return strictly Top 5
+    ratedRepos.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
+    return ratedRepos.slice(0, 5)
+  } catch {
+    return FALLBACK_TOP_5_REPOS
+  }
 }
