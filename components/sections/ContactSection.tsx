@@ -51,7 +51,7 @@ export default function ContactSection() {
         </h2>
         <div className="w-24 h-1 bg-gradient-to-r from-purple-500 via-cyan-400 to-emerald-400 rounded mx-auto mb-4" />
         <p className="text-slate-400 max-w-xl mx-auto text-sm md:text-base">
-          Whether you have an opportunity, an AI architecture question, or want to collaborate on cutting-edge models, I'd love to connect.
+          Whether you have an opportunity, an AI architecture question, or want to collaborate on cutting-edge models, I&apos;d love to connect.
         </p>
       </motion.div>
 

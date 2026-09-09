@@ -72,7 +72,7 @@ export default function EducationSection() {
           </div>
 
           <p className="text-slate-300 text-sm md:text-base leading-relaxed mb-6 max-w-4xl">
-            Specialized Master's curriculum focused on engineering scalable AI systems, neural network modeling, and enterprise distributed computing. Applied coursework directly supports research and deployment of autonomous agent pipelines and deep learning web applications.
+            Specialized Master&apos;s curriculum focused on engineering scalable AI systems, neural network modeling, and enterprise distributed computing. Applied coursework directly supports research and deployment of autonomous agent pipelines and deep learning web applications.
           </p>
 
           {/* Academic Pillars & Competencies */}

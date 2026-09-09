@@ -1,4 +1,5 @@
 "use client"
+import Image from 'next/image'
 import { GitHubProfile } from '@/lib/github'
 import { OWNER } from '@/lib/data'
 import { motion } from 'framer-motion'
@@ -25,7 +26,7 @@ export default function AboutSection({ profile }: Props) {
           viewport={{ once:true }} transition={{ duration:0.7 }} className="flex justify-center">
           <div className="relative">
             <div className="w-64 h-64 rounded-full overflow-hidden border-2 border-purple-500/50 glow-purple animate-float">
-              <img src={avatar} alt={OWNER.name} className="w-full h-full object-cover" />
+              <Image src={avatar} alt={OWNER.name} width={256} height={256} priority className="w-full h-full object-cover" />
             </div>
             <div className="absolute -bottom-4 -right-4 glass px-4 py-2 rounded-xl border border-cyan-500/30 text-cyan-300 text-sm">
               ✅ Open to Opportunities
