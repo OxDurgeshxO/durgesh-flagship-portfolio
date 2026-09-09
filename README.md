@@ -1,10 +1,13 @@
 # Durgesh Dutt Sinha — Flagship 3D Digital Portfolio
 
-[![Live Portfolio](https://img.shields.io/badge/Live-Flagship_Portfolio-8b5cf6?style=for-the-badge&logo=vercel&logoColor=white)](https://github.com/OxDurgeshxO/durgesh-flagship-portfolio)
+[![Live Portfolio](https://img.shields.io/badge/Live-durgesh--portfolio.pages.dev-F38020?style=for-the-badge&logo=cloudflarepages&logoColor=white)](https://durgesh-portfolio.pages.dev/)
 [![Next.js](https://img.shields.io/badge/Next.js-14.2.35-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
 [![Three.js](https://img.shields.io/badge/Three.js-WebGL-000000?style=for-the-badge&logo=three.js)](https://threejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com)
+
+> 🚀 **Live Production Deployment**: **[https://durgesh-portfolio.pages.dev](https://durgesh-portfolio.pages.dev/)**  
+> ⚡ Powered by **Cloudflare Pages Edge Anycast CDN** with sub-second global latency, interactive Three.js CyberBot physics, and SSR instant first paint.
 
 A high-performance, unified **Flagship 3D Digital Portfolio** for **Durgesh Dutt Sinha** — AIML Engineer, UNLOX® AI Fellow, and MCA (AIML) scholar at Sri Balaji University Pune. Featuring real-time Three.js WebGL graphics, an interactive 3D CyberBot companion, highlighted academic specializations, and curated production platforms.
 
@@ -103,11 +106,13 @@ npm start
 
 ## 🌐 Deployment
 
-Ready for one-click deployment to **Vercel** or **Netlify**:
+- **Production (Active)**: Hosted on **Cloudflare Pages** at [https://durgesh-portfolio.pages.dev](https://durgesh-portfolio.pages.dev/)
+- **Build Adapter**: `@cloudflare/next-on-pages` Edge Worker with Node.js compatibility
+- **Alternative Runtimes**: Zero-configuration support for **Vercel** (`npx vercel`) and **Netlify**
 
 ```bash
-# Deploy to Vercel
-npx vercel
+# Cloudflare Pages Build
+npx @cloudflare/next-on-pages
 ```
 
 ---
