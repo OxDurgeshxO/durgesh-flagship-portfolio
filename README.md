@@ -1,128 +1,123 @@
-# Durgesh Dutt Sinha — 3D Digital Portfolio
+# Durgesh Dutt Sinha — Flagship 3D Digital Portfolio
 
-A professional 3D portfolio website built with **Next.js 14**, **React Three Fiber**, **Framer Motion**, and **Tailwind CSS**.
+[![Live Portfolio](https://img.shields.io/badge/Live-Flagship_Portfolio-8b5cf6?style=for-the-badge&logo=vercel&logoColor=white)](https://github.com/OxDurgeshxO/durgesh-flagship-portfolio)
+[![Next.js](https://img.shields.io/badge/Next.js-14.2.35-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
+[![Three.js](https://img.shields.io/badge/Three.js-WebGL-000000?style=for-the-badge&logo=three.js)](https://threejs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com)
 
-[![Next.js](https://img.shields.io/badge/Next.js-14.2.35-black)](https://nextjs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6)](https://www.typescriptlang.org)
+A high-performance, unified **Flagship 3D Digital Portfolio** for **Durgesh Dutt Sinha** — AIML Engineer, UNLOX® AI Fellow, and MCA (AIML) scholar at Sri Balaji University Pune. Featuring real-time Three.js WebGL graphics, an interactive 3D CyberBot companion, highlighted academic specializations, and curated production platforms.
+
+---
+
+## 🌟 Architectural Highlights
+
+### 1. 🪐 3D WebGL Canvas & Particle Dynamics
+- **Starfield Galaxy**: 5,001 individual rotating WebGL particles rendered via `@react-three/fiber` and `@react-three/drei`.
+- **SSR Isolation**: Client-only dynamic hydration with zero hydration mismatch or server-side memory leaks.
+- **Micro-Interactions**: Ambient gradient glow, smooth scroll spy, and real-time type animation headline.
+
+### 2. 🤖 Interactive 3D CyberBot Companion
+- **Native 3D Geometry**: Chrome chassis, counter-rotating holographic gyro rings, glowing expressive visor eyes, dynamic ion thruster flames, and floating magnetic hands.
+- **Physics & Motion**: Real-time cursor gaze tracking, 360° acrobatic ion spin stunts, tossing/dragging mechanics, and dock/roam/follow modes.
+- **Personalized Speech Engine**: Contextual voicelines with sound synthesis powered by the Web Audio API.
+
+### 3. 🎓 Highlighted MCA (AIML) Academic Spotlight
+- Located directly beneath Work Experience for maximum recruiter impact.
+- **Sri Balaji University Pune (2025–2027 In Progress)**: Core specialization pillars in *Autonomous AI Agents*, *Deep Learning & CNNs*, *System Architecture*, *Cloud ML Pipelines (AWS)*, and *Prompt Engineering*.
+- **Official Credentials**: AWS Educate Machine Learning Foundations, AWS Emerging Talent Community, and BCA foundation.
+
+### 4. 🚀 Featured Production Showcases & Curated Top 5
+- **ROLEFIT 2.0**: Enterprise AI Career Intelligence Platform (Next.js 16, Drizzle ORM, multi-role ATS resume matching).
+- **AI Fitness Platform**: Computer Vision & IoT ecosystem with MediaPipe Pose Detection (<50ms latency).
+- **MarketMatch AI**: Customer Segmentation & Recommender Engine with K-Means & DBSCAN clustering.
+- **Curated Top 5 GitHub Repos**: Automated real-time GitHub REST API feed with ISR caching.
 
 ---
 
-## 🚀 Quick Start
-
-```bash
-npm install       # Install dependencies
-npm run dev       # Dev server → http://localhost:3000
-npm run build     # Production build (verify)
-```
-
-## ⚙️ Environment Variables
-
-Edit `.env.local` (pre-filled):
-
-```env
-NEXT_PUBLIC_GITHUB_USERNAME=OxDurgeshxO
-NEXT_PUBLIC_LINKEDIN_URL=https://www.linkedin.com/in/durgesh-dutt-s-4ba74924b
-NEXT_PUBLIC_EMAIL=durgeshdsinha@gmail.com
-```
-
-## 🌐 Deploy to Vercel
-
-```bash
-npm i -g vercel && vercel
-```
-
-Or: push to GitHub → connect at vercel.com → auto-deploy on every push.
-
-## 📁 Architecture
+## 📁 Repository Structure
 
 ```
-app/
-  layout.tsx          # Root layout, metadata, Open Graph
-  page.tsx            # Server component — fetches GitHub data, renders sections
-components/sections/
-  Navbar.tsx          # Glassmorphism nav, scroll-aware, mobile hamburger
-  HeroSection.tsx     # R3F 3D starfield + TypeAnimation — loaded client-only (ssr:false)
-  AboutSection.tsx    # Live GitHub avatar/stats + bio
-  SkillsSection.tsx   # Animated progress bars by category
-  ExperienceSection.tsx  # Glowing timeline cards
-  ProjectsSection.tsx    # Live GitHub repos grid (ISR, 1hr cache)
-  EducationSection.tsx   # Degree cards with stagger animation
-  CertificationsSection.tsx  # AWS cert cards with glow
-  VolunteeringSection.tsx    # Volunteering history
-  ContactSection.tsx  # mailto form + contact links
-  Footer.tsx          # Links and copyright
-lib/
-  data.ts             # ALL personal data — edit this to customise
-  github.ts           # GitHub REST API helpers (ISR revalidate: 3600s)
-styles/
-  globals.css         # Tailwind base + glass / gradient-text / glow utilities
-```
-
-## 🧩 Key Components
-
-### HeroSection
-- **3D StarField**: 5,001-point sphere via `@react-three/fiber`, rotated in `useFrame`. Positions cached in `useMemo` (prevents per-render GC).
-- **SSR Safety**: Loaded via `dynamic(..., { ssr: false })` — prevents R3F Canvas from crashing Next.js static prerender.
-- **TypeAnimation**: Cycles through role titles every 2 seconds.
-
-### ProjectsSection
-- Fetches live repos from GitHub API server-side (Next.js ISR, revalidates every hour).
-- Gracefully falls back to 3 hardcoded sample repos if API is unavailable or rate-limited.
-
-### ContactSection
-- Controlled mailto form with both `subject` and `body` fully `encodeURIComponent`-escaped (prevents URI injection).
-
-## 🔧 API Functions (`lib/github.ts`)
-
-| Function | Description |
-|---|---|
-| `fetchGitHubProfile()` | Fetches user profile; ISR 1hr cache; throws on error |
-| `fetchGitHubRepos()` | Fetches up to 9 public repos sorted by updated; `Array.isArray` guard against rate-limit error objects |
-
-## 🛡️ Security & Bug Fixes
-
-| # | File | Issue | Fix |
-|---|---|---|---|
-| 1 | `lib/github.ts` | `.filter()` crash on GitHub rate-limit response object | `Array.isArray(data)` guard added |
-| 2 | `HeroSection.tsx` | `new Float32Array(15003)` on every render (GC leak) + unused `maath/random` import | `useMemo([], [])` + import removed |
-| 3 | `ContactSection.tsx` | `form.name` unescaped in mailto subject → URI corruption | Full subject wrapped in `encodeURIComponent()` |
-| 4 | `app/page.tsx` | R3F Canvas crashed SSR prerender (`Element type: undefined`) | `dynamic(() => import(...), { ssr: false })` |
-| 5 | `package.json` | `next@14.2.5` — 34 CVEs incl. SSRF, auth bypass, cache poisoning | Upgraded to `next@14.2.35` |
-
-## ✏️ Customise
-
-Edit **`lib/data.ts`** to update all personal info:
-
-```ts
-export const OWNER = { name, title, email, phone, location, github, linkedin, bio }
-export const SKILLS = [{ name, level, category }]          // category: ai | dev | cloud | data | core
-export const EXPERIENCE = [{ role, company, period, location, points, color }]
-export const EDUCATION = [{ degree, institution, period, grade }]
-export const CERTIFICATIONS = [{ name, issuer, color }]
-export const VOLUNTEERING = [{ role, org, description }]
-```
-
-GitHub repos **auto-fetch live** — no manual update needed.
-
-## 🎨 Tech Stack
-
-| Layer | Tech |
-|---|---|
-| Framework | Next.js 14 App Router |
-| 3D | React Three Fiber + Drei |
-| Animation | Framer Motion + GSAP |
-| Styling | Tailwind CSS |
-| Data | GitHub REST API (ISR live) |
-| Deploy | Vercel |
-
-## 📊 Build Output
-
-```
-Route (app)                    Size     First Load JS
-┌ ○ /                          257 kB          344 kB
-└ ○ /_not-found                873 B          88.2 kB
-○  (Static) prerendered as static content
+durgesh-flagship-portfolio/
+├── app/
+│   ├── layout.tsx              # Root HTML layout, SEO metadata, Open Graph
+│   └── page.tsx                # Server component orchestrating sections
+├── components/
+│   ├── Background.tsx          # Floating ambient mesh gradient orbs
+│   ├── LoadingScreen.tsx       # 0-100% animated cyber loading screen
+│   ├── PortfolioShell.tsx      # Main layout wrapper & companion loader
+│   ├── companion/
+│   │   ├── CyberBotModel.tsx   # 3D Three.js robotic companion
+│   │   ├── RoamingCompanion3D.tsx # Physics, roaming loop & speech bubble
+│   │   └── SpeechBubble.tsx    # Responsive floating speech bubble
+│   └── sections/
+│       ├── Navbar.tsx          # Glassmorphism navigation with mobile menu
+│       ├── HeroSection.tsx     # 3D Starfield & live typing headline
+│       ├── AboutSection.tsx    # Bio, core competencies & social connectivity
+│       ├── ExperienceSection.tsx # UNLOX® & Be10x fellowship timelines
+│       ├── EducationSection.tsx# SBUP MCA AIML & AWS credentials spotlight
+│       ├── FeaturedProjectsSection.tsx # Deep production showcases
+│       ├── ProjectsSection.tsx # Curated Top 5 GitHub repositories
+│       ├── ContactSection.tsx  # Topic-based inquiry suite & quick copy
+│       └── Footer.tsx          # Copyright & live status indicators
+├── lib/
+│   ├── data.ts                 # Personal information, timeline, and education
+│   └── github.ts               # GitHub API client with error boundaries & ISR
+└── styles/
+    └── globals.css             # Tailwind design tokens, glassmorphism & glow
 ```
 
 ---
-*Built by Durgesh Dutt Sinha — AIML Engineer & Full-Stack Developer*
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+ or 20+
+- npm, pnpm, or yarn
+
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/OxDurgeshxO/durgesh-flagship-portfolio.git
+cd durgesh-flagship-portfolio
+
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+```
+
+Visit `http://localhost:3000` in your browser.
+
+### Production Build
+```bash
+# Compile and validate production bundle
+npm run build
+
+# Start production server
+npm start
+```
+
+---
+
+## 🌐 Deployment
+
+Ready for one-click deployment to **Vercel** or **Netlify**:
+
+```bash
+# Deploy to Vercel
+npx vercel
+```
+
+---
+
+## 👤 Author
+
+**Durgesh Dutt Sinha**
+- **GitHub:** [@OxDurgeshxO](https://github.com/OxDurgeshxO)
+- **LinkedIn:** [durgesh-dutt-s](https://www.linkedin.com/in/durgesh-dutt-s-4ba74924b)
+- **Email:** [durgeshdsinha@gmail.com](mailto:durgeshdsinha@gmail.com)
+
+---
+*Crafted with Next.js 14, React Three Fiber, Three.js, and Tailwind CSS.*
