@@ -11,7 +11,24 @@ import ContactSection from '@/components/sections/ContactSection'
 import Footer from '@/components/sections/Footer'
 
 // HeroSection uses R3F Canvas + TypeAnimation — browser-only, must skip SSR
-const HeroSection = dynamic(() => import('@/components/sections/HeroSection'), { ssr: false })
+const HeroSection = dynamic(() => import('@/components/sections/HeroSection'), {
+  ssr: false,
+  loading: () => (
+    <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-[#0a0a0f]">
+      <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
+        <div className="inline-block px-4 py-1.5 rounded-full border border-purple-500/40 text-purple-300 text-sm mb-6">
+          👋 Welcome to my portfolio
+        </div>
+        <h1 className="text-5xl md:text-7xl font-bold mb-4 leading-tight text-white">
+          <span className="gradient-text">Durgesh Dutt Sinha</span>
+        </h1>
+        <p className="text-xl md:text-2xl text-slate-300 mb-8 font-mono">
+          AIML Engineer &amp; Full-Stack Developer
+        </p>
+      </div>
+    </section>
+  ),
+})
 
 export default async function Home() {
   let profile = null

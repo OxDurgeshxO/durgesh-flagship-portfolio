@@ -64,6 +64,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
 export default function FeaturedProjectsSection() {
   return (
     <section id="projects" className="section-padding max-w-7xl mx-auto relative z-10">
+      <div id="featured-projects" className="-top-24 relative" />
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

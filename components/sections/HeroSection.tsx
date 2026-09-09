@@ -75,7 +75,7 @@ export default function HeroSection() {
         <p className="text-slate-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">{OWNER.bio}</p>
         <div className="flex flex-wrap gap-4 justify-center">
           <a
-            href="#featured-projects"
+            href="#projects"
             className="px-8 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-semibold hover:opacity-90 transition-all glow-purple cursor-pointer"
           >
             View Projects
