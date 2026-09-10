@@ -179,9 +179,10 @@ export async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
     const data = await res.json()
     if (!Array.isArray(data)) return FALLBACK_TOP_5_REPOS
 
-    // Filter out forks, dotfiles, and empty stubs
+    // Filter out forks, dotfiles, meta-repos and the portfolio itself
+    const EXCLUDED_REPOS = ['durgesh-flagship-portfolio', 'durgesh-portfolio']
     const nonForkRepos = (data as any[]).filter(
-      r => !r.fork && !r.name.startsWith('.')
+      r => !r.fork && !r.name.startsWith('.') && !EXCLUDED_REPOS.includes(r.name)
     )
 
     // Rate, enrich, and rank repositories
