@@ -19,8 +19,8 @@ interface FeaturedProject {
 
 const FEATURED_PROJECTS: FeaturedProject[] = [
   {
-    id: "rolefit2",
-    title: "RoleFit 2.0 — AI Career Intelligence Platform",
+    id: "roleradar",
+    title: "RoleRadar — AI Career Intelligence Platform",
     category: "Full Stack AI & Career Tech",
     badge: "Production Showcase",
     description:
@@ -29,7 +29,8 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     tags: ["Next.js 16", "TypeScript", "Drizzle ORM", "Tailwind CSS v4", "PostgreSQL", "Turbopack"],
     accent: "#a78bfa",
     icon: Trophy,
-    githubUrl: "https://github.com/OxDurgeshxO/ROLEFIT2",
+    githubUrl: "https://github.com/OxDurgeshxO/RoleRadar",
+    demoUrl: "https://rolefit-2.vercel.app",
   },
   {
     id: "fitness-platform",
