@@ -155,7 +155,7 @@ export default async function Image() {
           }}
         >
           <div style={{ display: 'flex', gap: '36px', color: '#94a3b8' }}>
-            <span>🌐 durgesh-portfolio.pages.dev</span>
+            <span>🌐 durgesh-portfolio-v2.pages.dev</span>
             <span>•</span>
             <span>github.com/OxDurgeshxO</span>
           </div>

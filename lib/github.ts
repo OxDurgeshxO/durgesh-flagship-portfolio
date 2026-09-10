@@ -180,7 +180,7 @@ export async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
     if (!Array.isArray(data)) return FALLBACK_TOP_5_REPOS
 
     // Filter out forks, dotfiles, meta-repos and the portfolio itself
-    const EXCLUDED_REPOS = ['durgesh-flagship-portfolio', 'durgesh-portfolio']
+    const EXCLUDED_REPOS = ['durgesh-flagship-portfolio', 'durgesh-portfolio', 'durgesh-portfolio-v2']
     const nonForkRepos = (data as any[]).filter(
       r => !r.fork && !r.name.startsWith('.') && !EXCLUDED_REPOS.includes(r.name)
     )

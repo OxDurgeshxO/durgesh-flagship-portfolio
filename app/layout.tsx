@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import '../styles/globals.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://durgesh-portfolio.pages.dev'),
+  metadataBase: new URL('https://durgesh-portfolio-v2.pages.dev'),
   title: 'Durgesh Dutt Sinha | AIML Engineer & Developer',
   description: 'Professional 3D portfolio of Durgesh Dutt Sinha — AIML Engineer, AI Program Fellow, Full-Stack Developer.',
   keywords: ['AI Engineer', 'AIML', 'Portfolio', 'Full Stack', 'Durgesh Dutt Sinha', 'Three.js', 'Next.js'],
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Durgesh Dutt Sinha | AIML Engineer & Developer',
     description: 'Interactive 3D digital portfolio showcasing autonomous AI systems, machine learning architectures, and full-stack engineering.',
-    url: 'https://durgesh-portfolio.pages.dev',
+    url: 'https://durgesh-portfolio-v2.pages.dev',
     siteName: 'Durgesh Dutt Sinha Portfolio',
     images: [
       {
@@ -42,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     '@type': 'Person',
     name: 'Durgesh Dutt Sinha',
     jobTitle: 'AIML Engineer & Developer',
-    url: 'https://durgesh-portfolio.pages.dev',
+    url: 'https://durgesh-portfolio-v2.pages.dev',
     sameAs: [
       'https://github.com/OxDurgeshxO',
       'https://www.linkedin.com/in/durgesh-dutt-s-4ba74924b',
