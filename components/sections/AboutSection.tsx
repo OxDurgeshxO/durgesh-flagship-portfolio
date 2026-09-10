@@ -13,7 +13,7 @@ export default function AboutSection({ profile }: Props) {
 
   const stats = [
     { label: 'Public Repos', value: repos },
-    { label: 'Followers', value: followers },
+    { label: 'AI Roles Evaluated', value: 16 },
     { label: 'Years Coding', value: 3 },
     { label: 'AI Projects', value: 10 },
   ]
@@ -28,7 +28,7 @@ export default function AboutSection({ profile }: Props) {
             <div className="w-64 h-64 rounded-full overflow-hidden border-2 border-purple-500/50 glow-purple animate-float">
               <Image src={avatar} alt={OWNER.name} width={256} height={256} priority className="w-full h-full object-cover" />
             </div>
-            <div className="absolute -bottom-4 -right-4 glass px-4 py-2 rounded-xl border border-cyan-500/30 text-cyan-300 text-sm">
+            <div className="absolute -bottom-4 -right-4 glass px-4 py-2 rounded-xl border border-rose-500/30 text-rose-300 text-sm shadow-lg shadow-rose-500/10">
               ✅ Open to Opportunities
             </div>
           </div>
@@ -38,7 +38,7 @@ export default function AboutSection({ profile }: Props) {
         <motion.div initial={{ opacity:0, x:50 }} whileInView={{ opacity:1, x:0 }}
           viewport={{ once:true }} transition={{ duration:0.7 }}>
           <h2 className="text-3xl md:text-4xl font-bold mb-2">About <span className="gradient-text">Me</span></h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-cyan-400 rounded mb-6" />
+          <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-rose-500 rounded mb-6" />
           <p className="text-slate-400 leading-relaxed mb-6">{OWNER.bio}</p>
           <div className="flex flex-wrap gap-3 mb-8">
             {['🤖 AI Engineering', '⚡ Prompt Engineering', '🏗️ System Architecture', '☁️ AWS ML', '💻 Full-Stack Dev'].map(tag => (
@@ -63,7 +63,7 @@ export default function AboutSection({ profile }: Props) {
               GitHub ↗
             </a>
             <a href={`mailto:${OWNER.email}`}
-              className="flex-1 text-center py-3 glass border border-cyan-500/40 text-cyan-300 rounded-xl text-sm font-semibold hover:bg-cyan-500/10 transition-all">
+              className="flex-1 text-center py-3 glass border border-rose-500/40 text-rose-300 rounded-xl text-sm font-semibold hover:bg-rose-500/10 transition-all">
               Email ↗
             </a>
           </div>

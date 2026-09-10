@@ -14,12 +14,20 @@ const SUBJECT_OPTIONS = [
 export default function ContactSection() {
   const [form, setForm] = useState({ name: '', email: '', subject: SUBJECT_OPTIONS[0], message: '' })
   const [copied, setCopied] = useState(false)
+  const [draftCopied, setDraftCopied] = useState(false)
   const [status, setStatus] = useState<'idle' | 'sent'>('idle')
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(OWNER.email)
     setCopied(true)
     setTimeout(() => setCopied(false), 2500)
+  }
+
+  const handleCopyDraft = () => {
+    const draftText = `To: ${OWNER.email}\nSubject: [${form.subject}] Message from ${form.name || 'Anonymous'}\nFrom: ${form.name || 'Anonymous'} <${form.email || 'not provided'}>\n\nMessage:\n${form.message || '(No message content)'}`
+    navigator.clipboard.writeText(draftText)
+    setDraftCopied(true)
+    setTimeout(() => setDraftCopied(false), 3000)
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -42,14 +50,14 @@ export default function ContactSection() {
         transition={{ duration: 0.5 }}
         className="text-center mb-16"
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-300 border border-cyan-500/25 mb-4">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-300 border border-rose-500/25 mb-4 shadow-sm shadow-rose-500/10">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span>Available for AIML & Full-Stack Engineering Roles</span>
         </div>
         <h2 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
           Get In <span className="gradient-text">Touch</span>
         </h2>
-        <div className="w-24 h-1 bg-gradient-to-r from-purple-500 via-cyan-400 to-emerald-400 rounded mx-auto mb-4" />
+        <div className="w-24 h-1 bg-gradient-to-r from-purple-500 via-rose-400 to-purple-500 rounded mx-auto mb-4" />
         <p className="text-slate-400 max-w-xl mx-auto text-sm md:text-base">
           Whether you have an opportunity, an AI architecture question, or want to collaborate on cutting-edge models, I&apos;d love to connect.
         </p>
@@ -72,7 +80,7 @@ export default function ContactSection() {
               </div>
               <button
                 onClick={handleCopyEmail}
-                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white/5 hover:bg-purple-500/20 text-purple-300 border border-white/10 hover:border-purple-500/30 transition-all active:scale-95"
+                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white/5 hover:bg-purple-500/20 text-purple-300 border border-white/10 hover:border-purple-500/30 transition-all active:scale-95 cursor-pointer"
               >
                 {copied ? '✓ Copied!' : 'Copy'}
               </button>
@@ -86,7 +94,7 @@ export default function ContactSection() {
           {/* Location Card */}
           <div className="glass rounded-2xl p-5 border border-white/10">
             <div className="flex items-center gap-3 mb-1">
-              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-xl text-cyan-300">
+              <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-xl text-rose-300">
                 📍
               </div>
               <div>
@@ -141,16 +149,25 @@ export default function ContactSection() {
                   ✓
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">Message Dispatched!</h3>
-                <p className="text-slate-300 text-sm max-w-md mx-auto mb-6">
+                <p className="text-slate-300 text-sm max-w-md mx-auto mb-4">
                   Your email client has been prepared with your message. Thank you for reaching out!
                 </p>
-                <button
-                  type="button"
-                  onClick={() => setStatus('idle')}
-                  className="px-6 py-2.5 rounded-xl glass border border-white/20 text-sm text-slate-300 hover:text-white"
-                >
-                  Send Another Message
-                </button>
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    onClick={handleCopyDraft}
+                    className="px-5 py-2.5 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-semibold hover:bg-purple-500/30 transition-all cursor-pointer"
+                  >
+                    {draftCopied ? '✓ Copied to Clipboard!' : '📋 Copy Draft Backup'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setStatus('idle')}
+                    className="px-5 py-2.5 rounded-xl glass border border-white/20 text-xs text-slate-300 hover:text-white cursor-pointer"
+                  >
+                    Send Another Message
+                  </button>
+                </div>
               </div>
             ) : (
               <>
@@ -163,9 +180,9 @@ export default function ContactSection() {
                         key={sub}
                         type="button"
                         onClick={() => setForm({ ...form, subject: sub })}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                        className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                           form.subject === sub
-                            ? 'bg-gradient-to-r from-purple-600 to-cyan-500 text-white shadow-md shadow-purple-500/20'
+                            ? 'bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-md shadow-purple-500/20'
                             : 'bg-white/5 text-slate-400 hover:text-white border border-white/5 hover:border-white/20'
                         }`}
                       >
@@ -185,7 +202,7 @@ export default function ContactSection() {
                       placeholder="e.g. Alex Morgan"
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all"
                     />
                   </div>
                   <div>
@@ -196,7 +213,7 @@ export default function ContactSection() {
                       placeholder="alex@company.com"
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all"
                     />
                   </div>
                 </div>
@@ -210,18 +227,28 @@ export default function ContactSection() {
                     placeholder="Tell me about your project, team, or ideas..."
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all resize-none"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all resize-none"
                   />
                 </div>
 
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 text-white font-semibold hover:opacity-95 active:scale-[0.99] transition-all shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2"
-                >
-                  <span>Send Message</span>
-                  <span>✉️</span>
-                </button>
+                {/* Dual Submit Buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <button
+                    type="submit"
+                    className="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-rose-500 text-white font-semibold hover:opacity-95 active:scale-[0.99] transition-all shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <span>Send via Email Client</span>
+                    <span>✉️</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCopyDraft}
+                    className="py-3.5 px-5 rounded-xl glass border border-purple-500/30 hover:border-rose-400/60 text-purple-200 hover:text-white text-xs font-semibold transition-all active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                    title="Copy formatted message draft to paste into Gmail, Outlook, or LinkedIn"
+                  >
+                    <span>{draftCopied ? '✓ Draft Copied!' : '📋 Copy Draft to Clipboard'}</span>
+                  </button>
+                </div>
               </>
             )}
           </form>

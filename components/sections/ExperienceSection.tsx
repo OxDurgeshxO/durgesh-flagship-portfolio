@@ -8,7 +8,7 @@ export default function ExperienceSection() {
       <motion.div initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }}
         viewport={{ once:true }} transition={{ duration:0.5 }} className="text-center mb-14">
         <h2 className="text-3xl md:text-4xl font-bold mb-2">Work <span className="gradient-text">Experience</span></h2>
-        <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-cyan-400 rounded mx-auto" />
+        <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-rose-500 rounded mx-auto" />
       </motion.div>
 
       <div className="relative pl-8 border-l border-purple-500/20">
@@ -19,7 +19,7 @@ export default function ExperienceSection() {
             className="relative mb-10 last:mb-0">
             {/* Timeline dot */}
             <div className="absolute -left-[2.6rem] top-1 w-5 h-5 rounded-full border-2 flex items-center justify-center"
-              style={{ borderColor: exp.color, background: '#0a0a0f', boxShadow: `0 0 12px ${exp.color}88` }}>
+              style={{ borderColor: exp.color, background: 'var(--bg-primary)', boxShadow: `0 0 12px ${exp.color}88` }}>
               <div className="w-2 h-2 rounded-full" style={{ background: exp.color }} />
             </div>
 

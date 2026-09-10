@@ -1,6 +1,7 @@
 "use client"
 import { motion } from 'framer-motion'
 import { GitHubRepo, FALLBACK_TOP_5_REPOS } from '@/lib/github'
+import CardTilt3D from '@/components/3d/CardTilt3D'
 
 const LANG_COLOR: Record<string, string> = {
   TypeScript: '#3178c6',
@@ -13,9 +14,9 @@ const LANG_COLOR: Record<string, string> = {
 
 const RANK_BADGES = [
   { rank: '#1', label: 'Top ML Engine', border: 'border-yellow-500/50', badge: 'bg-yellow-500/10 text-yellow-300 border-yellow-500/30' },
-  { rank: '#2', label: 'Top Financial AI', border: 'border-cyan-500/50', badge: 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30' },
+  { rank: '#2', label: 'Top Financial AI', border: 'border-rose-500/50', badge: 'bg-rose-500/10 text-rose-300 border-rose-500/30' },
   { rank: '#3', label: 'Top 3D WebGL', border: 'border-purple-500/50', badge: 'bg-purple-500/10 text-purple-300 border-purple-500/30' },
-  { rank: '#4', label: 'Top Computer Vision', border: 'border-emerald-500/50', badge: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' },
+  { rank: '#4', label: 'Top Computer Vision', border: 'border-pink-500/50', badge: 'bg-pink-500/10 text-pink-300 border-pink-500/30' },
   { rank: '#5', label: 'Top Modern Web', border: 'border-indigo-500/50', badge: 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30' },
 ]
 
@@ -43,7 +44,7 @@ export default function ProjectsSection({ repos }: Props) {
         <h2 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
           Top 5 GitHub <span className="gradient-text">Repositories</span>
         </h2>
-        <div className="w-24 h-1 bg-gradient-to-r from-purple-500 via-cyan-400 to-emerald-400 rounded mx-auto mb-4" />
+        <div className="w-24 h-1 bg-gradient-to-r from-purple-500 via-rose-400 to-purple-500 rounded mx-auto mb-4" />
         <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
           Hand-picked & scored from my public GitHub repositories based on architecture, complexity, and real-world engineering impact.
         </p>
@@ -53,16 +54,20 @@ export default function ProjectsSection({ repos }: Props) {
         {display.map((repo, i) => {
           const badgeInfo = RANK_BADGES[i] || RANK_BADGES[4]
           return (
-            <motion.div
+            <CardTilt3D
               key={repo.name}
-              initial={{ opacity: 0, y: 35 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
-              className={`glass rounded-2xl p-6 border border-white/5 hover:border-purple-500/40 hover:shadow-xl hover:shadow-purple-500/10 transition-all group flex flex-col justify-between relative overflow-hidden ${
-                i === 0 ? 'lg:col-span-2 bg-gradient-to-br from-purple-950/20 via-slate-900/60 to-slate-900/80 border-purple-500/30' : ''
-              }`}
+              className={i === 0 ? 'lg:col-span-2' : ''}
+              accentColor={i === 0 ? '#a855f7' : i % 2 === 0 ? '#f43f5e' : '#a855f7'}
             >
+              <motion.div
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.5 }}
+                className={`glass rounded-2xl p-6 border border-white/5 hover:border-purple-500/40 hover:shadow-xl hover:shadow-purple-500/10 transition-all group flex flex-col justify-between relative overflow-hidden h-full ${
+                  i === 0 ? 'bg-gradient-to-br from-purple-950/20 via-slate-900/60 to-slate-900/80 border-purple-500/30' : ''
+                }`}
+              >
               {/* Subtle accent glow in the background */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl group-hover:bg-purple-500/10 transition-all pointer-events-none" />
 
@@ -83,7 +88,7 @@ export default function ProjectsSection({ repos }: Props) {
 
                 {/* Project Category */}
                 {repo.category && (
-                  <p className="text-xs font-medium uppercase tracking-wider text-cyan-400/90 mb-1">
+                  <p className="text-xs font-medium uppercase tracking-wider text-rose-300/90 mb-1">
                     {repo.category}
                   </p>
                 )}
@@ -135,7 +140,7 @@ export default function ProjectsSection({ repos }: Props) {
                       href={repo.live_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30 transition-all"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30 hover:bg-rose-500/30 transition-all"
                     >
                       <span>⚡ Live Demo</span>
                       <span>↗</span>
@@ -153,9 +158,10 @@ export default function ProjectsSection({ repos }: Props) {
                 </div>
               </div>
             </motion.div>
-          )
-        })}
-      </div>
+          </CardTilt3D>
+        )
+      })}
+    </div>
 
       <motion.div
         initial={{ opacity: 0 }}
