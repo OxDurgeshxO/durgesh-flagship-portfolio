@@ -30,7 +30,6 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     accent: "#a78bfa",
     icon: Trophy,
     githubUrl: "https://github.com/OxDurgeshxO/ROLEFIT2",
-    demoUrl: "http://localhost:3000",
   },
   {
     id: "fitness-platform",
@@ -44,7 +43,6 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     accent: "#00d4ff",
     icon: Activity,
     githubUrl: "https://github.com/OxDurgeshxO/fitness-platform-architecture",
-    demoUrl: "http://localhost:5173",
   },
   {
     id: "marketmatch-ai",

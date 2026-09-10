@@ -169,7 +169,7 @@ export default function ProjectsSection({ repos }: Props) {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-8 py-3.5 glass border border-purple-500/40 text-purple-300 rounded-xl hover:bg-purple-500/10 hover:border-purple-400 transition-all font-medium text-sm"
         >
-          <span>View All 10 Repositories on GitHub</span>
+          <span>View All Repositories on GitHub</span>
           <span>↗</span>
         </a>
       </motion.div>

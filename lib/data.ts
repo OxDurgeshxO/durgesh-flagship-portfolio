@@ -6,7 +6,7 @@ export const OWNER = {
   location: 'Pune, Maharashtra, India',
   github: 'https://github.com/OxDurgeshxO',
   linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL || 'https://www.linkedin.com/in/durgesh-dutt-s-4ba74924b',
-  bio: 'Pursuing MCA in AIML at Sri Balaji University, Pune. AI Program Fellow at UNLOX®. Passionate about autonomous AI systems, full-stack development, and turning ideas into intelligent products.',
+  bio: 'MCA (AIML) student at Sri Balaji University, Pune. AI Program Fellow at UNLOX® & Be10x AI Cohort Member. Building autonomous AI systems, full-stack platforms, and production-grade ML pipelines.',
 }
 
 export const SKILLS = [
@@ -50,7 +50,7 @@ export const EXPERIENCE = [
   {
     role: 'Central Co-Ordination Team',
     company: 'School of Computer Studies – SBUP',
-    period: '2026',
+    period: 'Jan 2026',
     location: 'Pune',
     points: ['Volunteer at Freshers Central Coordination Team'],
     color: '#a855f7',

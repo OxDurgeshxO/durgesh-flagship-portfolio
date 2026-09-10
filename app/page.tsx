@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import { fetchGitHubProfile, fetchGitHubRepos } from '@/lib/github'
+import { fetchGitHubProfile, fetchGitHubRepos, GitHubRepo } from '@/lib/github'
 import Navbar from '@/components/sections/Navbar'
 import { PortfolioShell } from '@/components/PortfolioShell'
 import AboutSection from '@/components/sections/AboutSection'
@@ -32,7 +32,7 @@ const HeroSection = dynamic(() => import('@/components/sections/HeroSection'), {
 
 export default async function Home() {
   let profile = null
-  let repos: any[] = []
+  let repos: GitHubRepo[] = []
 
   try {
     profile = await fetchGitHubProfile()
