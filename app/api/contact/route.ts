@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit } from '@/lib/lab/validation';
 
+export const runtime = 'edge';
+
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'durgeshdsinha@gmail.com';

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { validateMarketMatchParams, checkRateLimit } from "@/lib/lab/validation";
 
+export const runtime = 'edge';
+
 // Pre-computed verified real-world RFM sample points (Log1p Recency, Frequency, Monetary)
 const SEED_CUSTOMERS = [
   { id: 101, r: 4, f: 32, m: 6200, persona: "Champions (Whales)", pca_x: 2.8, pca_y: 1.9 },
