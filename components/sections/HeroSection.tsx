@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { FileText, Download } from 'lucide-react'
@@ -16,7 +16,6 @@ const AICoreScene = dynamic(() => import('@/components/3d/AICoreScene'), {
 
 export default function HeroSection() {
   const [perfMode, setPerfMode] = useState<PerformanceMode>('immersive')
-  const resumeTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     setPerfMode(getSavedPerformanceMode())
@@ -29,9 +28,6 @@ export default function HeroSection() {
     window.addEventListener('performance-mode-change', handleModeChange)
     return () => {
       window.removeEventListener('performance-mode-change', handleModeChange)
-      if (resumeTimerRef.current) {
-        clearTimeout(resumeTimerRef.current)
-      }
     }
   }, [])
 

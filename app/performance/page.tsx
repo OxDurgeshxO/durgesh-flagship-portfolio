@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { Metadata } from "next";
-import { ArrowLeft, Gauge, ShieldCheck, Zap } from "lucide-react";
+import { ArrowLeft, Gauge, Zap } from "lucide-react";
+import BetaNoticeBanner from "@/components/BetaNoticeBanner";
 import { MEASURED_METRICS } from "@/lib/performance";
 import PerformanceMetricCard from "@/components/performance/MetricCard";
 import PerformanceModeToggle from "@/components/performance/PerformanceModeToggle";
@@ -58,17 +59,11 @@ export default function PerformancePage() {
         </div>
 
         {/* Beta Mode Notice Banner */}
-        <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 text-xs sm:text-sm text-rose-300 flex items-start sm:items-center gap-3 mb-8">
-          <Zap className="h-5 w-5 text-rose-400 shrink-0 mt-0.5 sm:mt-0" />
-          <div className="flex-1">
-            <span className="font-semibold text-rose-200 uppercase tracking-wider font-mono text-[11px] mr-2">
-              [Beta Mode · Telemetry Sandbox]
-            </span>
-            <span>
-              Real-time WebGL memory telemetry, frame-rate probing, and adaptive low-bandwidth switching algorithms are currently in Beta testing and undergoing continuous enhancement.
-            </span>
-          </div>
-        </div>
+        <BetaNoticeBanner
+          featureName="Performance Center & GPU Telemetry"
+          customDescription="Real-time WebGL memory telemetry, frame-rate probing, and adaptive low-bandwidth switching algorithms are active Beta features undergoing optimization and will be continuously improvised soon."
+          className="mb-8"
+        />
 
         {/* Live Hardware Probing */}
         <WebGLStats />

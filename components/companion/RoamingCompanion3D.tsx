@@ -23,6 +23,7 @@ const CYBERBOT_VOICELINES = [
   "🏆 Lead engineer in AI hackathons & developer of autonomous agent pipelines.",
   "⚡ 360° acrobatic ion flip! Click me again for another stunt!",
   "💡 Tip: You can drag me anywhere, or use the badge below to toggle Roam mode!",
+  "🧪 CyberBot is an interactive 3D Beta feature on the v2 architecture and will be continuously improvised soon!",
 ]
 
 type MotionMode = 'dock' | 'roam' | 'follow'
@@ -380,11 +381,14 @@ export default function RoamingCompanion3D() {
                 setBubbleVisible(true)
                 playCyberChirp(600, 1000)
               }}
-              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/90 border border-purple-500/50 text-purple-300 hover:border-rose-400 hover:text-white backdrop-blur-xl shadow-lg shadow-purple-500/25 transition-all flex items-center gap-1.5 active:scale-95"
-              title="Click to hear CyberBot's insights!"
+              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/90 border border-purple-500/50 text-purple-300 hover:border-amber-400 hover:text-white backdrop-blur-xl shadow-lg shadow-purple-500/25 transition-all flex items-center gap-1.5 active:scale-95"
+              title="CyberBot AI Companion (Beta Feature • To be improvised soon)"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-ping" />
-              <span>💬 CyberBot AI • Click to Chat</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
+              <span>💬 CyberBot AI</span>
+              <span className="text-[8px] font-mono font-bold px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                BETA
+              </span>
             </button>
           </div>
         )}

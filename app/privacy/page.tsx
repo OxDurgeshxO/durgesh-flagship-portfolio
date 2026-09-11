@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, ShieldCheck, Camera, Mic, Cpu, Database, EyeOff, Lock, Server, Terminal } from 'lucide-react';
+import BetaNoticeBanner from '@/components/BetaNoticeBanner';
 
 export const metadata: Metadata = {
   title: 'Privacy Center & Data Policy | Durgesh Dutt Sinha',
@@ -107,6 +108,12 @@ export default function PrivacyPage() {
             not collect, sell, or retain personal data.
           </p>
         </div>
+
+        {/* Beta Mode Notice Banner */}
+        <BetaNoticeBanner
+          featureName="Privacy Architecture & Zero-Persistence Center"
+          customDescription="Our privacy disclosure and ephemeral compute policies are active Beta features. Audit trails, edge verification mechanisms, and cryptographic proofs are being continuously expanded and will be improvised soon."
+        />
 
         {/* Policy Grid */}
         <div className="grid sm:grid-cols-2 gap-4">

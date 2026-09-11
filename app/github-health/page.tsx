@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Github, Activity, ShieldCheck } from 'lucide-react';
+import BetaNoticeBanner from '@/components/BetaNoticeBanner';
 import { HealthDashboardClient } from '@/components/github-health/HealthDashboardClient';
 
 export const metadata: Metadata = {
@@ -51,17 +52,10 @@ export default function GitHubHealthPage() {
         </div>
 
         {/* Beta Mode Notice Banner */}
-        <div className="rounded-xl border border-blue-500/30 bg-blue-500/10 p-4 text-xs sm:text-sm text-blue-300 flex items-start sm:items-center gap-3">
-          <Activity className="h-5 w-5 text-blue-400 shrink-0 mt-0.5 sm:mt-0" />
-          <div className="flex-1">
-            <span className="font-semibold text-blue-200 uppercase tracking-wider font-mono text-[11px] mr-2">
-              [Beta Telemetry · Active Refinement]
-            </span>
-            <span>
-              Repository health metrics and quality scoring algorithms are currently in Beta mode. Dynamic GitHub API synchronization and automated CI badges are actively being enhanced.
-            </span>
-          </div>
-        </div>
+        <BetaNoticeBanner
+          featureName="GitHub Repository Health Telemetry"
+          customDescription="Repository health scoring algorithms and automated CI telemetry are active Beta features. Dynamic GitHub API synchronization, code quality scoring, and test matrix telemetry are actively undergoing refinement and will be continuously improvised soon."
+        />
 
         {/* Dashboard Client */}
         <HealthDashboardClient />

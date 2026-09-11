@@ -8,28 +8,33 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/5 py-10 text-center text-slate-500 text-sm">
       <div className="flex flex-wrap justify-center items-center gap-3 mb-4 text-xs font-mono">
-        <Link href="/recruiter" className="text-purple-400 hover:underline">
-          👔 Recruiter Fast Track
+        <Link href="/recruiter" className="text-purple-400 hover:underline flex items-center gap-1" title="Recruiter Fast Track (Beta · To be improvised soon)">
+          <span>👔 Recruiter Fast Track</span>
+          <span className="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">BETA</span>
         </Link>
         <span>·</span>
         <Link href="/resume" className="text-slate-400 hover:text-white hover:underline">
           📄 ATS Resume
         </Link>
         <span>·</span>
-        <Link href="/lab" className="text-emerald-400 hover:underline">
-          🔬 AI Engineering Lab
+        <Link href="/lab" className="text-emerald-400 hover:underline flex items-center gap-1" title="AI Engineering Lab (Beta · To be improvised soon)">
+          <span>🔬 AI Engineering Lab</span>
+          <span className="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">BETA</span>
         </Link>
         <span>·</span>
-        <Link href="/github-health" className="text-blue-400 hover:underline">
-          📊 Code Health
+        <Link href="/github-health" className="text-blue-400 hover:underline flex items-center gap-1" title="Code Health (Beta · To be improvised soon)">
+          <span>📊 Code Health</span>
+          <span className="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">BETA</span>
         </Link>
         <span>·</span>
-        <Link href="/changelog" className="text-purple-300 hover:underline">
-          📜 Changelog
+        <Link href="/changelog" className="text-purple-300 hover:underline flex items-center gap-1" title="Changelog (Beta · To be improvised soon)">
+          <span>📜 Changelog</span>
+          <span className="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">BETA</span>
         </Link>
         <span>·</span>
-        <Link href="/performance" className="text-rose-400 hover:underline">
-          ⚡ Performance Center
+        <Link href="/performance" className="text-rose-400 hover:underline flex items-center gap-1" title="Performance Center (Beta · To be improvised soon)">
+          <span>⚡ Performance Center</span>
+          <span className="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">BETA</span>
         </Link>
       </div>
 

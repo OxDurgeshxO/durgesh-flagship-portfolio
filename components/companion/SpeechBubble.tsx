@@ -50,8 +50,11 @@ export default function SpeechBubble({
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-purple-400" />
                 </span>
-                <span className="text-[11px] font-mono font-bold tracking-wider text-purple-300 uppercase">
-                  🤖 CyberBot • AI Companion
+                <span className="text-[11px] font-mono font-bold tracking-wider text-purple-300 uppercase flex items-center gap-1.5">
+                  <span>🤖 CyberBot • AI Companion</span>
+                  <span className="text-[8px] font-mono font-bold px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                    BETA
+                  </span>
                 </span>
               </div>
               {onDismiss && (

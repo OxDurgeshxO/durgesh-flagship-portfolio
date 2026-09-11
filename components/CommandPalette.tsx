@@ -131,7 +131,7 @@ export default function CommandPalette() {
         id: "recruiter-mode",
         category: "Quick Actions",
         title: "Recruiter Fast-Track Overview",
-        subtitle: "High-density candidate profile with 0 WebGL overhead",
+        subtitle: "[Beta · To be improvised soon] High-density candidate profile with 0 WebGL overhead",
         icon: Sparkles,
         shortcut: "/recruiter",
         aliases: ["recruiter", "fast track", "summary", "hiring", "manager"],
@@ -149,7 +149,7 @@ export default function CommandPalette() {
         aliases: ["copy", "summary", "candidate", "candidate summary", "bio"],
         perform: () => {
           const text = `${OWNER.name} - ${OWNER.title}
-MCA (AIML) at Sri Balaji University Pune (2025-2027) | UNLOXr AI Fellow | Be10x AI Cohort Member.
+MCA (AIML) at Sri Balaji University Pune (2025-2027) | UNLOX® AI Fellow | Be10x AI Cohort Member.
 Autonomous AI systems, Real-Time MediaPipe (<50ms), Next.js 16, TypeScript, Drizzle ORM, Scikit-Learn.
 Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
           navigator.clipboard.writeText(text);
@@ -160,7 +160,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         id: "book-meeting",
         category: "Quick Actions",
         title: "Book a Meeting / Schedule Interview",
-        subtitle: "Direct scheduling and technical alignment request",
+        subtitle: "[Beta · To be improvised soon] Direct scheduling and technical alignment request",
         icon: Calendar,
         shortcut: "MEET",
         aliases: ["book", "meeting", "schedule", "call", "interview"],
@@ -172,7 +172,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         id: "perf-center",
         category: "Quick Actions",
         title: "Open Performance Center",
-        subtitle: "Lighthouse telemetry and WebGL mode controls",
+        subtitle: "[Beta · To be improvised soon] Lighthouse telemetry and WebGL mode controls",
         icon: Cpu,
         shortcut: "/performance",
         aliases: ["performance", "lighthouse", "fps", "telemetry", "vitals", "metrics"],
@@ -184,7 +184,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         id: "ai-lab",
         category: "Quick Actions",
         title: "Interactive AI Engineering Lab",
-        subtitle: "Live ATS scoring, pose kinematics, and PCA clustering",
+        subtitle: "[Beta · To be improvised soon] Live ATS scoring, pose kinematics, and PCA clustering",
         icon: FlaskConical,
         shortcut: "/lab",
         aliases: ["lab", "ai", "demos", "fittrack", "marketmatch", "experiments"],
@@ -196,7 +196,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         id: "github-health",
         category: "Quick Actions",
         title: "GitHub Repository Health Telemetry",
-        subtitle: "Audited code quality, CI status, and test coverage",
+        subtitle: "[Beta · To be improvised soon] Audited code quality, CI status, and test coverage",
         icon: Activity,
         shortcut: "/github-health",
         aliases: ["github", "health", "repos", "ci", "code quality", "coverage"],
@@ -208,7 +208,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         id: "changelog",
         category: "Quick Actions",
         title: "Public Engineering Changelog",
-        subtitle: "Problem-Implementation-Result records across all versions",
+        subtitle: "[Beta · To be improvised soon] Problem-Implementation-Result records across all versions",
         icon: History,
         shortcut: "/changelog",
         aliases: ["changelog", "history", "versions", "releases"],

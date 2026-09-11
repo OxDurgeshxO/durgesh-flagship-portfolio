@@ -79,17 +79,25 @@ export default function Navbar() {
           <Link
             href="/lab"
             className="px-3 py-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm shadow-emerald-500/10"
+            title="Interactive AI Engineering Lab (Beta · To be improvised soon)"
           >
             <FlaskConical className="size-3 text-emerald-400" />
             <span>AI Lab</span>
+            <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              BETA
+            </span>
           </Link>
 
           <Link
             href="/recruiter"
             className="px-3 py-1.5 rounded-xl border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 text-purple-200 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm shadow-purple-500/10"
+            title="Recruiter Fast-Track (Beta · To be improvised soon)"
           >
             <Briefcase className="size-3 text-rose-400" />
             <span>Recruiter Mode</span>
+            <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              BETA
+            </span>
           </Link>
 
           <Link
@@ -153,18 +161,24 @@ export default function Navbar() {
             <Link
               href="/lab"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-1.5 text-xs font-semibold p-2 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
+              className="flex items-center justify-between text-xs font-semibold p-2 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
             >
-              <FlaskConical className="size-3.5 text-emerald-400" />
-              <span>AI Lab</span>
+              <div className="flex items-center gap-1.5">
+                <FlaskConical className="size-3.5 text-emerald-400" />
+                <span>AI Lab</span>
+              </div>
+              <span className="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">BETA</span>
             </Link>
             <Link
               href="/recruiter"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-1.5 text-xs font-semibold p-2 rounded-lg bg-purple-500/10 text-purple-300 border border-purple-500/30"
+              className="flex items-center justify-between text-xs font-semibold p-2 rounded-lg bg-purple-500/10 text-purple-300 border border-purple-500/30"
             >
-              <Briefcase className="size-3.5 text-rose-400" />
-              <span>Recruiter</span>
+              <div className="flex items-center gap-1.5">
+                <Briefcase className="size-3.5 text-rose-400" />
+                <span>Recruiter</span>
+              </div>
+              <span className="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">BETA</span>
             </Link>
             <Link
               href="/resume"
@@ -177,10 +191,13 @@ export default function Navbar() {
             <Link
               href="/github-health"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-1.5 text-xs font-semibold p-2 rounded-lg bg-blue-500/10 text-blue-300 border border-blue-500/30"
+              className="flex items-center justify-between text-xs font-semibold p-2 rounded-lg bg-blue-500/10 text-blue-300 border border-blue-500/30"
             >
-              <Activity className="size-3.5" />
-              <span>Code Health</span>
+              <div className="flex items-center gap-1.5">
+                <Activity className="size-3.5" />
+                <span>Code Health</span>
+              </div>
+              <span className="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">BETA</span>
             </Link>
           </div>
 

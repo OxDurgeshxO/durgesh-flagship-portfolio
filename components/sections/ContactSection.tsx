@@ -214,8 +214,8 @@ export default function ContactSection() {
                     <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                     Direct Message Dispatch
                   </span>
-                  <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px]">
-                    Beta · Continuously Enhanced
+                  <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold uppercase tracking-wider">
+                    Beta Feature · To be improvised soon
                   </span>
                 </div>
 
