@@ -23,6 +23,39 @@ function get(pathStr) {
   });
 }
 
+function post(pathStr, bodyObj) {
+  return new Promise((resolve, reject) => {
+    const payload = JSON.stringify(bodyObj);
+    const req = http.request(
+      BASE_URL + pathStr,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload),
+        },
+      },
+      (res) => {
+        let data = [];
+        res.on('data', (chunk) => data.push(chunk));
+        res.on('end', () => {
+          const body = Buffer.concat(data);
+          resolve({
+            statusCode: res.statusCode,
+            headers: res.headers,
+            body,
+            text: () => body.toString('utf8'),
+            json: () => JSON.parse(body.toString('utf8')),
+          });
+        });
+      }
+    );
+    req.on('error', reject);
+    req.write(payload);
+    req.end();
+  });
+}
+
 async function runTests() {
   console.log('====================================================');
   console.log('🚀 RUNNING COMPREHENSIVE PORTFOLIO TEST SUITE');
@@ -243,6 +276,131 @@ async function runTests() {
     assert(ciContent.includes('npm run lint') && ciContent.includes('npm run build'), 'CI workflow executes lint and production build');
   } catch (err) {
     assert(false, 'CI workflow verification', err.message);
+  }
+
+  // TEST 20: AI Engineering Lab Endpoint
+  try {
+    const labRes = await get('/lab');
+    assert(labRes.statusCode === 200, 'AI Lab page (/lab) returns HTTP 200 OK');
+    const labHtml = labRes.text();
+    assert(labHtml.includes('Interactive AI Engineering Lab'), 'AI Lab page contains main title');
+    assert(labHtml.includes('Zero Persistence') || labHtml.includes('Zero Server Persistence'), 'AI Lab discloses zero persistence policy');
+    assert(labHtml.includes('RoleRadar') && labHtml.includes('FitTrack') && labHtml.includes('MarketMatch'), 'AI Lab includes all 3 flagship demo tabs');
+  } catch (err) {
+    assert(false, 'AI Lab page test', err.message);
+  }
+
+  // TEST 21: AI Lab API - Resume Analysis Engine
+  try {
+    const validResumePayload = {
+      text: 'Developed computer vision deep learning models in PyTorch with 92% accuracy across 10,000 images. Deployed Python APIs with Docker.',
+      role: 'AIML Engineer',
+    };
+    const resumeRes = await post('/api/lab/resume', validResumePayload);
+    assert(resumeRes.statusCode === 200, 'Resume Analyzer API (/api/lab/resume) returns HTTP 200 OK');
+    const resumeJson = resumeRes.json();
+    assert(typeof resumeJson.atsScore === 'number' && resumeJson.atsScore >= 0, 'API returns numeric ATS score');
+    assert(Array.isArray(resumeJson.extractedSkills) && resumeJson.extractedSkills.length > 0, 'API extracts matched technical skills');
+    assert(resumeJson.bulletAudit && resumeJson.bulletAudit.suggestedRewrite, 'API provides Google XYZ rewrite suggestion');
+
+    // Test rejection of empty text
+    const invalidResumeRes = await post('/api/lab/resume', { text: 'short', role: 'AIML Engineer' });
+    assert(invalidResumeRes.statusCode === 400, 'Resume API properly rejects inputs below minimum character threshold');
+  } catch (err) {
+    assert(false, 'AI Lab Resume API test', err.message);
+  }
+
+  // TEST 22: AI Lab API - MarketMatch Clustering Engine
+  try {
+    const validClusterPayload = { clusters: 5, algorithm: 'kmeans' };
+    const marketRes = await post('/api/lab/marketmatch', validClusterPayload);
+    assert(marketRes.statusCode === 200, 'MarketMatch API (/api/lab/marketmatch) returns HTTP 200 OK');
+    const marketJson = marketRes.json();
+    assert(typeof marketJson.silhouetteScore === 'number', 'API returns computed silhouette coefficient');
+    assert(Array.isArray(marketJson.points) && marketJson.points.length > 0, 'API returns 2D PCA projected points');
+    assert(Array.isArray(marketJson.segments) && marketJson.segments.length === 5, 'API returns correct segment distribution count');
+
+    // Test rejection of out-of-bound clusters
+    const invalidClusterRes = await post('/api/lab/marketmatch', { clusters: 20, algorithm: 'kmeans' });
+    assert(invalidClusterRes.statusCode === 400, 'MarketMatch API properly rejects clusters exceeding maximum bound (k > 8)');
+  } catch (err) {
+    assert(false, 'AI Lab MarketMatch API test', err.message);
+  }
+
+  // TEST 23: Contact Backend API & Honeypot Spam Protection
+  try {
+    // 1. Valid dispatch
+    const validContactPayload = {
+      name: 'Sarah Chen',
+      email: 'schen@venturecapital.io',
+      subject: 'Job Opportunity',
+      message: 'Hello Durgesh, we reviewed your flagship portfolio and would love to discuss a Staff AI Engineer opening.',
+    };
+    const contactRes = await post('/api/contact', validContactPayload);
+    assert(contactRes.statusCode === 200, 'Contact API (/api/contact) returns HTTP 200 OK for valid submission');
+    const contactJson = contactRes.json();
+    assert(contactJson.success === true, 'Contact API returns success flag');
+
+    // 2. Honeypot interception
+    const botPayload = {
+      name: 'Spam Bot',
+      email: 'bot@spam.com',
+      message: 'Click this link for casino rewards',
+      _gotcha: 'http://malicious-site.com',
+    };
+    const botRes = await post('/api/contact', botPayload);
+    assert(botRes.statusCode === 200, 'Contact API intercepts honeypot submission cleanly');
+    const botJson = botRes.json();
+    assert(botJson.success === true, 'Honeypot returns synthetic success without processing');
+
+    // 3. Invalid email rejection
+    const badEmailRes = await post('/api/contact', { name: 'Alex', email: 'not-an-email', message: 'Hello world test' });
+    assert(badEmailRes.statusCode === 400, 'Contact API rejects invalid email formatting with HTTP 400');
+  } catch (err) {
+    assert(false, 'Contact API test', err.message);
+  }
+
+  // TEST 24: GitHub Health Dashboard & Code Quality Telemetry
+  try {
+    const ghRes = await get('/github-health');
+    assert(ghRes.statusCode === 200, 'GitHub Health page (/github-health) returns HTTP 200 OK');
+    const ghHtml = ghRes.text();
+    assert(ghHtml.includes('GitHub Repository Health'), 'Page displays GitHub repository health header');
+    assert(ghHtml.includes('Mean Quality Score'), 'Page displays mean quality score KPI');
+    assert(ghHtml.includes('CI/CD Pipeline Health'), 'Page displays CI/CD pipeline health KPI');
+    assert(ghHtml.includes('fitness-platform-architecture'), 'Page showcases fitness-platform-architecture repository');
+    assert(ghHtml.includes('RoleRadar'), 'Page showcases RoleRadar repository');
+    assert(ghHtml.includes('marketmatch-ai'), 'Page showcases marketmatch-ai repository');
+  } catch (err) {
+    assert(false, 'GitHub Health page test', err.message);
+  }
+
+  // TEST 25: Public Engineering Changelog
+  try {
+    const clRes = await get('/changelog');
+    assert(clRes.statusCode === 200, 'Changelog page (/changelog) returns HTTP 200 OK');
+    const clHtml = clRes.text();
+    assert(clHtml.includes('Public Engineering Changelog'), 'Page displays Public Engineering Changelog title');
+    assert(clHtml.includes('Problem') && clHtml.includes('Implementation') && clHtml.includes('Quantified Result'), 'Changelog entries display structured Problem-Implementation-Result format');
+    assert(clHtml.includes('v2.2.0'), 'Changelog records version v2.2.0');
+    assert(clHtml.includes('v2.1.0'), 'Changelog records version v2.1.0');
+    assert(clHtml.includes('v2.0.0'), 'Changelog records version v2.0.0');
+  } catch (err) {
+    assert(false, 'Changelog page test', err.message);
+  }
+
+  // TEST 26: Navigation & Global Discoverability
+  try {
+    const navRes = await get('/');
+    const navHtml = navRes.text();
+    assert(navHtml.includes('/lab'), 'Navbar includes link to /lab (AI Lab)');
+    assert(navHtml.includes('/recruiter'), 'Navbar includes link to /recruiter');
+    assert(navHtml.includes('/resume'), 'Navbar includes link to /resume');
+    assert(navHtml.includes('/github-health'), 'Footer includes link to /github-health');
+    assert(navHtml.includes('/changelog'), 'Footer includes link to /changelog');
+    assert(navHtml.includes('/performance'), 'Footer includes link to /performance');
+  } catch (err) {
+    assert(false, 'Navigation discoverability test', err.message);
   }
 
   console.log('\n====================================================');

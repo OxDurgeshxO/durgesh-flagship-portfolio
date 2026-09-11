@@ -13,9 +13,12 @@ const SUBJECT_OPTIONS = [
 
 export default function ContactSection() {
   const [form, setForm] = useState({ name: '', email: '', subject: SUBJECT_OPTIONS[0], message: '' })
+  const [gotcha, setGotcha] = useState('')
   const [copied, setCopied] = useState(false)
   const [draftCopied, setDraftCopied] = useState(false)
   const [status, setStatus] = useState<'idle' | 'sent'>('idle')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(OWNER.email)
@@ -30,15 +33,39 @@ export default function ContactSection() {
     setTimeout(() => setDraftCopied(false), 3000)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleMailtoFallback = () => {
     const mailtoUrl = `mailto:${OWNER.email}?subject=${encodeURIComponent(
       `[${form.subject}] Message from ${form.name}`
     )}&body=${encodeURIComponent(
       `Name: ${form.name}\nEmail: ${form.email}\nTopic: ${form.subject}\n\nMessage:\n${form.message}`
     )}`
     window.location.href = mailtoUrl
-    setStatus('sent')
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+          _gotcha: gotcha,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed to dispatch message.')
+      setStatus('sent')
+    } catch (err: any) {
+      setError(err.message || 'Transmission failed. You can copy the draft or use your email client directly.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -218,6 +245,17 @@ export default function ContactSection() {
                   </div>
                 </div>
 
+                {/* Honeypot hidden input for spam bots */}
+                <input
+                  type="text"
+                  name="_gotcha"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={gotcha}
+                  onChange={(e) => setGotcha(e.target.value)}
+                  style={{ display: 'none', position: 'absolute', left: '-9999px' }}
+                />
+
                 {/* Message Box */}
                 <div>
                   <label className="block text-xs font-medium text-slate-300 mb-1.5">Message</label>
@@ -231,13 +269,27 @@ export default function ContactSection() {
                   />
                 </div>
 
+                {error && (
+                  <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-300 flex flex-col gap-2">
+                    <p>{error}</p>
+                    <button
+                      type="button"
+                      onClick={handleMailtoFallback}
+                      className="self-start text-[11px] font-semibold text-rose-200 underline hover:text-white"
+                    >
+                      Open Email Client directly instead →
+                    </button>
+                  </div>
+                )}
+
                 {/* Dual Submit Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-2">
                   <button
                     type="submit"
-                    className="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-rose-500 text-white font-semibold hover:opacity-95 active:scale-[0.99] transition-all shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 cursor-pointer"
+                    disabled={loading}
+                    className="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-rose-500 text-white font-semibold hover:opacity-95 active:scale-[0.99] transition-all shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                   >
-                    <span>Send via Email Client</span>
+                    <span>{loading ? 'Transmitting Message...' : 'Dispatch Message'}</span>
                     <span>✉️</span>
                   </button>
                   <button

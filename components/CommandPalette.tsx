@@ -18,6 +18,10 @@ import {
   X,
   Command,
   ArrowRight,
+  FlaskConical,
+  Activity,
+  History,
+  ShieldCheck,
 } from "lucide-react";
 import { OWNER } from "@/lib/data";
 import { trackEvent } from "@/lib/analytics";
@@ -119,6 +123,50 @@ export default function CommandPalette() {
         shortcut: "/performance",
         perform: () => {
           window.location.href = "/performance";
+        },
+      },
+      {
+        id: "ai-lab",
+        category: "Quick Actions",
+        title: "Interactive AI Engineering Lab",
+        subtitle: "Live ATS scoring, pose kinematics, and PCA clustering",
+        icon: FlaskConical,
+        shortcut: "/lab",
+        perform: () => {
+          window.location.href = "/lab";
+        },
+      },
+      {
+        id: "github-health",
+        category: "Quick Actions",
+        title: "GitHub Repository Health Telemetry",
+        subtitle: "Audited code quality, CI status, and test coverage",
+        icon: Activity,
+        shortcut: "/github-health",
+        perform: () => {
+          window.location.href = "/github-health";
+        },
+      },
+      {
+        id: "changelog",
+        category: "Quick Actions",
+        title: "Public Engineering Changelog",
+        subtitle: "Problem-Implementation-Result records across all versions",
+        icon: History,
+        shortcut: "/changelog",
+        perform: () => {
+          window.location.href = "/changelog";
+        },
+      },
+      {
+        id: "privacy-disclosure",
+        category: "Quick Actions",
+        title: "Privacy & Zero Server Persistence Policy",
+        subtitle: "Ephemeral browser-only model execution disclosure",
+        icon: ShieldCheck,
+        shortcut: "PRIVACY",
+        perform: () => {
+          triggerToast("🔒 Zero server persistence: all model inputs run strictly in ephemeral edge memory.");
         },
       },
       {

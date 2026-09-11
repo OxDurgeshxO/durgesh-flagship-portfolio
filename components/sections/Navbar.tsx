@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { OWNER } from '@/lib/data'
 import ThemeToggle from '@/components/ThemeToggle'
-import { Search, Briefcase, FileText } from 'lucide-react'
+import { Search, Briefcase, FileText, FlaskConical, Activity, History } from 'lucide-react'
 
 const NAV_LINKS = ['About', 'Experience', 'Education', 'Projects', 'Contact']
 
@@ -75,7 +75,15 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Recruiter Fast Track link */}
+          {/* AI Lab & Recruiter Fast Track links */}
+          <Link
+            href="/lab"
+            className="px-3 py-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm shadow-emerald-500/10"
+          >
+            <FlaskConical className="size-3 text-emerald-400" />
+            <span>AI Lab</span>
+          </Link>
+
           <Link
             href="/recruiter"
             className="px-3 py-1.5 rounded-xl border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 text-purple-200 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm shadow-purple-500/10"
@@ -140,7 +148,42 @@ export default function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {open && (
-        <div className="md:hidden glass px-6 pb-5 pt-2 flex flex-col gap-3 border-b border-purple-500/20">
+        <div className="md:hidden glass px-6 pb-5 pt-2 flex flex-col gap-2.5 border-b border-purple-500/20">
+          <div className="grid grid-cols-2 gap-2 pb-2 border-b border-white/5">
+            <Link
+              href="/lab"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-1.5 text-xs font-semibold p-2 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
+            >
+              <FlaskConical className="size-3.5 text-emerald-400" />
+              <span>AI Lab</span>
+            </Link>
+            <Link
+              href="/recruiter"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-1.5 text-xs font-semibold p-2 rounded-lg bg-purple-500/10 text-purple-300 border border-purple-500/30"
+            >
+              <Briefcase className="size-3.5 text-rose-400" />
+              <span>Recruiter</span>
+            </Link>
+            <Link
+              href="/resume"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-1.5 text-xs font-semibold p-2 rounded-lg bg-white/5 text-slate-200 border border-white/10"
+            >
+              <FileText className="size-3.5" />
+              <span>ATS Resume</span>
+            </Link>
+            <Link
+              href="/github-health"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-1.5 text-xs font-semibold p-2 rounded-lg bg-blue-500/10 text-blue-300 border border-blue-500/30"
+            >
+              <Activity className="size-3.5" />
+              <span>Code Health</span>
+            </Link>
+          </div>
+
           {NAV_LINKS.map((link) => {
             const isActive = activeSection === link.toLowerCase()
             return (

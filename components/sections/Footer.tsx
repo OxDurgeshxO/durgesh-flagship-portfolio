@@ -7,13 +7,25 @@ const PORTFOLIO_LIVE = 'https://durgesh-portfolio-v2.pages.dev'
 export default function Footer() {
   return (
     <footer className="border-t border-white/5 py-10 text-center text-slate-500 text-sm">
-      <div className="flex flex-wrap justify-center items-center gap-4 mb-4 text-xs font-mono">
+      <div className="flex flex-wrap justify-center items-center gap-3 mb-4 text-xs font-mono">
         <Link href="/recruiter" className="text-purple-400 hover:underline">
           👔 Recruiter Fast Track
         </Link>
         <span>·</span>
         <Link href="/resume" className="text-slate-400 hover:text-white hover:underline">
-          📄 HTML Resume
+          📄 ATS Resume
+        </Link>
+        <span>·</span>
+        <Link href="/lab" className="text-emerald-400 hover:underline">
+          🔬 AI Engineering Lab
+        </Link>
+        <span>·</span>
+        <Link href="/github-health" className="text-blue-400 hover:underline">
+          📊 Code Health
+        </Link>
+        <span>·</span>
+        <Link href="/changelog" className="text-purple-300 hover:underline">
+          📜 Changelog
         </Link>
         <span>·</span>
         <Link href="/performance" className="text-rose-400 hover:underline">
