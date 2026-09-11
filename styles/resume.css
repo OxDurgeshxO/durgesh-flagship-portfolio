@@ -1,0 +1,72 @@
+/* Dedicated Print & Screen Stylesheet for Durgesh Dutt Sinha's Resume */
+
+@media print {
+  /* Hide all non-printable UI chrome */
+  header nav,
+  .resume-actions-bar,
+  .no-print,
+  button,
+  .command-palette {
+    display: none !important;
+  }
+
+  body,
+  main,
+  .resume-container {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+  }
+
+  a {
+    color: #111827 !important;
+    text-decoration: none !important;
+  }
+
+  .resume-page {
+    padding: 0.5in !important;
+    margin: 0 !important;
+    page-break-after: avoid;
+  }
+
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  .avoid-break {
+    page-break-inside: avoid;
+  }
+
+  h1 {
+    font-size: 22pt !important;
+    color: #0f172a !important;
+  }
+
+  h2 {
+    font-size: 13pt !important;
+    color: #1e293b !important;
+    border-bottom: 1.5pt solid #cbd5e1 !important;
+    padding-bottom: 2pt !important;
+    margin-top: 10pt !important;
+    margin-bottom: 6pt !important;
+    text-transform: uppercase !important;
+  }
+
+  h3 {
+    font-size: 11pt !important;
+    color: #0f172a !important;
+  }
+
+  .skill-badge {
+    border: 1px solid #cbd5e1 !important;
+    background: #f8fafc !important;
+    color: #334155 !important;
+    padding: 1pt 4pt !important;
+    font-size: 9pt !important;
+  }
+}

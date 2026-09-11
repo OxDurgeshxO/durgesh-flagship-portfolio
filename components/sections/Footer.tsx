@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { OWNER } from '@/lib/data'
 
 const PORTFOLIO_REPO = 'https://github.com/OxDurgeshxO/durgesh-flagship-portfolio'
@@ -6,6 +7,20 @@ const PORTFOLIO_LIVE = 'https://durgesh-portfolio-v2.pages.dev'
 export default function Footer() {
   return (
     <footer className="border-t border-white/5 py-10 text-center text-slate-500 text-sm">
+      <div className="flex flex-wrap justify-center items-center gap-4 mb-4 text-xs font-mono">
+        <Link href="/recruiter" className="text-purple-400 hover:underline">
+          👔 Recruiter Fast Track
+        </Link>
+        <span>·</span>
+        <Link href="/resume" className="text-slate-400 hover:text-white hover:underline">
+          📄 HTML Resume
+        </Link>
+        <span>·</span>
+        <Link href="/performance" className="text-rose-400 hover:underline">
+          ⚡ Performance Center
+        </Link>
+      </div>
+
       <p className="mb-2">
         Built with{' '}
         <span className="text-purple-400">Next.js 14</span> ·{' '}

@@ -89,15 +89,36 @@ export default function CommandPalette() {
     () => [
       // Quick Actions
       {
-        id: "resume",
+        id: "resume-html",
         category: "Quick Actions",
-        title: "Resume Viewer [Upcoming Feature]",
-        subtitle: "Interactive 3D resume & ATS score viewer (Coming in v2.0)",
+        title: "View Official HTML Resume",
+        subtitle: "Print-friendly, ATS optimized with downloadable PDF",
         icon: FileText,
-        shortcut: "UPCOMING",
+        shortcut: "/resume",
         perform: () => {
-          triggerToast("✨ Interactive 3D Resume Viewer & ATS matrix is coming in v2.0!");
-          trackEvent("theme_toggle", { status: "resume_upcoming_feature_cmd" });
+          window.location.href = "/resume";
+        },
+      },
+      {
+        id: "recruiter-mode",
+        category: "Quick Actions",
+        title: "Recruiter Fast-Track Overview",
+        subtitle: "High-density candidate profile with 0 WebGL overhead",
+        icon: Sparkles,
+        shortcut: "/recruiter",
+        perform: () => {
+          window.location.href = "/recruiter";
+        },
+      },
+      {
+        id: "perf-center",
+        category: "Quick Actions",
+        title: "Open Performance Center",
+        subtitle: "Lighthouse telemetry and WebGL mode controls",
+        icon: Cpu,
+        shortcut: "/performance",
+        perform: () => {
+          window.location.href = "/performance";
         },
       },
       {
@@ -224,34 +245,34 @@ export default function CommandPalette() {
       {
         id: "cs-roleradar",
         category: "Case Studies",
-        title: "RoleRadar — AI Career Intelligence Platform",
-        subtitle: "16 Curated Roles • ATS Optimizer • Zero-Crash Resiliency",
+        title: "RoleRadar — Deep Engineering Case Study",
+        subtitle: "Next.js 16 • Drizzle ORM • Dual-Mode Storage Architecture",
         icon: Sparkles,
-        shortcut: "APP",
+        shortcut: "STUDY",
         perform: () => {
-          window.open("https://rolefit-2.vercel.app", "_blank");
+          window.location.href = "/work/roleradar";
         },
       },
       {
         id: "cs-fitness",
         category: "Case Studies",
-        title: "AI Fitness & Computer Vision Platform",
+        title: "AI Fitness Platform — Pose Architecture Study",
         subtitle: "MediaPipe 33-point pose kinematics & Web Workers",
         icon: Cpu,
-        shortcut: "CV",
+        shortcut: "STUDY",
         perform: () => {
-          window.open("https://github.com/OxDurgeshxO/fitness-platform-architecture", "_blank");
+          window.location.href = "/work/fitness-platform";
         },
       },
       {
         id: "cs-marketmatch",
         category: "Case Studies",
-        title: "MarketMatch AI — Customer Segmentation",
+        title: "MarketMatch AI — Unsupervised ML Study",
         subtitle: "K-Means, DBSCAN & Nearest Neighbors recommender",
         icon: Sparkles,
-        shortcut: "ML",
+        shortcut: "STUDY",
         perform: () => {
-          window.open("https://github.com/OxDurgeshxO/MarketMatch-AI", "_blank");
+          window.location.href = "/work/marketmatch-ai";
         },
       },
     ],

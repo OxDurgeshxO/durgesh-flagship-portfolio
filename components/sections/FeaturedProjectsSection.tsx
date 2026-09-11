@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ExternalLink,
@@ -238,20 +239,16 @@ export default function FeaturedProjectsSection() {
                       </div>
 
                       <div className="flex flex-col sm:flex-row lg:flex-col gap-3 justify-center lg:items-end">
-                        {/* Case Study Deep Dive Trigger */}
-                        <button
-                          onClick={() => {
-                            setSelectedProject(proj);
-                            trackEvent("case_study_open", { project_id: proj.id, title: proj.title });
-                          }}
-                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/40 px-5 py-3 text-sm font-semibold text-purple-200 hover:text-white transition-all w-full sm:w-auto shadow-lg shadow-purple-500/10 cursor-pointer group/btn focus-visible:ring-2 focus-visible:ring-purple-400"
+                        <Link
+                          href={`/work/${proj.id}`}
+                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 px-4 py-3 text-xs md:text-sm font-semibold text-purple-200 transition-all cursor-pointer w-full sm:w-auto"
                         >
-                          <BookOpen className="size-4 text-purple-400 group-hover/btn:scale-110 transition-transform" />
-                          View Case Study
-                          <span className="text-xs font-mono bg-purple-500/30 px-1.5 py-0.5 rounded text-purple-200 ml-1">
-                            Architecture
+                          <BookOpen className="size-4 text-purple-400" />
+                          Case Study Spec
+                          <span className="text-[11px] font-mono bg-purple-500/30 px-1.5 py-0.5 rounded text-purple-200 ml-1">
+                            Deep Dive
                           </span>
-                        </button>
+                        </Link>
 
                         <a
                           href={proj.githubUrl}
@@ -404,12 +401,19 @@ export default function FeaturedProjectsSection() {
                 <span className="text-xs text-slate-500 font-mono">
                   Press ESC or click outside to dismiss
                 </span>
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-2.5">
+                  <Link
+                    href={`/work/${selectedProject.id}`}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-white text-xs font-semibold border border-purple-500/40 transition-all shadow-md shadow-purple-500/20"
+                  >
+                    <BookOpen className="size-3.5" />
+                    Full Architecture Route ↗
+                  </Link>
                   <a
                     href={selectedProject.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl glass border border-white/15 text-white text-xs font-semibold hover:border-purple-400 transition-all"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl glass border border-white/15 text-white text-xs font-semibold hover:border-purple-400 transition-all"
                   >
                     <Github className="size-3.5" />
                     GitHub Source
@@ -419,7 +423,7 @@ export default function FeaturedProjectsSection() {
                       href={selectedProject.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white text-xs font-semibold hover:opacity-90 transition-all shadow-lg shadow-purple-500/25"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white text-xs font-semibold hover:opacity-90 transition-all shadow-lg shadow-purple-500/25"
                     >
                       <ExternalLink className="size-3.5" />
                       Live Demo ↗

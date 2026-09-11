@@ -7,6 +7,8 @@ import { TypeAnimation } from 'react-type-animation'
 import { OWNER } from '@/lib/data'
 import { trackEvent } from '@/lib/analytics'
 
+import { getSavedPerformanceMode, PerformanceMode } from '@/lib/performance'
+
 const AICoreScene = dynamic(() => import('@/components/3d/AICoreScene'), {
   ssr: false,
   loading: () => null,
@@ -14,19 +16,31 @@ const AICoreScene = dynamic(() => import('@/components/3d/AICoreScene'), {
 
 export default function HeroSection() {
   const [showResumeTooltip, setShowResumeTooltip] = useState(false)
+  const [perfMode, setPerfMode] = useState<PerformanceMode>('immersive')
   const resumeTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
+    setPerfMode(getSavedPerformanceMode())
+    const handleModeChange = (e: Event) => {
+      const customEvent = e as CustomEvent<PerformanceMode>
+      if (customEvent.detail) {
+        setPerfMode(customEvent.detail)
+      }
+    }
+    window.addEventListener('performance-mode-change', handleModeChange)
     return () => {
+      window.removeEventListener('performance-mode-change', handleModeChange)
       if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current)
     }
   }, [])
 
+  const isLowBandwidth = perfMode === 'low-bandwidth'
+
   return (
     <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-      {/* 3D Holographic AI Neural Core Scene */}
+      {/* 3D Holographic AI Neural Core Scene - suppressed in low-bandwidth */}
       <div className="pointer-events-none absolute inset-0 z-0">
-        <AICoreScene />
+        {!isLowBandwidth && <AICoreScene />}
       </div>
 
       {/* Gradient overlays with pointer-events-none */}
