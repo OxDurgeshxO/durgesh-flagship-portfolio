@@ -45,9 +45,9 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
   }, []);
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center bg-[#0a0a0f] text-white">
+    <div className="relative flex h-full w-full flex-col items-center justify-center bg-[var(--bg-primary)] text-[var(--text-main)]">
       {/* Background glow */}
-      <div className="pointer-events-none absolute h-96 w-96 rounded-full bg-[#6c63ff]/15 blur-[120px]" />
+      <div className="pointer-events-none absolute h-96 w-96 rounded-full bg-[#a855f7]/15 blur-[120px]" />
 
       {/* Skip button */}
       <button
@@ -59,7 +59,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
 
       <div className="relative z-10 flex flex-col items-center gap-5">
         {/* Animated word cycler */}
-        <div className="h-7 overflow-hidden text-center font-mono text-xs md:text-sm tracking-[0.3em] uppercase text-[#00d4ff]">
+        <div className="h-7 overflow-hidden text-center font-mono text-xs md:text-sm tracking-[0.3em] uppercase text-rose-400">
           <motion.div
             key={wordIndex}
             initial={{ opacity: 0, y: 12 }}
@@ -74,13 +74,13 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
         {/* Counter */}
         <div className="font-mono text-6xl md:text-7xl font-bold tracking-tight text-white select-none">
           <span>{count}</span>
-          <span className="text-xl text-[#6c63ff] font-normal ml-1">%</span>
+          <span className="text-xl text-rose-400 font-normal ml-1">%</span>
         </div>
 
         {/* Minimalist Progress Bar */}
         <div className="h-1 w-48 overflow-hidden rounded-full bg-white/10">
           <div
-            className="h-full bg-gradient-to-r from-[#6c63ff] to-[#00d4ff] transition-all duration-75 ease-out"
+            className="h-full bg-gradient-to-r from-purple-500 to-rose-500 transition-all duration-75 ease-out"
             style={{ width: `${count}%` }}
           />
         </div>

@@ -22,7 +22,7 @@ export default function EducationSection() {
         <h2 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
           Education & <span className="gradient-text">Academic Specialization</span>
         </h2>
-        <div className="w-24 h-1 bg-gradient-to-r from-purple-500 via-cyan-400 to-emerald-400 rounded mx-auto mb-4" />
+        <div className="w-24 h-1 bg-gradient-to-r from-purple-500 via-rose-400 to-purple-500 rounded mx-auto mb-4" />
         <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
           Formal graduate and undergraduate computer science education combining rigorous Artificial Intelligence theory with production engineering.
         </p>
@@ -38,7 +38,7 @@ export default function EducationSection() {
       >
         {/* Background Ambient Glow */}
         <div className="absolute -top-24 -right-24 w-72 h-72 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10">
           {/* Header Row: Degree Status + Duration */}
@@ -63,7 +63,7 @@ export default function EducationSection() {
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-1.5 tracking-tight">
                 {mca.degree}
               </h3>
-              <p className="text-cyan-300 font-semibold text-base flex items-center gap-2">
+              <p className="text-rose-300 font-semibold text-base flex items-center gap-2">
                 <span>{mca.institution}</span>
                 <span className="text-slate-500">•</span>
                 <span className="text-slate-300 font-normal">School of Computer Studies</span>
@@ -110,22 +110,22 @@ export default function EducationSection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="glass rounded-3xl p-6 sm:p-8 border border-white/10 hover:border-cyan-500/40 transition-all flex flex-col justify-between group"
+          className="glass rounded-3xl p-6 sm:p-8 border border-white/10 hover:border-rose-500/40 transition-all flex flex-col justify-between group shadow-lg shadow-rose-500/5"
         >
           <div>
             <div className="flex items-center justify-between gap-2 mb-4">
-              <span className="px-3 py-0.5 rounded-full text-xs font-mono font-semibold bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+              <span className="px-3 py-0.5 rounded-full text-xs font-mono font-semibold bg-rose-500/10 text-rose-300 border border-rose-500/20">
                 {bca.period}
               </span>
               <span className="text-xs text-slate-400 font-medium">Undergraduate Degree</span>
             </div>
 
             <div className="flex items-start gap-3.5 mb-3">
-              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-xl text-cyan-300 shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-xl text-rose-300 shrink-0">
                 🏛️
               </div>
               <div>
-                <h4 className="text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
+                <h4 className="text-xl font-bold text-white group-hover:text-rose-300 transition-colors">
                   {bca.degree}
                 </h4>
                 <p className="text-slate-300 text-sm font-medium">{bca.institution}</p>

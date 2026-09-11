@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import LoadingScreen from "@/components/LoadingScreen";
 import { Background } from "@/components/Background";
+import CommandPalette from "@/components/CommandPalette";
 
 const RoamingCompanion3D = dynamic(
   () => import("@/components/companion/RoamingCompanion3D"),
@@ -50,6 +51,9 @@ export function PortfolioShell({ children }: { children: React.ReactNode }) {
 
       {/* Roaming 3D Interactive Cyber Figure */}
       {mounted && !isLoading && <RoamingCompanion3D />}
+
+      {/* Global Futuristic Command Palette (Ctrl+K / Cmd+K) */}
+      {mounted && <CommandPalette />}
 
       {/* Main interactive page content */}
       <div className="relative z-10 w-full pointer-events-auto">

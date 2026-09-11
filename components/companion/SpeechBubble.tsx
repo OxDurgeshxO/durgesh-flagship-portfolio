@@ -14,41 +14,44 @@ interface SpeechBubbleProps {
 export default function SpeechBubble({
   message,
   visible,
-  align = 'center',
+  align = 'left',
   onAction,
   onDismiss,
 }: SpeechBubbleProps) {
-  // Determine positioning classes based on screen alignment
-  let positionClasses = '-top-32 left-1/2 -translate-x-1/2'
-  let tailClasses = '-bottom-2 left-1/2 -translate-x-1/2'
+  // Determine positioning classes: dock securely ABOVE CyberBot
+  let positionClasses = 'bottom-[104%] right-0'
+  let tailClasses = '-bottom-2 right-12 border-r border-b border-purple-400/50 rotate-45'
 
-  if (align === 'left') {
-    // Bot is near right edge -> bubble appears to the left of bot
-    positionClasses = 'top-0 right-[110%] -translate-y-4'
-    tailClasses = 'top-8 -right-2 border-r border-t border-cyan-400/40 rotate-45'
-  } else if (align === 'right') {
-    // Bot is near left edge -> bubble appears to the right of bot
-    positionClasses = 'top-0 left-[110%] -translate-y-4'
-    tailClasses = 'top-8 -left-2 border-l border-b border-cyan-400/40 rotate-45'
+  if (align === 'right') {
+    // Bot is near left edge -> bubble docks above, aligned left
+    positionClasses = 'bottom-[104%] left-0'
+    tailClasses = '-bottom-2 left-12 border-l border-b border-purple-400/50 rotate-45'
+  } else if (align === 'center') {
+    // Bot is centered -> bubble centered above
+    positionClasses = 'bottom-[104%] left-1/2 -translate-x-1/2'
+    tailClasses = '-bottom-2 left-1/2 -translate-x-1/2 border-r border-b border-purple-400/50 rotate-45'
   }
 
   return (
     <AnimatePresence>
       {visible && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.85, y: 10 }}
+          initial={{ opacity: 0, scale: 0.85, y: 12 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 6 }}
-          transition={{ type: 'spring', stiffness: 450, damping: 28 }}
-          className={`absolute w-64 md:w-72 pointer-events-auto select-none z-50 ${positionClasses}`}
+          exit={{ opacity: 0, scale: 0.9, y: 8 }}
+          transition={{ type: 'spring', stiffness: 420, damping: 26 }}
+          className={`absolute w-72 sm:w-80 max-w-[calc(100vw-32px)] pointer-events-auto select-none z-50 ${positionClasses}`}
         >
-          <div className="glass rounded-2xl p-4 border border-cyan-400/40 shadow-2xl shadow-cyan-500/25 backdrop-blur-2xl relative bg-slate-950/90">
+          <div className="glass rounded-2xl p-4 border border-purple-500/40 shadow-2xl shadow-purple-500/25 backdrop-blur-2xl relative bg-slate-950/95">
             {/* Header */}
             <div className="flex items-center justify-between gap-2 mb-2 pb-1.5 border-b border-white/10">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-                <span className="text-[11px] font-mono font-bold tracking-wider text-cyan-300 uppercase">
-                  🧑‍💻 Durgesh • 3D Avatar
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-purple-400" />
+                </span>
+                <span className="text-[11px] font-mono font-bold tracking-wider text-purple-300 uppercase">
+                  🤖 CyberBot • AI Companion
                 </span>
               </div>
               {onDismiss && (
@@ -57,7 +60,7 @@ export default function SpeechBubble({
                     e.stopPropagation()
                     onDismiss()
                   }}
-                  className="text-slate-400 hover:text-white text-xs px-1 hover:bg-white/10 rounded transition-colors"
+                  className="text-slate-400 hover:text-white text-xs px-1.5 py-0.5 hover:bg-white/10 rounded transition-colors"
                   title="Close message"
                 >
                   ✕
@@ -71,7 +74,7 @@ export default function SpeechBubble({
             </p>
 
             {/* Quick Action Pills */}
-            <div className="flex items-center gap-2 pt-1 border-t border-white/5">
+            <div className="flex items-center gap-2 pt-1 border-t border-white/5 flex-wrap">
               <button
                 onClick={(e) => {
                   e.stopPropagation()
@@ -86,9 +89,18 @@ export default function SpeechBubble({
                   e.stopPropagation()
                   if (onAction) onAction('projects')
                 }}
-                className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/35 transition-all active:scale-95"
+                className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30 hover:bg-rose-500/35 transition-all active:scale-95"
               >
                 🚀 Top Projects
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  if (onAction) onAction('next')
+                }}
+                className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 hover:bg-purple-500/35 transition-all active:scale-95"
+              >
+                💬 Next Insight
               </button>
             </div>
 

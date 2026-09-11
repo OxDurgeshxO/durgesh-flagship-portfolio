@@ -4,16 +4,25 @@ import React, { useState, useEffect, useRef, useCallback, Suspense } from 'react
 import { Canvas } from '@react-three/fiber'
 import CyberBotModel from './CyberBotModel'
 import SpeechBubble from './SpeechBubble'
+import { trackEvent } from '@/lib/analytics'
+
+function getTimeBasedGreeting(): string {
+  const hour = new Date().getHours()
+  if (hour >= 5 && hour < 12) return "Good morning! ☀️ I'm Durgesh's 3D AI companion. Welcome to the portfolio!"
+  if (hour >= 12 && hour < 17) return "Good afternoon! ⚡ Exploring Durgesh's production AI architectures?"
+  if (hour >= 17 && hour < 22) return "Good evening! 🌆 Check out the interactive 3D Neural Core & case studies!"
+  return "Burning the midnight oil with AI? 🌙 Durgesh builds systems 24/7!"
+}
 
 const CYBERBOT_VOICELINES = [
-  "Greetings human! 🤖 I'm Durgesh's 3D AI companion. Welcome to the portfolio!",
-  "🚀 Check out ROLEFIT2 — an enterprise AI career intelligence platform with 16 roles!",
-  "🏋️ The AI Fitness Platform runs real-time MediaPipe pose detection under 50ms!",
-  "📊 MarketMatch-AI uses K-Means & DBSCAN clustering for retail analytics.",
-  "🎓 Durgesh is pursuing MCA in AIML at Sri Balaji University, Pune (2025–2027)!",
+  "🚀 Check out ROLEFIT2 — an enterprise AI career intelligence platform evaluating 16 roles with multi-model scoring!",
+  "🏋️ The AI Fitness Platform runs real-time MediaPipe pose detection under 50ms with live audio feedback!",
+  "📊 MarketMatch-AI uses K-Means & DBSCAN clustering for customer segmentation & predictive retail intelligence.",
+  "🎓 Durgesh is pursuing an MCA in AIML at Sri Balaji University, Pune (2025–2027)!",
   "☁️ Certified AWS Machine Learning Foundations & UNLOX® AI Fellow.",
-  "⚡ 360° acrobatic ion spin! Click me again for another stunt!",
-  "💡 Tip: You can drag me anywhere, or click below to switch to Roam mode!",
+  "🏆 Lead engineer in AI hackathons & developer of autonomous agent pipelines.",
+  "⚡ 360° acrobatic ion flip! Click me again for another stunt!",
+  "💡 Tip: You can drag me anywhere, or use the badge below to toggle Roam mode!",
 ]
 
 type MotionMode = 'dock' | 'roam' | 'follow'
@@ -24,11 +33,15 @@ export default function RoamingCompanion3D() {
   const [isSpinning, setIsSpinning] = useState(false)
   const [spinProgress, setSpinProgress] = useState(0)
   const [mood, setMood] = useState<'normal' | 'happy' | 'stunt'>('normal')
-  const [messageIndex, setMessageIndex] = useState(0)
+  const [activeMessage, setActiveMessage] = useState<string>("Greetings human! 🤖")
+  const [voiceIndex, setVoiceIndex] = useState(0)
   const [bubbleVisible, setBubbleVisible] = useState(true)
   const [mode, setMode] = useState<MotionMode>('dock')
   const [isDragging, setIsDragging] = useState(false)
   const [bubbleAlign, setBubbleAlign] = useState<'left' | 'right' | 'center'>('left')
+  const [isMuted, setIsMuted] = useState(false)
+  const isMutedRef = useRef(false)
+  isMutedRef.current = isMuted
 
   // Position in viewport pixels
   const posRef = useRef({ x: 0, y: 0 })
@@ -40,6 +53,7 @@ export default function RoamingCompanion3D() {
 
   // Audio synthesis helper for futuristic chimes
   const playCyberChirp = useCallback((freq = 520, freq2 = 880) => {
+    if (isMutedRef.current) return
     try {
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
       if (!AudioCtx) return
@@ -67,20 +81,95 @@ export default function RoamingCompanion3D() {
   useEffect(() => {
     setMounted(true)
     if (typeof window !== 'undefined') {
+      // Set dynamic time-of-day greeting (Priority 3)
+      setActiveMessage(getTimeBasedGreeting())
+
       // Start docked in bottom-right corner with ample safety margin
       const startX = Math.max(80, window.innerWidth - 220)
       const startY = Math.max(80, window.innerHeight - 260)
       posRef.current = { x: startX, y: startY }
       targetRef.current = { x: startX, y: startY }
       setBubbleAlign('left')
+
+      const savedMute = localStorage.getItem('cyberbot_muted') === 'true'
+      setIsMuted(savedMute)
+      isMutedRef.current = savedMute
     }
 
-    // Auto dismiss initial message after 6.5 seconds
+    // Keep initial greeting visible for 9 seconds so user sees it right after loading screen fades
     const welcomeTimer = setTimeout(() => {
       setBubbleVisible(false)
-    }, 6500)
-    return () => clearTimeout(welcomeTimer)
-  }, [])
+    }, 9000)
+
+    // Priority 3: Robust Real-Time Section Scroll Spy
+    const SECTION_PROMPTS: { id: string; msg: string }[] = [
+      { id: 'contact', msg: "📬 Ready to build next-gen AI? Send Durgesh a message or grab his resume above!" },
+      { id: 'github-projects', msg: "💻 Real-time GitHub sync! Check out his open-source repositories and live stars." },
+      { id: 'projects', msg: "🚀 Featured: ROLEFIT2 AI Career Platform, FitTrack MediaPipe & MarketMatch-AI!" },
+      { id: 'education', msg: "🏛️ MCA in AIML (2025–2027) & BCA (8.9 CGPA) with AWS & UNLOX certifications!" },
+      { id: 'experience', msg: "💼 Enterprise GenAI, LLM agents, and cloud architectures built for production scale!" },
+      { id: 'about', msg: "🎓 Durgesh is an MCA (AIML) candidate with expertise in autonomous AI & deep learning!" },
+      { id: 'hero', msg: "👋 Welcome! I'm Durgesh's CyberBot AI. I'll guide you through his work & achievements!" },
+    ]
+
+    let lastDetectedSection = ''
+    let dismissTimer: NodeJS.Timeout | null = null
+    let ticking = false
+
+    const handleSectionScroll = () => {
+      if (ticking) return
+      ticking = true
+
+      requestAnimationFrame(() => {
+        ticking = false
+        const scrollCheckY = window.scrollY + window.innerHeight * 0.45
+
+        for (const { id, msg } of SECTION_PROMPTS) {
+          const el = document.getElementById(id)
+          if (el) {
+            const rect = el.getBoundingClientRect()
+            const elemTop = rect.top + window.scrollY
+            const elemBottom = elemTop + rect.height
+            if (scrollCheckY >= elemTop && scrollCheckY <= elemBottom) {
+              if (lastDetectedSection !== id) {
+                lastDetectedSection = id
+                setActiveMessage(msg)
+                setBubbleVisible(true)
+                playCyberChirp(580, 850)
+                if (dismissTimer) clearTimeout(dismissTimer)
+                dismissTimer = setTimeout(() => {
+                  setBubbleVisible(false)
+                }, 8500)
+              }
+              break
+            }
+          }
+        }
+      })
+    }
+
+    window.addEventListener('scroll', handleSectionScroll, { passive: true })
+
+    const handleMuteToggle = (e: Event) => {
+      const custom = e as CustomEvent<{ muted: boolean }>
+      if (custom.detail && typeof custom.detail.muted === 'boolean') {
+        setIsMuted(custom.detail.muted)
+        isMutedRef.current = custom.detail.muted
+      } else {
+        const saved = localStorage.getItem('cyberbot_muted') === 'true'
+        setIsMuted(saved)
+        isMutedRef.current = saved
+      }
+    }
+    window.addEventListener('cyberbot-mute-toggle', handleMuteToggle)
+
+    return () => {
+      clearTimeout(welcomeTimer)
+      if (dismissTimer) clearTimeout(dismissTimer)
+      window.removeEventListener('scroll', handleSectionScroll)
+      window.removeEventListener('cyberbot-mute-toggle', handleMuteToggle)
+    }
+  }, [playCyberChirp])
 
   // Global mouse tracking
   useEffect(() => {
@@ -201,8 +290,11 @@ export default function RoamingCompanion3D() {
     setMood('stunt')
     playCyberChirp(600, 1200)
 
-    setMessageIndex((prev) => (prev + 1) % CYBERBOT_VOICELINES.length)
+    const nextIndex = (voiceIndex + 1) % CYBERBOT_VOICELINES.length
+    setVoiceIndex(nextIndex)
+    setActiveMessage(CYBERBOT_VOICELINES[nextIndex])
     setBubbleVisible(true)
+    trackEvent('cyberbot_interact', { action: 'stunt_spin', line_index: nextIndex })
 
     setTimeout(() => {
       setMood('happy')
@@ -240,11 +332,18 @@ export default function RoamingCompanion3D() {
   const handleBubbleAction = (action: string) => {
     if (action === 'flip') {
       setIsSpinning(true)
+      setMood('stunt')
       playCyberChirp(650, 1300)
+      setTimeout(() => setMood('happy'), 950)
     } else if (action === 'projects') {
       const el = document.getElementById('projects') || document.getElementById('featured-projects')
       if (el) el.scrollIntoView({ behavior: 'smooth' })
       setBubbleVisible(false)
+    } else if (action === 'next') {
+      const nextIndex = (voiceIndex + 1) % CYBERBOT_VOICELINES.length
+      setVoiceIndex(nextIndex)
+      setActiveMessage(CYBERBOT_VOICELINES[nextIndex])
+      playCyberChirp(520, 980)
     }
   }
 
@@ -257,16 +356,34 @@ export default function RoamingCompanion3D() {
   }
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-40 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-40">
       {/* 3D CyberBot Floating Anchor */}
       <div
         ref={containerRef}
         className="absolute top-0 left-0 w-44 h-56 select-none will-change-transform"
         style={{ touchAction: 'none' }}
       >
+        {/* Quick Chat Callout Badge (visible when bubble is dismissed) */}
+        {!bubbleVisible && (
+          <div className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-auto">
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setBubbleVisible(true)
+                playCyberChirp(600, 1000)
+              }}
+              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/90 border border-purple-500/50 text-purple-300 hover:border-rose-400 hover:text-white backdrop-blur-xl shadow-lg shadow-purple-500/25 transition-all flex items-center gap-1.5 active:scale-95"
+              title="Click to hear CyberBot's insights!"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-ping" />
+              <span>💬 CyberBot AI • Click to Chat</span>
+            </button>
+          </div>
+        )}
+
         {/* Adaptive Speech Bubble */}
         <SpeechBubble
-          message={CYBERBOT_VOICELINES[messageIndex]}
+          message={activeMessage}
           visible={bubbleVisible}
           align={bubbleAlign}
           onAction={handleBubbleAction}
@@ -281,14 +398,14 @@ export default function RoamingCompanion3D() {
           onMouseDown={handleMouseDown}
           className={`w-full h-full relative cursor-grab active:cursor-grabbing pointer-events-auto rounded-3xl transition-all duration-300 ${
             isHovered
-              ? 'drop-shadow-[0_0_35px_rgba(0,240,255,0.7)] scale-105'
+              ? 'drop-shadow-[0_0_35px_rgba(244,63,94,0.7)] scale-105'
               : 'drop-shadow-[0_0_20px_rgba(168,85,247,0.4)]'
           }`}
           title="Click to interact! Drag to toss! 🤖"
         >
           {/* Holographic Pulse Aura on Hover */}
           {isHovered && (
-            <div className="absolute inset-x-2 bottom-0 h-16 rounded-full border border-cyan-400/50 animate-ping pointer-events-none opacity-40" />
+            <div className="absolute inset-x-2 bottom-0 h-16 rounded-full border border-purple-400/50 animate-ping pointer-events-none opacity-40" />
           )}
 
           <Canvas
@@ -307,15 +424,15 @@ export default function RoamingCompanion3D() {
             </Suspense>
           </Canvas>
 
-          {/* Mini Interactive Mode Control Pill */}
-          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-auto">
+          {/* Mini Interactive Mode & Audio Controls Pill */}
+          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-auto flex items-center gap-1.5">
             <button
               onClick={(e) => {
                 e.stopPropagation()
                 setMode((m) => (m === 'dock' ? 'roam' : m === 'roam' ? 'follow' : 'dock'))
                 playCyberChirp(550, 750)
               }}
-              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/90 border border-cyan-500/40 text-cyan-300 hover:border-cyan-300 hover:bg-cyan-500/20 backdrop-blur-xl transition-all shadow-xl shadow-cyan-500/20 flex items-center gap-1.5"
+              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/90 border border-purple-500/40 text-purple-300 hover:border-rose-300 hover:bg-purple-500/20 backdrop-blur-xl transition-all shadow-xl shadow-purple-500/20 flex items-center gap-1.5 cursor-pointer"
             >
               {mode === 'dock' && (
                 <>
@@ -325,7 +442,7 @@ export default function RoamingCompanion3D() {
               )}
               {mode === 'roam' && (
                 <>
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-ping" />
                   <span>🟢 Roaming</span>
                 </>
               )}
@@ -335,6 +452,28 @@ export default function RoamingCompanion3D() {
                   <span>🧲 Following</span>
                 </>
               )}
+            </button>
+
+            {/* Audio Mute / Unmute Toggle */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                const next = !isMuted
+                setIsMuted(next)
+                isMutedRef.current = next
+                localStorage.setItem('cyberbot_muted', String(next))
+                if (!next) {
+                  playCyberChirp(600, 950)
+                }
+              }}
+              className={`px-2 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/90 border backdrop-blur-xl transition-all shadow-xl flex items-center gap-1 cursor-pointer ${
+                isMuted
+                  ? 'border-slate-700 text-slate-500 hover:text-slate-300'
+                  : 'border-rose-500/40 text-rose-300 hover:border-rose-400 shadow-rose-500/20'
+              }`}
+              title={isMuted ? "CyberBot Audio Muted (Click to enable futuristic chimes)" : "CyberBot Audio Active (Click to mute)"}
+            >
+              <span>{isMuted ? '🔇' : '🔊'}</span>
             </button>
           </div>
         </div>

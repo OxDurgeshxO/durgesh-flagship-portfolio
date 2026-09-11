@@ -29,8 +29,9 @@ export default function CyberBotModel({
   const rightHandRef = useRef<THREE.Group>(null)
   const thrusterFlameRef = useRef<THREE.Mesh>(null)
 
-  // Floating ambient cyber spark particles
-  const sparkCount = 24
+  // Priority 1: Mobile performance scaling
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  const sparkCount = isMobile ? 8 : 24
   const sparkPositions = useMemo(() => {
     const pos = new Float32Array(sparkCount * 3)
     for (let i = 0; i < sparkCount; i++) {
@@ -39,7 +40,7 @@ export default function CyberBotModel({
       pos[i * 3 + 2] = (Math.random() - 0.5) * 1.5
     }
     return pos
-  }, [])
+  }, [sparkCount])
 
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime()
@@ -105,8 +106,8 @@ export default function CyberBotModel({
     }
   })
 
-  const primaryGlow = isHovered ? '#00ffff' : '#38bdf8'
-  const accentGlow = isHovered ? '#a855f7' : '#c084fc'
+  const primaryGlow = isHovered ? '#f43f5e' : '#a855f7' // Rose Quartz hover / Sunset Violet normal
+  const accentGlow = isHovered ? '#c084fc' : '#fb7185' // Sunset Violet / Rose Quartz
   const armorColor = '#f1f5f9' // Crisp Pearlescent Platinum White
   const darkChassisColor = '#0f172a' // Midnight Obsidian Slate
 
@@ -115,9 +116,9 @@ export default function CyberBotModel({
       {/* Studio 3-Point Lighting for High-End 3D Definition */}
       <ambientLight intensity={1.2} />
       <directionalLight position={[3, 4, 4]} intensity={2.8} color="#ffffff" />
-      <directionalLight position={[-4, 2, -2]} intensity={2.2} color="#00ffff" />
+      <directionalLight position={[-4, 2, -2]} intensity={2.2} color="#fb7185" />
       <pointLight position={[0, -2, -1]} intensity={3.0} color="#a855f7" />
-      <pointLight position={[0, 0.4, 1.2]} intensity={isHovered ? 3.5 : 2.0} color={primaryGlow} distance={3} />
+      <pointLight position={[0, 0.4, 1.2]} intensity={isHovered ? 3.8 : 2.2} color={primaryGlow} distance={3} />
 
       {/* Outer Holographic Halo */}
       <mesh ref={haloOuterRef} position={[0, 0.85, 0]}>
@@ -269,8 +270,8 @@ export default function CyberBotModel({
         <mesh ref={thrusterFlameRef} position={[0, -0.38, 0]} rotation={[Math.PI, 0, 0]}>
           <coneGeometry args={[0.09, 0.22, 16]} />
           <meshStandardMaterial
-            color="#00f0ff"
-            emissive="#00f0ff"
+            color="#fb7185"
+            emissive="#f43f5e"
             emissiveIntensity={isHovered ? 5.5 : 3.5}
             transparent
             opacity={0.88}
@@ -313,7 +314,7 @@ export default function CyberBotModel({
         </bufferGeometry>
         <pointsMaterial
           size={0.04}
-          color={isHovered ? '#00ffff' : '#38bdf8'}
+          color={isHovered ? '#fb7185' : '#c084fc'}
           transparent
           opacity={0.75}
           blending={THREE.AdditiveBlending}

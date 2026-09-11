@@ -45,7 +45,7 @@ export const EXPERIENCE = [
       'Built and tested autonomous AI systems for industry use-cases',
       'Industry-level project execution under mentorship',
     ],
-    color: '#00d4ff',
+    color: '#f43f5e',
   },
   {
     role: 'Central Co-Ordination Team',
