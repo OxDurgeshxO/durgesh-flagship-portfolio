@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit } from '@/lib/lab/validation';
 
-export const runtime = 'edge';
-
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export async function POST(req: NextRequest) {
@@ -45,9 +43,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!message || typeof message !== 'string' || message.trim().length < 10 || message.trim().length > 2500) {
+    if (!message || typeof message !== 'string' || message.trim().length < 2 || message.trim().length > 2500) {
       return NextResponse.json(
-        { error: 'Message must be between 10 and 2,500 characters.' },
+        { error: 'Message must be between 2 and 2,500 characters.' },
         { status: 400 }
       );
     }

@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { validateResumeInput, checkRateLimit } from "@/lib/lab/validation";
 
-export const runtime = "edge";
-
 const ROLE_TAXONOMIES: Record<string, { required: string[]; optional: string[] }> = {
   "AIML Engineer": {
     required: ["python", "pytorch", "deep learning", "machine learning", "computer vision", "model deployment"],

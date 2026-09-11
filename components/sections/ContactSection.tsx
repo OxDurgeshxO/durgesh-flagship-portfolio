@@ -58,8 +58,18 @@ export default function ContactSection() {
           _gotcha: gotcha,
         }),
       })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Failed to dispatch message.')
+      let data: any = null
+      try {
+        data = await res.json()
+      } catch {
+        // Non-JSON response
+      }
+
+      if (!res.ok) {
+        throw new Error(
+          data?.error || `Unable to deliver message (HTTP ${res.status}). Please use the email client button below.`
+        )
+      }
       setStatus('sent')
     } catch (err: any) {
       setError(err.message || 'Transmission failed. You can copy the draft or use your email client directly.')
