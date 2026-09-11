@@ -1,7 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Sparkles, ArrowLeft, Terminal, Cpu } from 'lucide-react';
+import { Sparkles, ArrowLeft, Terminal, Cpu, FlaskConical } from 'lucide-react';
 import { AiLabShell } from '@/components/lab/AiLabShell';
 
 export const metadata: Metadata = {
@@ -48,6 +48,19 @@ export default function AiLabPage() {
             Execute real-time client-side heuristics and edge inference workloads directly in your browser. Every model
             and mathematical routine runs with sub-50ms latency and zero server-side state retention.
           </p>
+        </div>
+
+        {/* Beta Mode Notice Banner */}
+        <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-xs sm:text-sm text-amber-300 flex items-start sm:items-center gap-3">
+          <FlaskConical className="h-5 w-5 text-amber-400 shrink-0 mt-0.5 sm:mt-0" />
+          <div className="flex-1">
+            <span className="font-semibold text-amber-200 uppercase tracking-wider font-mono text-[11px] mr-2">
+              [Beta Mode · Active Development]
+            </span>
+            <span>
+              This AI Lab is currently in Beta mode and continuously being enhanced. Live models, joint angle trigonometry, and cluster projection heuristics are actively being expanded and optimized.
+            </span>
+          </div>
         </div>
 
         {/* AI Lab Shell */}

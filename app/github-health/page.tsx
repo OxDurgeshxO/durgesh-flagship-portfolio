@@ -50,6 +50,19 @@ export default function GitHubHealthPage() {
           </p>
         </div>
 
+        {/* Beta Mode Notice Banner */}
+        <div className="rounded-xl border border-blue-500/30 bg-blue-500/10 p-4 text-xs sm:text-sm text-blue-300 flex items-start sm:items-center gap-3">
+          <Activity className="h-5 w-5 text-blue-400 shrink-0 mt-0.5 sm:mt-0" />
+          <div className="flex-1">
+            <span className="font-semibold text-blue-200 uppercase tracking-wider font-mono text-[11px] mr-2">
+              [Beta Telemetry · Active Refinement]
+            </span>
+            <span>
+              Repository health metrics and quality scoring algorithms are currently in Beta mode. Dynamic GitHub API synchronization and automated CI badges are actively being enhanced.
+            </span>
+          </div>
+        </div>
+
         {/* Dashboard Client */}
         <HealthDashboardClient />
       </div>

@@ -10,9 +10,14 @@ export default function RecruiterHero() {
     <div className="border-b border-white/10 pb-8 mb-8">
       {/* Top Breadcrumb & Switcher */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-purple-500/10 text-purple-300 border border-purple-500/20">
-          <Sparkles className="size-3 text-rose-400" />
-          <span>Recruiter & Hiring Manager Fast Track</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-purple-500/10 text-purple-300 border border-purple-500/20">
+            <Sparkles className="size-3 text-rose-400" />
+            <span>Recruiter & Hiring Manager Fast Track</span>
+          </div>
+          <span className="px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] font-mono font-semibold">
+            Beta Mode · Actively Enhanced
+          </span>
         </div>
         <Link
           href="/"

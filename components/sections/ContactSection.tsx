@@ -208,6 +208,17 @@ export default function ContactSection() {
               </div>
             ) : (
               <>
+                {/* Beta Mode Notice */}
+                <div className="flex items-center justify-between border-b border-white/10 pb-2.5 mb-1 text-[11px] font-mono">
+                  <span className="text-slate-400 flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                    Direct Message Dispatch
+                  </span>
+                  <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px]">
+                    Beta · Continuously Enhanced
+                  </span>
+                </div>
+
                 {/* Subject Selector */}
                 <div>
                   <label className="block text-xs font-medium text-slate-300 mb-2">What would you like to discuss?</label>

@@ -52,6 +52,18 @@ export default function CaseStudyPage({ params }: Props) {
       <article className="max-w-4xl mx-auto">
         <CaseStudyHeader caseStudy={caseStudy} />
 
+        {/* Beta Living Architecture Notice */}
+        <div className="rounded-xl border border-white/10 bg-white/5 p-3.5 mb-8 text-xs text-slate-300 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
+            <span className="font-semibold text-white">Living Architecture Case Study (Beta)</span>
+            <span className="text-slate-400 hidden sm:inline">— Continuously updated with production benchmarks and ongoing architectural enhancements.</span>
+          </div>
+          <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 text-[10px] font-mono shrink-0">
+            Active Refinement
+          </span>
+        </div>
+
         {/* Highlight Metrics */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 mb-12">
           {caseStudy.metrics.map((m) => (
