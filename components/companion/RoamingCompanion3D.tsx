@@ -84,12 +84,16 @@ export default function RoamingCompanion3D() {
   useEffect(() => {
     setMounted(true)
     if (typeof window !== 'undefined') {
+      const isMobile = window.innerWidth < 768
+      if (isMobile) {
+        setBubbleVisible(false)
+      }
       // Set dynamic time-of-day greeting (Priority 3)
       setActiveMessage(getTimeBasedGreeting())
 
       // Start docked in bottom-right corner with ample safety margin
-      const startX = Math.max(80, window.innerWidth - 220)
-      const startY = Math.max(80, window.innerHeight - 260)
+      const startX = isMobile ? Math.max(16, window.innerWidth - 150) : Math.max(80, window.innerWidth - 220)
+      const startY = isMobile ? Math.max(30, window.innerHeight - 190) : Math.max(80, window.innerHeight - 260)
       posRef.current = { x: startX, y: startY }
       targetRef.current = { x: startX, y: startY }
       setBubbleAlign('left')
@@ -99,10 +103,11 @@ export default function RoamingCompanion3D() {
       isMutedRef.current = savedMute
     }
 
-    // Keep initial greeting visible for 9 seconds so user sees it right after loading screen fades
+    // Keep initial greeting visible on desktop
+    const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 768
     const welcomeTimer = setTimeout(() => {
       setBubbleVisible(false)
-    }, 9000)
+    }, isMobileViewport ? 0 : 9000)
 
     // Priority 3: Robust Real-Time Section Scroll Spy
     const SECTION_PROMPTS: { id: string; msg: string }[] = [
@@ -359,7 +364,7 @@ export default function RoamingCompanion3D() {
   }
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-40">
+    <div className="fixed inset-0 pointer-events-none z-40 hidden sm:block">
       {/* 3D CyberBot Floating Anchor */}
       <div
         ref={containerRef}
@@ -413,7 +418,8 @@ export default function RoamingCompanion3D() {
 
           <Canvas
             camera={{ position: [0, 0, 3.2], fov: 45 }}
-            gl={{ alpha: true, antialias: true }}
+            dpr={[1, 1.5]}
+            gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
             className="w-full h-full"
           >
             <Suspense fallback={null}>

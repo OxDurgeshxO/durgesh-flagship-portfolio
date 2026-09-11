@@ -121,8 +121,8 @@ export default function HeroSection() {
           </a>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500">
+        {/* Scroll indicator - hidden on compact mobile screens to prevent button overlap */}
+        <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-slate-500">
           <span className="text-xs">Scroll to explore</span>
           <div className="w-px h-12 bg-gradient-to-b from-purple-500 to-transparent animate-pulse" />
         </div>
