@@ -15,7 +15,7 @@ function getTimeBasedGreeting(): string {
 }
 
 const CYBERBOT_VOICELINES = [
-  "🚀 Check out ROLEFIT2 — an enterprise AI career intelligence platform evaluating 16 roles with multi-model scoring!",
+  "🚀 Check out RoleRadar — an enterprise AI career intelligence platform evaluating 16 roles with multi-model scoring!",
   "🏋️ The AI Fitness Platform runs real-time MediaPipe pose detection under 50ms with live audio feedback!",
   "📊 MarketMatch-AI uses K-Means & DBSCAN clustering for customer segmentation & predictive retail intelligence.",
   "🎓 Durgesh is pursuing an MCA in AIML at Sri Balaji University, Pune (2025–2027)!",
@@ -58,6 +58,9 @@ export default function RoamingCompanion3D() {
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
       if (!AudioCtx) return
       const ctx = new AudioCtx()
+      if (ctx.state === 'suspended') {
+        ctx.resume().catch(() => {})
+      }
       const osc = ctx.createOscillator()
       const gain = ctx.createGain()
 
@@ -105,7 +108,7 @@ export default function RoamingCompanion3D() {
     const SECTION_PROMPTS: { id: string; msg: string }[] = [
       { id: 'contact', msg: "📬 Ready to build next-gen AI? Send Durgesh a message or grab his resume above!" },
       { id: 'github-projects', msg: "💻 Real-time GitHub sync! Check out his open-source repositories and live stars." },
-      { id: 'projects', msg: "🚀 Featured: ROLEFIT2 AI Career Platform, FitTrack MediaPipe & MarketMatch-AI!" },
+      { id: 'projects', msg: "🚀 Featured: RoleRadar AI Career Platform, AI Fitness MediaPipe & MarketMatch-AI!" },
       { id: 'education', msg: "🏛️ MCA in AIML (2025–2027) & BCA (8.9 CGPA) with AWS & UNLOX certifications!" },
       { id: 'experience', msg: "💼 Enterprise GenAI, LLM agents, and cloud architectures built for production scale!" },
       { id: 'about', msg: "🎓 Durgesh is an MCA (AIML) candidate with expertise in autonomous AI & deep learning!" },

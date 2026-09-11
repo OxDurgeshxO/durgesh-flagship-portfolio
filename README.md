@@ -31,7 +31,7 @@ A high-performance, unified **Flagship 3D Digital Portfolio** for **Durgesh Dutt
 - **Official Credentials**: AWS Educate Machine Learning Foundations, AWS Emerging Talent Community, and BCA foundation.
 
 ### 4. 🚀 Featured Production Showcases & Curated Top 5
-- **ROLEFIT 2.0**: Enterprise AI Career Intelligence Platform (Next.js 16, Drizzle ORM, multi-role ATS resume matching).
+- **RoleRadar**: Enterprise AI Career Intelligence Platform (Next.js 16, Drizzle ORM, multi-role ATS resume matching).
 - **AI Fitness Platform**: Computer Vision & IoT ecosystem with MediaPipe Pose Detection (<50ms latency).
 - **MarketMatch AI**: Customer Segmentation & Recommender Engine with K-Means & DBSCAN clustering.
 - **Curated Top 5 GitHub Repos**: Automated real-time GitHub REST API feed with ISR caching.
