@@ -5,21 +5,30 @@ export const runtime = 'edge';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'durgeshdsinha@gmail.com';
+export async function GET() {
+  return NextResponse.json({ status: 'ok', endpoint: '/api/contact' });
+}
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
-
-  // 1. IP Rate Limiting (max 5 submissions per minute)
-  const { allowed } = checkRateLimit(ip);
-  if (!allowed) {
-    return NextResponse.json(
-      { error: 'Too many contact requests. Please wait a minute before submitting again.' },
-      { status: 429 }
-    );
-  }
-
   try {
+    const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
+
+    // 1. IP Rate Limiting (max 5 submissions per minute)
+    try {
+      const { allowed } = checkRateLimit(ip);
+      if (!allowed) {
+        return NextResponse.json(
+          { error: 'Too many contact requests. Please wait a minute before submitting again.' },
+          { status: 429 }
+        );
+      }
+    } catch {
+      // Graceful fallback if rate limiter fails
+    }
+
+    const toEmail = (typeof process !== 'undefined' && process.env?.CONTACT_TO_EMAIL) || 'durgeshdsinha@gmail.com';
+    const resendApiKey = (typeof process !== 'undefined' && process.env?.RESEND_API_KEY) || '';
+
     const body = await req.json();
     const { name, email, subject, message, _gotcha } = body;
 
@@ -62,12 +71,12 @@ export async function POST(req: NextRequest) {
     const resendRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Authorization': `Bearer ${resendApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         from: 'DDS Portfolio <onboarding@resend.dev>',
-        to: [TO_EMAIL],
+        to: [toEmail],
         reply_to: cleanEmail,
         subject: `[Portfolio Contact] ${cleanSubject} — from ${cleanName}`,
         html: `
@@ -128,7 +137,8 @@ export async function POST(req: NextRequest) {
       timestamp: new Date().toISOString(),
     });
 
-  } catch {
+  } catch (err: any) {
+    console.error('[Contact API error]', err);
     return NextResponse.json(
       { error: 'Invalid request body or JSON parsing failure.' },
       { status: 400 }

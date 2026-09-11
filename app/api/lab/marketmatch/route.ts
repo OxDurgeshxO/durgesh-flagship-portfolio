@@ -19,14 +19,22 @@ const SEED_CUSTOMERS = [
   { id: 112, r: 2, f: 45, m: 11200, persona: "Anomaly (VIP Ultra)", pca_x: 3.8, pca_y: 3.2 },
 ];
 
-export async function POST(req: NextRequest) {
-  const ip = req.headers.get("x-forwarded-for") || "127.0.0.1";
-  const { allowed } = checkRateLimit(ip);
-  if (!allowed) {
-    return NextResponse.json({ error: "Rate limit exceeded. Please wait a minute." }, { status: 429 });
-  }
+export async function GET() {
+  return NextResponse.json({ status: "ok", endpoint: "/api/lab/marketmatch" });
+}
 
+export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for") || "127.0.0.1";
+    try {
+      const { allowed } = checkRateLimit(ip);
+      if (!allowed) {
+        return NextResponse.json({ error: "Rate limit exceeded. Please wait a minute." }, { status: 429 });
+      }
+    } catch {
+      // Non-critical rate limiter fallback
+    }
+
     const body = await req.json();
     const clusters = Number(body.clusters) || 5;
     const algorithm = String(body.algorithm || "kmeans").toLowerCase();

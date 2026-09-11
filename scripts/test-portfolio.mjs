@@ -1,59 +1,38 @@
 // Automated Portfolio Validation & Testing Suite
-import http from 'http';
 import fs from 'fs';
 import path from 'path';
 
 const BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:3000';
 
-function get(pathStr) {
-  return new Promise((resolve, reject) => {
-    http.get(BASE_URL + pathStr, (res) => {
-      let data = [];
-      res.on('data', (chunk) => data.push(chunk));
-      res.on('end', () => {
-        const body = Buffer.concat(data);
-        resolve({
-          statusCode: res.statusCode,
-          headers: res.headers,
-          body,
-          text: () => body.toString('utf8'),
-        });
-      });
-    }).on('error', reject);
-  });
+async function get(pathStr) {
+  const res = await fetch(BASE_URL + pathStr, { signal: AbortSignal.timeout(15000) });
+  const text = await res.text();
+  const headers = {};
+  res.headers.forEach((v, k) => { headers[k.toLowerCase()] = v; });
+  return {
+    statusCode: res.status,
+    headers,
+    text: () => text,
+    json: () => JSON.parse(text),
+  };
 }
 
-function post(pathStr, bodyObj) {
-  return new Promise((resolve, reject) => {
-    const payload = JSON.stringify(bodyObj);
-    const req = http.request(
-      BASE_URL + pathStr,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(payload),
-        },
-      },
-      (res) => {
-        let data = [];
-        res.on('data', (chunk) => data.push(chunk));
-        res.on('end', () => {
-          const body = Buffer.concat(data);
-          resolve({
-            statusCode: res.statusCode,
-            headers: res.headers,
-            body,
-            text: () => body.toString('utf8'),
-            json: () => JSON.parse(body.toString('utf8')),
-          });
-        });
-      }
-    );
-    req.on('error', reject);
-    req.write(payload);
-    req.end();
+async function post(pathStr, bodyObj) {
+  const res = await fetch(BASE_URL + pathStr, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(bodyObj),
+    signal: AbortSignal.timeout(15000),
   });
+  const text = await res.text();
+  const headers = {};
+  res.headers.forEach((v, k) => { headers[k.toLowerCase()] = v; });
+  return {
+    statusCode: res.status,
+    headers,
+    text: () => text,
+    json: () => JSON.parse(text),
+  };
 }
 
 async function runTests() {

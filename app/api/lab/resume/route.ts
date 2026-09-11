@@ -18,17 +18,25 @@ const ROLE_TAXONOMIES: Record<string, { required: string[]; optional: string[] }
   },
 };
 
-export async function POST(req: NextRequest) {
-  const ip = req.headers.get("x-forwarded-for") || "127.0.0.1";
-  const { allowed, remaining } = checkRateLimit(ip);
-  if (!allowed) {
-    return NextResponse.json(
-      { error: "Rate limit exceeded. Please wait a minute before submitting again." },
-      { status: 429, headers: { "X-RateLimit-Remaining": "0" } }
-    );
-  }
+export async function GET() {
+  return NextResponse.json({ status: "ok", endpoint: "/api/lab/resume" });
+}
 
+export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for") || "127.0.0.1";
+    try {
+      const { allowed } = checkRateLimit(ip);
+      if (!allowed) {
+        return NextResponse.json(
+          { error: "Rate limit exceeded. Please wait a minute before submitting again." },
+          { status: 429, headers: { "X-RateLimit-Remaining": "0" } }
+        );
+      }
+    } catch {
+      // Non-critical rate limiter fallback
+    }
+
     const body = await req.json();
     const { text, role } = body;
 
