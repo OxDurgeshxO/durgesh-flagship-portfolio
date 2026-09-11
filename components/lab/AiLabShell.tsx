@@ -28,7 +28,7 @@ export function AiLabShell() {
       subtitle: 'Pose Angle & Rep Counter',
       icon: Activity,
       badge: 'Edge Computer Vision',
-      caseStudy: '/work/fitness-platform',
+      caseStudy: '/work/fittrack',
     },
     {
       id: 'marketmatch' as TabKey,

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function ResumePage() {
   const projects = [
     CASE_STUDIES.roleradar,
-    CASE_STUDIES["fitness-platform"],
+    CASE_STUDIES.fittrack,
     CASE_STUDIES["marketmatch-ai"],
   ];
 

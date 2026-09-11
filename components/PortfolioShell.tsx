@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import LoadingScreen from "@/components/LoadingScreen";
 import { Background } from "@/components/Background";
 import CommandPalette from "@/components/CommandPalette";
+import AccessibilityPanel from "@/components/accessibility/AccessibilityPanel";
 import { getSavedPerformanceMode, PerformanceMode } from "@/lib/performance";
 
 const RoamingCompanion3D = dynamic(
@@ -70,6 +71,9 @@ export function PortfolioShell({ children }: { children: React.ReactNode }) {
 
       {/* Roaming 3D Interactive Cyber Figure - unmounted in low-bandwidth mode */}
       {mounted && !isLoading && !isLowBandwidth && <RoamingCompanion3D />}
+
+      {/* Global Accessibility Control Panel (Alt + A) */}
+      {mounted && <AccessibilityPanel />}
 
       {/* Global Futuristic Command Palette (Ctrl+K / Cmd+K) */}
       {mounted && <CommandPalette />}

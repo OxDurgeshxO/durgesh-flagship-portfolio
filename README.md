@@ -1,128 +1,97 @@
-# Durgesh Dutt Sinha — Flagship 3D Digital Portfolio
+# Durgesh Dutt Sinha — Flagship AI & Full-Stack Digital Portfolio
 
-[![Live Portfolio](https://img.shields.io/badge/Live-durgesh--portfolio--v2.pages.dev-F38020?style=for-the-badge&logo=cloudflarepages&logoColor=white)](https://durgesh-portfolio-v2.pages.dev/)
+[![Live Production](https://img.shields.io/badge/Live-durgesh--portfolio--v2.pages.dev-F38020?style=for-the-badge&logo=cloudflarepages&logoColor=white)](https://durgesh-portfolio-v2.pages.dev/)
 [![Next.js](https://img.shields.io/badge/Next.js-14.2.35-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
-[![Three.js](https://img.shields.io/badge/Three.js-WebGL-000000?style=for-the-badge&logo=three.js)](https://threejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com)
+[![Three.js](https://img.shields.io/badge/Three.js-WebGL-000000?style=for-the-badge&logo=three.js)](https://threejs.org)
+[![Tests Passing](https://img.shields.io/badge/Tests-24%2F24%20Passing-emerald?style=for-the-badge&logo=githubactions&logoColor=white)](tests/)
 
 > 🚀 **Live Production Deployment**: **[https://durgesh-portfolio-v2.pages.dev](https://durgesh-portfolio-v2.pages.dev/)**  
-> ⚡ Powered by **Cloudflare Pages Edge Anycast CDN** with sub-second global latency, interactive Three.js CyberBot physics, and SSR instant first paint.
+> ⚡ Powered by **Cloudflare Pages Anycast CDN** with sub-second global latency, interactive 3D WebGL dynamics, client-side computer vision kinematics, and 0-WebGL fallbacks.
 
-A high-performance, unified **Flagship 3D Digital Portfolio** for **Durgesh Dutt Sinha** — AIML Engineer, UNLOX® AI Fellow, and MCA (AIML) scholar at Sri Balaji University Pune. Featuring real-time Three.js WebGL graphics, an interactive 3D CyberBot companion, highlighted academic specializations, and curated production platforms.
-
----
-
-## 🌟 Architectural Highlights
-
-### 1. 🪐 3D WebGL Canvas & Particle Dynamics
-- **Starfield Galaxy**: 5,001 individual rotating WebGL particles rendered via `@react-three/fiber` and `@react-three/drei`.
-- **SSR Isolation**: Client-only dynamic hydration with zero hydration mismatch or server-side memory leaks.
-- **Micro-Interactions**: Ambient gradient glow, smooth scroll spy, and real-time type animation headline.
-
-### 2. 🤖 Interactive 3D CyberBot Companion
-- **Native 3D Geometry**: Chrome chassis, counter-rotating holographic gyro rings, glowing expressive visor eyes, dynamic ion thruster flames, and floating magnetic hands.
-- **Physics & Motion**: Real-time cursor gaze tracking, 360° acrobatic ion spin stunts, tossing/dragging mechanics, and dock/roam/follow modes.
-- **Personalized Speech Engine**: Contextual voicelines with sound synthesis powered by the Web Audio API.
-
-### 3. 🎓 Highlighted MCA (AIML) Academic Spotlight
-- Located directly beneath Work Experience for maximum recruiter impact.
-- **Sri Balaji University Pune (2025–2027 In Progress)**: Core specialization pillars in *Autonomous AI Agents*, *Deep Learning & CNNs*, *System Architecture*, *Cloud ML Pipelines (AWS)*, and *Prompt Engineering*.
-- **Official Credentials**: AWS Educate Machine Learning Foundations, AWS Emerging Talent Community, and BCA foundation.
-
-### 4. 🚀 Featured Production Showcases & Curated Top 5
-- **RoleRadar**: Enterprise AI Career Intelligence Platform (Next.js 16, Drizzle ORM, multi-role ATS resume matching).
-- **AI Fitness Platform**: Computer Vision & IoT ecosystem with MediaPipe Pose Detection (<50ms latency).
-- **MarketMatch AI**: Customer Segmentation & Recommender Engine with K-Means & DBSCAN clustering.
-- **Curated Top 5 GitHub Repos**: Automated real-time GitHub REST API feed with ISR caching.
+A unified, production-oriented engineering showcase communicating:
+> **Durgesh Dutt Sinha is an AIML engineer and full-stack developer who builds production-oriented AI systems, computer-vision tools, and modern web platforms.**
 
 ---
 
-## 📁 Repository Structure
+## 🧭 Application Routes & Navigation
 
-```
-durgesh-flagship-portfolio/
-├── app/
-│   ├── layout.tsx              # Root HTML layout, SEO metadata, Open Graph
-│   └── page.tsx                # Server component orchestrating sections
-├── components/
-│   ├── Background.tsx          # Floating ambient mesh gradient orbs
-│   ├── LoadingScreen.tsx       # 0-100% animated cyber loading screen
-│   ├── PortfolioShell.tsx      # Main layout wrapper & companion loader
-│   ├── companion/
-│   │   ├── CyberBotModel.tsx   # 3D Three.js robotic companion
-│   │   ├── RoamingCompanion3D.tsx # Physics, roaming loop & speech bubble
-│   │   └── SpeechBubble.tsx    # Responsive floating speech bubble
-│   └── sections/
-│       ├── Navbar.tsx          # Glassmorphism navigation with mobile menu
-│       ├── HeroSection.tsx     # 3D Starfield & live typing headline
-│       ├── AboutSection.tsx    # Bio, core competencies & social connectivity
-│       ├── ExperienceSection.tsx # UNLOX® & Be10x fellowship timelines
-│       ├── EducationSection.tsx# SBUP MCA AIML & AWS credentials spotlight
-│       ├── FeaturedProjectsSection.tsx # Deep production showcases
-│       ├── ProjectsSection.tsx # Curated Top 5 GitHub repositories
-│       ├── ContactSection.tsx  # Topic-based inquiry suite & quick copy
-│       └── Footer.tsx          # Copyright & live status indicators
-├── lib/
-│   ├── data.ts                 # Personal information, timeline, and education
-│   └── github.ts               # GitHub API client with error boundaries & ISR
-└── styles/
-    └── globals.css             # Tailwind design tokens, glassmorphism & glow
-```
+| Route | Description | Tech Highlights |
+| :--- | :--- | :--- |
+| **[`/`](app/page.tsx)** | Cinematic 3D Flagship Home | 5,001-particle R3F neural core, 3D CyberBot, Raycast HUD (`Ctrl+K`) |
+| **[`/resume`](app/resume/page.tsx)** | Official HTML Resume | ATS-optimized typography, print CSS, 534 KB verified PDF download |
+| **[`/recruiter`](app/recruiter/page.tsx)** | Recruiter Fast-Track Profile | 0 WebGL overhead, executive summary, verified project benchmarks |
+| **[`/lab`](app/lab/page.tsx)** | Interactive AI Engineering Lab | Live MediaPipe pose estimation (<45ms), ATS NLP scoring, 2D PCA |
+| **[`/work/roleradar`](app/work/[slug]/page.tsx)** | RoleRadar Deep Dive Case Study | Next.js 16, Drizzle ORM, dual-mode fallback, Google XYZ optimizer |
+| **[`/work/fittrack`](app/work/[slug]/page.tsx)** | FitTrack AI Pose Architecture | 33-point skeletal vector kinematics, Web Workers, <50ms inference |
+| **[`/work/marketmatch-ai`](app/work/[slug]/page.tsx)** | MarketMatch AI ML Study | RFM customer segmentation, K-Means & DBSCAN clustering, PCA scatter |
+| **[`/github-health`](app/github-health/page.tsx)** | GitHub Repository Telemetry | Real-time CI health, test coverage audits, deterministic fallbacks |
+| **[`/changelog`](app/changelog/page.tsx)** | Public Engineering Changelog | Problem-Implementation-Result records across all versions |
+| **[`/performance`](app/performance/page.tsx)** | Performance Telemetry Center | Core Web Vitals telemetry (LCP, CLS, INP) and FPS metrics |
+| **[`/privacy`](app/privacy/page.tsx)** | Privacy & Zero-Persistence Center | Local-only camera processing and zero server persistence disclosure |
 
 ---
 
-## 🚀 Getting Started
+## ⚡ Adaptive Experience Modes
 
-### Prerequisites
-- Node.js 18+ or 20+
-- npm, pnpm, or yarn
+Users can seamlessly switch performance modes via the **Command Palette (`Ctrl+K`)**, the **Accessibility Panel (`Alt+A`)**, or the **Performance Center**:
 
-### Installation
+1. **Immersive (Default on Capable Desktops)**:
+   - Full 3D Holographic Neural Core (`components/3d/AICoreScene.tsx`) with 5,001 active particles.
+   - 3D CyberBot companion with cursor gaze tracking and Web Audio sound synthesis.
+2. **Balanced (Default on Mobile & Battery Saver)**:
+   - Clamped DPR (1.0), reduced particle count (1,200), and audio muted by default.
+3. **Low-Bandwidth (0 WebGL Overhead)**:
+   - WebGL components are completely unmounted.
+   - Zero layout shift (CLS: 0.002) achieved via `components/StaticHeroFallback.tsx` (pure CSS/SVG vector mesh).
+   - Instant first contentful paint (0.8s) on low-power devices and 3G networks.
+
+---
+
+## 🛠️ Verification & Quality Gates
+
 ```bash
-# Clone the repository
-git clone https://github.com/OxDurgeshxO/durgesh-flagship-portfolio.git
-cd durgesh-flagship-portfolio
+# Run linting verification
+npm run lint
 
-# Install dependencies
-npm install
+# Run TypeScript strict type check
+npm run typecheck
 
-# Run development server
-npm run dev
-```
-
-Visit `http://localhost:3000` in your browser.
-
-### Production Build
-```bash
-# Compile and validate production bundle
+# Run production Next.js build
 npm run build
 
-# Start production server
-npm start
+# Run automated test suite (routes, assets, content hygiene, security)
+npm test
+
+# Run full unified verification pipeline
+npm run verify
 ```
 
 ---
 
-## 🌐 Deployment
+## 📚 Technical Documentation & Architecture Decisions
 
-- **Production (Active)**: Hosted on **Cloudflare Pages** at [https://durgesh-portfolio-v2.pages.dev](https://durgesh-portfolio-v2.pages.dev/)
-- **Build Adapter**: `@cloudflare/next-on-pages` Edge Worker with Node.js compatibility
-- **Alternative Runtimes**: Zero-configuration support for **Vercel** (`npx vercel`) and **Netlify**
+In-depth technical architecture documentation and Architectural Decision Records (ADRs) are maintained in `docs/`:
 
-```bash
-# Cloudflare Pages Build
-npx @cloudflare/next-on-pages
-```
+- **[System Architecture](docs/architecture.md)**
+- **[Deployment Architecture & Rollback Protocol](docs/deployment.md)**
+- **[Performance Telemetry & WebGL Optimization](docs/performance.md)**
+- **[Security Threat Model & Rate Limiting](docs/security.md)**
+- **[Testing Strategy & Verification Commands](docs/testing.md)**
+- **[ADR 001: Cloudflare Pages Standardization](docs/decisions/001-cloudflare-pages.md)**
+- **[ADR 002: Static CSS/SVG Neural Mesh Fallback](docs/decisions/002-webgl-fallback.md)**
+- **[ADR 003: Deterministic GitHub Telemetry Caching](docs/decisions/003-github-fallback.md)**
+- **[Evolutionary Feature History](docs/development/local-feature-history.md)**
 
 ---
 
-## 👤 Author
+## 👤 Author & Leadership
 
 **Durgesh Dutt Sinha**
-- **GitHub:** [@OxDurgeshxO](https://github.com/OxDurgeshxO)
-- **LinkedIn:** [durgesh-dutt-s](https://www.linkedin.com/in/durgesh-dutt-s-4ba74924b)
-- **Email:** [durgeshdsinha@gmail.com](mailto:durgeshdsinha@gmail.com)
-
----
-*Crafted with Next.js 14, React Three Fiber, Three.js, and Tailwind CSS.*
+- **Title**: AIML Engineer & Full-Stack Developer
+- **Education**: MCA in Artificial Intelligence & Machine Learning, Sri Balaji University Pune (2025–2027)
+- **Fellowships**: UNLOXr AI Program Fellow • Be10x AI Cohort Member
+- **GitHub**: [@OxDurgeshxO](https://github.com/OxDurgeshxO)
+- **LinkedIn**: [Durgesh Dutt Sinha](https://www.linkedin.com/in/durgesh-dutt-s-4ba74924b)
+- **Email**: [durgeshdsinha@gmail.com](mailto:durgeshdsinha@gmail.com)
+- **Security Policy**: [SECURITY.md](SECURITY.md)

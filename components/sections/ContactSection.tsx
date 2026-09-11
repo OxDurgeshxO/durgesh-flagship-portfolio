@@ -298,7 +298,7 @@ export default function ContactSection() {
                       onClick={handleMailtoFallback}
                       className="self-start text-[11px] font-semibold text-rose-200 underline hover:text-white"
                     >
-                      Open Email Client directly instead →
+                      Open Email Client →
                     </button>
                   </div>
                 )}
@@ -310,7 +310,7 @@ export default function ContactSection() {
                     disabled={loading}
                     className="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-rose-500 text-white font-semibold hover:opacity-95 active:scale-[0.99] transition-all shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                   >
-                    <span>{loading ? 'Transmitting Message...' : 'Dispatch Message'}</span>
+                    <span>{loading ? 'Sending...' : 'Send Message'}</span>
                     <span>✉️</span>
                   </button>
                   <button

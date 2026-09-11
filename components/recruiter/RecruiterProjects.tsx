@@ -10,7 +10,7 @@ export default function RecruiterProjects() {
       icon: Trophy,
     },
     {
-      ...CASE_STUDIES["fitness-platform"],
+      ...CASE_STUDIES.fittrack,
       icon: Activity,
     },
     {

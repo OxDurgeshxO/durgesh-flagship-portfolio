@@ -159,9 +159,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ],
   },
 
-  'fitness-platform': {
-    slug: 'fitness-platform',
-    title: 'AI Fitness Ecosystem & Pose Architecture',
+  fittrack: {
+    slug: 'fittrack',
+    title: 'FitTrack AI Fitness Platform',
     tagline: 'Edge Computer Vision & Real-Time Biomechanical Feedback Platform',
     category: 'Computer Vision & Wearable IoT',
     badge: 'Enterprise Multi-Modal Spec',
@@ -170,7 +170,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     githubUrl: 'https://github.com/OxDurgeshxO/fitness-platform-architecture',
     accent: '#fb7185',
     overview:
-      'A production-grade 9-page multi-modal fitness architecture utilizing Google MediaPipe 33-point skeletal landmark detection, trigonometric joint-angle vector kinematics, and web worker isolation to provide real-time form correction under 50ms latency.',
+      'FitTrack is a production-grade 9-page multi-modal fitness architecture utilizing Google MediaPipe 33-point skeletal landmark detection, trigonometric joint-angle vector kinematics, and web worker isolation to provide real-time form correction under 50ms latency.',
     problem:
       'Running deep learning computer vision models directly in client web browsers typically saturates the main JavaScript UI thread, dropping frame rates below 15 FPS and rendering real-time form correction feedback unusable on standard consumer laptops.',
     targetUsers: [
@@ -374,3 +374,10 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ],
   },
 };
+
+// Compatibility alias ensuring /work/fitness-platform continues to resolve alongside /work/fittrack
+CASE_STUDIES['fitness-platform'] = {
+  ...CASE_STUDIES.fittrack,
+  slug: 'fitness-platform',
+};
+

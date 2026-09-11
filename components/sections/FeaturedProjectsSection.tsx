@@ -65,8 +65,8 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     ],
   },
   {
-    id: "fitness-platform",
-    title: "AI Fitness & Computer Vision Ecosystem",
+    id: "fittrack",
+    title: "FitTrack AI — Computer Vision Fitness Platform",
     category: "Computer Vision & Wearable IoT",
     badge: "9-Page Architecture",
     description:

@@ -22,9 +22,15 @@ import {
   Activity,
   History,
   ShieldCheck,
+  Download,
+  Calendar,
+  Accessibility,
+  Gauge,
+  Zap,
 } from "lucide-react";
 import { OWNER } from "@/lib/data";
 import { trackEvent } from "@/lib/analytics";
+import { saveExperienceMode } from "@/lib/experience-mode";
 
 interface PaletteAction {
   id: string;
@@ -33,6 +39,7 @@ interface PaletteAction {
   subtitle: string;
   icon: React.ElementType;
   shortcut?: string;
+  aliases?: string[];
   perform: () => void;
 }
 
@@ -99,8 +106,25 @@ export default function CommandPalette() {
         subtitle: "Print-friendly, ATS optimized with downloadable PDF",
         icon: FileText,
         shortcut: "/resume",
+        aliases: ["resume", "cv", "view resume", "curriculum vitae", "profile"],
         perform: () => {
           window.location.href = "/resume";
+        },
+      },
+      {
+        id: "download-pdf",
+        category: "Quick Actions",
+        title: "Download Official Verified PDF Resume",
+        subtitle: "534 KB verified authentic document with ATS benchmarks",
+        icon: Download,
+        shortcut: "PDF",
+        aliases: ["download", "pdf", "download resume", "cv pdf"],
+        perform: () => {
+          const a = document.createElement("a");
+          a.href = "/resume.pdf";
+          a.download = "Durgesh_Dutt_Sinha_Resume.pdf";
+          a.click();
+          triggerToast("✓ Starting resume PDF download...");
         },
       },
       {
@@ -110,8 +134,38 @@ export default function CommandPalette() {
         subtitle: "High-density candidate profile with 0 WebGL overhead",
         icon: Sparkles,
         shortcut: "/recruiter",
+        aliases: ["recruiter", "fast track", "summary", "hiring", "manager"],
         perform: () => {
           window.location.href = "/recruiter";
+        },
+      },
+      {
+        id: "copy-summary",
+        category: "Quick Actions",
+        title: "Copy Candidate Summary",
+        subtitle: "One-click clipboard copy of executive candidate profile",
+        icon: Copy,
+        shortcut: "COPY",
+        aliases: ["copy", "summary", "candidate", "candidate summary", "bio"],
+        perform: () => {
+          const text = `${OWNER.name} - ${OWNER.title}
+MCA (AIML) at Sri Balaji University Pune (2025-2027) | UNLOXr AI Fellow | Be10x AI Cohort Member.
+Autonomous AI systems, Real-Time MediaPipe (<50ms), Next.js 16, TypeScript, Drizzle ORM, Scikit-Learn.
+Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
+          navigator.clipboard.writeText(text);
+          triggerToast("✓ Candidate summary copied to clipboard!");
+        },
+      },
+      {
+        id: "book-meeting",
+        category: "Quick Actions",
+        title: "Book a Meeting / Schedule Interview",
+        subtitle: "Direct scheduling and technical alignment request",
+        icon: Calendar,
+        shortcut: "MEET",
+        aliases: ["book", "meeting", "schedule", "call", "interview"],
+        perform: () => {
+          window.location.href = `mailto:${OWNER.email}?subject=Technical%20Interview%20/%20Meeting%20Request%20-%20Durgesh%20Dutt%20Sinha`;
         },
       },
       {
@@ -121,6 +175,7 @@ export default function CommandPalette() {
         subtitle: "Lighthouse telemetry and WebGL mode controls",
         icon: Cpu,
         shortcut: "/performance",
+        aliases: ["performance", "lighthouse", "fps", "telemetry", "vitals", "metrics"],
         perform: () => {
           window.location.href = "/performance";
         },
@@ -132,6 +187,7 @@ export default function CommandPalette() {
         subtitle: "Live ATS scoring, pose kinematics, and PCA clustering",
         icon: FlaskConical,
         shortcut: "/lab",
+        aliases: ["lab", "ai", "demos", "fittrack", "marketmatch", "experiments"],
         perform: () => {
           window.location.href = "/lab";
         },
@@ -143,6 +199,7 @@ export default function CommandPalette() {
         subtitle: "Audited code quality, CI status, and test coverage",
         icon: Activity,
         shortcut: "/github-health",
+        aliases: ["github", "health", "repos", "ci", "code quality", "coverage"],
         perform: () => {
           window.location.href = "/github-health";
         },
@@ -154,19 +211,72 @@ export default function CommandPalette() {
         subtitle: "Problem-Implementation-Result records across all versions",
         icon: History,
         shortcut: "/changelog",
+        aliases: ["changelog", "history", "versions", "releases"],
         perform: () => {
           window.location.href = "/changelog";
         },
       },
       {
-        id: "privacy-disclosure",
+        id: "privacy-page",
         category: "Quick Actions",
-        title: "Privacy & Zero Server Persistence Policy",
-        subtitle: "Ephemeral browser-only model execution disclosure",
+        title: "Privacy Center & Zero-Persistence Policy",
+        subtitle: "Ephemeral browser-only model execution and sensor disclosures",
         icon: ShieldCheck,
-        shortcut: "PRIVACY",
+        shortcut: "/privacy",
+        aliases: ["privacy", "policy", "camera", "mic", "data", "security"],
         perform: () => {
-          triggerToast("🔒 Zero server persistence: all model inputs run strictly in ephemeral edge memory.");
+          window.location.href = "/privacy";
+        },
+      },
+      {
+        id: "accessibility-dialog",
+        category: "Quick Actions",
+        title: "Open Accessibility Control Panel",
+        subtitle: "Toggle reduced motion, high contrast, text size, and 3D",
+        icon: Accessibility,
+        shortcut: "Alt+A",
+        aliases: ["a11y", "accessibility", "contrast", "motion", "text size"],
+        perform: () => {
+          window.dispatchEvent(new CustomEvent("open-accessibility-panel"));
+        },
+      },
+      {
+        id: "mode-immersive",
+        category: "Quick Actions",
+        title: "Toggle Immersive 3D Experience Mode",
+        subtitle: "Full 3D Neural Core with 5,000+ interactive particles",
+        icon: Sparkles,
+        shortcut: "MODE",
+        aliases: ["immersive", "3d", "particles", "mode"],
+        perform: () => {
+          saveExperienceMode("immersive");
+          triggerToast("✨ Switched to Immersive 3D Mode");
+        },
+      },
+      {
+        id: "mode-balanced",
+        category: "Quick Actions",
+        title: "Toggle Balanced Performance Mode",
+        subtitle: "Reduced particle density, clamped DPR for laptop efficiency",
+        icon: Gauge,
+        shortcut: "MODE",
+        aliases: ["balanced", "battery", "efficient", "mode"],
+        perform: () => {
+          saveExperienceMode("balanced");
+          triggerToast("⚡ Switched to Balanced Performance Mode");
+        },
+      },
+      {
+        id: "mode-lowbandwidth",
+        category: "Quick Actions",
+        title: "Toggle Low-Bandwidth Mode (0 WebGL)",
+        subtitle: "Completely suppress WebGL/3D for instant content-first paint",
+        icon: Zap,
+        shortcut: "MODE",
+        aliases: ["low-bandwidth", "light", "no 3d", "disable 3d", "fast"],
+        perform: () => {
+          saveExperienceMode("low-bandwidth");
+          triggerToast("🚀 Switched to Low-Bandwidth Mode (0 WebGL)");
         },
       },
       {
@@ -176,6 +286,7 @@ export default function CommandPalette() {
         subtitle: OWNER.email,
         icon: Copy,
         shortcut: "EMAIL",
+        aliases: ["email", "contact", "copy email", "message"],
         perform: () => {
           navigator.clipboard.writeText(OWNER.email);
           triggerToast("✓ Direct email copied to clipboard!");
@@ -189,6 +300,7 @@ export default function CommandPalette() {
         subtitle: "github.com/OxDurgeshxO",
         icon: ExternalLink,
         shortcut: "GIT",
+        aliases: ["github", "git", "source", "code", "profile"],
         perform: () => {
           window.open(OWNER.github, "_blank");
         },
@@ -200,6 +312,7 @@ export default function CommandPalette() {
         subtitle: "Durgesh Dutt Sinha",
         icon: ExternalLink,
         shortcut: "IN",
+        aliases: ["linkedin", "connect", "network"],
         perform: () => {
           window.open(OWNER.linkedin, "_blank");
         },
@@ -211,6 +324,7 @@ export default function CommandPalette() {
         subtitle: "Mute or unmute companion sound synthesis",
         icon: Volume2,
         shortcut: "AUDIO",
+        aliases: ["audio", "sound", "mute", "unmute", "cyberbot"],
         perform: () => {
           const current = localStorage.getItem("cyberbot_muted") === "true";
           const next = !current;
@@ -229,6 +343,7 @@ export default function CommandPalette() {
         subtitle: "Jump to Flagship AI & Full-Stack Projects",
         icon: Sparkles,
         shortcut: "#projects",
+        aliases: ["projects", "work", "showcase", "featured"],
         perform: () => {
           document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
         },
@@ -240,6 +355,7 @@ export default function CommandPalette() {
         subtitle: "Jump to Top 5 GitHub Showcases",
         icon: Cpu,
         shortcut: "#github",
+        aliases: ["repositories", "repos", "github section"],
         perform: () => {
           document.getElementById("github-projects")?.scrollIntoView({ behavior: "smooth" });
         },
@@ -251,6 +367,7 @@ export default function CommandPalette() {
         subtitle: "MCA AIML at Sri Balaji University & AWS Credentials",
         icon: GraduationCap,
         shortcut: "#education",
+        aliases: ["education", "degree", "university", "college", "academic"],
         perform: () => {
           document.getElementById("education")?.scrollIntoView({ behavior: "smooth" });
         },
@@ -262,6 +379,7 @@ export default function CommandPalette() {
         subtitle: "Be10x AI Cohort, UNLOX Fellow, SBUP",
         icon: Briefcase,
         shortcut: "#experience",
+        aliases: ["experience", "jobs", "fellowship", "unlox", "be10x"],
         perform: () => {
           document.getElementById("experience")?.scrollIntoView({ behavior: "smooth" });
         },
@@ -273,6 +391,7 @@ export default function CommandPalette() {
         subtitle: "Biography, core skills, and background stats",
         icon: User,
         shortcut: "#about",
+        aliases: ["about", "bio", "skills"],
         perform: () => {
           document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
         },
@@ -284,6 +403,7 @@ export default function CommandPalette() {
         subtitle: "Direct message, time zone info, and availability",
         icon: Mail,
         shortcut: "#contact",
+        aliases: ["contact", "message", "email", "touch"],
         perform: () => {
           document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
         },
@@ -297,6 +417,7 @@ export default function CommandPalette() {
         subtitle: "Next.js 16 • Drizzle ORM • Dual-Mode Storage Architecture",
         icon: Sparkles,
         shortcut: "STUDY",
+        aliases: ["roleradar", "ats", "career", "case study", "work"],
         perform: () => {
           window.location.href = "/work/roleradar";
         },
@@ -304,12 +425,13 @@ export default function CommandPalette() {
       {
         id: "cs-fitness",
         category: "Case Studies",
-        title: "AI Fitness Platform — Pose Architecture Study",
+        title: "FitTrack AI — Pose Architecture Study",
         subtitle: "MediaPipe 33-point pose kinematics & Web Workers",
         icon: Cpu,
         shortcut: "STUDY",
+        aliases: ["fittrack", "fitness", "pose", "mediapipe", "computer vision", "case study", "work"],
         perform: () => {
-          window.location.href = "/work/fitness-platform";
+          window.location.href = "/work/fittrack";
         },
       },
       {
@@ -319,6 +441,7 @@ export default function CommandPalette() {
         subtitle: "K-Means, DBSCAN & Nearest Neighbors recommender",
         icon: Sparkles,
         shortcut: "STUDY",
+        aliases: ["marketmatch", "clustering", "pca", "kmeans", "dbscan", "case study", "work"],
         perform: () => {
           window.location.href = "/work/marketmatch-ai";
         },
@@ -335,12 +458,19 @@ export default function CommandPalette() {
         a.title.toLowerCase().includes(q) ||
         a.subtitle.toLowerCase().includes(q) ||
         a.category.toLowerCase().includes(q) ||
-        (a.shortcut && a.shortcut.toLowerCase().includes(q))
+        (a.shortcut && a.shortcut.toLowerCase().includes(q)) ||
+        (a.aliases && a.aliases.some((alias) => alias.toLowerCase().includes(q)))
     );
   }, [actions, query]);
 
   const isToastAction = (id: string) =>
-    id === "resume" || id === "copy-email" || id === "toggle-sound";
+    id === "copy-email" ||
+    id === "copy-summary" ||
+    id === "download-pdf" ||
+    id === "mode-immersive" ||
+    id === "mode-balanced" ||
+    id === "mode-lowbandwidth" ||
+    id === "toggle-sound";
 
   // Keyboard navigation within results
   const handleKeyNav = (e: React.KeyboardEvent) => {

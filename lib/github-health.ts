@@ -46,7 +46,7 @@ export const REPOSITORY_HEALTH_DATA: RepositoryHealth[] = [
     hasDocs: true,
     lastCommitDate: '2026-09-11',
     repoUrl: 'https://github.com/OxDurgeshxO/fitness-platform-architecture',
-    caseStudyUrl: '/work/fitness-platform',
+    caseStudyUrl: '/work/fittrack',
     metrics: {
       testCoverage: '92%',
       bundleSizeKb: 142,
