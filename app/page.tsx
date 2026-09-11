@@ -25,22 +25,29 @@ const HeroSection = dynamic(() => import('@/components/sections/HeroSection'), {
         <p className="text-xl md:text-2xl text-slate-300 mb-8 font-mono">
           AIML Engineer &amp; Full-Stack Developer
         </p>
-        <div className="flex flex-wrap gap-4 justify-center">
+        <div className="flex flex-wrap gap-3.5 justify-center items-center">
           <a
             href="#projects"
-            className="px-8 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white font-semibold"
+            className="px-7 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white font-semibold shadow-lg shadow-purple-500/20 text-sm sm:text-base"
           >
             View Projects
           </a>
-          <div
-            className="px-6 sm:px-8 py-3 rounded-xl glass border border-rose-500/30 text-rose-300/80 font-semibold inline-flex items-center gap-2 opacity-85 cursor-not-allowed"
+          <a
+            href="/resume"
+            className="px-6 py-3 rounded-xl glass border border-purple-500/40 text-purple-200 font-semibold inline-flex items-center gap-2 shadow-lg shadow-purple-500/10 text-sm sm:text-base"
           >
-            <span>Resume</span>
-            <span className="text-[10px] font-mono bg-purple-500/20 text-rose-300 px-2 py-0.5 rounded-full border border-purple-500/30 uppercase tracking-wider font-bold">Upcoming</span>
-          </div>
+            View Resume
+          </a>
+          <a
+            href="/resume.pdf"
+            download="Durgesh_Dutt_Sinha_Resume.pdf"
+            className="px-5 py-3 rounded-xl glass border border-rose-500/30 text-rose-300 font-semibold inline-flex items-center gap-1.5 shadow-md shadow-rose-500/10 text-sm sm:text-base"
+          >
+            Download PDF
+          </a>
           <a
             href="#contact"
-            className="px-8 py-3 rounded-xl glass border border-purple-500/40 text-purple-300 font-semibold"
+            className="px-6 py-3 rounded-xl glass border border-slate-700 text-slate-300 font-semibold text-sm sm:text-base"
           >
             Contact Me
           </a>
