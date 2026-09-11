@@ -8,7 +8,6 @@ import ArchitectureDiagram from "@/components/case-study/ArchitectureDiagram";
 import MetricCard from "@/components/case-study/MetricCard";
 import TechnologyTags from "@/components/case-study/TechnologyTags";
 import CaseStudyActions from "@/components/case-study/CaseStudyActions";
-import BetaNoticeBanner from "@/components/BetaNoticeBanner";
 import { Target, Layers, ShieldCheck, AlertTriangle, TrendingUp, Cpu, RefreshCw, Compass } from "lucide-react";
 
 interface Props {
@@ -52,13 +51,6 @@ export default function CaseStudyPage({ params }: Props) {
 
       <article className="max-w-4xl mx-auto">
         <CaseStudyHeader caseStudy={caseStudy} />
-
-        {/* Beta Living Architecture Notice */}
-        <BetaNoticeBanner
-          featureName={`${caseStudy.title} Architecture`}
-          customDescription="This case study is an active Beta capability on the v2 architecture branch. Real-world latency benchmarks, system architecture diagrams, and pipeline telemetry are being updated and will be continuously improvised soon."
-          className="mb-8"
-        />
 
         {/* Highlight Metrics */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 mb-12">

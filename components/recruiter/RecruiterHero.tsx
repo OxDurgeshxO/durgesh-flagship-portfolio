@@ -15,10 +15,6 @@ export default function RecruiterHero() {
             <Sparkles className="size-3 text-rose-400" />
             <span>Recruiter & Hiring Manager Fast Track</span>
           </div>
-          <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
-            <span>BETA FEATURE • TO BE IMPROVISED SOON</span>
-          </span>
         </div>
         <Link
           href="/"

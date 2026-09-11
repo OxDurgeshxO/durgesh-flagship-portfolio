@@ -79,11 +79,9 @@ export default function ProjectsSection({ repos }: Props) {
                       {badgeInfo.rank} {badgeInfo.label}
                     </span>
                   </div>
-                  {repo.rating && (
-                    <span className="flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-800/80 text-amber-300 border border-amber-500/20">
-                      ★ {repo.rating.toFixed(1)} <span className="text-slate-500 font-normal">/ 10</span>
-                    </span>
-                  )}
+                  <span className="flex items-center gap-1 text-xs font-mono font-medium px-2 py-0.5 rounded-full bg-slate-800/80 text-purple-300 border border-purple-500/20">
+                    {repo.language || 'Production'}
+                  </span>
                 </div>
 
                 {/* Project Category */}

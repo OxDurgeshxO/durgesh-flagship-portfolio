@@ -66,7 +66,9 @@ export default function HeroSection() {
             wrapper="span"
           />
         </div>
-        <p className="text-slate-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">{OWNER.bio}</p>
+        <p className="text-slate-300 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+          AIML Engineer and Full-Stack Architect building autonomous AI systems, real-time computer vision pipelines, and production web platforms.
+        </p>
         <div className="flex flex-wrap gap-3.5 justify-center items-center">
           <a
             href="#projects"

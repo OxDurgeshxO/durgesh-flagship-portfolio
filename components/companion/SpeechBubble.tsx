@@ -52,9 +52,6 @@ export default function SpeechBubble({
                 </span>
                 <span className="text-[11px] font-mono font-bold tracking-wider text-purple-300 uppercase flex items-center gap-1.5">
                   <span>🤖 CyberBot • AI Companion</span>
-                  <span className="text-[8px] font-mono font-bold px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
-                    BETA
-                  </span>
                 </span>
               </div>
               {onDismiss && (

@@ -2,7 +2,6 @@ import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Sparkles, ArrowLeft, Terminal, Cpu, FlaskConical } from 'lucide-react';
-import BetaNoticeBanner from '@/components/BetaNoticeBanner';
 import { AiLabShell } from '@/components/lab/AiLabShell';
 
 export const metadata: Metadata = {
@@ -50,12 +49,6 @@ export default function AiLabPage() {
             and mathematical routine runs with sub-50ms latency and zero server-side state retention.
           </p>
         </div>
-
-        {/* Beta Mode Notice Banner */}
-        <BetaNoticeBanner
-          featureName="Interactive AI Engineering Lab"
-          customDescription="This AI Lab sandbox is currently an active Beta feature. Real-time MediaPipe joint kinematics, ATS lexical transformers, and PCA cluster projections are undergoing continuous enhancement and will be fully improvised soon."
-        />
 
         {/* AI Lab Shell */}
         <AiLabShell />

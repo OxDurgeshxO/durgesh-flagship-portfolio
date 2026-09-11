@@ -55,4 +55,24 @@ test('Content Hygiene & Security Scan', async (t) => {
     const netlifyPath = path.join(ROOT_DIR, 'netlify.toml');
     assert.ok(!fs.existsSync(netlifyPath), 'netlify.toml must be decommissioned');
   });
+
+  await t.test('No apologetic "To be improvised soon" labels in components or app routes', () => {
+    const uiFiles = scanDir(path.join(ROOT_DIR, 'app'), (f) => f.endsWith('.tsx') || f.endsWith('.ts'))
+      .concat(scanDir(path.join(ROOT_DIR, 'components'), (f) => f.endsWith('.tsx') || f.endsWith('.ts')));
+    const offending = [];
+
+    for (const file of uiFiles) {
+      const content = fs.readFileSync(file, 'utf8');
+      if (/to be improvised soon/i.test(content) || /beta feature • to be improvised/i.test(content)) {
+        offending.push(path.relative(ROOT_DIR, file));
+      }
+    }
+
+    assert.deepEqual(offending, [], `Found intrusive beta notices in: ${offending.join(', ')}`);
+  });
+
+  await t.test('No arbitrary repository ratings in lib/github.ts', () => {
+    const githubTs = fs.readFileSync(path.join(ROOT_DIR, 'lib', 'github.ts'), 'utf8');
+    assert.ok(!/rating:\s*9\./.test(githubTs), 'lib/github.ts must not contain arbitrary /10 ratings');
+  });
 });

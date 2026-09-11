@@ -33,7 +33,7 @@ export interface GitHubRepo {
 }
 
 export const TOP_5_CURATED_METADATA: Record<string, {
-  rating: number
+  priority: number
   category: string
   description: string
   highlights: string[]
@@ -41,7 +41,7 @@ export const TOP_5_CURATED_METADATA: Record<string, {
   language: string
 }> = {
   'MarketMatch-AI': {
-    rating: 9.6,
+    priority: 1,
     category: 'Customer Analytics & Recommenders',
     description: 'End-to-end Machine Learning pipeline using K-Means and DBSCAN clustering with a Nearest Neighbors recommendation engine for retail customer targeting.',
     highlights: ['K-Means & DBSCAN', 'Nearest Neighbors', 'Targeted Marketing'],
@@ -49,7 +49,7 @@ export const TOP_5_CURATED_METADATA: Record<string, {
     language: 'Python',
   },
   'bank-churn-prediction-studio': {
-    rating: 9.5,
+    priority: 2,
     category: 'Financial AI & Predictive Analytics',
     description: 'AI-Powered Customer Churn Prediction Dashboard built with Streamlit, Scikit-Learn, and SMOTE for handling class imbalance with real-time risk scoring.',
     highlights: ['Streamlit Cloud', 'SMOTE Balancing', 'Real-time Risk Scoring'],
@@ -57,7 +57,7 @@ export const TOP_5_CURATED_METADATA: Record<string, {
     language: 'Python',
   },
   'jarvis-realtime-assistant': {
-    rating: 9.3,
+    priority: 3,
     category: 'Realtime AI Voice & WebSocket Systems',
     description: 'Full-stack realtime AI voice assistant & Iron Man HUD with Gemini 2.0 Flash, Edge-TTS & Whisper STT — built with FastAPI, WebSockets, React & TypeScript.',
     highlights: ['Gemini 2.0 Flash', 'Whisper STT', 'WebSockets HUD'],
@@ -65,7 +65,7 @@ export const TOP_5_CURATED_METADATA: Record<string, {
     language: 'TypeScript',
   },
   'CNN-STREAMLIT': {
-    rating: 8.9,
+    priority: 4,
     category: 'Computer Vision & Deep Learning',
     description: 'End-to-end Deep Learning Convolutional Neural Network trained on Fashion MNIST with 89.3% accuracy and interactive real-time Streamlit image classifier.',
     highlights: ['CNN / PyTorch', '89.3% Accuracy', 'Interactive Inference'],
@@ -73,7 +73,7 @@ export const TOP_5_CURATED_METADATA: Record<string, {
     language: 'Python',
   },
   'RoleRadar': {
-    rating: 8.8,
+    priority: 5,
     category: 'Full Stack AI & Career Tech',
     description: 'AI-Powered Resume Analyzer & Career Intelligence Platform built with Next.js 16, TypeScript, Drizzle ORM, and Tailwind CSS v4 — live on Vercel.',
     highlights: ['Next.js 16', 'Drizzle ORM', 'Tailwind CSS v4'],
@@ -93,7 +93,6 @@ export const FALLBACK_TOP_5_REPOS: GitHubRepo[] = [
     html_url: `https://github.com/${USERNAME}/MarketMatch-AI`,
     topics: ['machine-learning', 'clustering', 'recommendation-engine'],
     updated_at: '2026-08-02',
-    rating: 9.6,
     category: 'Customer Analytics & Recommenders',
     highlights: ['K-Means & DBSCAN', 'Nearest Neighbors', 'Targeted Marketing'],
     live_url: 'https://oxdurgeshxo-marketmatch-ai-app-y8ysbm.streamlit.app/',
@@ -108,7 +107,6 @@ export const FALLBACK_TOP_5_REPOS: GitHubRepo[] = [
     html_url: `https://github.com/${USERNAME}/bank-churn-prediction-studio`,
     topics: ['streamlit', 'scikit-learn', 'smote', 'fintech'],
     updated_at: '2026-08-02',
-    rating: 9.5,
     category: 'Financial AI & Predictive Analytics',
     highlights: ['Streamlit Cloud', 'SMOTE Balancing', 'Real-time Risk Scoring'],
     live_url: 'https://bank-churn-prediction-studio-mrl8whyxpnhkyfvfwmtqwq.streamlit.app/',
@@ -123,7 +121,6 @@ export const FALLBACK_TOP_5_REPOS: GitHubRepo[] = [
     html_url: `https://github.com/${USERNAME}/jarvis-realtime-assistant`,
     topics: ['gemini-2-flash', 'whisper', 'websockets', 'voice-assistant', 'fastapi'],
     updated_at: '2026-09-10',
-    rating: 9.3,
     category: 'Realtime AI Voice & WebSocket Systems',
     highlights: ['Gemini 2.0 Flash', 'Whisper STT', 'WebSockets HUD'],
     live_url: 'https://oxdurgeshxo.github.io/jarvis-realtime-assistant/',
@@ -138,7 +135,6 @@ export const FALLBACK_TOP_5_REPOS: GitHubRepo[] = [
     html_url: `https://github.com/${USERNAME}/CNN-STREAMLIT`,
     topics: ['deep-learning', 'cnn', 'pytorch', 'computer-vision'],
     updated_at: '2026-07-25',
-    rating: 8.9,
     category: 'Computer Vision & Deep Learning',
     highlights: ['CNN / PyTorch', '89.3% Accuracy', 'Interactive Inference'],
     live_url: null,
@@ -153,7 +149,6 @@ export const FALLBACK_TOP_5_REPOS: GitHubRepo[] = [
     html_url: `https://github.com/${USERNAME}/RoleRadar`,
     topics: ['nextjs', 'typescript', 'ai', 'career-tech', 'drizzle'],
     updated_at: '2026-09-10',
-    rating: 8.8,
     category: 'Full Stack AI & Career Tech',
     highlights: ['Next.js 16', 'Drizzle ORM', 'Tailwind CSS v4'],
     live_url: 'https://rolefit-2.vercel.app',
@@ -185,13 +180,12 @@ export async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
       r => !r.fork && !r.name.startsWith('.') && !EXCLUDED_REPOS.includes(r.name)
     )
 
-    // Rate, enrich, and rank repositories
-    const ratedRepos: GitHubRepo[] = nonForkRepos.map(r => {
+    // Enrich and rank repositories
+    const enrichedRepos = nonForkRepos.map(r => {
       const meta = TOP_5_CURATED_METADATA[r.name]
-      const defaultScore = (r.description ? 7.0 : 4.0) + (r.size > 100 ? 1.0 : 0)
       return {
         ...r,
-        rating: meta?.rating ?? defaultScore,
+        priority: meta?.priority ?? 99,
         category: meta?.category ?? (r.language ? `${r.language} Project` : 'Software Engineering'),
         description: meta?.description ?? r.description ?? 'Project repository on GitHub',
         highlights: meta?.highlights ?? (r.topics && r.topics.length ? r.topics : [r.language || 'Code']),
@@ -200,9 +194,9 @@ export async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
       }
     })
 
-    // Sort by rating descending and return strictly Top 5
-    ratedRepos.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
-    return ratedRepos.slice(0, 5)
+    // Sort by priority ascending and return strictly Top 5
+    enrichedRepos.sort((a, b) => (a.priority ?? 99) - (b.priority ?? 99))
+    return enrichedRepos.slice(0, 5) as GitHubRepo[]
   } catch {
     return FALLBACK_TOP_5_REPOS
   }

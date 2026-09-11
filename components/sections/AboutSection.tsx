@@ -13,7 +13,7 @@ export default function AboutSection({ profile }: Props) {
 
   const stats = [
     { label: 'Public Repos', value: repos },
-    { label: 'AI Roles Evaluated', value: 16 },
+    { label: 'Live Deployments', value: 4 },
     { label: 'Years Coding', value: 3 },
     { label: 'AI Projects', value: 10 },
   ]
@@ -39,7 +39,9 @@ export default function AboutSection({ profile }: Props) {
           viewport={{ once:true }} transition={{ duration:0.7 }}>
           <h2 className="text-3xl md:text-4xl font-bold mb-2">About <span className="gradient-text">Me</span></h2>
           <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-rose-500 rounded mb-6" />
-          <p className="text-slate-400 leading-relaxed mb-6">{OWNER.bio}</p>
+          <p className="text-slate-300 leading-relaxed mb-6">
+            I am an AIML Engineer and Full-Stack Architect completing my Master of Computer Applications (AIML) at Sri Balaji University, Pune. As an AI Program Fellow at UNLOXr and Be10x AI Cohort Member, I specialize in building autonomous agents, sub-50ms computer vision pipelines, and resilient full-stack platforms with failover architecture.
+          </p>
           <div className="flex flex-wrap gap-3 mb-8">
             {['🤖 AI Engineering', '⚡ Prompt Engineering', '🏗️ System Architecture', '☁️ AWS ML', '💻 Full-Stack Dev'].map(tag => (
               <span key={tag} className="glass px-3 py-1 rounded-full text-sm text-slate-300 border border-white/10">{tag}</span>

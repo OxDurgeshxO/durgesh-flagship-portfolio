@@ -79,25 +79,19 @@ export default function Navbar() {
           <Link
             href="/lab"
             className="px-3 py-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm shadow-emerald-500/10"
-            title="Interactive AI Engineering Lab (Beta · To be improvised soon)"
+            title="Interactive AI Engineering Lab"
           >
             <FlaskConical className="size-3 text-emerald-400" />
             <span>AI Lab</span>
-            <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
-              BETA
-            </span>
           </Link>
 
           <Link
             href="/recruiter"
             className="px-3 py-1.5 rounded-xl border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 text-purple-200 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm shadow-purple-500/10"
-            title="Recruiter Fast-Track (Beta · To be improvised soon)"
+            title="Recruiter Fast-Track"
           >
             <Briefcase className="size-3 text-rose-400" />
             <span>Recruiter Mode</span>
-            <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
-              BETA
-            </span>
           </Link>
 
           <Link
@@ -118,7 +112,7 @@ export default function Navbar() {
             <Search className="size-3.5 text-rose-400" />
             <span className="text-xs">Search</span>
             <kbd className="text-[10px] bg-white/10 px-1 py-0.5 rounded border border-white/10 text-slate-400">
-              ⌘K
+              Ctrl+K
             </kbd>
           </button>
 
@@ -167,7 +161,6 @@ export default function Navbar() {
                 <FlaskConical className="size-3.5 text-emerald-400" />
                 <span>AI Lab</span>
               </div>
-              <span className="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">BETA</span>
             </Link>
             <Link
               href="/recruiter"
@@ -178,7 +171,6 @@ export default function Navbar() {
                 <Briefcase className="size-3.5 text-rose-400" />
                 <span>Recruiter</span>
               </div>
-              <span className="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">BETA</span>
             </Link>
             <Link
               href="/resume"
@@ -197,7 +189,6 @@ export default function Navbar() {
                 <Activity className="size-3.5" />
                 <span>Code Health</span>
               </div>
-              <span className="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">BETA</span>
             </Link>
           </div>
 

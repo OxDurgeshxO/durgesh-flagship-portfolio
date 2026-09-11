@@ -101,7 +101,7 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
               </div>
             </div>
             <div style="padding:16px 32px;background:#0a0a14;border-top:1px solid #2d2d4a;text-align:center;">
-              <p style="margin:0;font-size:11px;color:#475569;font-family:monospace;">Sent via durgesh-flagship-portfolio · Direct Message Dispatch · Beta</p>
+              <p style="margin:0;font-size:11px;color:#475569;font-family:monospace;">Sent via durgesh-flagship-portfolio · Direct Message Dispatch · Production Edge</p>
             </div>
           </div>
         `,

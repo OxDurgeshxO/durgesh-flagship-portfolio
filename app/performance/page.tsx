@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { Metadata } from "next";
 import { ArrowLeft, Gauge, Zap } from "lucide-react";
-import BetaNoticeBanner from "@/components/BetaNoticeBanner";
 import { MEASURED_METRICS } from "@/lib/performance";
 import PerformanceMetricCard from "@/components/performance/MetricCard";
 import PerformanceModeToggle from "@/components/performance/PerformanceModeToggle";
@@ -57,13 +56,6 @@ export default function PerformancePage() {
             Every feature on this portfolio is engineered with strict performance budgets: Next.js SSR instant first paint, decoupled background Web Workers, and persistent GPU mode controls.
           </p>
         </div>
-
-        {/* Beta Mode Notice Banner */}
-        <BetaNoticeBanner
-          featureName="Performance Center & GPU Telemetry"
-          customDescription="Real-time WebGL memory telemetry, frame-rate probing, and adaptive low-bandwidth switching algorithms are active Beta features undergoing optimization and will be continuously improvised soon."
-          className="mb-8"
-        />
 
         {/* Live Hardware Probing */}
         <WebGLStats />

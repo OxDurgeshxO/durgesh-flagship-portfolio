@@ -208,14 +208,14 @@ export default function ContactSection() {
               </div>
             ) : (
               <>
-                {/* Beta Mode Notice */}
+                {/* Direct Dispatch Status */}
                 <div className="flex items-center justify-between border-b border-white/10 pb-2.5 mb-1 text-[11px] font-mono">
                   <span className="text-slate-400 flex items-center gap-1.5">
                     <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                     Direct Message Dispatch
                   </span>
-                  <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold uppercase tracking-wider">
-                    Beta Feature · To be improvised soon
+                  <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 text-[10px] font-semibold uppercase tracking-wider">
+                    Edge API Active
                   </span>
                 </div>
 

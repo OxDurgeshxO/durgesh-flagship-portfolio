@@ -2,7 +2,6 @@ import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Github, Activity, ShieldCheck } from 'lucide-react';
-import BetaNoticeBanner from '@/components/BetaNoticeBanner';
 import { HealthDashboardClient } from '@/components/github-health/HealthDashboardClient';
 
 export const metadata: Metadata = {
@@ -50,12 +49,6 @@ export default function GitHubHealthPage() {
             domain-driven clean architecture boundaries, static typing, and open-source licenses.
           </p>
         </div>
-
-        {/* Beta Mode Notice Banner */}
-        <BetaNoticeBanner
-          featureName="GitHub Repository Health Telemetry"
-          customDescription="Repository health scoring algorithms and automated CI telemetry are active Beta features. Dynamic GitHub API synchronization, code quality scoring, and test matrix telemetry are actively undergoing refinement and will be continuously improvised soon."
-        />
 
         {/* Dashboard Client */}
         <HealthDashboardClient />

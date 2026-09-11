@@ -2,7 +2,6 @@ import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, GitBranch, Sparkles, CheckCircle2, History } from 'lucide-react';
-import BetaNoticeBanner from '@/components/BetaNoticeBanner';
 import { ChangelogTimeline } from '@/components/changelog/ChangelogTimeline';
 
 export const metadata: Metadata = {
@@ -66,12 +65,6 @@ export default function ChangelogPage() {
             <div className="text-[11px] text-muted-foreground font-mono">Zero Layout Shift</div>
           </div>
         </div>
-
-        {/* Beta Mode Notice Banner */}
-        <BetaNoticeBanner
-          featureName="Public Engineering Changelog"
-          customDescription="This public engineering changelog is an active Beta capability on the v2 architecture branch. Benchmark datasets, release records, and architecture telemetry logs are continuously updated and will be improvised soon."
-        />
 
         {/* Timeline */}
         <ChangelogTimeline />

@@ -44,8 +44,8 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     category: "Full Stack AI & Career Tech",
     badge: "Production Showcase",
     description:
-      "Enterprise AI resume analyzer and career platform evaluating candidate resumes against 16 industry roles. Features an 8-point ATS audit, custom job description matching, Google XYZ bullet optimizer, and week-by-week learning roadmaps with zero-crash dual-mode storage.",
-    metrics: "16 Curated Roles • 0-Crash Dual Mode • 100% In-Memory Fallback",
+      "Full-stack AI resume analyzer and career platform evaluating candidate resumes against 16 industry roles. Features an 8-point ATS audit, custom job description matching, Google XYZ bullet optimizer, and week-by-week learning roadmaps with resilient dual-mode failover storage.",
+    metrics: "16 Curated Roles • Resilient Dual-Storage • In-Memory Failover",
     tags: ["Next.js 16", "TypeScript", "Drizzle ORM", "Tailwind CSS v4", "PostgreSQL", "Turbopack"],
     accent: "#a78bfa",
     icon: Trophy,
@@ -54,13 +54,13 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     challenge:
       "Job seekers face opaque ATS parsing algorithms and poorly formatted resume bullets that lead to automatic rejections before recruiter review. Remote database downtime can also cause catastrophic app crashes during critical candidate interviews.",
     architecture: [
-      "Zero-Crash Dual Mode: Implemented an automatic in-memory fallback layer that takes over seamlessly if PostgreSQL/Drizzle encounters connection timeouts.",
+      "Dual-Storage Architecture: Implemented an automatic in-memory fallback layer that takes over seamlessly if PostgreSQL/Drizzle encounters connection timeouts.",
       "8-Point ATS Evaluation Matrix: Tokenizes and scores resumes on quantifiability, role relevance, section balance, action-verb density, and grammar formatting.",
       "Google XYZ Bullet Optimizer: Real-time LLM prompt chain that restructures passive bullet points into 'Accomplished [X], as measured by [Y], by doing [Z]'.",
     ],
     impact: [
       "16 Curated Industry Profiles with tailored keyword extraction and scoring heuristics.",
-      "100% Zero-Crash Resiliency verified under simulated database drops and network failure.",
+      "In-Memory State Resiliency verified under simulated database connection timeout tests.",
       "Week-by-week customized career skill roadmaps with curated documentation resources.",
     ],
   },
