@@ -190,7 +190,11 @@ export async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
         description: meta?.description ?? r.description ?? 'Project repository on GitHub',
         highlights: meta?.highlights ?? (r.topics && r.topics.length ? r.topics : [r.language || 'Code']),
         live_url: meta?.live_url ?? r.homepage ?? null,
-        language: meta?.language ?? r.language ?? 'Code',
+        // Live API data wins over curated metadata. The curated map previously overrode
+        // `language`, which meant the site published a language the GitHub API contradicted
+        // (e.g. MarketMatch-AI rendered as Python while the API reports HTML). Curated values
+        // are now a fallback only, used when the API returns null.
+        language: r.language ?? meta?.language ?? 'Code',
       }
     })
 

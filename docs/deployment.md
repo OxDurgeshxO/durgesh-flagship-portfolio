@@ -19,20 +19,22 @@ compatibility_date = "2024-11-11"
 compatibility_flags = ["nodejs_compat", "nodejs_compat_populate_process_env"]
 pages_build_output_dir = "out"
 
-[[kv_namespaces]]
-binding = "RATE_LIMIT"
-id = "PORTFOLIO_RATE_LIMIT_KV_ID"
+# --- ACTUAL STATE in wrangler.toml (lines 19-21): the KV block is COMMENTED OUT ---
+# Without this binding the Functions still run, but throttling is SKIPPED and a warning is logged.
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT"
+# id = "<KV_NAMESPACE_ID>"
 ```
 
-### Rate Limit KV Provisioning Runbook
+### Rate Limit KV Provisioning Runbook (currently UNPROVISIONED — rate limiting is INACTIVE)
 
-To activate the KV rate limiting namespace in Cloudflare:
+No KV namespace is provisioned and the `[[kv_namespaces]]` block is commented out, so `checkRateLimit` in `lib/api/guards.ts` fails open: it logs a warning and allows every request. Throttling does not execute in production today. To activate it:
 1. Authenticate Wrangler CLI: `npx wrangler login`
 2. Create the production KV namespace:
    ```bash
    npx wrangler kv namespace create PORTFOLIO_RATE_LIMIT
    ```
-3. Copy the output `id` into `wrangler.toml` under `[[kv_namespaces]]`.
+3. Uncomment the `[[kv_namespaces]]` block in `wrangler.toml` and replace `<KV_NAMESPACE_ID>` with the returned `id` (the binding name is `RATE_LIMIT`).
 4. Deploy via Cloudflare Dashboard or Pages Git integration.
 
 ---
@@ -60,4 +62,5 @@ npm run typecheck
 npm test
 npm run audit
 npm run build
+npm run check:links
 ```

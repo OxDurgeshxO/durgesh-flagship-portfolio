@@ -12,15 +12,15 @@ Major architectural release completing the authoritative quality and integrity t
 
 ### Added
 - **Automated Verification Harness (Wave 3)**:
-  - Playwright end-to-end test suite (`tests/e2e/scenarios.spec.ts`) covering 9 critical user journeys across desktop and mobile viewports.
-  - Automated accessibility scans (`tests/e2e/a11y.spec.ts`) using `@axe-core/playwright` asserting 0 critical or serious WCAG 2.1 AA violations.
+   - Playwright end-to-end test suite (`tests/e2e/scenarios.spec.ts`) covering 10 critical user journeys across desktop and mobile viewports.
+   - Automated accessibility scans (`tests/e2e/a11y.spec.ts`) using `@axe-core/playwright` on 3 routes only (`/`, `/recruiter`, `/work/roleradar`), asserting 0 critical or serious WCAG 2.1 AA violations; the `color-contrast` rule is explicitly disabled via `ACCEPTED_RULES`. These tests run locally only — no CI workflow executes Playwright.
   - Zero-console-exception scanner (`tests/e2e/console.spec.ts`) checking all routes for unhandled errors.
   - Static route smoke tests (`tests/e2e/smoke.spec.ts`) verifying 200 OK responses on all static pre-rendered pages.
-  - Broken link and anchor crawler (`scripts/check-links.mjs`) scanning all exported HTML pages.
-  - Lighthouse CI configuration (`.lighthouserc.json`) and verified performance run record (`docs/performance-evidence.md`).
+   - Link-integrity scanner (`scripts/check-links.mjs`): builds a route map from the exported HTML in `out/`, resolves every internal link and `#anchor` against it, and validates external URL syntax. Exits non-zero on a broken internal link, an unmatched anchor, or a missing `out/` directory.
+   - Lighthouse CI configuration (`.lighthouserc.json`) committed, but **no workflow executes it** — no Lighthouse score is gated in CI. `docs/performance-evidence.md` records reported figures that are not backed by a committed audit artifact.
 - **Accessibility & Interaction Remediation (Wave 4)**:
   - Accessibility CSS utility classes (`html.a11y-reduced-motion`, `html.a11y-high-contrast`, `html.a11y-larger-text`) in `styles/globals.css`.
-  - Focus trapping and focus restoration on Escape/close for Command Palette, Accessibility Panel, and Project Case Study modals.
+   - Focus trapping and focus restoration on Escape/close for all three modals: the Accessibility Panel, the Project Case Study modal, and the Command Palette. The palette also gained `role="dialog"`, `aria-modal="true"` and an `aria-labelledby` accessible name, and its search input and icon-only close button now carry accessible names. The accessibility preference switches and the repository search/sort controls likewise gained accessible names.
   - Explicit `<label htmlFor>` and `id` bindings across all Contact form inputs and group semantics.
   - Screen reader live regions (`aria-live="polite"` for dispatch status, `role="alert"` for execution faults).
   - WebGL Error Boundary (`WebGLErrorBoundary`) and safe WebGL initialization in `HeroSection.tsx` and `AICoreScene.tsx` preventing site collapse on devices without GPU acceleration.
@@ -30,7 +30,7 @@ Major architectural release completing the authoritative quality and integrity t
   - Public claims registry (`docs/claims.md`) documenting all verified metrics and anti-regression assertions.
   - Single source of truth `lib/stats.ts` unifying stats across proof strips, recruiter profiles, and changelog.
 - **Production Hardening & Governance (Wave 2)**:
-  - Active KV binding in `wrangler.toml` and documented manual provision runbook in `docs/deployment.md`.
+   - KV rate-limit binding declared but **commented out** in `wrangler.toml` (`[[kv_namespaces]]` / `binding = "RATE_LIMIT"`), so rate limiting is inactive and fails open; documented manual provision runbook in `docs/deployment.md`.
   - Documented Next.js CVE risk acceptance and mitigation record in `SECURITY.md`.
   - Standalone dependency audit script (`scripts/audit.mjs`) mapped to `npm run audit`.
   - Self-hosted Google Fonts (`next/font/google`) in `app/layout.tsx` replacing external render-blocking `@import`.

@@ -8,11 +8,14 @@ import { GITHUB_HEALTH_SNAPSHOT_DATE } from '@/lib/github-health';
 export const metadata: Metadata = {
   title: 'GitHub Project Health & Technical Snapshot | Durgesh Dutt Sinha',
   description:
-    'Verified architectural audit snapshot of public repositories across the Durgesh portfolio ecosystem as of ' + GITHUB_HEALTH_SNAPSHOT_DATE + '.',
+    'Point-in-time snapshot of public repositories across the Durgesh portfolio ecosystem, recorded ' + GITHUB_HEALTH_SNAPSHOT_DATE + '.',
+  alternates: {
+    canonical: '/github-health',
+  },
   openGraph: {
     title: 'GitHub Repository Health & Technical Snapshot | Durgesh Dutt Sinha',
     description:
-      'Verified repository audit: clean architectures, automated test suites, open-source repositories, and reproducible builds as of ' + GITHUB_HEALTH_SNAPSHOT_DATE + '.',
+      'Recorded repository snapshot from ' + GITHUB_HEALTH_SNAPSHOT_DATE + ': architectures, languages, licences and last commit dates. Each project links to its public repository so the details can be confirmed at the source.',
   },
 };
 
@@ -38,14 +41,16 @@ export default function GitHubHealthPage() {
         <div className="space-y-4 max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-lg bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400 border border-emerald-500/20">
             <Activity className="h-3.5 w-3.5" />
-            Verified Architecture & Code Quality Audit
+            Point-in-time Repository Snapshot
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground">
             GitHub Repository Technical Snapshot
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-            Every showcased project is grounded in verified public source code: automated test suites,
-            clean architectural boundaries, static typing, and reproducible builds.
+            A recorded snapshot of the public repositories behind these projects as of{' '}
+            {GITHUB_HEALTH_SNAPSHOT_DATE}: languages, licences, stars and last commit dates. This page is
+            not a live feed. Each entry links to its repository so every detail can be confirmed at the
+            source.
           </p>
         </div>
 

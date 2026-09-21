@@ -67,7 +67,9 @@ export const REPOSITORY_HEALTH_DATA: RepositoryHealth[] = [
     stars: 0,
     forks: 0,
     license: 'Unlicensed',
-    primaryLanguage: 'Python',
+    // GitHub reports this repository's dominant language as HTML, not Python.
+    // The API value is authoritative on a page labelled as a verified snapshot.
+    primaryLanguage: 'HTML',
     ciStatus: 'none',
     hasTests: true,
     hasDocker: false,
@@ -134,7 +136,9 @@ export const REPOSITORY_HEALTH_DATA: RepositoryHealth[] = [
     repoUrl: 'https://github.com/OxDurgeshxO/durgesh-flagship-portfolio',
     asOfDate: GITHUB_HEALTH_SNAPSHOT_DATE,
     metrics: {
-      bundleSizeKb: 175,
+      // Measured from the production build output (`next build`, 2026-09-22):
+      // home route First Load JS = 177 kB; shared by all routes = 87.6 kB.
+      bundleSizeKb: 177,
       architectureType: 'Next.js 14 App Router (Static Export) + Cloudflare Pages Functions',
     },
     highlights: [
@@ -210,8 +214,10 @@ export const REPOSITORY_HEALTH_DATA: RepositoryHealth[] = [
     status: 'production',
     stars: 0,
     forks: 0,
-    license: 'Unlicensed',
-    primaryLanguage: 'Python',
+    // Corrected from 'Unlicensed': GitHub reports MIT for this repository.
+    license: 'MIT',
+    // Corrected from 'Python': GitHub reports the dominant language as JavaScript.
+    primaryLanguage: 'JavaScript',
     ciStatus: 'none',
     hasTests: true,
     hasDocker: false,

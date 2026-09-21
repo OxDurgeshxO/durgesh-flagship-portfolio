@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Metadata } from "next";
 import { ArrowLeft, Gauge, Zap } from "lucide-react";
-import { MEASURED_METRICS, PERFORMANCE_AUDIT_DATE } from "@/lib/performance";
+import { PERFORMANCE_METRICS, PERFORMANCE_REVIEW_DATE } from "@/lib/performance";
 import PerformanceMetricCard from "@/components/performance/MetricCard";
 import PerformanceModeToggle from "@/components/performance/PerformanceModeToggle";
 import ModeComparison from "@/components/performance/ModeComparison";
@@ -11,7 +11,10 @@ import WebGLStats from "@/components/performance/WebGLStats";
 export const metadata: Metadata = {
   title: "Performance Center | Durgesh Dutt Sinha",
   description:
-    "Measured WebGL, Core Web Vitals, and frontend engineering metrics. Persistent Immersive, Balanced, and Low-Bandwidth mode controls.",
+    "Core Web Vitals budgets and the measured production build footprint, plus persistent Immersive, Balanced, and Low-Bandwidth experience mode controls.",
+  alternates: {
+    canonical: "/performance",
+  },
 };
 
 export default function PerformancePage() {
@@ -51,14 +54,14 @@ export default function PerformancePage() {
               <span>Frontend & WebGL Performance Center</span>
             </div>
             <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
-              Audited: {PERFORMANCE_AUDIT_DATE}
+              Reviewed: {PERFORMANCE_REVIEW_DATE}
             </span>
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-3">
-            Engineering Telemetry & Performance Proof
+            Performance Budgets &amp; Build Footprint
           </h1>
           <p className="text-slate-400 text-sm md:text-base max-w-3xl leading-relaxed">
-            Every feature on this portfolio is engineered with strict performance budgets: Next.js SSR instant first paint, decoupled background Web Workers, and persistent GPU mode controls.
+            Every feature on this portfolio is engineered against strict performance budgets. Figures on this page are labelled with whether they were actually observed: the build footprint comes from the production build output, while the Core Web Vitals entries are declared budgets that no committed tool has yet verified.
           </p>
         </div>
 
@@ -71,10 +74,10 @@ export default function PerformancePage() {
         {/* Core Metrics Grid */}
         <section className="mb-12">
           <h2 className="text-xl font-bold text-white tracking-tight mb-4 flex items-center gap-2">
-            <span>📊</span> Measured Core Web Vitals & Production Budgets
+            <span>📊</span> Core Web Vitals Budgets &amp; Measured Build Footprint
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {MEASURED_METRICS.map((metric) => (
+            {PERFORMANCE_METRICS.map((metric) => (
               <PerformanceMetricCard key={metric.name} metric={metric} />
             ))}
           </div>

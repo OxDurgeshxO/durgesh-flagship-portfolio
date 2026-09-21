@@ -27,6 +27,10 @@ export function generateMetadata({ params }: Props): Metadata {
   }
   return {
     title: `${caseStudy.title} — Deep Engineering Case Study | Durgesh Dutt Sinha`,
+    alternates: {
+      // Duplicate-content guard: /work/fitness-platform is a byte-identical alias of /work/fittrack
+      canonical: params.slug === 'fitness-platform' ? '/work/fittrack' : `/work/${params.slug}`,
+    },
     description: caseStudy.overview,
     openGraph: {
       title: `${caseStudy.title} — Engineering Case Study`,

@@ -74,11 +74,12 @@ export default function MarketMatchDemo() {
         {/* Controls Column */}
         <div className="space-y-5">
           <div>
-            <label className="block text-xs font-mono text-slate-400 mb-2 flex items-center justify-between">
+            <label htmlFor="marketmatch-clusters" className="block text-xs font-mono text-slate-400 mb-2 flex items-center justify-between">
               <span>Cluster Count (K-Means K):</span>
               <span className="font-bold text-purple-300 font-mono text-sm">{clusters} Clusters</span>
             </label>
             <input
+              id="marketmatch-clusters"
               type="range"
               min={2}
               max={8}
@@ -163,6 +164,8 @@ export default function MarketMatchDemo() {
                 return (
                   <div
                     key={pt.id}
+                    role="img"
+                    aria-label={`Cluster data point #${pt.id}: ${pt.persona} segment, average spend $${pt.m}`}
                     className="absolute size-3 rounded-full transition-all duration-500 group/pt cursor-pointer -translate-x-1/2 -translate-y-1/2 hover:scale-150"
                     style={{
                       left: `${leftPercent}%`,

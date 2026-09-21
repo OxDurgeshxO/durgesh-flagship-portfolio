@@ -6,6 +6,9 @@ import { AiLabShell } from '@/components/lab/AiLabShell';
 
 export const metadata: Metadata = {
   title: 'Interactive AI Lab | Durgesh Dutt Sinha (Edge ML & Computer Vision)',
+  alternates: {
+    canonical: '/lab',
+  },
   description:
     'Live interactive sandbox for RoleRadar NLP scoring, FitTrack computer vision joint kinematics, and MarketMatch RFM customer segmentation. Sub-50ms latency, zero server persistence.',
   openGraph: {

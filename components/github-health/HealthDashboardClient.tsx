@@ -75,6 +75,7 @@ export function HealthDashboardClient() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input
             type="text"
+            aria-label="Search repositories"
             placeholder="Search verified repositories by name, language, or topic..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -85,6 +86,7 @@ export function HealthDashboardClient() {
         <div className="flex items-center gap-2">
           <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
           <select
+            aria-label="Sort repositories"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as SortOption)}
             className="text-xs bg-background text-foreground border border-border/80 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-primary/40"

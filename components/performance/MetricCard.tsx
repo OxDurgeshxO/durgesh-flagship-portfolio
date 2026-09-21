@@ -13,10 +13,17 @@ export default function PerformanceMetricCard({ metric }: Props) {
         <span className="text-xs font-mono uppercase text-slate-400 tracking-wider">
           {metric.category}
         </span>
-        <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-300">
-          <CheckCircle2 className="size-3 text-emerald-400" />
-          <span>Pass ({metric.target})</span>
-        </span>
+        {metric.evidence === 'measured' ? (
+          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-300">
+            <CheckCircle2 className="size-3 text-emerald-400" />
+            <span>Measured</span>
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-amber-300">
+            <AlertCircle className="size-3 text-amber-400" />
+            <span>Budget {metric.target}</span>
+          </span>
+        )}
       </div>
 
       <div className="text-2xl md:text-3xl font-black text-white tracking-tight mb-1">

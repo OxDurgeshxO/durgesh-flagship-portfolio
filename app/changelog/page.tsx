@@ -6,6 +6,9 @@ import { ChangelogTimeline } from '@/components/changelog/ChangelogTimeline';
 
 export const metadata: Metadata = {
   title: 'Engineering Changelog | Durgesh Dutt Sinha (Portfolio Architecture)',
+  alternates: {
+    canonical: '/changelog',
+  },
   description:
     'Complete public engineering changelog detailing architectural decisions, performance refactors, AI Lab implementations, and quantified technical outcomes.',
   openGraph: {

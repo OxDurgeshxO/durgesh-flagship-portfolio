@@ -76,10 +76,11 @@ export default function ResumeAnalyzerDemo() {
         {/* Left Input Column */}
         <div>
           <div className="mb-3">
-            <label className="block text-xs font-mono text-slate-400 mb-1">
+            <label htmlFor="resume-analyzer-role" className="block text-xs font-mono text-slate-400 mb-1">
               Target Technical Benchmark:
             </label>
             <select
+              id="resume-analyzer-role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
               className="w-full text-xs font-mono bg-black/50 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500"
@@ -91,10 +92,11 @@ export default function ResumeAnalyzerDemo() {
           </div>
 
           <div className="mb-4">
-            <label className="block text-xs font-mono text-slate-400 mb-1">
+            <label htmlFor="resume-analyzer-text" className="block text-xs font-mono text-slate-400 mb-1">
               Resume Excerpt / Experience Bullets:
             </label>
             <textarea
+              id="resume-analyzer-text"
               value={resumeText}
               onChange={(e) => setResumeText(e.target.value)}
               rows={6}

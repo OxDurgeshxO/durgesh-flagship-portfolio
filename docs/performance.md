@@ -1,5 +1,7 @@
 # Performance Telemetry & Core Web Vitals Targets
 
+> **Evidence status — read this first.** The only figures in this repository that are actually **MEASURED from the production build** are: **First Load JS shared by all routes = 87.6 kB**, **home route First Load JS = 177 kB**, and **20 static pages generated**. Every other number in this document (Lighthouse scores, FCP, LCP, CLS, INP, FPS) is a **reported target/estimate that is NOT backed by a committed artifact**, must not be presented as measured, and is labelled as such in the table below. These figures also conflict with `docs/performance-evidence.md` (LCP 1.4s vs 0.8s, FCP 0.8s vs 0.5s, accessibility 96 vs 100; this file previously stated 87.5 kB shared JS, corrected to the measured 87.6 kB); the discrepancy is labelled, not silently resolved, because no committed artifact settles it.
+
 ## Performance Objectives
 
 The portfolio is architected to exceed industry benchmarks for Core Web Vitals, WebGL rendering efficiency, and asset payload budgets.
@@ -8,7 +10,7 @@ The portfolio is architected to exceed industry benchmarks for Core Web Vitals, 
 
 ## Target vs. Audited Telemetry
 
-| Metric | Target | Audited | Measurement Environment |
+| Metric | Target | Reported (not measured unless flagged) | Measurement Environment |
 | :--- | :--- | :--- | :--- |
 | **First Contentful Paint (FCP)** | < 1.8s | **0.8s** | Lighthouse Desktop Audit (Cloudflare Edge Anycast) |
 | **Largest Contentful Paint (LCP)** | < 2.5s | **1.4s** | Deferred WebGL hydration with instant text rendering |
@@ -16,7 +18,8 @@ The portfolio is architected to exceed industry benchmarks for Core Web Vitals, 
 | **Interaction to Next Paint (INP)** | < 200ms | **38ms** | Background thread worker isolation for ML computation |
 | **Lighthouse Accessibility** | > 90 | **96 / 100** | WCAG 2.1 AA compliant contrast & keyboard focus rings |
 | **Lighthouse Best Practices** | > 90 | **100 / 100** | HTTPS HSTS headers, secure external links, clean doctype |
-| **Shared First-Load JS** | < 120 kB | **87.5 kB** | Granular code-splitting of Three.js and heavy canvas libs |
+| **Shared First-Load JS** | < 120 kB | **87.6 kB — MEASURED** | Granular code-splitting of Three.js and heavy canvas libs |
+| **Home Route First Load JS** | < 200 kB | **177 kB — MEASURED** | Home route, from the production build output |
 | **WebGL Framerate** | 60 FPS | **60 FPS** | RequestAnimationFrame delta clamping on modern GPUs |
 
 ---

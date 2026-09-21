@@ -5,6 +5,9 @@ import { ArrowLeft, ShieldCheck, Camera, Mic, Cpu, Database, EyeOff, Lock, Serve
 
 export const metadata: Metadata = {
   title: 'Privacy Center & Data Policy | Durgesh Dutt Sinha',
+  alternates: {
+    canonical: '/privacy',
+  },
   description:
     'Comprehensive disclosure of local browser-only processing, zero-persistence AI execution, camera isolation, and telemetry transparency.',
   openGraph: {

@@ -9,8 +9,10 @@ interface Props { profile: GitHubProfile | null }
 
 export default function AboutSection({ profile }: Props) {
   const avatar = profile?.avatar_url || `https://avatars.githubusercontent.com/u/146377023?v=4`
-  const repos = profile?.public_repos ?? 18
-  const followers = profile?.followers ?? 0
+  // NOTE: a hardcoded `public_repos ?? 18` fallback used to live here. It rendered a fabricated
+  // repository count whenever the GitHub fetch failed, and both variables were unused by the JSX
+  // below (the stat grid reads STATS). Removed rather than corrected, so no unverified number can
+  // be displayed. Live counts come from `profile` where a component actually needs them.
 
   const stats = [
     { label: 'Public Repos', value: STATS.publicRepos },

@@ -15,6 +15,12 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const CONTACT_RATE_LIMIT = { limit: 5, windowSeconds: 60 };
 
+/** Hard cap on the request body, enforced before the JSON parser is invoked. */
+const MAX_BODY_BYTES = 20_000;
+
+/** Upper bound for the optional subject line, which is echoed into the notification email. */
+const MAX_SUBJECT_LENGTH = 120;
+
 export const onRequestGet = async () => {
   return new Response(JSON.stringify({ status: 'ok', endpoint: '/api/contact' }), {
     headers: { 'Content-Type': 'application/json' },
@@ -39,8 +45,25 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
       );
     }
 
-    const body: any = await context.request.json();
-    const { name, email, subject, message, _gotcha } = body;
+    // Reject oversized bodies before parsing. Without this a caller can post an arbitrarily
+    // large JSON document and the isolate pays to parse it.
+    const contentLength = Number(context.request.headers.get('content-length') ?? 0);
+    if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {
+      return jsonError('Request body too large.', 413);
+    }
+
+    const parsed: unknown = await context.request.json();
+    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+      return jsonError('Request body must be a JSON object.', 400);
+    }
+    // Typed as an index signature rather than `any`: every field is still narrowed with
+    // typeof checks below, so unvalidated external data never reaches the interpolation sites.
+    const body = parsed as Record<string, unknown>;
+    const name = body.name;
+    const email = body.email;
+    const subject = body.subject;
+    const message = body.message;
+    const _gotcha = body._gotcha;
 
     // 2. Honeypot check (Spam protection)
     if (_gotcha) {
@@ -63,6 +86,14 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
 
     if (!message || typeof message !== 'string' || message.trim().length < 2 || message.trim().length > 2500) {
       return jsonError('Message must be between 2 and 2,500 characters.', 400);
+    }
+
+    if (subject !== undefined && subject !== null && typeof subject !== 'string') {
+      return jsonError('Please provide the subject as text.', 400);
+    }
+
+    if (typeof subject === 'string' && subject.trim().length > MAX_SUBJECT_LENGTH) {
+      return jsonError(`Subject must be ${MAX_SUBJECT_LENGTH} characters or fewer.`, 400);
     }
 
     const cleanName = name.trim();

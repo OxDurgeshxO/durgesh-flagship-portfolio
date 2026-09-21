@@ -20,6 +20,9 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://durgesh-portfolio.
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'Durgesh Dutt Sinha | AI/ML Engineer & Intelligent Systems Developer',
+  alternates: {
+    canonical: '/',
+  },
   description: 'AI/ML Engineer building useful AI products, ML pipelines, and intelligent interfaces. Explore 5 flagship platforms, architecture deep dives, and production deployments.',
   keywords: [
     'AI/ML engineer portfolio',
@@ -70,7 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         '@type': 'Person',
         '@id': `${SITE_URL}/#person`,
         name: 'Durgesh Dutt Sinha',
-        jobTitle: 'AI/ML Engineer & Developer',
+        jobTitle: 'AIML Engineer & Full-Stack Developer',
         url: SITE_URL,
         image: `${SITE_URL}/og-image.png`,
         sameAs: [
@@ -118,6 +121,37 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         applicationCategory: 'MultimediaApplication',
         url: 'https://oxdurgeshxo.github.io/jarvis-realtime-assistant/',
         description: 'Realtime AI voice assistant and Iron Man HUD powered by Gemini 2.0 Flash, Whisper STT, and WebSockets.',
+        author: {
+          '@id': `${SITE_URL}/#person`,
+        },
+      },
+      {
+        '@type': 'SoftwareApplication',
+        name: 'MarketMatch-AI',
+        operatingSystem: 'Web',
+        applicationCategory: 'BusinessApplication',
+        url: 'https://oxdurgeshxo-marketmatch-ai-app-y8ysbm.streamlit.app/',
+        description: 'End-to-end machine learning pipeline clustering retail consumer behaviors using K-Means and DBSCAN with PCA dimensionality reduction, paired with a Nearest Neighbors recommendation engine for hyper-targeted campaigns.',
+        author: {
+          '@id': `${SITE_URL}/#person`,
+        },
+      },
+      {
+        '@type': 'SoftwareApplication',
+        name: 'CNN-STREAMLIT',
+        operatingSystem: 'Web',
+        applicationCategory: 'MultimediaApplication',
+        description: 'End-to-end Deep Learning Convolutional Neural Network trained on Fashion-MNIST with 89.3% accuracy, featuring an interactive real-time Streamlit image classifier with sketch canvas and photo upload.',
+        author: {
+          '@id': `${SITE_URL}/#person`,
+        },
+      },
+      {
+        '@type': 'SoftwareApplication',
+        name: 'FitTrack AI Fitness Platform',
+        operatingSystem: 'Web',
+        applicationCategory: 'HealthApplication',
+        description: 'Production-grade 9-page fitness engineering platform featuring real-time MediaPipe pose estimation, kinematic joint angle tracking, exercise rep counting, wearable sensor telemetry, and workout analytics.',
         author: {
           '@id': `${SITE_URL}/#person`,
         },

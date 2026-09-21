@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { fetchGitHubProfile, fetchGitHubRepos, GitHubRepo } from '@/lib/github'
 import Navbar from '@/components/sections/Navbar'
@@ -10,6 +11,12 @@ import FeaturedProjectsSection from '@/components/sections/FeaturedProjectsSecti
 import ProjectsSection from '@/components/sections/ProjectsSection'
 import ContactSection from '@/components/sections/ContactSection'
 import Footer from '@/components/sections/Footer'
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: '/',
+  },
+}
 
 // HeroSection uses R3F Canvas + TypeAnimation - browser-only, must skip SSR
 const HeroSection = dynamic(() => import('@/components/sections/HeroSection'), {

@@ -8,6 +8,9 @@ import RecruiterContact from "@/components/recruiter/RecruiterContact";
 
 export const metadata: Metadata = {
   title: "Recruiter Fast-Track | Durgesh Dutt Sinha (AIML Engineer & Full-Stack Architect)",
+  alternates: {
+    canonical: "/recruiter",
+  },
   description:
     "Fast, high-density candidate overview for recruiters and engineering hiring managers. 0 WebGL, verified production architectures, and ATS resume download.",
   openGraph: {

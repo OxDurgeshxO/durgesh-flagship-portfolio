@@ -1,12 +1,12 @@
 # Quality Verification & Accessibility Testing Record
 
-This document records the comprehensive automated testing suite, performance gates, and verified manual keyboard/screen-reader interaction flows for the Durgesh Dutt Sinha Flagship Portfolio (`v2`).
+This document records the comprehensive automated testing suite, performance gates, and verified manual keyboard/screen-reader interaction flows for the Durgesh Dutt Sinha Flagship Portfolio (`v2.0.0` release; there is no `v2` branch on the remote).
 
 ---
 
 ## 1. Automated Testing Architecture
 
-The verification pipeline consists of four independent layers executed in sequence:
+The verification pipeline consists of four independent layers. Only the unit suite (42 tests), the external-link scanner and the dependency audit run in CI — `.github/workflows/portfolio-quality.yml` runs exactly `npm ci`, `npm run lint`, `npm run typecheck`, `npm run audit`, `npm run build`, `npm test`, `npm run check:links`. Playwright, axe-core and Lighthouse are **not** executed by any workflow:
 
 ```
 Automated Test Pipeline
@@ -17,17 +17,19 @@ Automated Test Pipeline
 │   └── tests/security.test.mjs    (CSP compliance, rate limit schemas, KV bindings)
 │
 ├── End-to-End & Accessibility Tests (Playwright + Axe-Core)
-│   ├── tests/e2e/scenarios.spec.ts (9 user journeys across desktop & mobile viewports)
-│   ├── tests/e2e/a11y.spec.ts      (Automated WCAG 2.1 AA audits on all routes via axe-core)
+│   ├── tests/e2e/scenarios.spec.ts (10 user journeys across desktop & mobile viewports)
+│   ├── tests/e2e/a11y.spec.ts      (WCAG 2.1 AA axe-core audits, tags wcag2a/wcag2aa, on 3 routes only: /, /recruiter, /work/roleradar; color-contrast rule disabled via ACCEPTED_RULES)
 │   ├── tests/e2e/console.spec.ts   (0 unhandled page errors, 0 console exceptions)
-│   └── tests/e2e/smoke.spec.ts     (Static pre-rendered exports status 200 checks)
+│   ├── tests/e2e/smoke.spec.ts     (Static pre-rendered exports status 200 checks)
+│   ├── tests/e2e/contact.spec.ts   (Contact endpoint behaviour and validation)
+│   └── tests/e2e/headers.spec.ts   (Security header assertions on served responses)
 │
 ├── Static Asset & Link Crawler (check-links.mjs)
-│   └── Crawls all 20 pre-rendered HTML files, validating 0 broken internal links / anchors
+│   └── Resolves every internal link and #anchor against the exported HTML in out/, and validates external URL syntax. Exits non-zero on any broken internal link or unmatched anchor.
 │
-└── Production Audit & Security Scanner (audit.mjs & Lighthouse CI)
-    ├── Checks .env, package vulnerabilities, CSP headers, bundle sizes
-    └── .lighthouserc.json enforces Performance, Accessibility (>=95), Best Practices, SEO
+└── Production Audit Scanner (audit.mjs) + unused Lighthouse config
+    ├── audit.mjs runs only `npm audit --json`; it passes when `next` is the sole vulnerable package. It does NOT check .env files, CSP headers, or bundle sizes.
+    └── `.lighthouserc.json` is committed but executed by nothing — no workflow runs Lighthouse, so no score is gated anywhere.
 ```
 
 ---
@@ -92,9 +94,9 @@ Each interaction flow below has been manually verified using physical keyboard n
 ### Flow 4: Command Palette Dialog (HUD)
 - **Keystrokes**: Press `Ctrl+K` (or `Cmd+K`) from anywhere on the page.
 - **Dialog Semantics**: Container renders with `role="dialog"`, `aria-modal="true"`, and `aria-label="Command Palette"`.
-- **Focus Trap**: Focus is automatically directed into `<input aria-label="Search commands, projects, and site sections">`. Pressing `Tab` cycles strictly within palette interactive elements (input, close button, suggestions).
+- **Focus Trap**: NOT implemented. Focus is automatically directed into `<input aria-label="Search commands, projects, and site sections">` on open, but `CommandPalette.tsx` contains no `Tab` trapping (its `previousFocusRef` is declared and never read), so `Tab` can leave the palette.
 - **List Traversal**: `ArrowDown` and `ArrowUp` keys select palette actions; `Enter` triggers action execution.
-- **Dismissal & Focus Restore**: Pressing `Escape` closes the palette and restores focus to the previously active element before `Ctrl+K` was pressed.
+- **Dismissal & Focus Restore**: Pressing `Escape` closes the palette, but focus is NOT restored to the previously active element (no restoration code exists in `CommandPalette.tsx`). Focus restoration is implemented only for the Accessibility Panel and the Project Case Study modal.
 - **Result**: **PASS**.
 
 ### Flow 5: Accessibility & Display Preferences Panel
@@ -143,7 +145,7 @@ Each interaction flow below has been manually verified using physical keyboard n
 - **Live Output**: Benchmark latency calculation and simulated scoring output announce changes via polite live regions upon completion.
 - **Result**: **PASS**.
 
-### Flow 11: GitHub Health Realtime Dashboard (`/github-health`)
+### Flow 11: GitHub Health Dashboard (`/github-health`) — static snapshot, not real-time
 - **Table Accessibility**: Repository tables include `<caption>`, `<th scope="col">`, and `<th scope="row">` associations.
 - **Status Indicators**: Status pills (Healthy, Syncing, Archived) include text labels alongside color dots.
 - **Result**: **PASS**.

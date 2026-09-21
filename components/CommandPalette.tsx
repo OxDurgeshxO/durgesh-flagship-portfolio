@@ -87,14 +87,18 @@ export default function CommandPalette() {
     };
   }, []);
 
-  // Auto-focus input on open
+  // Auto-focus input on open + remember previous focus so it can be restored on close
   useEffect(() => {
     if (open) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
       setQuery("");
       setSelectedIndex(0);
       setToast(null);
       setTimeout(() => inputRef.current?.focus(), 50);
       trackEvent("command_palette_open");
+    } else if (previousFocusRef.current) {
+      previousFocusRef.current.focus?.();
+      previousFocusRef.current = null;
     }
   }, [open]);
 
@@ -494,6 +498,24 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
     }
   };
 
+  // Trap Tab focus inside the palette dialog while it is open
+  const handleKeyDownTrap = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== "Tab" || !paletteCardRef.current) return;
+    const focusables = paletteCardRef.current.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
+
   return (
     <AnimatePresence>
       {open && (
@@ -509,12 +531,22 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
 
           {/* Palette Dialog Card */}
           <motion.div
+            ref={paletteCardRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="command-palette-title"
+            onKeyDown={handleKeyDownTrap}
             initial={{ opacity: 0, scale: 0.95, y: -16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -16 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="relative w-full max-w-2xl glass rounded-2xl border border-purple-500/40 shadow-2xl shadow-purple-500/30 overflow-hidden z-10 bg-[#0c0a18]/95"
           >
+            {/* Accessible dialog title (visually hidden) */}
+            <h2 id="command-palette-title" className="sr-only">
+              Command Palette — search commands and sections
+            </h2>
+
             {/* Top ambient color strip */}
             <div className="h-1 bg-gradient-to-r from-purple-500 via-rose-500 to-purple-500" />
 
@@ -524,6 +556,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
               <input
                 ref={inputRef}
                 type="text"
+                aria-label="Search commands and sections"
                 placeholder="Type a command, section, or keyword... (e.g. resume, github, projects)"
                 value={query}
                 onChange={(e) => {
@@ -538,6 +571,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
               </span>
               <button
                 onClick={() => setOpen(false)}
+                aria-label="Close command palette"
                 className="sm:hidden text-slate-400 hover:text-white p-1"
               >
                 <X className="size-4" />

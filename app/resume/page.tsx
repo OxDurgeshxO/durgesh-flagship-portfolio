@@ -9,6 +9,9 @@ import "@/styles/resume.css";
 
 export const metadata: Metadata = {
   title: "Resume | Durgesh Dutt Sinha — AIML Engineer & Full-Stack Architect",
+  alternates: {
+    canonical: "/resume",
+  },
   description:
     "Official resume of Durgesh Dutt Sinha. MCA in AIML at Sri Balaji University Pune. UNLOX AI Fellow, Autonomous AI systems, computer vision, and modern full-stack.",
 };

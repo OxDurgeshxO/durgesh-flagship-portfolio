@@ -7,7 +7,7 @@ The portfolio dynamically queries the GitHub REST API to showcase repository sta
 Implement a multi-tier fallback cache in `lib/github.ts` and `lib/github-health.ts`:
 1. **Edge/In-Memory Cache**: Cache successful responses with a 1-hour TTL.
 2. **Deterministic Hardcoded Baseline**: If the GitHub API returns `HTTP 403 (Rate Limit Exceeded)` or network timeout, the application seamlessly serves verified repository telemetry records without UI interruption.
-3. **Stale Data Timestamp**: Inform users with an audited timestamp when cached telemetry is in use.
+3. **Stale Data Timestamp — NOT IMPLEMENTED**: No runtime indicator tells users when cached or fallback telemetry is being served. The only date in the codebase is the static constant `GITHUB_HEALTH_SNAPSHOT_DATE` (`'2026-09-21'`) attached to records as `asOfDate` / `snapshotDate`; that is a fixed data label, not a stale-cache signal, and the fallback path renders silently.
 
 ## Alternatives Considered
 1. **Client-Side GitHub Personal Access Token (PAT)**: Rejected due to catastrophic security risk of token exfiltration.

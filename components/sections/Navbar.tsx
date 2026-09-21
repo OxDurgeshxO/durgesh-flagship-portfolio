@@ -60,7 +60,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
         {/* Brand Monogram */}
-        <a href="#" className="text-xl font-bold gradient-text font-mono tracking-tight flex items-center gap-1">
+        <a href="/" className="text-xl font-bold gradient-text font-mono tracking-tight flex items-center gap-1">
           <span>DDS</span>
           <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
         </a>
@@ -73,7 +73,10 @@ export default function Navbar() {
               return (
                 <a
                   key={link}
-                  href={`#${link.toLowerCase()}`}
+                  // Absolute path + hash, not a bare `#section`. The Navbar also renders on
+                  // /404.html and the error page, where a bare hash has no matching id and
+                  // clicking a nav item did nothing. `/#section` resolves from any route.
+                  href={`/#${link.toLowerCase()}`}
                   className={`text-xs sm:text-sm font-medium transition-all px-3 py-1 rounded-lg ${
                     isActive
                       ? 'text-white font-semibold bg-gradient-to-r from-purple-600/40 to-rose-500/40 border border-purple-500/50 shadow-sm shadow-purple-500/20'
@@ -152,7 +155,7 @@ export default function Navbar() {
             onClick={() => setOpen(!open)}
             aria-label="Toggle navigation menu"
             aria-expanded={open}
-            aria-controls="mobile-nav-menu"
+            aria-controls={open ? 'mobile-nav-menu' : undefined}
             className="text-slate-300 text-xl p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 rounded-lg"
           >
             ☰
@@ -209,7 +212,7 @@ export default function Navbar() {
             return (
               <a
                 key={link}
-                href={`#${link.toLowerCase()}`}
+                href={`/#${link.toLowerCase()}`}
                 onClick={() => setOpen(false)}
                 className={`text-sm py-1.5 px-3 rounded-lg transition-colors ${
                   isActive
