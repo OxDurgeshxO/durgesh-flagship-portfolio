@@ -6,11 +6,35 @@ import path from 'node:path';
 const ROOT_DIR = process.cwd();
 
 test('Required Public Assets Verification', async (t) => {
-  await t.test('Resume PDF is verified authentic document (> 500 KB)', () => {
+  await t.test('Resume PDF is a structurally valid, resume-length PDF', () => {
     const resumePath = path.join(ROOT_DIR, 'public/resume.pdf');
     assert.ok(fs.existsSync(resumePath), 'public/resume.pdf must exist');
-    const stats = fs.statSync(resumePath);
-    assert.ok(stats.size > 500000, `Expected authentic resume PDF > 500 KB, got ${stats.size} bytes`);
+
+    const buf = fs.readFileSync(resumePath);
+    const raw = buf.toString('latin1');
+
+    assert.strictEqual(
+      buf.subarray(0, 5).toString('latin1'),
+      '%PDF-',
+      'resume.pdf must begin with the %PDF- magic bytes',
+    );
+    assert.ok(raw.includes('%%EOF'), 'resume.pdf must carry a %%EOF trailer (not truncated)');
+
+    // Page count is the assertion that actually protects this file.
+    // A resume is 1-3 pages. This check would have caught the document that shipped
+    // here previously: a 12-page "Portfolio Improvement Plan" committed as resume.pdf.
+    const pageCount = (raw.match(/\/Type\s*\/Page[^s]/g) || []).length;
+    assert.ok(pageCount >= 1, `resume.pdf must contain at least one page, found ${pageCount}`);
+    assert.ok(
+      pageCount <= 6,
+      `resume.pdf looks like a report rather than a resume: ${pageCount} pages found. ` +
+        'If the resume legitimately grew, raise this ceiling deliberately.',
+    );
+
+    // Size is a truncation floor only. The previous rule required > 500 KB, which is
+    // exactly why a 534 KB WRONG document passed CI. Never reintroduce a size threshold
+    // as a proxy for authenticity — it cannot distinguish a resume from anything else.
+    assert.ok(buf.length > 20000, `resume.pdf looks truncated (${buf.length} bytes)`);
   });
 
   await t.test('Branding icon SVG is valid', () => {

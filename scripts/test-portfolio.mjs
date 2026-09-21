@@ -95,7 +95,11 @@ async function runTests() {
     assert(resumeRes.statusCode === 200, 'Resume PDF endpoint returns HTTP 200 OK');
     assert(resumeRes.headers['content-type'] === 'application/pdf', 'Resume Content-Type is application/pdf');
     const size = parseInt(resumeRes.headers['content-length'], 10);
-    assert(size > 500000, `Verified resume is 534 KB authentic PDF (Actual: ${size} bytes, not 899B dummy)`);
+    // Size is a sanity RANGE only. The previous rule required > 500 KB, which is exactly
+    // why a 534 KB "Portfolio Improvement Plan" passed here as the resume for weeks.
+    // Size cannot prove authenticity — tests/assets.test.mjs owns the real check
+    // (magic bytes + %%EOF + page count), which catches a wrong document.
+    assert(size > 20000 && size < 3000000, `Resume PDF size is plausible (Actual: ${size} bytes)`);
   } catch (err) {
     assert(false, 'Resume PDF endpoint', err.message);
   }

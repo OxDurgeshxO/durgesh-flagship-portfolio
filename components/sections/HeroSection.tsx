@@ -95,7 +95,7 @@ export default function HeroSection() {
             download="Durgesh_Dutt_Sinha_Resume.pdf"
             onClick={() => trackEvent('theme_toggle', { action: 'download_pdf_hero' })}
             className="px-5 py-3 rounded-xl glass border border-rose-500/30 text-rose-300 font-semibold hover:bg-rose-500/15 hover:border-rose-400/60 transition-all inline-flex items-center gap-1.5 shadow-md shadow-rose-500/10 cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-rose-400"
-            title="Download Official Verified PDF (534 KB)"
+            title="Download Official Verified PDF Resume"
           >
             <Download className="size-4 text-rose-400" />
             <span>Download PDF</span>

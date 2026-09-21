@@ -115,7 +115,7 @@ export default function CommandPalette() {
         id: "download-pdf",
         category: "Quick Actions",
         title: "Download Official Verified PDF Resume",
-        subtitle: "534 KB verified authentic document with ATS benchmarks",
+        subtitle: "Verified PDF document with ATS-optimised formatting",
         icon: Download,
         shortcut: "PDF",
         aliases: ["download", "pdf", "download resume", "cv pdf"],

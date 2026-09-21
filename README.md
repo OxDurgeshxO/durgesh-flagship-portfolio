@@ -19,7 +19,7 @@ A unified, production-oriented engineering showcase communicating:
 | Route | Description | Tech Highlights |
 | :--- | :--- | :--- |
 | **[`/`](app/page.tsx)** | Cinematic 3D Flagship Home | 5,001-particle R3F neural core, 3D CyberBot, Raycast HUD (`Ctrl+K`) |
-| **[`/resume`](app/resume/page.tsx)** | Official HTML Resume | ATS-optimized typography, print CSS, 534 KB verified PDF download |
+| **[`/resume`](app/resume/page.tsx)** | Official HTML Resume | ATS-optimized typography, print CSS, verified 3-page PDF download |
 | **[`/recruiter`](app/recruiter/page.tsx)** | Recruiter Fast-Track Profile | 0 WebGL overhead, executive summary, verified project benchmarks |
 | **[`/lab`](app/lab/page.tsx)** | Interactive AI Engineering Lab | Live MediaPipe pose estimation (<45ms), ATS NLP scoring, 2D PCA |
 | **[`/work/roleradar`](app/work/[slug]/page.tsx)** | RoleRadar Deep Dive Case Study | Next.js 16, Drizzle ORM, dual-mode fallback, Google XYZ optimizer |
