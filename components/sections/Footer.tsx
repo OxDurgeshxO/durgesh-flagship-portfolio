@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { OWNER } from '@/lib/data'
 
 const PORTFOLIO_REPO = 'https://github.com/OxDurgeshxO/durgesh-flagship-portfolio'
-const PORTFOLIO_LIVE = 'https://durgesh-portfolio-v2.pages.dev'
+const PORTFOLIO_LIVE = 'https://durgesh-portfolio.pages.dev'
 
 export default function Footer() {
   return (

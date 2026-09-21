@@ -14,7 +14,7 @@ The flagship portfolio is statically exported via Next.js and deployed to **Clou
 ### Wrangler Configuration (`wrangler.toml`)
 
 ```toml
-name = "durgesh-portfolio-v2"
+name = "durgesh-portfolio"
 compatibility_date = "2024-11-11"
 compatibility_flags = ["nodejs_compat", "nodejs_compat_populate_process_env"]
 pages_build_output_dir = "out"

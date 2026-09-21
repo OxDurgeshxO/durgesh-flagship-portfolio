@@ -1,6 +1,6 @@
 # Durgesh Dutt Sinha — Flagship AI & Full-Stack Digital Portfolio
 
-[![Live Production](https://img.shields.io/badge/Live-durgesh--portfolio--v2.pages.dev-F38020?style=for-the-badge&logo=cloudflarepages&logoColor=white)](https://durgesh-portfolio-v2.pages.dev/)
+[![Live Production](https://img.shields.io/badge/Live-durgesh--portfolio.pages.dev-F38020?style=for-the-badge&logo=cloudflarepages&logoColor=white)](https://durgesh-portfolio.pages.dev/)
 [![Version](https://img.shields.io/badge/Version-2.0.0-purple?style=for-the-badge)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-14.2.35-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
@@ -8,7 +8,7 @@
 [![A11y: WCAG 2.1 AA](https://img.shields.io/badge/A11y-WCAG%202.1%20AA-success?style=for-the-badge&logo=w3c&logoColor=white)](docs/testing.md)
 [![Tests Passing](https://img.shields.io/badge/Tests-42%20Unit%20%7C%2074%20Playwright-emerald?style=for-the-badge&logo=githubactions&logoColor=white)](docs/testing.md)
 
-> 🚀 **Live Production Deployment**: **[https://durgesh-portfolio-v2.pages.dev](https://durgesh-portfolio-v2.pages.dev/)**  
+> 🚀 **Live Production Deployment**: **[https://durgesh-portfolio.pages.dev](https://durgesh-portfolio.pages.dev/)**  
 > ⚡ Engineered for **Cloudflare Pages Anycast CDN** with sub-second global edge delivery, interactive WebGL shaders, client-side computer vision kinematics, and 0-WebGL graceful fallbacks.
 
 A production-grade engineering showcase communicating:
@@ -129,7 +129,7 @@ Configure the following variables in `.env.local` (local dev) or Cloudflare Page
 
 | Variable Name | Required | Default / Example | Purpose |
 | :--- | :--- | :--- | :--- |
-| `NEXT_PUBLIC_SITE_URL` | Yes | `https://durgesh-portfolio-v2.pages.dev` | Canonical URL for sitemaps, open-graph metadata, and schema.org |
+| `NEXT_PUBLIC_SITE_URL` | Yes | `https://durgesh-portfolio.pages.dev` | Canonical URL for sitemaps, open-graph metadata, and schema.org |
 | `NEXT_PUBLIC_GITHUB_USERNAME` | Yes | `OxDurgeshxO` | Target GitHub user for public repository telemetry |
 | `GITHUB_TOKEN` | No | `ghp_...` (optional) | Increases GitHub API rate limit from 60 to 5,000 req/hr |
 | `CONTACT_EMAIL_RECIPIENT` | No | `durgeshdsinha@gmail.com` | Destination address for contact API submissions |
