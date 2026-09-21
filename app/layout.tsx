@@ -1,5 +1,19 @@
 import type { Metadata } from 'next'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 import '../styles/globals.css'
+
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-mono',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://durgesh-portfolio-v2.pages.dev'),
@@ -117,7 +131,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }}
         />
       </head>
-      <body>{children}</body>
+      <body className={`${inter.variable} ${jetbrainsMono.variable}`}>{children}</body>
     </html>
   )
 }

@@ -1,6 +1,6 @@
 {
   "name": "durgesh-flagship-portfolio",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -58,5 +58,6 @@
     "node": ">=20.0.0",
     "npm": ">=10.0.0"
   },
-  "packageManager": "npm@10.8.2"
+  "packageManager": "npm@10.8.2",
+  "license": "MIT"
 }
