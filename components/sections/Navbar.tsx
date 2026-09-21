@@ -37,6 +37,17 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    if (!open) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [open])
+
   const triggerPalette = () => {
     window.dispatchEvent(new CustomEvent('open-command-palette'))
   }
@@ -141,6 +152,7 @@ export default function Navbar() {
             onClick={() => setOpen(!open)}
             aria-label="Toggle navigation menu"
             aria-expanded={open}
+            aria-controls="mobile-nav-menu"
             className="text-slate-300 text-xl p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 rounded-lg"
           >
             ☰
@@ -150,7 +162,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {open && (
-        <div className="md:hidden glass px-6 pb-5 pt-2 flex flex-col gap-2.5 border-b border-purple-500/20">
+        <div id="mobile-nav-menu" className="md:hidden glass px-6 pb-5 pt-2 flex flex-col gap-2.5 border-b border-purple-500/20">
           <div className="grid grid-cols-2 gap-2 pb-2 border-b border-white/5">
             <Link
               href="/lab"

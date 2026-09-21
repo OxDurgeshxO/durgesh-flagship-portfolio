@@ -1,5 +1,7 @@
 import { MetadataRoute } from 'next'
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://durgesh-portfolio-v2.pages.dev'
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
@@ -7,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/'],
     },
-    sitemap: 'https://durgesh-portfolio-v2.pages.dev/sitemap.xml',
+    sitemap: `${BASE_URL}/sitemap.xml`,
   }
 }

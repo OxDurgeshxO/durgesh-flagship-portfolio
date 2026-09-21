@@ -187,7 +187,7 @@ export default function ContactSection() {
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">Message Dispatched!</h3>
                 <p className="text-slate-300 text-sm max-w-md mx-auto mb-4">
-                  Your email client has been prepared with your message. Thank you for reaching out!
+                  Your message was sent successfully. Durgesh will respond within 24 hours.
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3">
                   <button

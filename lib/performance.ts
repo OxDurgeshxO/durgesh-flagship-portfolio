@@ -1,5 +1,7 @@
 export type PerformanceMode = 'immersive' | 'balanced' | 'low-bandwidth';
 
+export const PERFORMANCE_AUDIT_DATE = '2026-09-22';
+
 export interface PerformanceMetric {
   name: string;
   value: string;

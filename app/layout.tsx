@@ -15,8 +15,10 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-mono',
 })
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://durgesh-portfolio-v2.pages.dev'
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://durgesh-portfolio-v2.pages.dev'),
+  metadataBase: new URL(SITE_URL),
   title: 'Durgesh Dutt Sinha | AI/ML Engineer & Intelligent Systems Developer',
   description: 'AI/ML Engineer building useful AI products, ML pipelines, and intelligent interfaces. Explore 5 flagship platforms, architecture deep dives, and production deployments.',
   keywords: [
@@ -39,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Durgesh Dutt Sinha | AI/ML Engineer & Developer',
     description: 'I design and ship AI applications, ML systems, and high-performance web experiences. View 5 flagship platforms and verified architecture case studies.',
-    url: 'https://durgesh-portfolio-v2.pages.dev',
+    url: SITE_URL,
     siteName: 'Durgesh Dutt Sinha Portfolio',
     images: [
       {
@@ -66,11 +68,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     '@graph': [
       {
         '@type': 'Person',
-        '@id': 'https://durgesh-portfolio-v2.pages.dev/#person',
+        '@id': `${SITE_URL}/#person`,
         name: 'Durgesh Dutt Sinha',
         jobTitle: 'AI/ML Engineer & Developer',
-        url: 'https://durgesh-portfolio-v2.pages.dev',
-        image: 'https://durgesh-portfolio-v2.pages.dev/og-image.png',
+        url: SITE_URL,
+        image: `${SITE_URL}/og-image.png`,
         sameAs: [
           'https://github.com/OxDurgeshxO',
           'https://www.linkedin.com/in/durgesh-dutt-s-4ba74924b',
@@ -90,12 +92,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       },
       {
         '@type': 'WebSite',
-        '@id': 'https://durgesh-portfolio-v2.pages.dev/#website',
-        url: 'https://durgesh-portfolio-v2.pages.dev',
+        '@id': `${SITE_URL}/#website`,
+        url: SITE_URL,
         name: 'Durgesh Dutt Sinha - AI/ML Engineering Portfolio',
         description: 'Flagship engineering portfolio featuring production AI SaaS, real-time voice assistants, and unsupervised ML pipelines.',
         publisher: {
-          '@id': 'https://durgesh-portfolio-v2.pages.dev/#person',
+          '@id': `${SITE_URL}/#person`,
         },
       },
       {
@@ -106,7 +108,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         url: 'https://rolefit-2.vercel.app',
         description: 'AI-powered resume analysis and career intelligence platform evaluating candidates across 16 industry roles with 8-point ATS scoring.',
         author: {
-          '@id': 'https://durgesh-portfolio-v2.pages.dev/#person',
+          '@id': `${SITE_URL}/#person`,
         },
       },
       {
@@ -117,7 +119,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         url: 'https://oxdurgeshxo.github.io/jarvis-realtime-assistant/',
         description: 'Realtime AI voice assistant and Iron Man HUD powered by Gemini 2.0 Flash, Whisper STT, and WebSockets.',
         author: {
-          '@id': 'https://durgesh-portfolio-v2.pages.dev/#person',
+          '@id': `${SITE_URL}/#person`,
         },
       },
     ],

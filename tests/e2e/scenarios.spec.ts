@@ -94,4 +94,17 @@ test.describe('Doc1 Core Scenarios & Resilience Verification', () => {
     const mainContent = page.locator('main, #hero');
     await expect(mainContent.first()).toBeVisible();
   });
+
+  // 10. Mobile navigation closes on Escape key
+  test('10. Mobile navigation closes on Escape key', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto('/');
+    const hamburger = page.getByRole('button', { name: /Toggle navigation menu/i });
+    await expect(hamburger).toBeVisible();
+    await hamburger.click();
+    const menu = page.locator('#mobile-nav-menu');
+    await expect(menu).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(menu).not.toBeVisible();
+  });
 });

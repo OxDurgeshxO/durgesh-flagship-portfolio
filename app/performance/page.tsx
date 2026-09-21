@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Metadata } from "next";
 import { ArrowLeft, Gauge, Zap } from "lucide-react";
-import { MEASURED_METRICS } from "@/lib/performance";
+import { MEASURED_METRICS, PERFORMANCE_AUDIT_DATE } from "@/lib/performance";
 import PerformanceMetricCard from "@/components/performance/MetricCard";
 import PerformanceModeToggle from "@/components/performance/PerformanceModeToggle";
 import ModeComparison from "@/components/performance/ModeComparison";
@@ -45,9 +45,14 @@ export default function PerformancePage() {
 
         {/* Hero Header */}
         <div className="mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-purple-500/10 text-purple-300 border border-purple-500/20 mb-3">
-            <Gauge className="size-3.5 text-rose-400" />
-            <span>Frontend & WebGL Performance Center</span>
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-purple-500/10 text-purple-300 border border-purple-500/20">
+              <Gauge className="size-3.5 text-rose-400" />
+              <span>Frontend & WebGL Performance Center</span>
+            </div>
+            <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
+              Audited: {PERFORMANCE_AUDIT_DATE}
+            </span>
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-3">
             Engineering Telemetry & Performance Proof

@@ -24,6 +24,18 @@ export default defineConfig({
       name: 'mobile-chrome',
       use: { ...devices['Pixel 5'], viewport: { width: 375, height: 667 } },
     },
+    ...(process.env.ALL_BROWSERS
+      ? [
+          {
+            name: 'desktop-firefox',
+            use: { ...devices['Desktop Firefox'] },
+          },
+          {
+            name: 'desktop-safari',
+            use: { ...devices['Desktop Safari'] },
+          },
+        ]
+      : []),
   ],
   webServer: {
     command: 'npx serve@latest out -l 3000',
