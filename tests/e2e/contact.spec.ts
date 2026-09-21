@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Contact Form Interaction & Resilience', () => {
+  test.beforeEach(async ({ page }) => {
+    // Disable smooth scroll and motion in test runner to prevent actionability delays
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+  });
+
   test('Contact form renders fields and submits successfully on 200 API response', async ({ page }) => {
     // Intercept /api/contact and return 200 OK
     await page.route('**/api/contact', async (route) => {
@@ -11,12 +16,12 @@ test.describe('Contact Form Interaction & Resilience', () => {
       });
     });
 
-    await page.goto('/');
-    const contactSection = page.locator('#contact');
-    await contactSection.scrollIntoViewIfNeeded();
+    await page.goto('/#contact');
+    const nameInput = page.locator('#contact-name');
+    await expect(nameInput).toBeVisible({ timeout: 10000 });
 
     // Fill form fields
-    await page.locator('#contact-name').fill('Ada Lovelace');
+    await nameInput.fill('Ada Lovelace');
     await page.locator('#contact-email').fill('ada@example.com');
     await page.locator('#contact-message').fill('Hello Durgesh, this is a test inquiry about intelligent systems engineering.');
 
@@ -42,11 +47,11 @@ test.describe('Contact Form Interaction & Resilience', () => {
       });
     });
 
-    await page.goto('/');
-    const contactSection = page.locator('#contact');
-    await contactSection.scrollIntoViewIfNeeded();
+    await page.goto('/#contact');
+    const nameInput = page.locator('#contact-name');
+    await expect(nameInput).toBeVisible({ timeout: 10000 });
 
-    await page.locator('#contact-name').fill('Rapid Sender');
+    await nameInput.fill('Rapid Sender');
     await page.locator('#contact-email').fill('rapid@example.com');
     await page.locator('#contact-message').fill('Checking rate limit handling in UI.');
 
