@@ -34,7 +34,7 @@ const HeroSection = dynamic(() => import('@/components/sections/HeroSection'), {
             href="#projects"
             className="px-7 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white font-semibold shadow-lg shadow-purple-500/20 text-sm sm:text-base"
           >
-            View Featured Work
+            View Selected Work
           </a>
           <a
             href="/resume.pdf"

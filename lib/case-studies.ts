@@ -18,6 +18,7 @@ export interface CaseStudy {
   category: string;
   badge: string;
   role: string;
+  contribution: string;
   timeline: string;
   githubUrl: string;
   demoUrl?: string;
@@ -44,6 +45,7 @@ export interface CaseStudy {
 export const CASE_STUDIES: Record<string, CaseStudy> = {
   roleradar: {
     slug: 'roleradar',
+    contribution: "Architected the Next.js full-stack platform, deterministic ATS keyword parsing engine, and scoring rules. Designed Drizzle ORM schemas and interactive ATS feedback UI.",
     title: 'RoleRadar',
     tagline: 'AI Career Intelligence & ATS Resume Engineering Platform',
     category: 'Full Stack AI & Career Tech',
@@ -161,6 +163,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
 
   fittrack: {
     slug: 'fittrack',
+    contribution: "Engineered client-side MediaPipe landmark ingestion pipeline, trigonometric joint angle calculations, and real-time state machine for rep tracking.",
     title: 'FitTrack AI Fitness Platform',
     tagline: 'Edge Computer Vision & Real-Time Biomechanical Feedback Platform',
     category: 'Computer Vision & Wearable IoT',
@@ -252,7 +255,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ],
     resultsAndImpact: [
       'Stable 60 FPS telemetry overlay on standard laptop hardware.',
-      'Achieved 97.4% repetition counting accuracy across standard squat and push-up datasets.',
+      'Deterministic biomechanical angle-threshold heuristic verified across standard squat and push-up exercise routines.',
       'Zero cloud video processing costs.',
     ],
     limitations: [
@@ -267,6 +270,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
 
   'marketmatch-ai': {
     slug: 'marketmatch-ai',
+    contribution: "Designed the RFM feature extraction pipeline, K-Means and DBSCAN clustering models in Python, PCA 2D/3D projection, and interactive Streamlit UI.",
     title: 'MarketMatch-AI',
     tagline: 'Enterprise E-Commerce RFM Customer Intelligence & Lookalike Studio',
     category: 'Applied AI & Customer Intelligence',
@@ -360,7 +364,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       'Ephemeral Processing: In-memory Pandas processing without persisting customer PII to disk.',
     ],
     resultsAndImpact: [
-      'Demonstrated 4.2x ROI improvement in marketing campaign simulation.',
+      'Validated RFM behavioral cohort segmentation with higher conversion potential in targeted campaign simulations.',
       '5 distinct, interpretable customer personas validated by business leadership.',
       '1-click export compatible with Meta Ads Custom Audiences and Klaviyo email lists.',
     ],
@@ -376,6 +380,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
 
   'jarvis-realtime-assistant': {
     slug: 'jarvis-realtime-assistant',
+    contribution: "Engineered FastAPI WebSocket backend streaming audio with Gemini 2.0 Flash, Edge-TTS synthesis pipeline, and React Web Audio visualizer HUD.",
     title: 'jarvis-realtime-assistant',
     tagline: 'Realtime Voice AI & Iron Man HUD with WebSockets and Gemini 2.0 Flash',
     category: 'Realtime AI Voice & WebSocket Systems',
@@ -468,6 +473,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
   },
   'cnn-streamlit': {
     slug: 'cnn-streamlit',
+    contribution: "Trained custom PyTorch CNN architecture on Fashion-MNIST dataset with data augmentations, built Streamlit inference app, and documented evaluation results.",
     title: 'CNN-STREAMLIT',
     tagline: 'Deep Learning Convolutional Neural Network Image Classifier',
     category: 'Computer Vision & Deep Learning',

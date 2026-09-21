@@ -1,4 +1,5 @@
 "use client"
+import { STATS } from '@/lib/stats';
 import Image from 'next/image'
 import { GitHubProfile } from '@/lib/github'
 import { OWNER } from '@/lib/data'
@@ -12,10 +13,10 @@ export default function AboutSection({ profile }: Props) {
   const followers = profile?.followers ?? 0
 
   const stats = [
-    { label: 'Public Repos', value: repos },
-    { label: 'Live Deployments', value: 4 },
-    { label: 'Years Coding', value: 3 },
-    { label: 'AI Projects', value: 10 },
+    { label: 'Public Repos', value: STATS.publicRepos },
+    { label: 'Live Deployments', value: STATS.verifiedDeployments },
+    { label: 'Years Coding', value: STATS.yearsCoding },
+    { label: 'AI Projects', value: STATS.aiProjects },
   ]
 
   return (

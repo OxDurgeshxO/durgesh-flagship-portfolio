@@ -79,7 +79,7 @@ export default function HeroSection() {
             onClick={() => trackEvent('contact_click', { button: 'view_projects_hero' })}
             className="px-7 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white font-semibold hover:opacity-90 transition-all glow-purple cursor-pointer focus-visible:ring-2 focus-visible:ring-purple-400 shadow-lg shadow-purple-500/20 text-sm sm:text-base inline-flex items-center gap-2"
           >
-            <span>View Featured Work</span>
+            <span>View Selected Work</span>
             <ArrowRight className="size-4" />
           </a>
 

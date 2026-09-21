@@ -12,13 +12,15 @@ const LANG_COLOR: Record<string, string> = {
   Jupyter: '#DA5B0B',
 }
 
-const RANK_BADGES = [
-  { rank: '#1', label: 'Top ML Engine', border: 'border-yellow-500/50', badge: 'bg-yellow-500/10 text-yellow-300 border-yellow-500/30' },
-  { rank: '#2', label: 'Top Financial AI', border: 'border-rose-500/50', badge: 'bg-rose-500/10 text-rose-300 border-rose-500/30' },
-  { rank: '#3', label: 'Top 3D WebGL', border: 'border-purple-500/50', badge: 'bg-purple-500/10 text-purple-300 border-purple-500/30' },
-  { rank: '#4', label: 'Top Computer Vision', border: 'border-pink-500/50', badge: 'bg-pink-500/10 text-pink-300 border-pink-500/30' },
-  { rank: '#5', label: 'Top Modern Web', border: 'border-indigo-500/50', badge: 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30' },
-]
+const CATEGORY_STYLES: Record<string, { border: string; badge: string }> = {
+  'Customer Analytics & Recommenders': { border: 'border-yellow-500/50', badge: 'bg-yellow-500/10 text-yellow-300 border-yellow-500/30' },
+  'Financial AI & Predictive Analytics': { border: 'border-rose-500/50', badge: 'bg-rose-500/10 text-rose-300 border-rose-500/30' },
+  'Realtime AI Voice & WebSocket Systems': { border: 'border-purple-500/50', badge: 'bg-purple-500/10 text-purple-300 border-purple-500/30' },
+  'Computer Vision & Deep Learning': { border: 'border-pink-500/50', badge: 'bg-pink-500/10 text-pink-300 border-pink-500/30' },
+  'Full Stack AI & Career Tech': { border: 'border-indigo-500/50', badge: 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30' },
+}
+
+const DEFAULT_BADGE = { border: 'border-purple-500/50', badge: 'bg-purple-500/10 text-purple-300 border-purple-500/30' };
 
 interface Props {
   repos: GitHubRepo[]
@@ -38,21 +40,20 @@ export default function ProjectsSection({ repos }: Props) {
         className="text-center mb-14"
       >
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20 mb-3">
-          <span>✦</span>
           <span>Curated GitHub Showcase</span>
         </div>
         <h2 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
-          Top 5 GitHub <span className="gradient-text">Repositories</span>
+          Featured GitHub <span className="gradient-text">Repositories</span>
         </h2>
         <div className="w-24 h-1 bg-gradient-to-r from-purple-500 via-rose-400 to-purple-500 rounded mx-auto mb-4" />
         <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
-          Hand-picked & scored from my public GitHub repositories based on architecture, complexity, and real-world engineering impact.
+          Curated engineering selection from public GitHub repositories demonstrating production architectures, distributed systems, and real-world ML pipelines.
         </p>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {display.map((repo, i) => {
-          const badgeInfo = RANK_BADGES[i] || RANK_BADGES[4]
+          const badgeInfo = (repo.category && CATEGORY_STYLES[repo.category]) || DEFAULT_BADGE
           return (
             <CardTilt3D
               key={repo.name}
@@ -72,24 +73,17 @@ export default function ProjectsSection({ repos }: Props) {
               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl group-hover:bg-purple-500/10 transition-all pointer-events-none" />
 
               <div>
-                {/* Header row: Rank Badge + Rating Score */}
+                {/* Header row: Category Badge */}
                 <div className="flex items-center justify-between gap-2 mb-4">
                   <div className="flex items-center gap-2">
                     <span className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold border ${badgeInfo.badge}`}>
-                      {badgeInfo.rank} {badgeInfo.label}
+                      {repo.category || 'Featured'}
                     </span>
                   </div>
                   <span className="flex items-center gap-1 text-xs font-mono font-medium px-2 py-0.5 rounded-full bg-slate-800/80 text-purple-300 border border-purple-500/20">
                     {repo.language || 'Production'}
                   </span>
                 </div>
-
-                {/* Project Category */}
-                {repo.category && (
-                  <p className="text-xs font-medium uppercase tracking-wider text-rose-300/90 mb-1">
-                    {repo.category}
-                  </p>
-                )}
 
                 {/* Repo Name */}
                 <h3 className="text-lg md:text-xl font-bold text-white mb-2 group-hover:text-purple-300 transition-colors flex items-center gap-2">
@@ -128,8 +122,8 @@ export default function ProjectsSection({ repos }: Props) {
                       {repo.language}
                     </span>
                   )}
-                  <span>⭐ {repo.stargazers_count}</span>
-                  <span>🍴 {repo.forks_count}</span>
+                  <span>★ {repo.stargazers_count}</span>
+                  <span>⑂ {repo.forks_count}</span>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -140,8 +134,7 @@ export default function ProjectsSection({ repos }: Props) {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30 hover:bg-rose-500/30 transition-all"
                     >
-                      <span>⚡ Live Demo</span>
-                      <span>↗</span>
+                      <span>Live Demo</span>
                     </a>
                   )}
                   <a
@@ -151,7 +144,6 @@ export default function ProjectsSection({ repos }: Props) {
                     className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold glass border border-purple-500/30 text-purple-300 hover:bg-purple-500/20 transition-all"
                   >
                     <span>GitHub</span>
-                    <span>↗</span>
                   </a>
                 </div>
               </div>
@@ -174,7 +166,6 @@ export default function ProjectsSection({ repos }: Props) {
           className="inline-flex items-center gap-2 px-8 py-3.5 glass border border-purple-500/40 text-purple-300 rounded-xl hover:bg-purple-500/10 hover:border-purple-400 transition-all font-medium text-sm"
         >
           <span>View All Repositories on GitHub</span>
-          <span>↗</span>
         </a>
       </motion.div>
     </section>

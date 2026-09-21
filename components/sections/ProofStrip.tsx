@@ -1,3 +1,4 @@
+import { STATS } from '@/lib/stats';
 import React from 'react'
 import Link from 'next/link'
 import { FolderGit2, Code2, Globe, Github, FileDown, Mail, ArrowUpRight } from 'lucide-react'
@@ -15,7 +16,7 @@ const PROOF_ITEMS: ProofItem[] = [
   {
     icon: FolderGit2,
     label: 'Shipped Projects',
-    value: '12+ Flagship & OSS',
+    value: `${STATS.aiProjects}+ AI & OSS Projects`,
     href: '#projects',
   },
   {
@@ -26,7 +27,7 @@ const PROOF_ITEMS: ProofItem[] = [
   {
     icon: Globe,
     label: 'Live Deployments',
-    value: '5 Verified Production',
+    value: `${STATS.verifiedDeployments} Verified Production`,
     href: '#featured-projects',
   },
   {

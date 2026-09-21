@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, Clock, FlaskConical, ShieldCheck, GitPullRequest } from 'lucide-react';
+import { CheckCircle2, Clock, FlaskConical, ShieldCheck, GitPullRequest, Calendar } from 'lucide-react';
 
 interface StatusBadgeProps {
   status: 'production' | 'active' | 'experimental';
@@ -39,26 +39,26 @@ export function CiBadge({ status }: { status: 'passing' | 'running' | 'none' }) 
       </span>
     );
   }
+  if (status === 'running') {
+    return (
+      <span className="inline-flex items-center gap-1 rounded-md bg-slate-900 px-2 py-0.5 text-[11px] font-mono text-slate-400 border border-slate-700">
+        <GitPullRequest className="h-3 w-3" />
+        CI: Running
+      </span>
+    );
+  }
   return (
-    <span className="inline-flex items-center gap-1 rounded-md bg-slate-900 px-2 py-0.5 text-[11px] font-mono text-slate-400 border border-slate-700">
-      <GitPullRequest className="h-3 w-3" />
-      CI: Running
+    <span className="inline-flex items-center gap-1 rounded-md bg-slate-900 px-2 py-0.5 text-[11px] font-mono text-slate-400 border border-slate-800">
+      Verified Repo
     </span>
   );
 }
 
-export function QualityScoreBadge({ score }: { score: number }) {
-  const colorClass =
-    score >= 95
-      ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10'
-      : score >= 85
-      ? 'text-blue-400 border-blue-500/30 bg-blue-500/10'
-      : 'text-amber-400 border-amber-500/30 bg-amber-500/10';
-
+export function AuditDateBadge({ date }: { date: string }) {
   return (
-    <div className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-mono font-bold ${colorClass}`}>
-      <span>SCORE</span>
-      <span>{score}/100</span>
+    <div className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-muted/20 px-2.5 py-1 text-xs font-mono text-muted-foreground">
+      <Calendar className="h-3 w-3" />
+      <span>as of {date}</span>
     </div>
   );
 }

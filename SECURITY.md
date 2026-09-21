@@ -34,3 +34,13 @@ This portfolio adheres strictly to defense-in-depth principles:
 5. **Supply Chain & Dependency Hardening**:
    - Dependencies are tracked with exact lockfiles (`package-lock.json`).
    - GitHub Actions CI executes automated dependency reviews and CodeQL static application security testing (SAST).
+
+---
+
+## Documented Dependency Risk Acceptance
+
+- **Advisory Reference**: GHSA-h25m-26qc-wcjf (RSC deserialization DoS) & GHSA-9g9p-9gw9-jx7f (Image Optimizer remotePatterns DoS)
+- **Affected Package**: `next@14.2.35` (range >=10.0.0 <15.5.10)
+- **Recorded Date**: 2026-09-21
+- **Architectural Justification**: The portfolio is deployed exclusively as a static HTML/JS export (`output: "export"`) with `images.unoptimized: true`. There is no Node.js server runtime, no React Server Components deserialization listener, and no self-hosted Next.js image optimization endpoint exposed in production.
+- **Remediation Plan**: Full major version upgrade to Next.js 15+ is tracked as an isolated release milestone following the v2 production release.

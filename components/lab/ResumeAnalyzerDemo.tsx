@@ -181,7 +181,7 @@ export default function ResumeAnalyzerDemo() {
               </div>
 
               <div className="text-[10px] font-mono text-slate-500 border-t border-white/5 pt-2">
-                {result.confidence}
+                {result.engine || "Deterministic Rule Engine (Demonstration)"}
               </div>
             </div>
           ) : (
