@@ -3,6 +3,7 @@
 export type AnalyticsEvent =
   | "resume_download"
   | "case_study_open"
+  | "project_view"
   | "github_click"
   | "linkedin_click"
   | "contact_click"
@@ -32,7 +33,7 @@ export function trackEvent(name: AnalyticsEvent, properties?: Record<string, unk
   }
 
   if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-    console.log(`[Analytics] 📈 Event: "${name}"`, properties || {});
+    console.log(`[Analytics] Event: "${name}"`, properties || {});
   }
 
   if (typeof (window as any).plausible === "function") {

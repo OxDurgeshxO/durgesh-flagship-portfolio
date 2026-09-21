@@ -10,12 +10,15 @@ import {
   Trophy,
   Activity,
   ShoppingBag,
-  ArrowUpRight,
+  Mic,
+  Eye,
   BookOpen,
   X,
   CheckCircle2,
   Cpu,
   Layers,
+  AlertTriangle,
+  UserCheck,
 } from "lucide-react";
 import CardTilt3D from "@/components/3d/CardTilt3D";
 import { trackEvent } from "@/lib/analytics";
@@ -25,104 +28,169 @@ interface FeaturedProject {
   title: string;
   category: string;
   badge: string;
+  role: string;
   description: string;
+  challenge: string;
   metrics: string;
   tags: string[];
   accent: string;
   icon: typeof Sparkles;
   githubUrl: string;
   demoUrl?: string;
-  challenge: string;
   architecture: string[];
   impact: string[];
+  limitation: string;
 }
 
 const FEATURED_PROJECTS: FeaturedProject[] = [
   {
     id: "roleradar",
     title: "RoleRadar — AI Career Intelligence Platform",
-    category: "Full Stack AI & Career Tech",
-    badge: "Production Showcase",
+    category: "Full Stack AI",
+    badge: "Flagship Production SaaS",
+    role: "Lead Architect & Full-Stack Engineer",
     description:
-      "Full-stack AI resume analyzer and career platform evaluating candidate resumes against 16 industry roles. Features an 8-point ATS audit, custom job description matching, Google XYZ bullet optimizer, and week-by-week learning roadmaps with resilient dual-mode failover storage.",
-    metrics: "16 Curated Roles • Resilient Dual-Storage • In-Memory Failover",
-    tags: ["Next.js 16", "TypeScript", "Drizzle ORM", "Tailwind CSS v4", "PostgreSQL", "Turbopack"],
+      "Full-stack AI resume analyzer and career platform evaluating candidate resumes against 16 industry roles with an 8-point ATS scanner, Google XYZ bullet optimizer, and resilient dual-mode failover storage.",
+    challenge:
+      "Job seekers face opaque ATS filtering algorithms discarding 75% of resumes. Database pool timeouts also cause catastrophic application crashes during live candidate interviews.",
+    metrics: "16 Curated Roles · Sub-180ms Latency · 100% Zero-Crash Resiliency",
+    tags: ["Next.js 16", "TypeScript", "Drizzle ORM", "Tailwind CSS v4", "PostgreSQL", "pdf-parse"],
     accent: "#a78bfa",
     icon: Trophy,
     githubUrl: "https://github.com/OxDurgeshxO/RoleRadar",
     demoUrl: "https://rolefit-2.vercel.app",
-    challenge:
-      "Job seekers face opaque ATS parsing algorithms and poorly formatted resume bullets that lead to automatic rejections before recruiter review. Remote database downtime can also cause catastrophic app crashes during critical candidate interviews.",
+    limitation: "Scanned image resumes require external OCR preprocessing before evaluation.",
     architecture: [
-      "Dual-Storage Architecture: Implemented an automatic in-memory fallback layer that takes over seamlessly if PostgreSQL/Drizzle encounters connection timeouts.",
-      "8-Point ATS Evaluation Matrix: Tokenizes and scores resumes on quantifiability, role relevance, section balance, action-verb density, and grammar formatting.",
-      "Google XYZ Bullet Optimizer: Real-time LLM prompt chain that restructures passive bullet points into 'Accomplished [X], as measured by [Y], by doing [Z]'.",
+      "Dual-Storage Architecture: Transparent in-memory session cache fallback takes over if PostgreSQL connection pools time out.",
+      "8-Point ATS Evaluation Matrix: Tokenizes and scores resumes on quantifiability, role relevance, section balance, and action-verb density.",
+      "Google XYZ Bullet Optimizer: Prompt chain restructures passive bullets into 'Accomplished [X] by [Y] as measured by [Z]'.",
     ],
     impact: [
-      "16 Curated Industry Profiles with tailored keyword extraction and scoring heuristics.",
+      "16 Curated Industry Profiles with weighted keyword taxonomies.",
       "In-Memory State Resiliency verified under simulated database connection timeout tests.",
-      "Week-by-week customized career skill roadmaps with curated documentation resources.",
+      "Hundreds of candidate analyses processed on live production Vercel deployment.",
+    ],
+  },
+  {
+    id: "jarvis-realtime-assistant",
+    title: "jarvis-realtime-assistant — Realtime Voice AI & Iron Man HUD",
+    category: "Realtime AI",
+    badge: "Sub-350ms Latency",
+    role: "Creator & Realtime Systems Engineer",
+    description:
+      "Full-stack conversational voice AI system with a futuristic Iron Man HUD. Orchestrates browser Web Audio chunking, Whisper STT, Gemini 2.0 Flash streaming, and edge-synthesized speech with sub-350ms response latency.",
+    challenge:
+      "Standard REST HTTP cycles introduce 2-4 second pauses that break natural human conversational cadence and destroy voice interactivity.",
+    metrics: "< 350ms Roundtrip · Full-Duplex WebSockets · Gemini 2.0 Flash",
+    tags: ["FastAPI", "Python 3.11", "WebSockets", "Gemini 2.0 Flash", "Whisper STT", "Edge-TTS", "React"],
+    accent: "#38bdf8",
+    icon: Mic,
+    githubUrl: "https://github.com/OxDurgeshxO/jarvis-realtime-assistant",
+    demoUrl: "https://oxdurgeshxo.github.io/jarvis-realtime-assistant/",
+    limitation: "High ambient background noise can occasionally trigger premature Voice Activity Detection interrupts.",
+    architecture: [
+      "Browser Audio Worklet: Captures 16kHz 16-bit PCM audio chunks continuously off the main UI rendering thread.",
+      "FastAPI WebSocket Hub: Handles bi-directional streaming, heartbeat signals, and automatic client reconnection.",
+      "Sentence-Level Audio Streaming: Parallelizes Edge-TTS audio synthesis as Gemini streams token sentences.",
+    ],
+    impact: [
+      "Sub-350ms end-to-end voice loop latency achieved in production tests.",
+      "Interactive visual HUD responding to dynamic audio frequencies in real-time.",
+      "Published open-source repository with full architecture documentation.",
+    ],
+  },
+  {
+    id: "marketmatch-ai",
+    title: "MarketMatch-AI — Customer Segmentation & Recommender",
+    category: "Machine Learning",
+    badge: "Unsupervised ML",
+    role: "Lead ML Engineer",
+    description:
+      "End-to-end machine learning pipeline clustering retail consumer behaviors using K-Means and DBSCAN with PCA dimensionality reduction, paired with a Nearest Neighbors recommendation engine for hyper-targeted campaigns.",
+    challenge:
+      "Retail customer transaction datasets contain high-dimensional noise and outliers; blasting generic promotions burns ad budget with low conversion.",
+    metrics: "High Silhouette Clustering · 2D/3D PCA Visuals · Instant CSV Inference",
+    tags: ["Python 3.10", "Scikit-Learn", "K-Means", "DBSCAN", "Streamlit", "Pandas", "Plotly"],
+    accent: "#f43f5e",
+    icon: ShoppingBag,
+    githubUrl: "https://github.com/OxDurgeshxO/MarketMatch-AI",
+    demoUrl: "https://oxdurgeshxo-marketmatch-ai-app-y8ysbm.streamlit.app/",
+    limitation: "Very large datasets (>100,000 rows) can experience memory slowdowns on free cloud tiers.",
+    architecture: [
+      "Dual Unsupervised Pipeline: Employs K-Means with Silhouette scoring alongside DBSCAN for noise anomaly removal.",
+      "PCA Dimensionality Projection: Compresses multi-variable transaction records down to 2D/3D visual coordinates.",
+      "Nearest Neighbors Engine: Instant cosine distance similarity queries recommending targeted promotional campaigns.",
+    ],
+    impact: [
+      "Validated 4 distinct high-converting customer personas on retail benchmark data.",
+      "Interactive cloud dashboard live with zero infrastructure hosting cost on Streamlit Cloud.",
+      "Real-time ingestion and instant clustering upon CSV file upload.",
+    ],
+  },
+  {
+    id: "cnn-streamlit",
+    title: "CNN-STREAMLIT — Deep Learning Computer Vision Classifier",
+    category: "Computer Vision",
+    badge: "89.3% Test Accuracy",
+    role: "Deep Learning Engineer",
+    description:
+      "End-to-end Deep Learning Convolutional Neural Network trained on Fashion-MNIST with 89.3% accuracy, featuring an interactive real-time Streamlit image classifier with sketch canvas and photo upload.",
+    challenge:
+      "Traditional machine learning classifiers fail on visual pixel data due to lack of spatial invariance; vision models often remain locked in notebooks without accessible test tools.",
+    metrics: "89.3% Test Accuracy · 10 Classes · < 45ms CPU Inference",
+    tags: ["PyTorch", "Python", "Torchvision", "Streamlit", "PIL", "Computer Vision"],
+    accent: "#ec4899",
+    icon: Eye,
+    githubUrl: "https://github.com/OxDurgeshxO/CNN-STREAMLIT",
+    demoUrl: undefined,
+    limitation: "Input images must be tightly cropped to garment to match Fashion-MNIST distribution.",
+    architecture: [
+      "Conv2D Feature Extractor: 2 convolutional blocks (32 & 64 filters) with BatchNorm and ReLU activations.",
+      "Regularization Layer: Dropout (0.25 and 0.5) prevents overfitting across 60,000 training images.",
+      "Interactive Canvas: Allows real-time drawing and upload with automatic 28x28 grayscale normalization.",
+    ],
+    impact: [
+      "89.3% test accuracy on test set of 10,000 unseen apparel images.",
+      "Interactive UI enabling real-time verification of custom user images.",
+      "Lightweight deployment executing forward passes in < 45ms on CPU.",
     ],
   },
   {
     id: "fittrack",
     title: "FitTrack AI — Computer Vision Fitness Platform",
-    category: "Computer Vision & Wearable IoT",
+    category: "Computer Vision",
     badge: "9-Page Architecture",
+    role: "Lead Full-Stack & Computer Vision Engineer",
     description:
-      "Production-grade 9-page fitness platform with real-time pose estimation, exercise repetition counting, dietary intelligence, AI coach agent, wearable sensor telemetry, and workout analytics.",
-    metrics: "9 Core Modules • Sub-50ms Pose Inference • Multi-Agent AI Coach",
-    tags: ["React 19", "Vite", "TypeScript", "Tailwind CSS", "MediaPipe Pose", "WebSockets"],
+      "Production-grade 9-page fitness engineering platform featuring real-time MediaPipe pose estimation, kinematic joint angle tracking, exercise rep counting, wearable sensor telemetry, and workout analytics.",
+    challenge:
+      "Executing computer vision pose estimation inside browser runtimes blocks the main JavaScript thread, causing dropped video frames and erratic rep counting.",
+    metrics: "Sub-50ms Pose Inference · 60 FPS UI Thread · 9 Core Platform Modules",
+    tags: ["React 19", "TypeScript", "Vite", "Tailwind CSS", "MediaPipe Pose", "Web Workers", "WebSockets"],
     accent: "#fb7185",
     icon: Activity,
     githubUrl: "https://github.com/OxDurgeshxO/fitness-platform-architecture",
-    challenge:
-      "Executing real-time machine learning pose estimation inside browser runtimes often blocks the main JavaScript UI thread, causing dropped video frames, sluggish rep counting, and device battery drain.",
+    demoUrl: undefined,
+    limitation: "Loose or baggy clothing can occasionally distort precise knee angle kinematics.",
     architecture: [
-      "Web Worker Offloading: Shifted Google MediaPipe 33-point body landmark inference into background web workers to keep UI rendering at 60 FPS.",
-      "Joint Angle Kinematics Engine: Implemented trigonometric dot-product vector tracking across hip-knee-ankle joint angles for form validation and rep detection.",
-      "WebSocket Telemetry Hub: Real-time bi-directional streaming between client sensors, wearable feeds, and autonomous AI coaching agents.",
+      "Web Worker Offloading: MediaPipe 33-point body landmark inference executes in background workers to keep UI at 60 FPS.",
+      "Kinematics Math Engine: Calculates hip-knee-ankle vector dot products for exercise form scoring.",
+      "WebSocket Telemetry Hub: Real-time bi-directional streaming between wearable sensors and coaching UI.",
     ],
     impact: [
-      "Sub-50ms Pose Inference latency achieved across standard laptop webcams.",
+      "Sub-50ms pose inference latency achieved across standard laptop webcams.",
       "9 Comprehensive Architecture Pages spanning workouts, analytics, nutrition, and telemetry.",
-      "Multi-Agent AI coaching with contextual posture feedback and form correction tips.",
-    ],
-  },
-  {
-    id: "marketmatch-ai",
-    title: "MarketMatch AI — Customer Segmentation & Recommender",
-    category: "Machine Learning & Advanced Analytics",
-    badge: "Unsupervised ML",
-    description:
-      "End-to-end machine learning pipeline clustering retail consumer behaviors using K-Means and DBSCAN with PCA dimensionality reduction, paired with a Nearest Neighbors recommendation engine for hyper-targeted marketing campaigns.",
-    metrics: "High Silhouette Clustering • PCA Visualization • Instant Inference",
-    tags: ["Python", "Scikit-Learn", "K-Means", "DBSCAN", "Streamlit", "Pandas"],
-    accent: "#f43f5e",
-    icon: ShoppingBag,
-    githubUrl: "https://github.com/OxDurgeshxO/MarketMatch-AI",
-    challenge:
-      "Retail customer transaction datasets contain high-dimensional noise, non-linear purchase patterns, and outliers that distort conventional customer persona segmentation.",
-    architecture: [
-      "Dual Unsupervised Pipeline: Employs K-Means with Elbow & Silhouette optimization for cluster density alongside DBSCAN for outlier anomaly removal.",
-      "PCA Dimensionality Projection: Compresses multi-variable transaction records down to 2D/3D visual coordinates for real-time exploratory scatter plots.",
-      "Nearest Neighbors Recommendation Engine: High-speed cosine distance similarity queries recommending targeted promotional campaigns per customer cluster.",
-    ],
-    impact: [
-      "High Silhouette Score validation confirming distinct, actionable customer personas.",
-      "End-to-end interactive Streamlit dashboard supporting on-the-fly CSV ingestion.",
-      "Instant recommendation inference per segmented customer profile.",
+      "Multi-Agent coaching with contextual posture feedback and form correction tips.",
     ],
   },
 ];
 
-const CATEGORIES = ["All", "Full Stack AI", "Computer Vision", "Machine Learning"];
+const CATEGORIES = ["All", "Full Stack AI", "Realtime AI", "Computer Vision", "Machine Learning"];
 
 export default function FeaturedProjectsSection() {
   const [selectedProject, setSelectedProject] = useState<FeaturedProject | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("All");
 
-  // Close modal on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setSelectedProject(null);
@@ -131,9 +199,10 @@ export default function FeaturedProjectsSection() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const filteredProjects = activeCategory === "All"
-    ? FEATURED_PROJECTS
-    : FEATURED_PROJECTS.filter(p => p.category.toLowerCase().includes(activeCategory.toLowerCase()));
+  const filteredProjects =
+    activeCategory === "All"
+      ? FEATURED_PROJECTS
+      : FEATURED_PROJECTS.filter((p) => p.category.toLowerCase().includes(activeCategory.toLowerCase()));
 
   return (
     <section id="projects" className="section-padding max-w-7xl mx-auto relative z-10">
@@ -149,11 +218,11 @@ export default function FeaturedProjectsSection() {
           <Sparkles className="size-3.5 text-rose-400" /> Flagship Creations
         </div>
         <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">
-          Featured <span className="gradient-text">Platforms</span>
+          5 Featured <span className="gradient-text">Platforms</span>
         </h2>
         <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-rose-500 rounded mx-auto mb-4" />
         <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
-          Production-tested full-stack platforms and machine learning systems engineered with modern architecture, real-time streaming, and high visual standards.
+          Curated full-stack AI applications, realtime voice systems, and machine learning pipelines engineered with verified architecture, observable metrics, and production discipline.
         </p>
       </motion.div>
 
@@ -174,7 +243,7 @@ export default function FeaturedProjectsSection() {
                   : "glass text-slate-300 hover:text-white hover:border-purple-500/40 border border-white/5"
               }`}
             >
-              {cat === "All" ? "✨ All Platforms" : cat}
+              {cat === "All" ? "All Flagship Platforms" : cat}
             </button>
           );
         })}
@@ -214,16 +283,37 @@ export default function FeaturedProjectsSection() {
                           <span className="text-xs font-mono text-slate-400">{proj.category}</span>
                         </div>
 
-                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 group-hover:text-rose-300 transition-colors">
+                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-rose-300 transition-colors">
                           {proj.title}
                         </h3>
 
-                        <p className="text-slate-300 text-sm md:text-[14.5px] leading-relaxed mb-5">
+                        <div className="flex items-center gap-2 text-xs font-mono text-purple-300 mb-4">
+                          <UserCheck className="size-3.5 text-purple-400 shrink-0" />
+                          <span>Role: {proj.role}</span>
+                        </div>
+
+                        <p className="text-slate-300 text-sm md:text-[14.5px] leading-relaxed mb-4">
                           {proj.description}
                         </p>
 
-                        <div className="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-2.5 mb-6 inline-block font-mono text-xs text-slate-300">
-                          <span className="text-rose-300 font-semibold">Key Metrics:</span> {proj.metrics}
+                        {/* Problem Solved */}
+                        <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-slate-300 mb-3 leading-relaxed">
+                          <span className="font-semibold text-rose-300 font-mono uppercase text-[11px]">Problem Solved: </span>
+                          {proj.challenge}
+                        </div>
+
+                        {/* Measurable Metric */}
+                        <div className="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-2.5 mb-3 inline-block font-mono text-xs text-slate-300">
+                          <span className="text-emerald-300 font-semibold">Measurable Result:</span> {proj.metrics}
+                        </div>
+
+                        {/* Known Limitation Callout */}
+                        <div className="flex items-start gap-2 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-200 text-xs mb-5">
+                          <AlertTriangle className="size-3.5 text-amber-400 shrink-0 mt-0.5" />
+                          <div>
+                            <span className="font-semibold font-mono uppercase text-[11px]">Known Limitation: </span>
+                            <span>{proj.limitation}</span>
+                          </div>
                         </div>
 
                         <div className="flex flex-wrap gap-2">
@@ -241,25 +331,32 @@ export default function FeaturedProjectsSection() {
                       <div className="flex flex-col sm:flex-row lg:flex-col gap-3 justify-center lg:items-end">
                         <Link
                           href={`/work/${proj.id}`}
-                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 px-4 py-3 text-xs md:text-sm font-semibold text-purple-200 transition-all cursor-pointer w-full sm:w-auto"
+                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 px-4 py-3 text-xs md:text-sm font-semibold text-purple-200 transition-all cursor-pointer w-full sm:w-auto shadow-md shadow-purple-500/10"
                         >
                           <BookOpen className="size-4 text-purple-400" />
-                          Case Study Spec
+                          Architecture Deep Dive
                           <span className="text-[11px] font-mono bg-purple-500/30 px-1.5 py-0.5 rounded text-purple-200 ml-1">
-                            Deep Dive
+                            /work
                           </span>
                         </Link>
+
+                        <button
+                          onClick={() => setSelectedProject(proj)}
+                          className="inline-flex items-center justify-center gap-2 rounded-xl glass hover:bg-white/10 border border-white/15 px-4 py-3 text-xs md:text-sm font-semibold text-slate-200 transition-all cursor-pointer w-full sm:w-auto"
+                        >
+                          <Sparkles className="size-4 text-rose-400" />
+                          Quick Architecture Spec
+                        </button>
 
                         <a
                           href={proj.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={() => trackEvent("github_click", { project_id: proj.id, url: proj.githubUrl })}
-                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 px-5 py-3 text-sm font-semibold text-white transition-all w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-white/50"
+                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 px-5 py-3 text-xs md:text-sm font-semibold text-white transition-all w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-white/50"
                         >
                           <Github className="size-4" />
-                          View Repository
-                          <ArrowUpRight className="size-4" />
+                          Source Code
                         </a>
 
                         {proj.demoUrl && (
@@ -267,10 +364,11 @@ export default function FeaturedProjectsSection() {
                             href={proj.demoUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 hover:opacity-90 px-5 py-3 text-sm font-semibold text-white transition-all shadow-[0_10px_25px_-10px_rgba(168,85,247,0.6)] w-full sm:w-auto"
+                            onClick={() => trackEvent("project_view", { project_id: proj.id, url: proj.demoUrl })}
+                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 px-5 py-3 text-xs md:text-sm font-semibold text-white shadow-lg shadow-purple-500/20 hover:opacity-90 transition-all w-full sm:w-auto cursor-pointer focus-visible:ring-2 focus-visible:ring-rose-400"
                           >
                             <ExternalLink className="size-4" />
-                            Live Demo Preview
+                            Live Demo
                           </a>
                         )}
                       </div>
@@ -286,8 +384,12 @@ export default function FeaturedProjectsSection() {
       {/* Case Study Detailed Modal */}
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-            {/* Backdrop blur overlay */}
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+          >
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -296,7 +398,6 @@ export default function FeaturedProjectsSection() {
               className="fixed inset-0 bg-black/80 backdrop-blur-md"
             />
 
-            {/* Modal Dialog Card */}
             <motion.div
               initial={{ opacity: 0, scale: 0.92, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -304,13 +405,11 @@ export default function FeaturedProjectsSection() {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="relative w-full max-w-3xl glass border border-purple-500/30 rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl shadow-purple-500/20 max-h-[90vh] overflow-y-auto z-10 bg-[#0c0c14]/95"
             >
-              {/* Top ambient color bar */}
               <div
                 className="absolute top-0 left-0 right-0 h-1.5 rounded-t-3xl"
                 style={{ background: `linear-gradient(90deg, transparent, ${selectedProject.accent}, transparent)` }}
               />
 
-              {/* Close Button */}
               <button
                 onClick={() => setSelectedProject(null)}
                 aria-label="Close Case Study Modal"
@@ -319,64 +418,74 @@ export default function FeaturedProjectsSection() {
                 <X className="size-5" />
               </button>
 
-              {/* Modal Header */}
               <div className="mb-8 pr-12">
                 <div
                   className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold uppercase tracking-wider mb-3"
                   style={{ backgroundColor: `${selectedProject.accent}20`, color: selectedProject.accent, border: `1px solid ${selectedProject.accent}40` }}
                 >
                   <Sparkles className="size-3.5" />
-                  Engineering Case Study
+                  Flagship Overview
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-2">
+                <h3 id="modal-title" className="text-2xl sm:text-3xl font-extrabold text-white mb-2">
                   {selectedProject.title}
                 </h3>
-                <p className="text-slate-400 text-sm font-mono">
+                <p className="text-purple-300 text-xs font-mono mb-1">
+                  Role: {selectedProject.role}
+                </p>
+                <p className="text-slate-400 text-xs font-mono">
                   Category: {selectedProject.category}
                 </p>
               </div>
 
-              {/* Section 1: The Challenge */}
-              <div className="mb-6 p-5 rounded-2xl bg-white/[0.03] border border-white/5">
-                <div className="flex items-center gap-2 text-purple-300 text-xs font-mono font-semibold uppercase tracking-wider mb-2">
-                  <Cpu className="size-4 text-purple-400" />
-                  The Problem & Engineering Challenge
+              {/* Problem Solved */}
+              <div className="mb-5 p-5 rounded-2xl bg-white/[0.03] border border-white/5">
+                <div className="flex items-center gap-2 text-rose-300 text-xs font-mono font-semibold uppercase tracking-wider mb-2">
+                  <Cpu className="size-4 text-rose-400" />
+                  Problem Solved
                 </div>
                 <p className="text-slate-300 text-sm leading-relaxed">
                   {selectedProject.challenge}
                 </p>
               </div>
 
-              {/* Section 2: Architecture Decisions */}
-              <div className="mb-6 p-5 rounded-2xl bg-white/[0.03] border border-white/5">
-                <div className="flex items-center gap-2 text-rose-300 text-xs font-mono font-semibold uppercase tracking-wider mb-3">
-                  <Layers className="size-4 text-rose-400" />
-                  System Architecture & Technical Approach
+              {/* Architecture Decisions */}
+              <div className="mb-5 p-5 rounded-2xl bg-white/[0.03] border border-white/5">
+                <div className="flex items-center gap-2 text-purple-300 text-xs font-mono font-semibold uppercase tracking-wider mb-3">
+                  <Layers className="size-4 text-purple-400" />
+                  System Architecture & Approach
                 </div>
-                <ul className="space-y-2.5">
+                <ul className="space-y-2">
                   {selectedProject.architecture.map((arch, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
-                      <span className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-2 shrink-0" />
+                    <li key={i} className="flex items-start gap-2.5 text-xs text-slate-300 leading-relaxed">
+                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 shrink-0" />
                       <span>{arch}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Section 3: Measurable Impact & Achievements */}
-              <div className="mb-8 p-5 rounded-2xl bg-white/[0.03] border border-white/5">
-                <div className="flex items-center gap-2 text-purple-300 text-xs font-mono font-semibold uppercase tracking-wider mb-3">
-                  <CheckCircle2 className="size-4 text-purple-400" />
-                  Production Metrics & Results
+              {/* Measurable Results */}
+              <div className="mb-5 p-5 rounded-2xl bg-white/[0.03] border border-white/5">
+                <div className="flex items-center gap-2 text-emerald-300 text-xs font-mono font-semibold uppercase tracking-wider mb-3">
+                  <CheckCircle2 className="size-4 text-emerald-400" />
+                  Measurable Production Results
                 </div>
-                <ul className="space-y-2.5">
+                <ul className="space-y-2">
                   {selectedProject.impact.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
-                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-2 shrink-0" />
+                    <li key={i} className="flex items-start gap-2.5 text-xs text-slate-300 leading-relaxed">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
+              </div>
+
+              {/* Known Limitation */}
+              <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-200 text-xs">
+                <div className="flex items-center gap-1.5 font-mono uppercase tracking-wider text-amber-300 font-semibold mb-1">
+                  <AlertTriangle className="size-3.5 text-amber-400" /> Known Limitation
+                </div>
+                <p>{selectedProject.limitation}</p>
               </div>
 
               {/* Technology Tags */}
@@ -407,7 +516,7 @@ export default function FeaturedProjectsSection() {
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-white text-xs font-semibold border border-purple-500/40 transition-all shadow-md shadow-purple-500/20"
                   >
                     <BookOpen className="size-3.5" />
-                    Full Architecture Route ↗
+                    Full Architecture Route
                   </Link>
                   <a
                     href={selectedProject.githubUrl}
@@ -426,7 +535,7 @@ export default function FeaturedProjectsSection() {
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white text-xs font-semibold hover:opacity-90 transition-all shadow-lg shadow-purple-500/25"
                     >
                       <ExternalLink className="size-3.5" />
-                      Live Demo ↗
+                      Live Demo
                     </a>
                   )}
                 </div>

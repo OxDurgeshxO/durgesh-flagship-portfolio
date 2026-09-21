@@ -373,6 +373,187 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       'Automated Shopify & WooCommerce API webhook connectors.',
     ],
   },
+
+  'jarvis-realtime-assistant': {
+    slug: 'jarvis-realtime-assistant',
+    title: 'jarvis-realtime-assistant',
+    tagline: 'Realtime Voice AI & Iron Man HUD with WebSockets and Gemini 2.0 Flash',
+    category: 'Realtime AI Voice & WebSocket Systems',
+    badge: 'Realtime Audio & Vision',
+    role: 'Creator & Realtime Systems Engineer',
+    timeline: 'August 2026 - Present',
+    githubUrl: 'https://github.com/OxDurgeshxO/jarvis-realtime-assistant',
+    demoUrl: 'https://oxdurgeshxo.github.io/jarvis-realtime-assistant/',
+    accent: '#38bdf8',
+    overview:
+      'Full-stack low-latency conversational voice AI system featuring a futuristic Iron Man HUD. Communicates via bi-directional WebSockets, orchestrating real-time microphone audio chunking, Whisper STT, Gemini 2.0 Flash streaming responses, and edge-synthesized speech audio with sub-350ms response latency.',
+    problem:
+      'Standard conversational AI interfaces rely on sluggish REST request-response cycles, leading to 2-4 second dead air pauses that destroy natural conversational cadence. Managing continuous audio streaming, microphone permission states, and WebSocket reconnects across varying network conditions presents significant stability hurdles.',
+    targetUsers: [
+      'Developers seeking hands-free multimodal voice development assistants',
+      'Engineers exploring low-latency streaming WebSocket architectures with frontier LLMs',
+      'Users who value interactive, futuristic cybernetic interfaces with visual audio feedback',
+    ],
+    metrics: [
+      { label: 'Latency', value: '< 350ms', detail: 'End-to-end voice-in to voice-out pipeline' },
+      { label: 'Streaming', value: 'Bi-Directional', detail: 'Full-duplex WebSockets audio streaming' },
+      { label: 'LLM Engine', value: 'Gemini 2.0 Flash', detail: 'High-throughput multimodal reasoning' },
+      { label: 'Voice VAD', value: 'Automatic', detail: 'Voice Activity Detection cuts network overhead' },
+    ],
+    technologies: [
+      { name: 'FastAPI', category: 'Backend Engine' },
+      { name: 'Python 3.11', category: 'Backend Language' },
+      { name: 'WebSockets', category: 'Realtime Protocol' },
+      { name: 'Gemini 2.0 Flash', category: 'Frontier AI' },
+      { name: 'Whisper STT', category: 'Speech-to-Text' },
+      { name: 'Edge-TTS', category: 'Speech Synthesis' },
+      { name: 'React & TypeScript', category: 'Frontend Client' },
+    ],
+    architecture: {
+      summary:
+        'A full-duplex WebSocket architecture streaming 16kHz PCM audio chunks from browser Web Audio API to a Python FastAPI engine with Voice Activity Detection (VAD), LLM streaming tokens, and incremental audio playback.',
+      nodes: [
+        { name: 'Browser Audio Worklet', type: 'client', description: 'Captures microphone input and chunks 16kHz 16-bit PCM audio.' },
+        { name: 'WebSocket Gateway', type: 'service', description: 'Maintains bi-directional socket connections with heartbeat and reconnection.' },
+        { name: 'VAD & Whisper STT', type: 'engine', description: 'Detects speech boundaries and transcribes audio into text streams.' },
+        { name: 'Gemini 2.0 Flash Stream', type: 'external', description: 'Generates streaming token responses with contextual memory.' },
+        { name: 'Edge-TTS Audio Streamer', type: 'service', description: 'Synthesizes spoken sentences into binary audio buffers for immediate client playback.' },
+      ],
+      dataFlowSteps: [
+        'Browser microphone captures user voice using Web Audio API AudioWorkletNode.',
+        'Continuous PCM audio stream transmitted over secure WebSocket channel to FastAPI backend.',
+        'Voice Activity Detection (VAD) monitors speech pauses to trigger prompt finalization without manual clicks.',
+        'Transcribed speech passes to Gemini 2.0 Flash API with system instructions tuned for concise conversational pacing.',
+        'As Gemini streams response sentences, Edge-TTS synthesizes audio chunks in parallel.',
+        'Client receives audio byte stream and plays immediately through Web Audio context while Iron Man HUD animates waveform frequencies.',
+      ],
+      diagramAscii: '[Microphone / Web Audio API] -> [WebSocket Gateway] -> [VAD & Whisper STT] -> [Gemini 2.0 Flash] -> [Edge-TTS Streamer] -> [Browser Playback]',
+    },
+    tradeoffs: [
+      {
+        decision: 'WebSockets vs HTTP Polling / Server-Sent Events',
+        chosen: 'Bi-directional WebSockets',
+        alternative: 'HTTP POST with Server-Sent Events (SSE)',
+        rationale: 'WebSockets allow full-duplex communication: user can interrupt assistant mid-sentence by speaking, triggering immediate audio cancellation.',
+      },
+      {
+        decision: 'Local Whisper vs Cloud STT API',
+        chosen: 'Optimized Whisper STT with VAD filtering',
+        alternative: 'Third-party proprietary speech cloud APIs',
+        rationale: 'Local VAD filtering discards ambient silence before transcription, drastically reducing latency and cloud token costs.',
+      },
+    ],
+    failureHandling: [
+      'Exponential Backoff Reconnect: WebSocket client automatically attempts reconnecting with exponential backoff on network drop.',
+      'Audio Context Recovery: Gracefully recovers from browser suspended audio policies upon user gesture.',
+      'LLM Fallback: If Gemini API encounters rate limits or latency spikes, falls back to lightweight cached intent handlers.',
+    ],
+    securityPrivacy: [
+      'Ephemeral Audio Streams: Microphone audio is processed in-flight in memory and never written to disk or persistent storage.',
+      'CORS & WebSocket Origin Validation: Rejects unauthorized cross-origin socket initiation attempts.',
+    ],
+    resultsAndImpact: [
+      'Sub-350ms end-to-end voice loop latency achieved.',
+      'Interactive visual HUD responding to dynamic audio frequencies in real-time.',
+      'Published open-source codebase with setup instructions and architecture documentation.',
+    ],
+    limitations: [
+      'Requires modern browser supporting Web Audio API and getUserMedia permissions.',
+      'High ambient background noise can occasionally trigger premature Voice Activity Detection interrupts.',
+    ],
+    futureRoadmap: [
+      'WebRTC direct data channel support for ultra-low latency mobile streaming.',
+      'Local on-device Whisper model running via WebAssembly/WebGPU.',
+    ],
+  },
+  'cnn-streamlit': {
+    slug: 'cnn-streamlit',
+    title: 'CNN-STREAMLIT',
+    tagline: 'Deep Learning Convolutional Neural Network Image Classifier',
+    category: 'Computer Vision & Deep Learning',
+    badge: 'PyTorch Vision',
+    role: 'Deep Learning Engineer',
+    timeline: 'July 2026 - Present',
+    githubUrl: 'https://github.com/OxDurgeshxO/CNN-STREAMLIT',
+    demoUrl: undefined,
+    accent: '#ec4899',
+    overview:
+      'A deep learning Convolutional Neural Network (CNN) built with PyTorch and trained on the Fashion-MNIST dataset, achieving 89.3% test classification accuracy with an interactive real-time Streamlit image classifier interface.',
+    problem:
+      'Traditional machine learning classifiers struggle with image pixel data due to lack of spatial invariance and inability to capture hierarchical edge features. Deep learning models often remain locked in notebooks without an accessible interactive interface for non-technical verification.',
+    targetUsers: [
+      'Computer vision students and researchers studying CNN architecture design',
+      'Retail catalog managers categorizing fashion apparel imagery automatically',
+      'ML engineers evaluating PyTorch model inference speed on CPU runtimes',
+    ],
+    metrics: [
+      { label: 'Accuracy', value: '89.3%', detail: 'Test accuracy on Fashion-MNIST dataset' },
+      { label: 'Classes', value: '10 Categories', detail: 'Shirts, Shoes, Bags, Coats, Dresses' },
+      { label: 'Latency', value: '< 45ms', detail: 'CPU inference per single grayscale image' },
+      { label: 'Architecture', value: '2x Conv2D + Pool', detail: 'Dropout regularization preventing overfitting' },
+    ],
+    technologies: [
+      { name: 'Python 3.10', category: 'Language' },
+      { name: 'PyTorch', category: 'Deep Learning' },
+      { name: 'Torchvision', category: 'Computer Vision' },
+      { name: 'Streamlit', category: 'Web App' },
+      { name: 'PIL & NumPy', category: 'Image Processing' },
+      { name: 'Matplotlib', category: 'Model Analytics' },
+    ],
+    architecture: {
+      summary:
+        'A multi-layer convolutional neural network architecture featuring Conv2D filters, ReLU activation, Batch Normalization, Max Pooling, and Dropout layers feeding into fully-connected classification heads.',
+      nodes: [
+        { name: 'Input Normalizer', type: 'service', description: 'Resizes, converts to grayscale, and normalizes pixel values to [0, 1].' },
+        { name: 'Conv Block 1', type: 'engine', description: 'Conv2D (1->32 channels, 3x3 kernel) + BatchNorm + ReLU + MaxPool(2x2).' },
+        { name: 'Conv Block 2', type: 'engine', description: 'Conv2D (32->64 channels, 3x3 kernel) + BatchNorm + ReLU + MaxPool(2x2) + Dropout(0.25).' },
+        { name: 'Dense Classifier', type: 'engine', description: 'Flatten + Linear(64*7*7 -> 128) + Dropout(0.5) + Linear(128 -> 10).' },
+        { name: 'Streamlit Canvas UI', type: 'client', description: 'Allows users to upload custom images or sketch directly on a canvas for live predictions.' },
+      ],
+      dataFlowSteps: [
+        'User uploads an image file or draws an apparel silhouette on the digital canvas.',
+        'Image preprocessor converts input to 28x28 grayscale, inverts colors if needed, and applies standard tensor transforms.',
+        'Preprocessed tensor is passed through the trained PyTorch forward pass.',
+        'Conv2D layers extract hierarchical edges, textures, and apparel shape contours.',
+        'Softmax layer calculates confidence distribution across all 10 target categories.',
+        'Streamlit interface renders top-3 predictions with visual confidence percentage bars.',
+      ],
+      diagramAscii: '[Image Upload] -> [28x28 Grayscale] -> [Conv2D Block 1] -> [Conv2D Block 2] -> [Dense Classifier] -> [Softmax Top-3 Predictions]',
+    },
+    tradeoffs: [
+      {
+        decision: 'PyTorch Native vs ONNX Runtime',
+        chosen: 'Direct PyTorch model weights (.pth) loaded with torch.no_grad()',
+        alternative: 'Exporting to ONNX runtime',
+        rationale: 'Using direct PyTorch weights simplified the codebase and avoided extra dependencies while achieving <45ms CPU latency.',
+      },
+      {
+        decision: 'Fashion-MNIST vs Standard MNIST',
+        chosen: 'Fashion-MNIST',
+        alternative: 'Standard digit MNIST',
+        rationale: 'Fashion-MNIST features richer internal contours and realistic textures, making it a far more rigorous benchmark.',
+      },
+    ],
+    failureHandling: [
+      'Dynamic Channel Conversion: Handles RGB, RGBA, and CMYK image uploads by automatically stripping alpha channels and converting to single-channel luminance.',
+      'Out-of-Bounds Resizing: Uses anti-aliased bicubic interpolation to preserve shape integrity when downsampling high-res images.',
+    ],
+    securityPrivacy: [
+      'Local CPU Execution: Inference runs in-memory without sending images to any external third-party API.',
+    ],
+    resultsAndImpact: [
+      '89.3% test accuracy on test set of 10,000 unseen apparel images.',
+      'Interactive UI enabling real-time testing of custom user images.',
+    ],
+    limitations: [
+      'Input images must be cropped closely to the garment to match Fashion-MNIST distribution.',
+      'Low 28x28 resolution limits classification of complex layered outfits.',
+    ],
+    futureRoadmap: [
+      'Transfer learning with MobileNetV3 or ResNet-18 for high-resolution 224x224 color fashion datasets.',
+      'WebCam capture mode for real-time item scanning.',
+    ],
+  },
 };
 
 // Compatibility alias ensuring /work/fitness-platform continues to resolve alongside /work/fittrack

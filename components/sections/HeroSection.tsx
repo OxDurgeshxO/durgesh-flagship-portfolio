@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { FileText, Download } from 'lucide-react'
+import { FileText, Download, Sparkles, ArrowRight, Github, Mail } from 'lucide-react'
 import { TypeAnimation } from 'react-type-animation'
 import { OWNER } from '@/lib/data'
 import { trackEvent } from '@/lib/analytics'
@@ -34,7 +34,7 @@ export default function HeroSection() {
   const isLowBandwidth = perfMode === 'low-bandwidth'
 
   return (
-    <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+    <section id="hero" className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-20 pb-16">
       {/* 3D Holographic AI Neural Core Scene with CSS/SVG Fallback */}
       <div className="pointer-events-none absolute inset-0 z-0">
         {isLowBandwidth ? <StaticHeroFallback /> : <AICoreScene />}
@@ -47,82 +47,84 @@ export default function HeroSection() {
 
       {/* Interactive Content */}
       <div className="relative z-20 text-center px-6 max-w-4xl mx-auto pointer-events-auto">
-        <div className="inline-block px-4 py-1.5 rounded-full border border-purple-500/40 text-purple-300 text-sm mb-6 glass">
-          👋 Welcome to my portfolio
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/40 text-purple-300 text-xs sm:text-sm mb-6 glass">
+          <Sparkles className="size-3.5 text-purple-400" />
+          <span>AI/ML Engineer &middot; Production AI Systems</span>
         </div>
-        <h1 className="text-5xl md:text-7xl font-bold mb-4 leading-tight">
+
+        <h1 className="text-5xl md:text-7xl font-bold mb-3 leading-tight tracking-tight">
           <span className="gradient-text">{OWNER.name}</span>
         </h1>
-        <div className="text-xl md:text-2xl text-slate-300 mb-8 h-10">
+
+        <div className="text-xl md:text-2xl font-semibold text-slate-200 mb-4 h-10 flex items-center justify-center">
           <TypeAnimation
             sequence={[
-              'AIML Engineer 🤖', 2000,
-              'Full-Stack Developer 💻', 2000,
-              'AI Automation Builder ⚡', 2000,
-              'Prompt Engineer 🧠', 2000,
-              'Autonomous Systems Dev 🚀', 2000,
+              'Building useful AI products & intelligent interfaces', 2500,
+              'Designing resilient full-stack architectures', 2500,
+              'Engineering realtime voice & vision pipelines', 2500,
+              'Training deep learning classification models', 2500,
             ]}
             repeat={Infinity}
             wrapper="span"
           />
         </div>
-        <p className="text-slate-300 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
-          AIML Engineer and Full-Stack Architect building autonomous AI systems, real-time computer vision pipelines, and production web platforms.
+
+        <p className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed font-normal">
+          I design and ship AI applications, ML systems, and high-performance web experiences.
         </p>
+
         <div className="flex flex-wrap gap-3.5 justify-center items-center">
           <a
             href="#projects"
             onClick={() => trackEvent('contact_click', { button: 'view_projects_hero' })}
-            className="px-7 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white font-semibold hover:opacity-90 transition-all glow-purple cursor-pointer focus-visible:ring-2 focus-visible:ring-purple-400 shadow-lg shadow-purple-500/20 text-sm sm:text-base"
+            className="px-7 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white font-semibold hover:opacity-90 transition-all glow-purple cursor-pointer focus-visible:ring-2 focus-visible:ring-purple-400 shadow-lg shadow-purple-500/20 text-sm sm:text-base inline-flex items-center gap-2"
           >
-            View Projects
+            <span>View Featured Work</span>
+            <ArrowRight className="size-4" />
           </a>
-
-          {/* Active Primary Resume CTA */}
-          <Link
-            href="/resume"
-            onClick={() => trackEvent('theme_toggle', { action: 'view_resume_hero' })}
-            className="px-6 py-3 rounded-xl glass border border-purple-500/40 text-purple-200 font-semibold hover:bg-purple-500/15 hover:border-purple-400/70 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/10 cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-purple-400"
-            title="View Official HTML Resume (ATS-friendly, 0 WebGL)"
-          >
-            <FileText className="size-4 text-purple-400" />
-            <span>View Resume</span>
-          </Link>
 
           {/* Active Direct PDF Download */}
           <a
             href="/resume.pdf"
             download="Durgesh_Dutt_Sinha_Resume.pdf"
             onClick={() => trackEvent('theme_toggle', { action: 'download_pdf_hero' })}
-            className="px-5 py-3 rounded-xl glass border border-rose-500/30 text-rose-300 font-semibold hover:bg-rose-500/15 hover:border-rose-400/60 transition-all inline-flex items-center gap-1.5 shadow-md shadow-rose-500/10 cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-rose-400"
+            className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold transition-all inline-flex items-center gap-2 shadow-md shadow-black/20 cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-rose-400"
             title="Download Official Verified PDF Resume"
           >
             <Download className="size-4 text-rose-400" />
-            <span>Download PDF</span>
+            <span>Download Résumé</span>
           </a>
+
+          {/* Active Primary Resume CTA */}
+          <Link
+            href="/resume"
+            onClick={() => trackEvent('theme_toggle', { action: 'view_resume_hero' })}
+            className="px-5 py-3 rounded-xl glass border border-purple-500/40 text-purple-200 font-semibold hover:bg-purple-500/15 hover:border-purple-400/70 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/10 cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-purple-400"
+            title="View Official HTML Resume (ATS-friendly, 0 WebGL)"
+          >
+            <FileText className="size-4 text-purple-400" />
+            <span>ATS HTML View</span>
+          </Link>
 
           <a
             href="#contact"
             onClick={() => trackEvent('contact_click', { button: 'contact_me_hero' })}
-            className="px-6 py-3 rounded-xl glass border border-slate-700 text-slate-300 font-semibold hover:bg-white/5 hover:border-slate-500 transition-all cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-purple-400"
+            className="px-5 py-3 rounded-xl glass border border-slate-700 text-slate-300 font-semibold hover:bg-white/5 hover:border-slate-500 transition-all cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-purple-400 inline-flex items-center gap-1.5"
           >
-            Contact Me
+            <Mail className="size-4 text-slate-400" />
+            <span>Contact</span>
           </a>
+
           <a
             href={OWNER.github}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackEvent('github_click', { source: 'hero_cta' })}
-            className="px-5 py-3 rounded-xl glass border border-slate-700 text-slate-300 font-semibold hover:border-slate-400 transition-all cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-slate-300"
+            className="px-4 py-3 rounded-xl glass border border-slate-700 text-slate-300 font-semibold hover:border-slate-400 transition-all cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-slate-300 inline-flex items-center gap-1.5"
           >
-            GitHub ↗
+            <Github className="size-4 text-slate-400" />
+            <span>GitHub</span>
           </a>
-        </div>
-
-        {/* Scroll indicator - hidden on compact mobile screens to prevent button overlap */}
-        <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-slate-500">
-          <span className="text-xs">Scroll to explore</span>
-          <div className="w-px h-12 bg-gradient-to-b from-purple-500 to-transparent animate-pulse" />
         </div>
       </div>
     </section>
