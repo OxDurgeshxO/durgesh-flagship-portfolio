@@ -51,6 +51,15 @@ export function PortfolioShell({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(safetyTimer);
   }, []);
 
+  // Announce that the loading screen has handed the page over. Hero entrance
+  // animations (Cyber Ronin background + staggered heading) are gated on this;
+  // without it they would play behind the loading overlay and the visitor would
+  // only ever see the final frame.
+  useEffect(() => {
+    if (isLoading) return;
+    window.dispatchEvent(new Event("portfolio-ready"));
+  }, [isLoading]);
+
   const isLowBandwidth = perfMode === "low-bandwidth";
 
   return (

@@ -8,6 +8,7 @@ import { OWNER } from '@/lib/data'
 import { trackEvent } from '@/lib/analytics'
 import { getSavedPerformanceMode, PerformanceMode } from '@/lib/performance'
 import StaticHeroFallback from '@/components/StaticHeroFallback'
+import CyberRoninBackground from '@/components/cyber-ronin/CyberRoninBackground'
 
 class WebGLErrorBoundary extends React.Component<{ children: React.ReactNode; fallback: React.ReactNode }, { hasError: boolean }> {
   constructor(props: any) {
@@ -52,6 +53,12 @@ export default function HeroSection() {
 
   return (
     <section id="hero" className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-20 pb-16">
+      {/* Cyber Ronin // Neural Edges animated background.
+          Base plate renders at z-0 (under the 3D core + existing gradients),
+          spotlight reveal + spec panel at z-15 (above them, below the content).
+          Switched off in low-bandwidth performance mode. */}
+      <CyberRoninBackground active={!isLowBandwidth} />
+
       {/* 3D Holographic AI Neural Core Scene with CSS/SVG Fallback */}
       <div className="pointer-events-none absolute inset-0 z-0">
         {isLowBandwidth ? <StaticHeroFallback /> : <WebGLErrorBoundary fallback={<StaticHeroFallback />}><AICoreScene /></WebGLErrorBoundary>}
@@ -64,16 +71,33 @@ export default function HeroSection() {
 
       {/* Interactive Content */}
       <div className="relative z-20 text-center px-6 max-w-4xl mx-auto pointer-events-auto">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/40 text-purple-300 text-xs sm:text-sm mb-6 glass">
+        <div
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/40 text-purple-300 text-xs sm:text-sm mb-6 glass ronin-fade-up"
+          style={{ animationDelay: '0.15s' }}
+        >
           <Sparkles className="size-3.5 text-purple-400" />
           <span>AI/ML Engineer &middot; Production AI Systems</span>
         </div>
 
+        {/* Same name, same gradient — each word is wrapped so it can stagger in
+            individually once the entrance gate opens. */}
         <h1 className="text-5xl md:text-7xl font-bold mb-3 leading-tight tracking-tight">
-          <span className="gradient-text">{OWNER.name}</span>
+          <span className="gradient-text">
+            {OWNER.name.split(' ').map((word, index) => (
+              <span key={`${word}-${index}`}>
+                {index > 0 ? ' ' : null}
+                <span className="ronin-word" style={{ animationDelay: `${0.3 + index * 0.12}s` }}>
+                  {word}
+                </span>
+              </span>
+            ))}
+          </span>
         </h1>
 
-        <div className="text-xl md:text-2xl font-semibold text-slate-200 mb-4 h-10 flex items-center justify-center">
+        <div
+          className="text-xl md:text-2xl font-semibold text-slate-200 mb-4 h-10 flex items-center justify-center ronin-fade-up"
+          style={{ animationDelay: '0.62s' }}
+        >
           <TypeAnimation
             sequence={[
               'Building useful AI products & intelligent interfaces', 2500,
@@ -86,11 +110,17 @@ export default function HeroSection() {
           />
         </div>
 
-        <p className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed font-normal">
+        <p
+          className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed font-normal ronin-fade-up"
+          style={{ animationDelay: '0.72s' }}
+        >
           I design and ship AI applications, ML systems, and high-performance web experiences.
         </p>
 
-        <div className="flex flex-wrap gap-3.5 justify-center items-center">
+        <div
+          className="flex flex-wrap gap-3.5 justify-center items-center ronin-fade-up"
+          style={{ animationDelay: '0.82s' }}
+        >
           <a
             href="#projects"
             onClick={() => trackEvent('contact_click', { button: 'view_projects_hero' })}
