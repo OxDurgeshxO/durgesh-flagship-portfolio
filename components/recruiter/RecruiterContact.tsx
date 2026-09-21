@@ -22,7 +22,7 @@ export default function RecruiterContact() {
             <ArrowUpRight className="size-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>
           <div>
-            <div className="text-[10px] font-mono uppercase text-slate-500">Email Address</div>
+            <div className="text-[10px] font-mono uppercase text-slate-400">Email Address</div>
             <div className="text-xs font-semibold text-white truncate">{OWNER.email}</div>
           </div>
         </a>
@@ -38,7 +38,7 @@ export default function RecruiterContact() {
             <ArrowUpRight className="size-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>
           <div>
-            <div className="text-[10px] font-mono uppercase text-slate-500">LinkedIn Profile</div>
+            <div className="text-[10px] font-mono uppercase text-slate-400">LinkedIn Profile</div>
             <div className="text-xs font-semibold text-white truncate">durgesh-dutt-s-4ba74924b</div>
           </div>
         </a>
@@ -54,7 +54,7 @@ export default function RecruiterContact() {
             <ArrowUpRight className="size-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>
           <div>
-            <div className="text-[10px] font-mono uppercase text-slate-500">GitHub Profile</div>
+            <div className="text-[10px] font-mono uppercase text-slate-400">GitHub Profile</div>
             <div className="text-xs font-semibold text-white truncate">@OxDurgeshxO</div>
           </div>
         </a>
@@ -68,7 +68,7 @@ export default function RecruiterContact() {
             <ArrowUpRight className="size-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>
           <div>
-            <div className="text-[10px] font-mono uppercase text-slate-500">Direct Phone</div>
+            <div className="text-[10px] font-mono uppercase text-slate-400">Direct Phone</div>
             <div className="text-xs font-semibold text-white truncate">{OWNER.phone}</div>
           </div>
         </a>

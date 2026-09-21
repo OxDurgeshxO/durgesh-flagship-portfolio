@@ -191,8 +191,16 @@ export default function AICoreScene() {
   const [isVisible, setIsVisible] = useState(true)
   const [isIntersecting, setIsIntersecting] = useState(true)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const [hasWebGL, setHasWebGL] = useState(true)
 
   useEffect(() => {
+    try {
+      const c = document.createElement('canvas');
+      const gl = c.getContext('webgl') || c.getContext('experimental-webgl');
+      if (!gl) setHasWebGL(false);
+    } catch {
+      setHasWebGL(false);
+    }
     const handleMove = (e: PointerEvent) => {
       const { clientX, clientY } = e
       const { innerWidth, innerHeight } = window
@@ -243,6 +251,8 @@ export default function AICoreScene() {
   }, [])
 
   const shouldRenderLoop = isVisible && isIntersecting && !prefersReducedMotion
+
+  if (!hasWebGL) return null;
 
   return (
     <div

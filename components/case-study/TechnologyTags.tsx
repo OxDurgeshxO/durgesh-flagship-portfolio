@@ -14,7 +14,7 @@ export default function TechnologyTags({ technologies }: Props) {
         >
           <span className="size-1.5 rounded-full bg-purple-400" />
           <span className="font-semibold">{tech.name}</span>
-          <span className="text-[10px] text-slate-500">({tech.category})</span>
+          <span className="text-[10px] text-slate-400">({tech.category})</span>
         </span>
       ))}
     </div>

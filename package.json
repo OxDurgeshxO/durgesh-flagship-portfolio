@@ -12,7 +12,10 @@
     "verify": "npm run lint && npm run typecheck && npm run build && npm test",
     "audit": "node scripts/audit.mjs",
     "test:watch": "node --test --watch tests/*.test.mjs",
-    "preview": "npx serve@latest out -l 3000"
+    "preview": "npx serve@latest out -l 3000",
+    "test:e2e": "playwright test",
+    "test:a11y": "playwright test tests/e2e/a11y.spec.ts",
+    "check:links": "node scripts/check-links.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.1",
@@ -30,6 +33,8 @@
     "three": "^0.166.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
