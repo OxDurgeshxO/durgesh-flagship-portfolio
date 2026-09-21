@@ -5,8 +5,17 @@ pages_build_output_dir = "out"
 
 # ---------------------------------------------------------------------------
 # Rate limiting for /api/* (see lib/api/guards.ts)
-# Provisioned Cloudflare KV namespace for production edge request throttling.
+#
+# Without this binding the Functions still run, but throttling is SKIPPED and a
+# warning is logged on every request. The limiter is what protects the contact
+# form's Resend quota and the AI Lab endpoints.
+#
+# To enable it:
+#   1. Cloudflare dashboard -> Workers & Pages -> KV -> Create namespace
+#      (suggested name: PORTFOLIO_RATE_LIMIT)
+#   2. Copy the namespace id (or run: wrangler kv namespace list)
+#   3. Uncomment the block below and replace <KV_NAMESPACE_ID>
 # ---------------------------------------------------------------------------
-[[kv_namespaces]]
-binding = "RATE_LIMIT"
-id = "PORTFOLIO_RATE_LIMIT_KV_ID"
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT"
+# id = "<KV_NAMESPACE_ID>"
