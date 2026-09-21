@@ -12,9 +12,15 @@ Before these apologetic badges are removed from production view (to restore recr
 
 ## 📑 Master Index of Tagged Locations
 
+> **HISTORICAL DOCUMENT — partially superseded.** This audit was written *before* commit `0326a5e`
+> ("harden credibility, remove apologetic beta labels"). That commit removed the reusable
+> `BetaNoticeBanner` component and stripped the `customDescription` beta props from every route listed
+> below. Rows describing what a tag said are therefore a record of the pre-hardening state, not of the
+> current code. Row 1 is the only entry that referenced a now-deleted *file*.
+
 | # | File Path | Line Range | UI Component / Area | Tag / Label String | Current Functional State |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **1** | [`components/BetaNoticeBanner.tsx`](components/BetaNoticeBanner.tsx) | L4–L45 | Reusable Notice Banner | `BETA FEATURE • TO BE IMPROVISED SOON` | Fully functional reusable banner rendered on 5 routes. |
+| **1** | `components/BetaNoticeBanner.tsx` *(file deleted)* | L4–L45 *(historical)* | Reusable Notice Banner | `BETA FEATURE • TO BE IMPROVISED SOON` | **REMOVED** in commit `0326a5e`. The component was deleted and its imports stripped from all 5 routes as part of the beta-label hardening. Do not look for this file. |
 | **2** | [`app/lab/page.tsx`](app/lab/page.tsx) | L5, L54–L60 | AI Engineering Lab Page | `customDescription="...undergoing continuous enhancement and will be fully improvised soon."` | Fully operational: runs client-side ATS scoring, MediaPipe pose kinematics, and PCA cluster visualization. |
 | **3** | [`app/performance/page.tsx`](app/performance/page.tsx) | L5, L61–L67 | Performance Center Page | `customDescription="...active Beta features undergoing optimization and will be continuously improvised soon."` | Fully operational: probes WebGL hardware/renderer on client, renders Core Web Vitals, and switches performance modes. |
 | **4** | [`app/privacy/page.tsx`](app/privacy/page.tsx) | L5, L112–L118 | Privacy Architecture Page | `customDescription="...active Beta features... being continuously expanded and will be improvised soon."` | Fully operational: static disclosure document explaining ephemeral compute and zero-storage policies. |
