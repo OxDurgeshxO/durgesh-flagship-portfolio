@@ -74,5 +74,5 @@ The application is architected around two core personas:
   - Real-time token extraction and missing keyword detection evaluated against industry role vectors.
 
 ### 3. Edge Route & Serverless Handling
-- Serverless routes (`app/api/contact/route.ts`) operate on Node.js/Edge runtimes.
-- Built-in honeypot filters (`_gotcha`), IP sliding-window rate limiters, and payload length caps protect external email APIs.
+- Request handling lives in Cloudflare Pages Functions (`functions/api/**`). The Next.js app is a static export (`output: 'export'`), so it has no server runtime — the former `app/api/**` routes were unreachable and have been removed.
+- Honeypot filters (`_gotcha`), KV-backed IP rate limiting (`lib/api/guards.ts`), HTML escaping of every interpolated value, and payload length caps protect the external email API and the AI Lab endpoints.

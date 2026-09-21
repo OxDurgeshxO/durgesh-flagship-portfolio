@@ -2,3 +2,25 @@ name = "durgesh-portfolio-v2"
 compatibility_date = "2024-11-11"
 compatibility_flags = ["nodejs_compat", "nodejs_compat_populate_process_env"]
 pages_build_output_dir = "out"
+
+# ---------------------------------------------------------------------------
+# Rate limiting for /api/* (see lib/api/guards.ts)
+#
+# Without this binding the Functions still run, but throttling is SKIPPED and a
+# warning is logged on every request. The limiter is what protects the contact
+# form's Resend quota and the AI Lab endpoints.
+#
+# To enable it:
+#   1. Cloudflare dashboard -> Workers & Pages -> KV -> Create namespace
+#      (suggested name: PORTFOLIO_RATE_LIMIT)
+#   2. Copy the namespace id (or run: wrangler kv namespace list)
+#   3. Uncomment the block below and replace <KV_NAMESPACE_ID>
+#
+# Note: Cloudflare KV is eventually consistent and cannot do atomic increments,
+# so this throttles approximately. That is fine for spam control. If you need
+# exact enforcement, move the store to a Durable Object and keep the same
+# checkRateLimit(env, ip) signature.
+# ---------------------------------------------------------------------------
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT"
+# id = "<KV_NAMESPACE_ID>"

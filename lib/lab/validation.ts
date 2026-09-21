@@ -32,21 +32,8 @@ export function validateMarketMatchParams(clusters: number, algorithm: string): 
   return { valid: true };
 }
 
-// Simple in-memory sliding-window IP rate limiter
-const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
-const MAX_REQUESTS_PER_WINDOW = 20;
-const ipRequestHistory = new Map<string, number[]>();
-
-export function checkRateLimit(clientIp: string): { allowed: boolean; remaining: number } {
-  const now = Date.now();
-  const timestamps = ipRequestHistory.get(clientIp) || [];
-  const validTimestamps = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
-
-  if (validTimestamps.length >= MAX_REQUESTS_PER_WINDOW) {
-    return { allowed: false, remaining: 0 };
-  }
-
-  validTimestamps.push(now);
-  ipRequestHistory.set(clientIp, validTimestamps);
-  return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - validTimestamps.length };
-}
+// NOTE: the in-memory `checkRateLimit` that used to live here has been removed.
+// A module-level Map cannot rate limit on Cloudflare edge — isolates are ephemeral and
+// horizontally scaled, so each isolate kept its own counters, and the map grew without
+// bound because entries were only ever filtered for the key being accessed. The
+// KV-backed replacement lives in `lib/api/guards.ts` and is used by every Function.

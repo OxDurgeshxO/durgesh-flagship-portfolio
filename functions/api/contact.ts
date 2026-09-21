@@ -1,9 +1,19 @@
-interface Env {
+import {
+  checkRateLimit,
+  escapeHtml,
+  getClientIp,
+  jsonError,
+  type RateLimitEnv,
+} from '../../lib/api/guards';
+
+interface Env extends RateLimitEnv {
   RESEND_API_KEY?: string;
   CONTACT_TO_EMAIL?: string;
 }
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+const CONTACT_RATE_LIMIT = { limit: 5, windowSeconds: 60 };
 
 export const onRequestGet = async () => {
   return new Response(JSON.stringify({ status: 'ok', endpoint: '/api/contact' }), {
@@ -13,10 +23,26 @@ export const onRequestGet = async () => {
 
 export const onRequestPost = async (context: { request: Request; env: Env }) => {
   try {
+    // 1. IP Rate Limiting (KV-backed — see lib/api/guards.ts for why in-memory fails here)
+    const clientIp = getClientIp(context.request);
+    const rate = await checkRateLimit(context.env, clientIp, CONTACT_RATE_LIMIT);
+
+    if (!rate.allowed) {
+      return new Response(
+        JSON.stringify({
+          error: 'Too many contact requests. Please wait a minute before submitting again.',
+        }),
+        {
+          status: 429,
+          headers: { 'Content-Type': 'application/json', 'Retry-After': '60' },
+        },
+      );
+    }
+
     const body: any = await context.request.json();
     const { name, email, subject, message, _gotcha } = body;
 
-    // Honeypot check
+    // 2. Honeypot check (Spam protection)
     if (_gotcha) {
       return new Response(JSON.stringify({
         success: true,
@@ -26,37 +52,36 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
       });
     }
 
-    // Validation
+    // 3. Validation
     if (!name || typeof name !== 'string' || name.trim().length < 2 || name.trim().length > 100) {
-      return new Response(JSON.stringify({ error: 'Please provide a valid name (between 2 and 100 characters).' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return jsonError('Please provide a valid name (between 2 and 100 characters).', 400);
     }
 
     if (!email || typeof email !== 'string' || !EMAIL_REGEX.test(email.trim())) {
-      return new Response(JSON.stringify({ error: 'Please provide a valid email address (e.g. name@domain.com).' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return jsonError('Please provide a valid email address (e.g. name@domain.com).', 400);
     }
 
     if (!message || typeof message !== 'string' || message.trim().length < 2 || message.trim().length > 2500) {
-      return new Response(JSON.stringify({ error: 'Message must be between 2 and 2,500 characters.' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return jsonError('Message must be between 2 and 2,500 characters.', 400);
     }
 
     const cleanName = name.trim();
     const cleanEmail = email.trim();
-    const cleanSubject = (subject || 'General Enquiry').trim();
+    const cleanSubject = (typeof subject === 'string' && subject.trim() ? subject : 'General Enquiry').trim();
     const cleanMessage = message.trim();
+
+    // 4. Escape everything that reaches the email body. Without this a submission can
+    //    inject arbitrary markup and links into the notification email.
+    const safeName = escapeHtml(cleanName);
+    const safeEmail = escapeHtml(cleanEmail);
+    const safeSubject = escapeHtml(cleanSubject);
+    const safeMessage = escapeHtml(cleanMessage);
+    const mailtoEmail = encodeURIComponent(cleanEmail);
 
     const apiKey = context.env?.RESEND_API_KEY || '';
     const toEmail = context.env?.CONTACT_TO_EMAIL || 'durgeshdsinha@gmail.com';
 
-    // Send via Resend REST API
+    // 5. Send via Resend REST API
     const resendRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -66,6 +91,7 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
       body: JSON.stringify({
         from: 'DDS Portfolio <onboarding@resend.dev>',
         to: [toEmail],
+        // reply_to must be the raw address — Resend validates it, so never send escaped entities.
         reply_to: cleanEmail,
         subject: `[Portfolio Contact] ${cleanSubject} — from ${cleanName}`,
         html: `
@@ -78,25 +104,25 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
               <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
                 <tr><td style="padding:10px 14px;background:#1a1a2e;border-radius:8px 8px 0 0;border-bottom:1px solid #2d2d4a;">
                   <span style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#7c3aed;font-weight:600;">FROM</span><br/>
-                  <span style="font-size:15px;color:#f1f5f9;font-weight:600;">${cleanName}</span>
+                  <span style="font-size:15px;color:#f1f5f9;font-weight:600;">${safeName}</span>
                 </td></tr>
                 <tr><td style="padding:10px 14px;background:#1a1a2e;border-bottom:1px solid #2d2d4a;">
                   <span style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#7c3aed;font-weight:600;">EMAIL</span><br/>
-                  <a href="mailto:${cleanEmail}" style="color:#a78bfa;font-size:14px;">${cleanEmail}</a>
+                  <a href="mailto:${mailtoEmail}" style="color:#a78bfa;font-size:14px;">${safeEmail}</a>
                 </td></tr>
                 <tr><td style="padding:10px 14px;background:#1a1a2e;border-radius:0 0 8px 8px;">
                   <span style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#7c3aed;font-weight:600;">TOPIC</span><br/>
-                  <span style="font-size:14px;color:#f1f5f9;">${cleanSubject}</span>
+                  <span style="font-size:14px;color:#f1f5f9;">${safeSubject}</span>
                 </td></tr>
               </table>
               <div style="background:#1a1a2e;border-radius:8px;padding:18px;border-left:3px solid #7c3aed;">
                 <p style="margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#7c3aed;font-weight:600;">MESSAGE</p>
-                <p style="margin:0;font-size:15px;line-height:1.7;color:#e2e8f0;white-space:pre-wrap;">${cleanMessage}</p>
+                <p style="margin:0;font-size:15px;line-height:1.7;color:#e2e8f0;white-space:pre-wrap;">${safeMessage}</p>
               </div>
               <div style="margin-top:24px;text-align:center;">
-                <a href="mailto:${cleanEmail}?subject=Re: [Portfolio Contact] ${encodeURIComponent(cleanSubject)}"
+                <a href="mailto:${mailtoEmail}?subject=Re: [Portfolio Contact] ${encodeURIComponent(cleanSubject)}"
                    style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,#7c3aed,#e11d48);color:#fff;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;">
-                  ↩ Reply to ${cleanName}
+                  ↩ Reply to ${safeName}
                 </a>
               </div>
             </div>
@@ -111,11 +137,9 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
     if (!resendRes.ok) {
       let resendError = 'Resend API error';
       try { const d = await resendRes.json(); resendError = d?.message || resendError; } catch {}
-      console.error('[Contact Function] Resend error:', resendError);
-      return new Response(JSON.stringify({ error: 'Message delivery failed. Please email me directly or try again shortly.' }), {
-        status: 502,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      // Detail stays server-side; the caller gets a generic message.
+      console.error('[Contact Function] Resend error:', resendRes.status, resendError);
+      return jsonError('Message delivery failed. Please email me directly or try again shortly.', 502);
     }
 
     return new Response(JSON.stringify({
@@ -126,9 +150,7 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err?.message || 'Invalid request' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    console.error('[Contact Function] Unhandled error:', err);
+    return jsonError('Invalid request body or JSON parsing failure.', 400);
   }
 };

@@ -1,20 +1,39 @@
+import { checkRateLimit, getClientIp, jsonError, type RateLimitEnv } from '../../../lib/api/guards';
+import { validateMarketMatchParams } from '../../../lib/lab/validation';
+
+const LAB_RATE_LIMIT = { limit: 20, windowSeconds: 60 };
+
 export const onRequestGet = async () => {
   return new Response(JSON.stringify({ status: "ok", endpoint: "/api/lab/marketmatch" }), {
     headers: { "Content-Type": "application/json" },
   });
 };
 
-export const onRequestPost = async (context: { request: Request }) => {
+export const onRequestPost = async (context: { request: Request; env: RateLimitEnv }) => {
   try {
+    // 1. IP Rate Limiting (KV-backed)
+    const clientIp = getClientIp(context.request);
+    const rate = await checkRateLimit(context.env, clientIp, LAB_RATE_LIMIT);
+
+    if (!rate.allowed) {
+      return new Response(
+        JSON.stringify({ error: "Too many simulation requests. Please wait a minute before trying again." }),
+        {
+          status: 429,
+          headers: { "Content-Type": "application/json", "Retry-After": "60" },
+        },
+      );
+    }
+
     const body: any = await context.request.json();
     const clusters = Number(body.clusters) || 5;
     const algorithm = String(body.algorithm || "kmeans").toLowerCase();
 
-    if (clusters < 2 || clusters > 8) {
-      return new Response(JSON.stringify({ error: "Cluster count (K) must be between 2 and 8." }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+    // 2. Shared validation. Previously only the cluster count was checked, so any
+    //    arbitrary algorithm string was accepted and echoed back to the client.
+    const validation = validateMarketMatchParams(clusters, algorithm);
+    if (!validation.valid) {
+      return jsonError(validation.error || "Invalid simulation parameters.", 400);
     }
 
     const silhouetteMap: Record<number, number> = {
@@ -51,9 +70,8 @@ export const onRequestPost = async (context: { request: Request }) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err?.message || "Invalid request" }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    // Detail stays server-side; the caller gets a generic message.
+    console.error('[Lab MarketMatch Function] Unhandled error:', err);
+    return jsonError("Invalid request body or JSON parsing failure.", 400);
   }
 };
