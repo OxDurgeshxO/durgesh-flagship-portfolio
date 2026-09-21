@@ -191,13 +191,13 @@ export default function AICoreScene() {
   const [isVisible, setIsVisible] = useState(true)
   const [isIntersecting, setIsIntersecting] = useState(true)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-  const [hasWebGL, setHasWebGL] = useState(true)
+  const [hasWebGL, setHasWebGL] = useState(false)
 
   useEffect(() => {
     try {
       const c = document.createElement('canvas');
       const gl = c.getContext('webgl') || c.getContext('experimental-webgl');
-      if (!gl) setHasWebGL(false);
+      if (gl) setHasWebGL(true);
     } catch {
       setHasWebGL(false);
     }

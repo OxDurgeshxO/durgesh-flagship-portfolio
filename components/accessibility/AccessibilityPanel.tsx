@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Accessibility,
@@ -22,6 +22,8 @@ export function AccessibilityPanel() {
   const [highContrast, setHighContrast] = useState(false);
   const [largerText, setLargerText] = useState(false);
   const [perfMode, setPerfMode] = useState<ExperienceMode>("immersive");
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // Initial load from storage / media queries
@@ -61,6 +63,36 @@ export function AccessibilityPanel() {
       window.removeEventListener("experience-mode-change", handleModeChange);
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+      setTimeout(() => {
+        const firstBtn = panelRef.current?.querySelector<HTMLElement>('button');
+        firstBtn?.focus();
+      }, 50);
+    } else if (previousFocusRef.current) {
+      previousFocusRef.current.focus?.();
+      previousFocusRef.current = null;
+    }
+  }, [isOpen]);
+
+  const handleKeyDownTrap = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== "Tab" || !panelRef.current) return;
+    const focusables = panelRef.current.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
 
   const applyClasses = (rm: boolean, hc: boolean, lt: boolean) => {
     if (typeof document === "undefined") return;

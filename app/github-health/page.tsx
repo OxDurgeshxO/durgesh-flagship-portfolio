@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function GitHubHealthPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground py-12 px-4 sm:px-6 lg:px-8 selection:bg-purple-500/30 selection:text-white">
+    <main id="main-content" className="min-h-screen bg-background text-foreground py-12 px-4 sm:px-6 lg:px-8 selection:bg-purple-500/30 selection:text-white">
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
           <Link

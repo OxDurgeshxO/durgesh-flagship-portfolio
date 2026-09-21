@@ -75,7 +75,7 @@ export default function PrivacyPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8 selection:bg-purple-500/30 selection:text-white">
+    <main id="main-content" className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8 selection:bg-purple-500/30 selection:text-white">
       <div className="max-w-4xl mx-auto space-y-10">
         {/* Navigation Breadcrumb */}
         <div className="flex items-center justify-between">

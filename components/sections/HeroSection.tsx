@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { FileText, Download, Sparkles, ArrowRight, Github, Mail } from 'lucide-react'
@@ -8,6 +8,23 @@ import { OWNER } from '@/lib/data'
 import { trackEvent } from '@/lib/analytics'
 import { getSavedPerformanceMode, PerformanceMode } from '@/lib/performance'
 import StaticHeroFallback from '@/components/StaticHeroFallback'
+
+class WebGLErrorBoundary extends React.Component<{ children: React.ReactNode; fallback: React.ReactNode }, { hasError: boolean }> {
+  constructor(props: any) {
+    super(props)
+    this.state = { hasError: false }
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+  componentDidCatch(err: any) {
+    console.warn('WebGL initialization failed, falling back to static visual:', err?.message || err)
+  }
+  render() {
+    if (this.state.hasError) return this.props.fallback
+    return this.props.children
+  }
+}
 
 const AICoreScene = dynamic(() => import('@/components/3d/AICoreScene'), {
   ssr: false,
@@ -37,7 +54,7 @@ export default function HeroSection() {
     <section id="hero" className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-20 pb-16">
       {/* 3D Holographic AI Neural Core Scene with CSS/SVG Fallback */}
       <div className="pointer-events-none absolute inset-0 z-0">
-        {isLowBandwidth ? <StaticHeroFallback /> : <AICoreScene />}
+        {isLowBandwidth ? <StaticHeroFallback /> : <WebGLErrorBoundary fallback={<StaticHeroFallback />}><AICoreScene /></WebGLErrorBoundary>}
       </div>
 
       {/* Gradient overlays with pointer-events-none */}

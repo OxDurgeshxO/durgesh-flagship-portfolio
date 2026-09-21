@@ -21,7 +21,7 @@ export default function ResumePage() {
   ];
 
   return (
-    <main className="min-h-screen bg-slate-950 py-8 px-4 sm:px-6 lg:px-8 selection:bg-purple-500/30">
+    <main id="main-content" className="min-h-screen bg-slate-950 py-8 px-4 sm:px-6 lg:px-8 selection:bg-purple-500/30">
       <div className="max-w-4xl mx-auto">
         <ResumeActions />
 

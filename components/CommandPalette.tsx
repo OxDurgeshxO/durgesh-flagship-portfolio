@@ -51,6 +51,8 @@ export default function CommandPalette() {
 
   const [toast, setToast] = useState<string | null>(null);
   const toastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const paletteCardRef = useRef<HTMLDivElement | null>(null);
 
   const triggerToast = (msg: string) => {
     setToast(msg);

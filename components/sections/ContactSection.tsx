@@ -181,7 +181,7 @@ export default function ContactSection() {
             className="glass rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl relative overflow-hidden space-y-5"
           >
             {status === 'sent' ? (
-              <div className="text-center py-12">
+              <div role="status" aria-live="polite" className="text-center py-12">
                 <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-3xl mx-auto mb-4">
                   ✓
                 </div>
@@ -221,13 +221,14 @@ export default function ContactSection() {
 
                 {/* Subject Selector */}
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-2">What would you like to discuss?</label>
-                  <div className="flex flex-wrap gap-2">
+                  <label id="contact-subject-label" className="block text-xs font-medium text-slate-300 mb-2">What would you like to discuss?</label>
+                  <div role="group" aria-labelledby="contact-subject-label" className="flex flex-wrap gap-2">
                     {SUBJECT_OPTIONS.map((sub) => (
                       <button
                         key={sub}
                         type="button"
                         onClick={() => setForm({ ...form, subject: sub })}
+                        aria-pressed={form.subject === sub}
                         className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                           form.subject === sub
                             ? 'bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-md shadow-purple-500/20'
@@ -243,8 +244,10 @@ export default function ContactSection() {
                 {/* Name & Email Row */}
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-medium text-slate-300 mb-1.5">Your Name</label>
+                    <label htmlFor="contact-name" className="block text-xs font-medium text-slate-300 mb-1.5">Your Name</label>
                     <input
+                      id="contact-name"
+                      name="name"
                       type="text"
                       required
                       placeholder="e.g. Alex Morgan"
@@ -254,8 +257,10 @@ export default function ContactSection() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-slate-300 mb-1.5">Your Email</label>
+                    <label htmlFor="contact-email" className="block text-xs font-medium text-slate-300 mb-1.5">Your Email</label>
                     <input
+                      id="contact-email"
+                      name="email"
                       type="email"
                       required
                       placeholder="alex@company.com"
@@ -279,8 +284,10 @@ export default function ContactSection() {
 
                 {/* Message Box */}
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1.5">Message</label>
+                  <label htmlFor="contact-message" className="block text-xs font-medium text-slate-300 mb-1.5">Message</label>
                   <textarea
+                    id="contact-message"
+                    name="message"
                     rows={4}
                     required
                     placeholder="Tell me about your project, team, or ideas..."
@@ -291,7 +298,7 @@ export default function ContactSection() {
                 </div>
 
                 {error && (
-                  <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-300 flex flex-col gap-2">
+                  <div role="alert" aria-live="assertive" className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-300 flex flex-col gap-2">
                     <p>{error}</p>
                     <button
                       type="button"

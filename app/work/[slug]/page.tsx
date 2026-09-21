@@ -40,7 +40,7 @@ export default function CaseStudyPage({ params }: Props) {
   if (!caseStudy) notFound();
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8 relative selection:bg-purple-500/30 selection:text-white">
+    <main id="main-content" className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8 relative selection:bg-purple-500/30 selection:text-white">
       {/* Ambient background glow */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
         <div

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -190,6 +190,8 @@ const CATEGORIES = ["All", "Full Stack AI", "Realtime AI", "Computer Vision", "M
 export default function FeaturedProjectsSection() {
   const [selectedProject, setSelectedProject] = useState<FeaturedProject | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -198,6 +200,36 @@ export default function FeaturedProjectsSection() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  useEffect(() => {
+    if (selectedProject) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+      setTimeout(() => {
+        const closeBtn = modalRef.current?.querySelector<HTMLElement>('button');
+        closeBtn?.focus();
+      }, 50);
+    } else if (previousFocusRef.current) {
+      previousFocusRef.current.focus?.();
+      previousFocusRef.current = null;
+    }
+  }, [selectedProject]);
+
+  const handleKeyDownTrap = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== "Tab" || !modalRef.current) return;
+    const focusables = modalRef.current.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
 
   const filteredProjects =
     activeCategory === "All"
@@ -399,6 +431,8 @@ export default function FeaturedProjectsSection() {
             />
 
             <motion.div
+              ref={modalRef}
+              onKeyDown={handleKeyDownTrap}
               initial={{ opacity: 0, scale: 0.92, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, y: 20 }}
