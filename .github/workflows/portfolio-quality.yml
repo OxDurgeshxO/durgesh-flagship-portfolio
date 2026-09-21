@@ -1,0 +1,48 @@
+name: Portfolio Quality Gate
+
+on:
+  push:
+    branches: [main, v2]
+    tags: ['v*']
+  pull_request:
+    branches: [main, v2]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Build, Audit & Test Validation Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Clean install dependencies
+        run: npm ci
+
+      - name: Verify code style and lint rules
+        run: npm run lint
+
+      - name: Strict TypeScript typecheck
+        run: npm run typecheck
+
+      - name: Run dependency security audit
+        run: npm run audit
+
+      - name: Execute static production export
+        run: npm run build
+
+      - name: Execute unit and integration assertions
+        run: npm test
+
+      - name: Validate external links
+        run: npm run check:links

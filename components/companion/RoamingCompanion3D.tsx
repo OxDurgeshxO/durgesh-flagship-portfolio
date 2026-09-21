@@ -15,7 +15,7 @@ function getTimeBasedGreeting(): string {
 }
 
 const CYBERBOT_VOICELINES = [
-  "🚀 Check out ROLEFIT2 — an enterprise AI career intelligence platform evaluating 16 roles with multi-model scoring!",
+  "🚀 Check out RoleRadar — an enterprise AI career intelligence platform evaluating 16 roles with multi-model scoring!",
   "🏋️ The AI Fitness Platform runs real-time MediaPipe pose detection under 50ms with live audio feedback!",
   "📊 MarketMatch-AI uses K-Means & DBSCAN clustering for customer segmentation & predictive retail intelligence.",
   "🎓 Durgesh is pursuing an MCA in AIML at Sri Balaji University, Pune (2025–2027)!",
@@ -23,6 +23,7 @@ const CYBERBOT_VOICELINES = [
   "🏆 Lead engineer in AI hackathons & developer of autonomous agent pipelines.",
   "⚡ 360° acrobatic ion flip! Click me again for another stunt!",
   "💡 Tip: You can drag me anywhere, or use the badge below to toggle Roam mode!",
+  "🧪 CyberBot is an interactive 3D companion built with Three.js and React Three Fiber!",
 ]
 
 type MotionMode = 'dock' | 'roam' | 'follow'
@@ -58,6 +59,9 @@ export default function RoamingCompanion3D() {
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
       if (!AudioCtx) return
       const ctx = new AudioCtx()
+      if (ctx.state === 'suspended') {
+        ctx.resume().catch(() => {})
+      }
       const osc = ctx.createOscillator()
       const gain = ctx.createGain()
 
@@ -81,12 +85,16 @@ export default function RoamingCompanion3D() {
   useEffect(() => {
     setMounted(true)
     if (typeof window !== 'undefined') {
+      const isMobile = window.innerWidth < 768
+      if (isMobile) {
+        setBubbleVisible(false)
+      }
       // Set dynamic time-of-day greeting (Priority 3)
       setActiveMessage(getTimeBasedGreeting())
 
       // Start docked in bottom-right corner with ample safety margin
-      const startX = Math.max(80, window.innerWidth - 220)
-      const startY = Math.max(80, window.innerHeight - 260)
+      const startX = isMobile ? Math.max(16, window.innerWidth - 150) : Math.max(80, window.innerWidth - 220)
+      const startY = isMobile ? Math.max(30, window.innerHeight - 190) : Math.max(80, window.innerHeight - 260)
       posRef.current = { x: startX, y: startY }
       targetRef.current = { x: startX, y: startY }
       setBubbleAlign('left')
@@ -96,16 +104,17 @@ export default function RoamingCompanion3D() {
       isMutedRef.current = savedMute
     }
 
-    // Keep initial greeting visible for 9 seconds so user sees it right after loading screen fades
+    // Keep initial greeting visible on desktop
+    const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 768
     const welcomeTimer = setTimeout(() => {
       setBubbleVisible(false)
-    }, 9000)
+    }, isMobileViewport ? 0 : 9000)
 
     // Priority 3: Robust Real-Time Section Scroll Spy
     const SECTION_PROMPTS: { id: string; msg: string }[] = [
       { id: 'contact', msg: "📬 Ready to build next-gen AI? Send Durgesh a message or grab his resume above!" },
       { id: 'github-projects', msg: "💻 Real-time GitHub sync! Check out his open-source repositories and live stars." },
-      { id: 'projects', msg: "🚀 Featured: ROLEFIT2 AI Career Platform, FitTrack MediaPipe & MarketMatch-AI!" },
+      { id: 'projects', msg: "🚀 Featured: RoleRadar AI Career Platform, AI Fitness MediaPipe & MarketMatch-AI!" },
       { id: 'education', msg: "🏛️ MCA in AIML (2025–2027) & BCA (8.9 CGPA) with AWS & UNLOX certifications!" },
       { id: 'experience', msg: "💼 Enterprise GenAI, LLM agents, and cloud architectures built for production scale!" },
       { id: 'about', msg: "🎓 Durgesh is an MCA (AIML) candidate with expertise in autonomous AI & deep learning!" },
@@ -356,7 +365,7 @@ export default function RoamingCompanion3D() {
   }
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-40">
+    <div className="fixed inset-0 pointer-events-none z-40 hidden sm:block">
       {/* 3D CyberBot Floating Anchor */}
       <div
         ref={containerRef}
@@ -372,11 +381,11 @@ export default function RoamingCompanion3D() {
                 setBubbleVisible(true)
                 playCyberChirp(600, 1000)
               }}
-              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/90 border border-purple-500/50 text-purple-300 hover:border-rose-400 hover:text-white backdrop-blur-xl shadow-lg shadow-purple-500/25 transition-all flex items-center gap-1.5 active:scale-95"
-              title="Click to hear CyberBot's insights!"
+              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/90 border border-purple-500/50 text-purple-300 hover:border-amber-400 hover:text-white backdrop-blur-xl shadow-lg shadow-purple-500/25 transition-all flex items-center gap-1.5 active:scale-95"
+              title="CyberBot AI Companion"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-ping" />
-              <span>💬 CyberBot AI • Click to Chat</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+              <span>💬 CyberBot AI</span>
             </button>
           </div>
         )}
@@ -410,7 +419,8 @@ export default function RoamingCompanion3D() {
 
           <Canvas
             camera={{ position: [0, 0, 3.2], fov: 45 }}
-            gl={{ alpha: true, antialias: true }}
+            dpr={[1, 1.5]}
+            gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
             className="w-full h-full"
           >
             <Suspense fallback={null}>

@@ -1,15 +1,16 @@
 "use client"
 
-import React, { useRef, useMemo, useState } from 'react'
+import React, { useRef, useMemo, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { PerformanceMonitor } from '@react-three/drei'
 import * as THREE from 'three'
 
 interface CoreMeshProps {
   mouse: React.MutableRefObject<{ x: number; y: number }>
+  prefersReducedMotion: boolean
 }
 
-function NeuralCore({ mouse }: CoreMeshProps) {
+function NeuralCore({ mouse, prefersReducedMotion }: CoreMeshProps) {
   const groupRef = useRef<THREE.Group>(null)
   const coreRef = useRef<THREE.Mesh>(null)
   const innerSphereRef = useRef<THREE.Mesh>(null)
@@ -17,9 +18,8 @@ function NeuralCore({ mouse }: CoreMeshProps) {
   const ring2Ref = useRef<THREE.Mesh>(null)
   const particlesRef = useRef<THREE.Points>(null)
 
-  // Priority 1: Mobile Performance Scaling (auto-adjust particle count)
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-  const particleCount = isMobile ? 60 : 180
+  const particleCount = isMobile ? 50 : 160
   const [positions, scales] = useMemo(() => {
     const pos = new Float32Array(particleCount * 3)
     const sc = new Float32Array(particleCount)
@@ -36,18 +36,18 @@ function NeuralCore({ mouse }: CoreMeshProps) {
   }, [particleCount])
 
   useFrame((state, delta) => {
+    if (prefersReducedMotion) return
+
     const t = state.clock.getElapsedTime()
 
-    // Smooth mouse lerp
     if (groupRef.current) {
-      const targetRotX = mouse.current.y * 0.4
-      const targetRotY = mouse.current.x * 0.5
+      const targetRotX = mouse.current.y * 0.35
+      const targetRotY = mouse.current.x * 0.45
       groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetRotX, 3, delta)
       groupRef.current.rotation.y = THREE.MathUtils.damp(groupRef.current.rotation.y, targetRotY, 3, delta)
       groupRef.current.position.y = Math.sin(t * 1.2) * 0.08
     }
 
-    // Outer wireframe core rotation & breathing
     if (coreRef.current) {
       coreRef.current.rotation.y += delta * 0.25
       coreRef.current.rotation.x += delta * 0.15
@@ -55,14 +55,12 @@ function NeuralCore({ mouse }: CoreMeshProps) {
       coreRef.current.scale.set(pulse, pulse, pulse)
     }
 
-    // Inner glowing sphere
     if (innerSphereRef.current) {
       innerSphereRef.current.rotation.y -= delta * 0.4
       const innerPulse = 0.95 + Math.cos(t * 2.4) * 0.06
       innerSphereRef.current.scale.set(innerPulse, innerPulse, innerPulse)
     }
 
-    // Counter-rotating quantum energy rings
     if (ring1Ref.current) {
       ring1Ref.current.rotation.x = t * 0.4
       ring1Ref.current.rotation.y = t * 0.6
@@ -72,7 +70,6 @@ function NeuralCore({ mouse }: CoreMeshProps) {
       ring2Ref.current.rotation.z = t * 0.35
     }
 
-    // Swirling particle field
     if (particlesRef.current) {
       particlesRef.current.rotation.y = t * 0.08
       particlesRef.current.rotation.z = Math.sin(t * 0.2) * 0.1
@@ -81,7 +78,6 @@ function NeuralCore({ mouse }: CoreMeshProps) {
 
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
-      {/* Central Solid Glowing Energy Sphere */}
       <mesh ref={innerSphereRef}>
         <sphereGeometry args={[0.7, 32, 32]} />
         <meshStandardMaterial
@@ -96,7 +92,6 @@ function NeuralCore({ mouse }: CoreMeshProps) {
         />
       </mesh>
 
-      {/* Outer Geodesic Icosahedron Wireframe */}
       <mesh ref={coreRef}>
         <icosahedronGeometry args={[1.15, 1]} />
         <meshStandardMaterial
@@ -109,19 +104,16 @@ function NeuralCore({ mouse }: CoreMeshProps) {
         />
       </mesh>
 
-      {/* Orbital Quantum Ring 1 (Sunset Violet) */}
       <mesh ref={ring1Ref}>
         <torusGeometry args={[1.7, 0.015, 16, 100]} />
         <meshBasicMaterial color="#c084fc" transparent opacity={0.75} />
       </mesh>
 
-      {/* Orbital Quantum Ring 2 (Rose Quartz) */}
       <mesh ref={ring2Ref} rotation={[Math.PI / 3, 0, 0]}>
         <torusGeometry args={[1.95, 0.012, 16, 100]} />
         <meshBasicMaterial color="#fb7185" transparent opacity={0.7} />
       </mesh>
 
-      {/* Floating Neural Energy Particles */}
       <points ref={particlesRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -141,17 +133,16 @@ function NeuralCore({ mouse }: CoreMeshProps) {
         />
       </points>
 
-      {/* Point Lights inside the core for rich specular depth */}
       <pointLight color="#f43f5e" intensity={2.8} distance={6} decay={2} />
       <pointLight color="#a855f7" intensity={2.6} distance={6} decay={2} />
     </group>
   )
 }
 
-function AmbientCosmicField() {
+function AmbientCosmicField({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
   const pointsRef = useRef<THREE.Points>(null)
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-  const count = isMobile ? 400 : 1200
+  const count = isMobile ? 300 : 900
 
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3)
@@ -164,6 +155,7 @@ function AmbientCosmicField() {
   }, [count])
 
   useFrame((_, delta) => {
+    if (prefersReducedMotion) return
     if (pointsRef.current) {
       pointsRef.current.rotation.y -= delta * 0.02
       pointsRef.current.rotation.x -= delta * 0.01
@@ -193,10 +185,22 @@ function AmbientCosmicField() {
 }
 
 export default function AICoreScene() {
+  const containerRef = useRef<HTMLDivElement>(null)
   const mouse = useRef({ x: 0, y: 0 })
   const [dpr, setDpr] = useState(1.5)
+  const [isVisible, setIsVisible] = useState(true)
+  const [isIntersecting, setIsIntersecting] = useState(true)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const [hasWebGL, setHasWebGL] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
+    try {
+      const c = document.createElement('canvas');
+      const gl = c.getContext('webgl') || c.getContext('experimental-webgl');
+      if (gl) setHasWebGL(true);
+    } catch {
+      setHasWebGL(false);
+    }
     const handleMove = (e: PointerEvent) => {
       const { clientX, clientY } = e
       const { innerWidth, innerHeight } = window
@@ -205,18 +209,61 @@ export default function AICoreScene() {
         y: -(clientY / innerHeight) * 2 + 1,
       }
     }
+
+    // Visibility Listener: Pause WebGL when browser tab is inactive
+    const handleVisibilityChange = () => {
+      setIsVisible(document.visibilityState === 'visible')
+    }
+
+    // Reduced Motion Detection
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mediaQuery.matches)
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches)
+    }
+
     window.addEventListener('pointermove', handleMove, { passive: true })
-    return () => window.removeEventListener('pointermove', handleMove)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    mediaQuery.addEventListener('change', handleMotionChange)
+
+    // Viewport Intersection Observer: Pause loop when scrolled off-screen
+    const currentContainer = containerRef.current
+    let observer: IntersectionObserver | null = null
+    if (currentContainer && 'IntersectionObserver' in window) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          setIsIntersecting(entry.isIntersecting)
+        },
+        { threshold: 0.05 }
+      )
+      observer.observe(currentContainer)
+    }
+
+    return () => {
+      window.removeEventListener('pointermove', handleMove)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      mediaQuery.removeEventListener('change', handleMotionChange)
+      if (observer && currentContainer) {
+        observer.unobserve(currentContainer)
+        observer.disconnect()
+      }
+    }
   }, [])
+
+  const shouldRenderLoop = isVisible && isIntersecting && !prefersReducedMotion
+
+  if (!hasWebGL) return null;
 
   return (
     <div
+      ref={containerRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
     >
       <Canvas
         camera={{ position: [0, 0, 5], fov: 48 }}
         dpr={dpr}
-        gl={{ antialias: true, alpha: true }}
+        frameloop={shouldRenderLoop ? 'always' : 'never'}
+        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       >
         <PerformanceMonitor
           onDecline={() => setDpr(1)}
@@ -226,8 +273,8 @@ export default function AICoreScene() {
         <directionalLight position={[5, 5, 5]} intensity={1} color="#ffffff" />
         <directionalLight position={[-5, -5, -2]} intensity={0.5} color="#a855f7" />
 
-        <AmbientCosmicField />
-        <NeuralCore mouse={mouse} />
+        <AmbientCosmicField prefersReducedMotion={prefersReducedMotion} />
+        <NeuralCore mouse={mouse} prefersReducedMotion={prefersReducedMotion} />
       </Canvas>
     </div>
   )

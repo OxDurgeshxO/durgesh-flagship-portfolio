@@ -13,9 +13,12 @@ const SUBJECT_OPTIONS = [
 
 export default function ContactSection() {
   const [form, setForm] = useState({ name: '', email: '', subject: SUBJECT_OPTIONS[0], message: '' })
+  const [gotcha, setGotcha] = useState('')
   const [copied, setCopied] = useState(false)
   const [draftCopied, setDraftCopied] = useState(false)
   const [status, setStatus] = useState<'idle' | 'sent'>('idle')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(OWNER.email)
@@ -30,15 +33,49 @@ export default function ContactSection() {
     setTimeout(() => setDraftCopied(false), 3000)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleMailtoFallback = () => {
     const mailtoUrl = `mailto:${OWNER.email}?subject=${encodeURIComponent(
       `[${form.subject}] Message from ${form.name}`
     )}&body=${encodeURIComponent(
       `Name: ${form.name}\nEmail: ${form.email}\nTopic: ${form.subject}\n\nMessage:\n${form.message}`
     )}`
     window.location.href = mailtoUrl
-    setStatus('sent')
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+          _gotcha: gotcha,
+        }),
+      })
+      let data: any = null
+      try {
+        data = await res.json()
+      } catch {
+        // Non-JSON response
+      }
+
+      if (!res.ok) {
+        throw new Error(
+          data?.error || `Unable to deliver message (HTTP ${res.status}). Please use the email client button below.`
+        )
+      }
+      setStatus('sent')
+    } catch (err: any) {
+      setError(err.message || 'Transmission failed. You can copy the draft or use your email client directly.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -144,7 +181,7 @@ export default function ContactSection() {
             className="glass rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl relative overflow-hidden space-y-5"
           >
             {status === 'sent' ? (
-              <div className="text-center py-12">
+              <div role="status" aria-live="polite" className="text-center py-12">
                 <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-3xl mx-auto mb-4">
                   ✓
                 </div>
@@ -171,15 +208,27 @@ export default function ContactSection() {
               </div>
             ) : (
               <>
+                {/* Direct Dispatch Status */}
+                <div className="flex items-center justify-between border-b border-white/10 pb-2.5 mb-1 text-[11px] font-mono">
+                  <span className="text-slate-400 flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                    Direct Message Dispatch
+                  </span>
+                  <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 text-[10px] font-semibold uppercase tracking-wider">
+                    Edge API Active
+                  </span>
+                </div>
+
                 {/* Subject Selector */}
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-2">What would you like to discuss?</label>
-                  <div className="flex flex-wrap gap-2">
+                  <label id="contact-subject-label" className="block text-xs font-medium text-slate-300 mb-2">What would you like to discuss?</label>
+                  <div role="group" aria-labelledby="contact-subject-label" className="flex flex-wrap gap-2">
                     {SUBJECT_OPTIONS.map((sub) => (
                       <button
                         key={sub}
                         type="button"
                         onClick={() => setForm({ ...form, subject: sub })}
+                        aria-pressed={form.subject === sub}
                         className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                           form.subject === sub
                             ? 'bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-md shadow-purple-500/20'
@@ -195,8 +244,10 @@ export default function ContactSection() {
                 {/* Name & Email Row */}
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-medium text-slate-300 mb-1.5">Your Name</label>
+                    <label htmlFor="contact-name" className="block text-xs font-medium text-slate-300 mb-1.5">Your Name</label>
                     <input
+                      id="contact-name"
+                      name="name"
                       type="text"
                       required
                       placeholder="e.g. Alex Morgan"
@@ -206,8 +257,10 @@ export default function ContactSection() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-slate-300 mb-1.5">Your Email</label>
+                    <label htmlFor="contact-email" className="block text-xs font-medium text-slate-300 mb-1.5">Your Email</label>
                     <input
+                      id="contact-email"
+                      name="email"
                       type="email"
                       required
                       placeholder="alex@company.com"
@@ -218,10 +271,23 @@ export default function ContactSection() {
                   </div>
                 </div>
 
+                {/* Honeypot hidden input for spam bots */}
+                <input
+                  type="text"
+                  name="_gotcha"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={gotcha}
+                  onChange={(e) => setGotcha(e.target.value)}
+                  style={{ display: 'none', position: 'absolute', left: '-9999px' }}
+                />
+
                 {/* Message Box */}
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1.5">Message</label>
+                  <label htmlFor="contact-message" className="block text-xs font-medium text-slate-300 mb-1.5">Message</label>
                   <textarea
+                    id="contact-message"
+                    name="message"
                     rows={4}
                     required
                     placeholder="Tell me about your project, team, or ideas..."
@@ -231,13 +297,27 @@ export default function ContactSection() {
                   />
                 </div>
 
+                {error && (
+                  <div role="alert" aria-live="assertive" className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-300 flex flex-col gap-2">
+                    <p>{error}</p>
+                    <button
+                      type="button"
+                      onClick={handleMailtoFallback}
+                      className="self-start text-[11px] font-semibold text-rose-200 underline hover:text-white"
+                    >
+                      Open Email Client →
+                    </button>
+                  </div>
+                )}
+
                 {/* Dual Submit Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-2">
                   <button
                     type="submit"
-                    className="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-rose-500 text-white font-semibold hover:opacity-95 active:scale-[0.99] transition-all shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 cursor-pointer"
+                    disabled={loading}
+                    className="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-rose-500 text-white font-semibold hover:opacity-95 active:scale-[0.99] transition-all shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                   >
-                    <span>Send via Email Client</span>
+                    <span>{loading ? 'Sending...' : 'Send Message'}</span>
                     <span>✉️</span>
                   </button>
                   <button

@@ -2,7 +2,7 @@ export const OWNER = {
   name: 'Durgesh Dutt Sinha',
   title: 'AIML Engineer & Full-Stack Developer',
   email: process.env.NEXT_PUBLIC_EMAIL || 'durgeshdsinha@gmail.com',
-  phone: '+916299257203',
+  phone: process.env.NEXT_PUBLIC_PHONE || '',
   location: 'Pune, Maharashtra, India',
   github: 'https://github.com/OxDurgeshxO',
   linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL || 'https://www.linkedin.com/in/durgesh-dutt-s-4ba74924b',
