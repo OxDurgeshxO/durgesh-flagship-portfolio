@@ -28,7 +28,6 @@
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.16",
-    "@netlify/plugin-nextjs": "^5.15.13",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -45,6 +44,7 @@
     "cookie": "^0.7.2",
     "ws": "^8.21.3",
     "glob": "^10.5.0",
-    "esbuild": "^0.25.0"
+    "esbuild": "^0.25.0",
+    "postcss": "^8.5.28"
   }
 }
