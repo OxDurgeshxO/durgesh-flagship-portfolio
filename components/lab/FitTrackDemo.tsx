@@ -248,6 +248,17 @@ export function FitTrackDemo() {
     [exercise]
   );
 
+  // Clean up camera stream on unmount
+  useEffect(() => {
+    const videoEl = videoRef.current;
+    return () => {
+      if (videoEl && videoEl.srcObject) {
+        const stream = videoEl.srcObject as MediaStream;
+        stream.getTracks().forEach((t) => t.stop());
+      }
+    };
+  }, []);
+
   // Animation Loop
   useEffect(() => {
     let lastTime = performance.now();

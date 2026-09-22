@@ -7,6 +7,16 @@ import { OWNER } from "@/lib/data";
 
 export default function RecruiterHero() {
   const [previewOpen, setPreviewOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPreviewOpen(false);
+    };
+    if (previewOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [previewOpen]);
   return (
     <div className="border-b border-white/10 pb-8 mb-8">
       {/* Top Breadcrumb & Switcher */}
@@ -90,18 +100,35 @@ export default function RecruiterHero() {
       </div>
       {/* Inline PDF Preview Modal */}
       {previewOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-          <div className="relative w-full max-w-4xl bg-slate-900 border border-white/10 rounded-2xl p-4 shadow-2xl flex flex-col h-[85vh]">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Verified ATS Resume Preview"
+          onClick={() => setPreviewOpen(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-4xl bg-slate-900 border border-white/10 rounded-2xl p-4 shadow-2xl flex flex-col h-[85vh]"
+          >
             <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
-              <div className="flex items-center gap-2 text-sm font-bold text-white">
+              <div className="flex items-center gap-3 text-sm font-bold text-white">
                 <FileText className="size-4 text-purple-400" />
                 <span>Verified ATS Resume Preview</span>
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-normal text-purple-300 hover:text-white underline ml-2"
+                >
+                  Open in New Tab ↗
+                </a>
               </div>
               <button
                 type="button"
                 onClick={() => setPreviewOpen(false)}
                 className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
-                aria-label="Close preview"
+                aria-label="Close preview (Escape)"
               >
                 <X className="size-4" />
               </button>

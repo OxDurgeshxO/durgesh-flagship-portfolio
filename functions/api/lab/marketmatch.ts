@@ -56,12 +56,29 @@ export const onRequestPost = async (context: { request: Request; env: RateLimitE
 
     const executionLatencyMs = Date.now() - startTime;
 
+    const anchorPoints = [
+      { id: 1, pca_x: 2.8, pca_y: 1.9, persona: 'Champions', m: 5840 },
+      { id: 2, pca_x: 2.4, pca_y: 1.4, persona: 'Champions', m: 5200 },
+      { id: 3, pca_x: 1.2, pca_y: 0.8, persona: 'Loyal Regulars', m: 3100 },
+      { id: 4, pca_x: 0.9, pca_y: 0.5, persona: 'Loyal Regulars', m: 2890 },
+      { id: 5, pca_x: 1.5, pca_y: -0.2, persona: 'Loyal Regulars', m: 2600 },
+      { id: 6, pca_x: -0.4, pca_y: -0.8, persona: 'Potential Loyalists', m: 720 },
+      { id: 7, pca_x: -0.7, pca_y: -0.4, persona: 'Potential Loyalists', m: 640 },
+      { id: 8, pca_x: -1.2, pca_y: 0.6, persona: 'At-Risk Customers', m: 1820 },
+      { id: 9, pca_x: -1.5, pca_y: 1.1, persona: 'At-Risk Customers', m: 1620 },
+      { id: 10, pca_x: -2.2, pca_y: -1.5, persona: 'Hibernating / Lost', m: 180 },
+      { id: 11, pca_x: -2.6, pca_y: -1.8, persona: 'Hibernating / Lost', m: 140 },
+      { id: 12, pca_x: 0.1, pca_y: 0.1, persona: 'Potential Loyalists', m: 890 },
+    ];
+
     return new Response(JSON.stringify({
       clusters,
       algorithm,
       silhouetteScore,
       optimalK: 5,
+      segments: segmentDistribution,
       segmentDistribution,
+      points: anchorPoints,
       executionLatencyMs,
       isDemonstration: true,
       engine: 'Pre-computed Heuristic Cluster Model (Demonstration)',

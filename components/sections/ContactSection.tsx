@@ -276,6 +276,7 @@ export default function ContactSection() {
                   type="text"
                   name="_gotcha"
                   tabIndex={-1}
+                  aria-hidden="true"
                   autoComplete="off"
                   value={gotcha}
                   onChange={(e) => setGotcha(e.target.value)}
