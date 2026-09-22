@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, Github, FileText, Share2, Check } from "lucide-react";
 import { CaseStudy } from "@/lib/case-studies";
+import { copyToClipboard } from "@/lib/clipboard";
 
 interface Props {
   caseStudy: CaseStudy;
@@ -12,11 +13,13 @@ interface Props {
 export default function CaseStudyActions({ caseStudy }: Props) {
   const [copied, setCopied] = useState(false);
 
-  const handleShare = () => {
+  const handleShare = async () => {
     if (typeof window !== "undefined") {
-      navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2400);
+      const ok = await copyToClipboard(window.location.href);
+      if (ok) {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2400);
+      }
     }
   };
 

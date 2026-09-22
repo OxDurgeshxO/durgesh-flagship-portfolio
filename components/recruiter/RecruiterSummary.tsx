@@ -1,5 +1,7 @@
 "use client";
 
+import { copyToClipboard } from "@/lib/clipboard";
+
 import React, { useState } from "react";
 import { Copy, Check, Sparkles } from "lucide-react";
 import { OWNER } from "@/lib/data";
@@ -18,12 +20,10 @@ export default function RecruiterSummary() {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(CANDIDATE_SUMMARY);
+    const ok = await copyToClipboard(CANDIDATE_SUMMARY);
+    if (ok) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
-    } catch {
-      // Fallback
     }
   };
 

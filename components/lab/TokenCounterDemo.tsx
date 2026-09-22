@@ -1,5 +1,7 @@
 "use client";
 
+import { copyToClipboard } from "@/lib/clipboard";
+
 import React, { useState, useMemo } from "react";
 import { Cpu, Sparkles, Hash, Layers, ShieldCheck, DollarSign, RefreshCw, Copy, Check } from "lucide-react";
 
@@ -48,10 +50,12 @@ export default function TokenCounterDemo() {
   const costClaude35 = ((tokenCount / 1_000_000) * 3.0).toFixed(6);
   const costGeminiFlash = ((tokenCount / 1_000_000) * 0.075).toFixed(6);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(inputText);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    const ok = await copyToClipboard(inputText);
+    if (ok) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (

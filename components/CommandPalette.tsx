@@ -28,6 +28,8 @@ import {
   Gauge,
   Zap,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { copyToClipboard } from "@/lib/clipboard";
 import { OWNER } from "@/lib/data";
 import { trackEvent } from "@/lib/analytics";
 import { saveExperienceMode } from "@/lib/experience-mode";
@@ -45,6 +47,7 @@ interface PaletteAction {
 }
 
 export default function CommandPalette() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -131,7 +134,7 @@ export default function CommandPalette() {
         shortcut: "/roleradar",
         aliases: ["roleradar", "ats", "resume parser", "case study"],
         perform: () => {
-          window.location.href = "/work/roleradar";
+          router.push("/work/roleradar");
         },
       },
       {
@@ -143,7 +146,7 @@ export default function CommandPalette() {
         shortcut: "/fittrack",
         aliases: ["fittrack", "fitness", "cv", "mediapipe", "kinematics"],
         perform: () => {
-          window.location.href = "/work/fittrack";
+          router.push("/work/fittrack");
         },
       },
       {
@@ -155,7 +158,7 @@ export default function CommandPalette() {
         shortcut: "/marketmatch",
         aliases: ["marketmatch", "clustering", "pca", "rfm", "recommendations"],
         perform: () => {
-          window.location.href = "/work/marketmatch-ai";
+          router.push("/work/marketmatch-ai");
         },
       },
       {
@@ -167,7 +170,7 @@ export default function CommandPalette() {
         shortcut: "/jarvis",
         aliases: ["jarvis", "voice", "realtime", "assistant", "webrtc"],
         perform: () => {
-          window.location.href = "/work/jarvis-realtime-assistant";
+          router.push("/work/jarvis-realtime-assistant");
         },
       },
       {
@@ -179,7 +182,7 @@ export default function CommandPalette() {
         shortcut: "/cnn",
         aliases: ["cnn", "streamlit", "pytorch", "classification", "vision"],
         perform: () => {
-          window.location.href = "/work/cnn-streamlit";
+          router.push("/work/cnn-streamlit");
         },
       },
       {
@@ -191,7 +194,7 @@ export default function CommandPalette() {
         shortcut: "/resume",
         aliases: ["resume", "cv", "view resume", "curriculum vitae", "profile"],
         perform: () => {
-          window.location.href = "/resume";
+          router.push("/resume");
         },
       },
       {
@@ -219,7 +222,7 @@ export default function CommandPalette() {
         shortcut: "/recruiter",
         aliases: ["recruiter", "fast track", "summary", "hiring", "manager"],
         perform: () => {
-          window.location.href = "/recruiter";
+          router.push("/recruiter");
         },
       },
       {
@@ -230,12 +233,12 @@ export default function CommandPalette() {
         icon: Copy,
         shortcut: "COPY",
         aliases: ["copy", "summary", "candidate", "candidate summary", "bio"],
-        perform: () => {
+        perform: async () => {
           const text = `${OWNER.name} - ${OWNER.title}
 MCA (AIML) at Sri Balaji University Pune (2025-2027) | UNLOX® AI Fellow | Be10x AI Cohort Member.
 Autonomous AI systems, Real-Time MediaPipe (<50ms), Next.js 16, TypeScript, Drizzle ORM, Scikit-Learn.
 Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
-          navigator.clipboard.writeText(text);
+          await copyToClipboard(text);
           triggerToast("✓ Candidate summary copied to clipboard!");
         },
       },
@@ -260,7 +263,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "/performance",
         aliases: ["performance", "lighthouse", "fps", "telemetry", "vitals", "metrics"],
         perform: () => {
-          window.location.href = "/performance";
+          router.push("/performance");
         },
       },
       {
@@ -272,7 +275,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "/lab",
         aliases: ["lab", "ai", "demos", "fittrack", "marketmatch", "experiments"],
         perform: () => {
-          window.location.href = "/lab";
+          router.push("/lab");
         },
       },
       {
@@ -284,7 +287,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "/github-health",
         aliases: ["github", "health", "repos", "ci", "code quality", "coverage"],
         perform: () => {
-          window.location.href = "/github-health";
+          router.push("/github-health");
         },
       },
       {
@@ -296,7 +299,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "/changelog",
         aliases: ["changelog", "history", "versions", "releases"],
         perform: () => {
-          window.location.href = "/changelog";
+          router.push("/changelog");
         },
       },
       {
@@ -308,7 +311,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "/privacy",
         aliases: ["privacy", "policy", "camera", "mic", "data", "security"],
         perform: () => {
-          window.location.href = "/privacy";
+          router.push("/privacy");
         },
       },
       {
@@ -370,8 +373,8 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         icon: Copy,
         shortcut: "EMAIL",
         aliases: ["email", "contact", "copy email", "message"],
-        perform: () => {
-          navigator.clipboard.writeText(OWNER.email);
+        perform: async () => {
+          await copyToClipboard(OWNER.email);
           triggerToast("✓ Direct email copied to clipboard!");
           trackEvent("copy_email", { source: "command_palette" });
         },
@@ -428,7 +431,12 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "#projects",
         aliases: ["projects", "work", "showcase", "featured"],
         perform: () => {
-          document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+          const el = document.getElementById("projects");
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          } else {
+            router.push("/#projects");
+          }
         },
       },
       {
@@ -440,7 +448,12 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "#github",
         aliases: ["repositories", "repos", "github section"],
         perform: () => {
-          document.getElementById("github-projects")?.scrollIntoView({ behavior: "smooth" });
+          const el = document.getElementById("github-projects");
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          } else {
+            router.push("/#github-projects");
+          }
         },
       },
       {
@@ -452,7 +465,12 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "#education",
         aliases: ["education", "degree", "university", "college", "academic"],
         perform: () => {
-          document.getElementById("education")?.scrollIntoView({ behavior: "smooth" });
+          const el = document.getElementById("education");
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          } else {
+            router.push("/#education");
+          }
         },
       },
       {
@@ -464,7 +482,12 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "#experience",
         aliases: ["experience", "jobs", "fellowship", "unlox", "be10x"],
         perform: () => {
-          document.getElementById("experience")?.scrollIntoView({ behavior: "smooth" });
+          const el = document.getElementById("experience");
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          } else {
+            router.push("/#experience");
+          }
         },
       },
       {
@@ -476,7 +499,12 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "#about",
         aliases: ["about", "bio", "skills"],
         perform: () => {
-          document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+          const el = document.getElementById("about");
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          } else {
+            router.push("/#about");
+          }
         },
       },
       {
@@ -488,7 +516,12 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "#contact",
         aliases: ["contact", "message", "email", "touch"],
         perform: () => {
-          document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+          const el = document.getElementById("contact");
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          } else {
+            router.push("/#contact");
+          }
         },
       },
 
@@ -502,7 +535,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "STUDY",
         aliases: ["roleradar", "ats", "career", "case study", "work"],
         perform: () => {
-          window.location.href = "/work/roleradar";
+          router.push("/work/roleradar");
         },
       },
       {
@@ -514,7 +547,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "STUDY",
         aliases: ["fittrack", "fitness", "pose", "mediapipe", "computer vision", "case study", "work"],
         perform: () => {
-          window.location.href = "/work/fittrack";
+          router.push("/work/fittrack");
         },
       },
       {
@@ -526,11 +559,11 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         shortcut: "STUDY",
         aliases: ["marketmatch", "clustering", "pca", "kmeans", "dbscan", "case study", "work"],
         perform: () => {
-          window.location.href = "/work/marketmatch-ai";
+          router.push("/work/marketmatch-ai");
         },
       },
     ],
-    []
+    [router]
   );
 
   const filtered = useMemo(() => {

@@ -1,5 +1,7 @@
 "use client";
 
+import { copyToClipboard } from "@/lib/clipboard";
+
 import React, { useState } from "react";
 import Link from "next/link";
 import { Download, Printer, Copy, Check, ArrowLeft, Sparkles } from "lucide-react";
@@ -17,12 +19,10 @@ export default function ResumeActions() {
 MCA (AIML) at Sri Balaji University Pune (2025–2027) | UNLOX® AI Fellow | Be10x AI Cohort Member.
 Autonomous AI systems, Real-Time MediaPipe (<50ms), Next.js 16, TypeScript, Drizzle ORM, Scikit-Learn.
 Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
-    try {
-      await navigator.clipboard.writeText(text);
+    const ok = await copyToClipboard(text);
+    if (ok) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // ignore
     }
   };
 

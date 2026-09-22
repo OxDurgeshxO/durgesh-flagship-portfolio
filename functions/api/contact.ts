@@ -27,8 +27,30 @@ export const onRequestGet = async () => {
   });
 };
 
+
+function isAllowedOrigin(origin: string | null): boolean {
+  if (!origin) return true;
+  try {
+    const url = new URL(origin);
+    const hostname = url.hostname.toLowerCase();
+    return (
+      hostname === 'localhost' ||
+      hostname === '127.0.0.1' ||
+      hostname.endsWith('.pages.dev') ||
+      hostname.endsWith('durgeshdsinha.com')
+    );
+  } catch {
+    return false;
+  }
+}
+
 export const onRequestPost = async (context: { request: Request; env: Env }) => {
   try {
+    // 0. Origin verification (reject untrusted cross-site POSTs)
+    const origin = context.request.headers.get('origin');
+    if (!isAllowedOrigin(origin)) {
+      return jsonError('Untrusted request origin.', 403);
+    }
     // 1. IP Rate Limiting (KV-backed — see lib/api/guards.ts for why in-memory fails here)
     const clientIp = getClientIp(context.request);
     const rate = await checkRateLimit(context.env, clientIp, CONTACT_RATE_LIMIT);

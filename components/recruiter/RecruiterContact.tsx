@@ -3,14 +3,17 @@
 import React, { useState } from "react";
 import { Mail, Github, Linkedin, Phone, ArrowUpRight, Copy, Check, Clock, Globe } from "lucide-react";
 import { OWNER } from "@/lib/data";
+import { copyToClipboard } from "@/lib/clipboard";
 
 export default function RecruiterContact() {
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  const copyToClipboard = (text: string, field: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedField(field);
-    setTimeout(() => setCopiedField(null), 2200);
+  const handleCopy = async (text: string, field: string) => {
+    const ok = await copyToClipboard(text);
+    if (ok) {
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 2200);
+    }
   };
 
   return (
@@ -42,7 +45,7 @@ export default function RecruiterContact() {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => copyToClipboard(OWNER.email, 'email')}
+                onClick={() => handleCopy(OWNER.email, 'email')}
                 className="p-1 rounded bg-white/5 hover:bg-purple-500/20 text-slate-400 hover:text-purple-300 transition-all cursor-pointer"
                 title="Copy email address"
                 aria-label="Copy email address"
@@ -108,7 +111,7 @@ export default function RecruiterContact() {
               {OWNER.phone && (
                 <button
                   type="button"
-                  onClick={() => copyToClipboard(OWNER.phone, 'phone')}
+                  onClick={() => handleCopy(OWNER.phone, 'phone')}
                   className="p-1 rounded bg-white/5 hover:bg-emerald-500/20 text-slate-400 hover:text-emerald-300 transition-all cursor-pointer"
                   title="Copy phone number"
                   aria-label="Copy phone number"

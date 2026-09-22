@@ -16,6 +16,24 @@ import {
 } from "lucide-react";
 import { getSavedExperienceMode, saveExperienceMode, ExperienceMode } from "@/lib/experience-mode";
 
+function safeGetItem(key: string): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function safeSetItem(key: string, value: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Graceful degradation when storage is blocked (e.g. private browsing)
+  }
+}
+
 export function AccessibilityPanel() {
   const [isOpen, setIsOpen] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -27,9 +45,9 @@ export function AccessibilityPanel() {
 
   useEffect(() => {
     // Initial load from storage / media queries
-    const rm = localStorage.getItem("a11y-reduced-motion") === "true";
-    const hc = localStorage.getItem("a11y-high-contrast") === "true";
-    const lt = localStorage.getItem("a11y-larger-text") === "true";
+    const rm = safeGetItem("a11y-reduced-motion") === "true";
+    const hc = safeGetItem("a11y-high-contrast") === "true";
+    const lt = safeGetItem("a11y-larger-text") === "true";
     setReducedMotion(rm);
     setHighContrast(hc);
     setLargerText(lt);
@@ -104,21 +122,21 @@ export function AccessibilityPanel() {
   const toggleReducedMotion = () => {
     const next = !reducedMotion;
     setReducedMotion(next);
-    localStorage.setItem("a11y-reduced-motion", String(next));
+    safeSetItem("a11y-reduced-motion", String(next));
     applyClasses(next, highContrast, largerText);
   };
 
   const toggleHighContrast = () => {
     const next = !highContrast;
     setHighContrast(next);
-    localStorage.setItem("a11y-high-contrast", String(next));
+    safeSetItem("a11y-high-contrast", String(next));
     applyClasses(reducedMotion, next, largerText);
   };
 
   const toggleLargerText = () => {
     const next = !largerText;
     setLargerText(next);
-    localStorage.setItem("a11y-larger-text", String(next));
+    safeSetItem("a11y-larger-text", String(next));
     applyClasses(reducedMotion, highContrast, next);
   };
 

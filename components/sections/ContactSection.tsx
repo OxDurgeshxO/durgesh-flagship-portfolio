@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { OWNER } from '@/lib/data'
+import { copyToClipboard } from '@/lib/clipboard'
 
 const SUBJECT_OPTIONS = [
   '💼 Job Opportunity',
@@ -20,17 +21,21 @@ export default function ContactSection() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(OWNER.email)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2500)
+  const handleCopyEmail = async () => {
+    const ok = await copyToClipboard(OWNER.email)
+    if (ok) {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2500)
+    }
   }
 
-  const handleCopyDraft = () => {
+  const handleCopyDraft = async () => {
     const draftText = `To: ${OWNER.email}\nSubject: [${form.subject}] Message from ${form.name || 'Anonymous'}\nFrom: ${form.name || 'Anonymous'} <${form.email || 'not provided'}>\n\nMessage:\n${form.message || '(No message content)'}`
-    navigator.clipboard.writeText(draftText)
-    setDraftCopied(true)
-    setTimeout(() => setDraftCopied(false), 3000)
+    const ok = await copyToClipboard(draftText)
+    if (ok) {
+      setDraftCopied(true)
+      setTimeout(() => setDraftCopied(false), 3000)
+    }
   }
 
   const handleMailtoFallback = () => {
