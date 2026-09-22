@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { FileText, Download, Sparkles, ArrowRight, Github, Mail } from 'lucide-react'
+import { FileText, Download, Sparkles, ArrowRight, Github, Mail, Zap } from 'lucide-react'
 import { TypeAnimation } from 'react-type-animation'
 import { OWNER } from '@/lib/data'
 import { trackEvent } from '@/lib/analytics'
-import { getSavedPerformanceMode, PerformanceMode } from '@/lib/performance'
+import { getSavedPerformanceMode, savePerformanceMode, PerformanceMode } from '@/lib/performance'
 import StaticHeroFallback from '@/components/StaticHeroFallback'
 import CyberRoninBackground from '@/components/cyber-ronin/CyberRoninBackground'
 
@@ -51,6 +51,13 @@ export default function HeroSection() {
 
   const isLowBandwidth = perfMode === 'low-bandwidth'
 
+  const togglePerformanceMode = () => {
+    const nextMode: PerformanceMode = isLowBandwidth ? 'immersive' : 'low-bandwidth'
+    setPerfMode(nextMode)
+    savePerformanceMode(nextMode)
+    trackEvent('theme_toggle', { action: 'toggle_perf_mode_hero', mode: nextMode })
+  }
+
   return (
     <section id="hero" className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-20 pb-16">
       {/* Cyber Ronin // Neural Edges animated background.
@@ -72,11 +79,23 @@ export default function HeroSection() {
       {/* Interactive Content */}
       <div className="relative z-20 text-center px-6 max-w-4xl mx-auto pointer-events-auto">
         <div
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/40 text-purple-300 text-xs sm:text-sm mb-6 glass ronin-fade-up"
+          className="flex flex-wrap items-center justify-center gap-2.5 mb-6 ronin-fade-up"
           style={{ animationDelay: '0.15s' }}
         >
-          <Sparkles className="size-3.5 text-purple-400" />
-          <span>AI/ML Engineer &middot; Production AI Systems</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/40 text-purple-300 text-xs sm:text-sm glass">
+            <Sparkles className="size-3.5 text-purple-400" />
+            <span>AI/ML Engineer &middot; Production AI Systems</span>
+          </div>
+          <button
+            type="button"
+            onClick={togglePerformanceMode}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-white/10 hover:border-purple-500/50 text-slate-300 hover:text-white text-xs glass transition-all focus-visible:ring-2 focus-visible:ring-purple-400 cursor-pointer"
+            title={isLowBandwidth ? 'Switch to Full 3D Visual Mode' : 'Switch to Lite Performance Mode'}
+            aria-label={isLowBandwidth ? 'Enable 3D visual mode' : 'Enable lite performance mode'}
+          >
+            <Zap className={`size-3.5 ${isLowBandwidth ? 'text-slate-400' : 'text-rose-400'}`} />
+            <span>Visual: {isLowBandwidth ? 'Lite' : '3D Active'}</span>
+          </button>
         </div>
 
         {/* Same name, same gradient — each word is wrapped so it can stagger in
@@ -111,11 +130,33 @@ export default function HeroSection() {
         </div>
 
         <p
-          className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed font-normal ronin-fade-up"
+          className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto mb-6 leading-relaxed font-normal ronin-fade-up"
           style={{ animationDelay: '0.72s' }}
         >
-          I design and ship AI applications, ML systems, and high-performance web experiences.
+          I build fast, accessible web applications and practical AI prototypes.
         </p>
+
+        {/* 10-Second Recruiter Proof Strip (V4 Improvement Plan Phase 1) */}
+        <div
+          className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto mb-8 text-left ronin-fade-up"
+          style={{ animationDelay: '0.77s' }}
+        >
+          <div className="glass rounded-xl p-3 border border-white/5 bg-white/[0.02]">
+            <div className="text-[10px] font-mono text-purple-400 uppercase tracking-wider mb-0.5">Architecture</div>
+            <div className="text-xs font-semibold text-white">Next.js &amp; TypeScript</div>
+            <div className="text-[11px] text-slate-400 mt-0.5 leading-tight">100% typed App Router, static export, 0 WebGL on ATS routes.</div>
+          </div>
+          <div className="glass rounded-xl p-3 border border-white/5 bg-white/[0.02]">
+            <div className="text-[10px] font-mono text-rose-400 uppercase tracking-wider mb-0.5">Intelligence</div>
+            <div className="text-xs font-semibold text-white">Applied AI &amp; ML</div>
+            <div className="text-[11px] text-slate-400 mt-0.5 leading-tight">Realtime voice/vision agents, PyTorch models, structured prompt chains.</div>
+          </div>
+          <div className="glass rounded-xl p-3 border border-white/5 bg-white/[0.02]">
+            <div className="text-[10px] font-mono text-sky-400 uppercase tracking-wider mb-0.5">Reliability</div>
+            <div className="text-xs font-semibold text-white">Cloudflare Edge &amp; A11y</div>
+            <div className="text-[11px] text-slate-400 mt-0.5 leading-tight">WCAG AA compliance across 10 routes, hardened security headers.</div>
+          </div>
+        </div>
 
         <div
           className="flex flex-wrap gap-3.5 justify-center items-center ronin-fade-up"
@@ -139,7 +180,7 @@ export default function HeroSection() {
             title="Download Official Verified PDF Resume"
           >
             <Download className="size-4 text-rose-400" />
-            <span>Download Résumé</span>
+            <span>Download Resume</span>
           </a>
 
           {/* Active Primary Resume CTA */}

@@ -2,10 +2,10 @@ name: Portfolio Quality Gate
 
 on:
   push:
-    branches: [main]
+    branches: [main, v6]
     tags: ['v*']
   pull_request:
-    branches: [main]
+    branches: [main, v6]
 
 permissions:
   contents: read
