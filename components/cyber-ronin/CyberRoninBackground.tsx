@@ -50,7 +50,6 @@ export interface CyberRoninBackgroundProps {
 function SpecPanel() {
   return (
     <div className="ronin-panel">
-      <div className="ronin-panel__thumb" />
       <div>
         <p className="ronin-panel__eyebrow">{'// Neural Edges'}</p>
         <p className="ronin-panel__title">Cyber Ronin</p>
