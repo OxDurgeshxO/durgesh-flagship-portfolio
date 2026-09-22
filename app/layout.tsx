@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import '../styles/globals.css'
 // Cyber Ronin // Neural Edges hero background layer (own namespaced stylesheet).
-import '../components/cyber-ronin/cyber-ronin.css'
+import '../components/space/space-background.css'
+import SpaceBackground from '@/components/space/SpaceBackground'
 
 
 const inter = Inter({
@@ -176,6 +177,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main-content" className="skip-to-content">
           Skip to main content
         </a>
+        <SpaceBackground />
         {children}
       </body>
     </html>

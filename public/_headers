@@ -4,4 +4,8 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(self), microphone=(), geolocation=(), interest-cohort=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://avatars.githubusercontent.com https://raw.githubusercontent.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://api.resend.com https://api.github.com https://avatars.githubusercontent.com wss:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https:;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://avatars.githubusercontent.com https://raw.githubusercontent.com https://d8j0ntlcm91z4.cloudfront.net; media-src 'self' https://d8j0ntlcm91z4.cloudfront.net blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://api.resend.com https://api.github.com https://avatars.githubusercontent.com https://d8j0ntlcm91z4.cloudfront.net wss:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https:;
+
+/resume.pdf
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: frame-ancestors 'self'; default-src 'self';

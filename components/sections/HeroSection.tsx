@@ -8,7 +8,6 @@ import { OWNER } from '@/lib/data'
 import { trackEvent } from '@/lib/analytics'
 import { getSavedPerformanceMode, PerformanceMode } from '@/lib/performance'
 import StaticHeroFallback from '@/components/StaticHeroFallback'
-import CyberRoninBackground from '@/components/cyber-ronin/CyberRoninBackground'
 
 class WebGLErrorBoundary extends React.Component<{ children: React.ReactNode; fallback: React.ReactNode }, { hasError: boolean }> {
   constructor(props: any) {
@@ -57,7 +56,6 @@ export default function HeroSection() {
           Base plate renders at z-0 (under the 3D core + existing gradients),
           spotlight reveal + spec panel at z-15 (above them, below the content).
           Switched off in low-bandwidth performance mode. */}
-      <CyberRoninBackground active={!isLowBandwidth} />
 
       {/* 3D Holographic AI Neural Core Scene with CSS/SVG Fallback */}
       <div className="pointer-events-none absolute inset-0 z-0">

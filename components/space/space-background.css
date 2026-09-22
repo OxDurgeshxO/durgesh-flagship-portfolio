@@ -1,0 +1,239 @@
+/* ==========================================================================
+   SpaceEdu Cosmic Planetary Background Layer
+   --------------------------------------------------------------------------
+   Full-viewport cinematic planetary hero & portfolio background.
+   Applied globally across all routes and sections.
+   ========================================================================== */
+
+:root {
+  --space-bg: #04101f;
+  --space-cyan: #79dce8;
+}
+
+body {
+  background-color: var(--space-bg, #04101f) !important;
+}
+
+main#main-content {
+  background-color: transparent !important;
+}
+
+.space-bg-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: var(--space-bg);
+  z-index: 0;
+}
+
+.space-bg-sky {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 0.25s ease-in-out;
+}
+
+.space-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.22s linear;
+}
+
+.space-bg-video.is-active {
+  opacity: 1;
+}
+
+/* Subtle cosmic gradient veil to keep portfolio typography AA contrast pristine */
+.space-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 35%, rgba(4, 16, 31, 0.2) 0%, rgba(4, 16, 31, 0.72) 75%, #04101f 100%),
+              linear-gradient(180deg, rgba(4, 16, 31, 0.3) 0%, rgba(4, 16, 31, 0.45) 50%, rgba(4, 16, 31, 0.8) 85%, #04101f 100%);
+  pointer-events: none;
+}
+
+/* Star dust ambient particle shimmer */
+.space-stars {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                    radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.7), rgba(0,0,0,0)),
+                    radial-gradient(1.5px 1.5px at 90px 40px, #79dce8, rgba(0,0,0,0)),
+                    radial-gradient(1px 1px at 160px 120px, #ffffff, rgba(0,0,0,0));
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Interactive Space Widget Dock */
+.space-dock {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 9999px;
+  background: rgba(4, 16, 31, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(121, 220, 232, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  pointer-events: auto;
+}
+
+.space-dock-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.space-dock-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.space-dock-btn.is-active {
+  color: #071227;
+  background: linear-gradient(180deg, #ffffff 0%, #d8ecfe 100%);
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 14px rgba(121, 220, 232, 0.45);
+}
+
+.space-dock-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--space-cyan);
+  text-decoration: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  margin-left: 4px;
+  transition: opacity 0.2s;
+}
+
+.space-dock-link:hover {
+  opacity: 0.85;
+  text-decoration: underline;
+}
+
+/* Semi-transparent veil for hero gradient overlay so cosmic planetary backdrop shines through */
+#hero .bg-gradient-to-b {
+  background: linear-gradient(180deg, rgba(4, 16, 31, 0.15) 0%, rgba(4, 16, 31, 0.4) 50%, rgba(4, 16, 31, 0.75) 100%) !important;
+}
+
+/* ---------- Typography and entrance animation gates ----------------------- */
+.ronin-word,
+.ronin-fade-up {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+html[data-ronin-ready='true'] .ronin-word,
+html[data-space-ready='true'] .ronin-word {
+  animation: space-word-in 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+html[data-ronin-ready='true'] .ronin-fade-up,
+html[data-space-ready='true'] .ronin-fade-up {
+  animation: space-fade-up 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes space-word-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes space-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .space-dock {
+    bottom: 12px;
+    right: 12px;
+    padding: 4px 8px;
+    gap: 4px;
+  }
+  .space-dock-btn {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+  .space-dock-link {
+    display: none;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .space-bg-video {
+    display: none !important;
+  }
+  .ronin-word,
+  .ronin-fade-up {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+html.a11y-reduced-motion .space-bg-video {
+  display: none !important;
+}
+
+html.a11y-reduced-motion .ronin-word,
+html.a11y-reduced-motion .ronin-fade-up {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+html.a11y-high-contrast .space-bg-root {
+  display: none !important;
+}
+
+html.a11y-high-contrast .ronin-word,
+html.a11y-high-contrast .ronin-fade-up {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
