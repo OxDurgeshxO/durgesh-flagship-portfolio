@@ -1,6 +1,8 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Github, FileText, Sparkles } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, FileText, Share2, Check } from "lucide-react";
 import { CaseStudy } from "@/lib/case-studies";
 
 interface Props {
@@ -8,6 +10,16 @@ interface Props {
 }
 
 export default function CaseStudyActions({ caseStudy }: Props) {
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2400);
+    }
+  };
+
   return (
     <div className="glass rounded-2xl p-8 border border-white/10 my-12 text-center relative overflow-hidden">
       <div
@@ -22,12 +34,23 @@ export default function CaseStudyActions({ caseStudy }: Props) {
       </p>
 
       <div className="flex flex-wrap items-center justify-center gap-3">
+        <button
+          type="button"
+          onClick={handleShare}
+          className="px-5 py-2.5 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-200 border border-purple-500/30 font-semibold text-xs md:text-sm inline-flex items-center gap-2 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-purple-400"
+          title="Copy direct link to this case study"
+          aria-label="Share case study link"
+        >
+          {copied ? <Check className="size-4 text-emerald-400" /> : <Share2 className="size-4" />}
+          <span>{copied ? "Link Copied to Clipboard!" : "Share Case Study"}</span>
+        </button>
+
         {caseStudy.demoUrl && (
           <a
             href={caseStudy.demoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 hover:from-purple-500 hover:to-rose-400 text-white font-semibold text-xs md:text-sm inline-flex items-center gap-2 shadow-lg shadow-purple-500/20 transition-all"
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 hover:from-purple-500 hover:to-rose-400 text-white font-semibold text-xs md:text-sm inline-flex items-center gap-2 shadow-lg shadow-purple-500/20 transition-all focus-visible:ring-2 focus-visible:ring-rose-400"
           >
             <ExternalLink className="size-4" />
             <span>Launch Live App</span>
@@ -37,21 +60,21 @@ export default function CaseStudyActions({ caseStudy }: Props) {
           href={caseStudy.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-5 py-2.5 rounded-xl glass hover:bg-white/10 text-slate-200 hover:text-white font-semibold text-xs md:text-sm inline-flex items-center gap-2 border border-white/10 transition-all"
+          className="px-5 py-2.5 rounded-xl glass hover:bg-white/10 text-slate-200 hover:text-white font-semibold text-xs md:text-sm inline-flex items-center gap-2 border border-white/10 transition-all focus-visible:ring-2 focus-visible:ring-purple-400"
         >
           <Github className="size-4" />
           <span>View Source Code</span>
         </a>
         <Link
           href="/resume"
-          className="px-5 py-2.5 rounded-xl glass hover:bg-white/10 text-slate-200 hover:text-white font-semibold text-xs md:text-sm inline-flex items-center gap-2 border border-white/10 transition-all"
+          className="px-5 py-2.5 rounded-xl glass hover:bg-white/10 text-slate-200 hover:text-white font-semibold text-xs md:text-sm inline-flex items-center gap-2 border border-white/10 transition-all focus-visible:ring-2 focus-visible:ring-purple-400"
         >
           <FileText className="size-4" />
           <span>View Full Resume</span>
         </Link>
         <Link
           href="/#projects"
-          className="px-5 py-2.5 rounded-xl glass hover:bg-white/10 text-slate-400 hover:text-white font-mono text-xs inline-flex items-center gap-2 border border-white/10 transition-all"
+          className="px-5 py-2.5 rounded-xl glass hover:bg-white/10 text-slate-400 hover:text-white font-mono text-xs inline-flex items-center gap-2 border border-white/10 transition-all focus-visible:ring-2 focus-visible:ring-purple-400"
         >
           <ArrowLeft className="size-3.5" />
           <span>All Projects</span>

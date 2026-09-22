@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Github, Sparkles, Calendar, UserCheck } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, Sparkles, Calendar, UserCheck, Clock } from "lucide-react";
 import { CaseStudy } from "@/lib/case-studies";
 
 interface Props {
@@ -30,11 +30,17 @@ export default function CaseStudyHeader({ caseStudy }: Props) {
         </div>
       </div>
 
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-mono text-slate-300 mb-4">
-        <Sparkles className="size-3 text-rose-400" />
-        <span>{caseStudy.category}</span>
-        <span className="text-slate-500">•</span>
-        <span className="text-purple-300">{caseStudy.badge}</span>
+            <div className="flex flex-wrap items-center gap-2.5 mb-4">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-mono text-slate-300">
+          <Sparkles className="size-3 text-rose-400" />
+          <span>{caseStudy.category}</span>
+          <span className="text-slate-500">&middot;</span>
+          <span className="text-purple-300">{caseStudy.badge}</span>
+        </div>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-purple-500/20 bg-purple-500/10 text-xs font-mono text-purple-300">
+          <Clock className="size-3 text-purple-400" />
+          <span>~5 min technical read</span>
+        </div>
       </div>
 
       <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-4">

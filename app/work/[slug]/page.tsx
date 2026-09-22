@@ -62,6 +62,27 @@ export default function CaseStudyPage({ params }: Props) {
         />
       </div>
 
+      {/* TechArticle Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            headline: `${caseStudy.title} - Deep Technical Case Study`,
+            description: caseStudy.overview,
+            author: {
+              "@type": "Person",
+              name: "Durgesh Dutt Sinha",
+              url: "https://durgesh-portfolio.pages.dev",
+            },
+            articleSection: caseStudy.category,
+            keywords: caseStudy.technologies.map((t) => t.name).join(", "),
+            url: `https://durgesh-portfolio.pages.dev/work/${params.slug}`,
+          }).replace(/</g, "\\u003c"),
+        }}
+      />
+
       <article className="max-w-4xl mx-auto">
         <CaseStudyHeader caseStudy={caseStudy} />
 
