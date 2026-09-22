@@ -2,10 +2,11 @@
 
 import React from "react";
 import Link from "next/link";
-import { Download, FileText, ArrowRight, CheckCircle2, Sparkles, MapPin, Briefcase } from "lucide-react";
+import { Download, FileText, ArrowRight, CheckCircle2, Sparkles, MapPin, Briefcase, Eye, X } from "lucide-react";
 import { OWNER } from "@/lib/data";
 
 export default function RecruiterHero() {
+  const [previewOpen, setPreviewOpen] = React.useState(false);
   return (
     <div className="border-b border-white/10 pb-8 mb-8">
       {/* Top Breadcrumb & Switcher */}
@@ -62,6 +63,16 @@ export default function RecruiterHero() {
           <span>Download PDF Resume (ATS Optimized)</span>
         </a>
 
+        <button
+          type="button"
+          onClick={() => setPreviewOpen(true)}
+          className="px-4 py-2.5 rounded-xl glass hover:bg-white/10 text-purple-200 hover:text-white font-semibold text-xs md:text-sm inline-flex items-center gap-2 border border-purple-500/30 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-purple-400"
+          title="Open in-page PDF preview modal"
+        >
+          <Eye className="size-4 text-purple-400" />
+          <span>Quick Preview PDF</span>
+        </button>
+
         <Link
           href="/resume"
           className="px-5 py-2.5 rounded-xl glass hover:bg-white/10 text-slate-200 hover:text-white font-semibold text-xs md:text-sm inline-flex items-center gap-2 border border-white/10 transition-all"
@@ -77,6 +88,32 @@ export default function RecruiterHero() {
           ⚡ Performance Center
         </Link>
       </div>
+      {/* Inline PDF Preview Modal */}
+      {previewOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="relative w-full max-w-4xl bg-slate-900 border border-white/10 rounded-2xl p-4 shadow-2xl flex flex-col h-[85vh]">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
+              <div className="flex items-center gap-2 text-sm font-bold text-white">
+                <FileText className="size-4 text-purple-400" />
+                <span>Verified ATS Resume Preview</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setPreviewOpen(false)}
+                className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                aria-label="Close preview"
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+            <iframe
+              src="/resume.pdf#toolbar=0"
+              className="w-full flex-1 rounded-xl bg-white border-0"
+              title="Resume Preview"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

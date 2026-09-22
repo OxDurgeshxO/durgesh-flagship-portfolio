@@ -1,3 +1,5 @@
+"use client";
+import React, { useEffect } from 'react';
 import Link from 'next/link'
 import { OWNER } from '@/lib/data'
 
@@ -5,6 +7,14 @@ const PORTFOLIO_REPO = 'https://github.com/OxDurgeshxO/durgesh-flagship-portfoli
 const PORTFOLIO_LIVE = 'https://durgesh-portfolio.pages.dev'
 
 export default function Footer() {
+  useEffect(() => {
+    console.log(
+      "%c CYBER RONIN // NEURAL CORE %c\n%cDurgesh Dutt Sinha - AI/ML Engineer & Full-Stack Architect\nInterested in production architectures or collaborating? Email: durgeshdsinha@gmail.com\nPress Cmd+K for command palette navigation.",
+      "background: #7c3aed; color: #fff; font-weight: bold; font-size: 13px; padding: 4px 8px; border-radius: 4px;",
+      "",
+      "color: #a855f7; font-family: monospace; font-size: 11px; font-weight: normal;"
+    );
+  }, []);
   return (
     <footer className="border-t border-white/5 py-10 text-center text-slate-500 text-sm">
       <div className="flex flex-wrap justify-center items-center gap-3 mb-4 text-xs font-mono">

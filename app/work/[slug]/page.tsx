@@ -34,8 +34,25 @@ export function generateMetadata({ params }: Props): Metadata {
     },
     description: caseStudy.overview,
     openGraph: {
-      title: `${caseStudy.title} — Engineering Case Study`,
+      title: `${caseStudy.title} — Engineering Case Study | Durgesh Dutt Sinha`,
       description: caseStudy.overview,
+      url: `https://durgesh-portfolio.pages.dev/work/${params.slug}`,
+      siteName: 'Durgesh Dutt Sinha Flagship Portfolio',
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: caseStudy.title,
+        },
+      ],
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${caseStudy.title} — Technical Case Study`,
+      description: caseStudy.overview,
+      images: ['/og-image.png'],
     },
   };
 }
