@@ -47,30 +47,6 @@ export interface CyberRoninBackgroundProps {
   className?: string;
 }
 
-function SpecPanel() {
-  return (
-    <div className="ronin-panel">
-      <div>
-        <p className="ronin-panel__eyebrow">{'// Neural Edges'}</p>
-        <p className="ronin-panel__title">Cyber Ronin</p>
-        <dl className="ronin-panel__specs">
-          <dt>Mode</dt>
-          <dd>Reactive</dd>
-          <dt>Asset</dt>
-          <dd>Local WebP</dd>
-          <dt>Theme</dt>
-          <dd>Dusk Ember</dd>
-        </dl>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Releases the hero entrance sequence (background zoom, spotlight, panel and
- * the staggered heading) once the loading screen has handed the page over.
- * Every entrance animation in `cyber-ronin.css` is gated on this attribute.
- */
 function armEntranceGate() {
   const root = document.documentElement;
   let done = false;
@@ -102,7 +78,7 @@ function armEntranceGate() {
 
 export default function CyberRoninBackground({
   active = true,
-  showSpecPanel = true,
+  showSpecPanel = false,
   className = "",
 }: CyberRoninBackgroundProps) {
   const hostRef = useRef<HTMLDivElement | null>(null);
@@ -241,10 +217,8 @@ export default function CyberRoninBackground({
         <div className={`ronin-root ronin-root--reveal ${className}`.trim()} aria-hidden="true">
           <div className="ronin-media ronin-reveal" />
           <div className="ronin-spark" />
-          {/* Keeps the spotlight from washing out the copy underneath it.
-              Painted before the panel so the panel stays on top. */}
+          {/* Keeps the spotlight from washing out the copy underneath it. */}
           <div className="ronin-guard" />
-          {showSpecPanel ? <SpecPanel /> : null}
         </div>
       ) : null}
     </>

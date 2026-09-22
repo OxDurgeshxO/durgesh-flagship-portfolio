@@ -139,94 +139,6 @@
   );
 }
 
-/* ---------- specifications panel ----------------------------------------- */
-
-.ronin-panel {
-  position: absolute;
-  left: 2rem;
-  bottom: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  max-width: 19rem;
-  padding: 0.75rem 0.9rem;
-  border-radius: 1rem;
-  background: rgba(26, 14, 6, 0.72);
-  border: 1px solid rgba(255, 150, 60, 0.26);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 200, 150, 0.08);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  pointer-events: auto;
-  opacity: 0;
-  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), border-color 0.35s ease,
-    background-color 0.35s ease, box-shadow 0.35s ease;
-}
-
-[data-ronin-ready='true'] .ronin-panel {
-  animation: ronin-fade-up 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) 0.9s both;
-}
-
-.ronin-panel:hover {
-  transform: translateY(-4px);
-  background: rgba(36, 19, 8, 0.86);
-  border-color: rgba(255, 172, 82, 0.58);
-  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 172, 82, 0.22);
-}
-
-.ronin-panel__thumb {
-  width: 3.25rem;
-  height: 3.25rem;
-  flex: none;
-  border-radius: 0.7rem;
-  border: 1px solid rgba(255, 150, 60, 0.3);
-  background-image: url('/assets/ronin-product.webp');
-  background-size: cover;
-  background-position: center center;
-  filter: saturate(0.95);
-  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1), filter 0.45s ease;
-}
-
-.ronin-panel:hover .ronin-panel__thumb {
-  transform: scale(1.08) rotate(-2deg);
-  filter: saturate(1.15);
-}
-
-.ronin-panel__eyebrow {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #f0a35e;
-}
-
-.ronin-panel__title {
-  margin-top: 0.1rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: #fdf1e2;
-}
-
-.ronin-panel__specs {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.15rem 0.65rem;
-  margin-top: 0.45rem;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.ronin-panel__specs dt {
-  color: #b98a5e;
-}
-
-.ronin-panel__specs dd {
-  color: #f4ddc5;
-  text-align: right;
-}
-
 /* ---------- staggered heading / fade-up utilities ------------------------- */
 
 /* Entrance animations are held until `portfolio-ready` lands on <html>, which
@@ -290,13 +202,6 @@ html[data-ronin-ready='true'] .ronin-fade-up {
 
 /* ---------- responsive ---------------------------------------------------- */
 
-@media (max-width: 767px) {
-  /* Keep the mobile hero uncluttered; the background still animates. */
-  .ronin-panel {
-    display: none;
-  }
-}
-
 @media (max-width: 1023px) {
   :root {
     --ronin-r: 20vmax;
@@ -309,7 +214,6 @@ html[data-ronin-ready='true'] .ronin-fade-up {
   .ronin-base,
   .ronin-reveal,
   .ronin-spark,
-  .ronin-panel,
   .ronin-word,
   .ronin-fade-up {
     animation: none !important;
@@ -319,15 +223,12 @@ html[data-ronin-ready='true'] .ronin-fade-up {
   .ronin-base,
   .ronin-reveal,
   .ronin-spark,
-  .ronin-panel,
   .ronin-word,
   .ronin-fade-up {
     opacity: 1;
   }
 
-  .ronin-reveal,
-  .ronin-panel,
-  .ronin-panel__thumb {
+  .ronin-reveal {
     transition: none !important;
   }
 }
@@ -336,7 +237,6 @@ html[data-ronin-ready='true'] .ronin-fade-up {
 html.a11y-reduced-motion .ronin-base,
 html.a11y-reduced-motion .ronin-reveal,
 html.a11y-reduced-motion .ronin-spark,
-html.a11y-reduced-motion .ronin-panel,
 html.a11y-reduced-motion .ronin-word,
 html.a11y-reduced-motion .ronin-fade-up {
   animation: none !important;
