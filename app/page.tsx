@@ -81,9 +81,7 @@ export default async function Home() {
 
   return (
     <PortfolioShell>
-      <a href="#main-content" className="skip-to-content">
-        Skip to main content
-      </a>
+      {/* Skip link now lives in app/layout.tsx so every route gets one. */}
       <main id="main-content" className="relative min-h-screen overflow-x-hidden">
         <Navbar />
         <HeroSection />

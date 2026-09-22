@@ -57,6 +57,96 @@ body {
   transition: background-color 0.35s ease, color 0.35s ease;
 }
 
+/* ==========================================================================
+   Semantic design tokens.
+
+   Around 200 utility classes across the app (bg-card, border-border,
+   text-muted-foreground, bg-background, text-foreground, bg-primary,
+   ring-primary, ...) were referenced in components but never defined in
+   tailwind.config.ts, so they compiled to nothing at all. The visible damage
+   was /github-health, where the search <input> and sort <select> fell back to
+   the browser's white control background while inheriting #94a3b8 text — a
+   measured 2.56:1. /changelog and /lab lost their card surfaces and borders
+   the same way.
+
+   These values are bound to the EXISTING palette (no rebrand): the token layer
+   is what gets fixed here. Declared as bare RGB channels alongside the hex so
+   that Tailwind opacity modifiers compile (border-border/80, bg-primary/10).
+   ========================================================================== */
+:root {
+  --background: #0b0914;
+  --background-rgb: 11 9 20;
+  --foreground: #fdf4ff;
+  --foreground-rgb: 253 244 255;
+  --card: #161124;
+  --card-rgb: 22 17 36;
+  --card-foreground: #fdf4ff;
+  --card-foreground-rgb: 253 244 255;
+  --popover: #141223;
+  --popover-rgb: 20 18 35;
+  --popover-foreground: #fdf4ff;
+  --popover-foreground-rgb: 253 244 255;
+  /* violet-400 rather than violet-500: `text-primary` sits on a
+     `bg-primary/10` tint on the changelog cards and measures 4.18:1 with
+     violet-500 (under AA). Lightening the token lifts that to ~6.0:1 and also
+     lifts `text-primary-foreground/80` on the lab tabs from 3.68 to ~5.0. */
+  --primary: #c084fc;
+  --primary-rgb: 192 132 252;
+  /* Ink rather than white: white on #a855f7 is 3.13:1, below AA for the 12px
+     labels using `bg-primary text-primary-foreground`. Ink is ~6.3:1. */
+  --primary-foreground: #141223;
+  --primary-foreground-rgb: 20 18 35;
+  --secondary: #f43f5e;
+  --secondary-rgb: 244 63 94;
+  --secondary-foreground: #141223;
+  --secondary-foreground-rgb: 20 18 35;
+  --muted: #141223;
+  --muted-rgb: 20 18 35;
+  --muted-foreground: #94a3b8;
+  --muted-foreground-rgb: 148 163 184;
+  --accent: #1a1430;
+  --accent-rgb: 26 20 48;
+  --accent-foreground: #fdf4ff;
+  --accent-foreground-rgb: 253 244 255;
+  --destructive: #ef4444;
+  --destructive-rgb: 239 68 68;
+  --destructive-foreground: #141223;
+  --destructive-foreground-rgb: 20 18 35;
+  --border: #2a2440;
+  --border-rgb: 42 36 64;
+  --input: #2a2440;
+  --input-rgb: 42 36 64;
+  --ring: #a855f7;
+  --ring-rgb: 168 85 247;
+  --radius: 0.5rem;
+  --chart-1: #a855f7;
+  --chart-1-rgb: 168 85 247;
+  --chart-2: #f43f5e;
+  --chart-2-rgb: 244 63 94;
+  --chart-3: #38bdf8;
+  --chart-3-rgb: 56 189 248;
+  --chart-4: #10b981;
+  --chart-4-rgb: 16 185 129;
+  --chart-5: #f59e0b;
+  --chart-5-rgb: 245 158 11;
+  --sidebar: #141223;
+  --sidebar-rgb: 20 18 35;
+  --sidebar-foreground: #fdf4ff;
+  --sidebar-foreground-rgb: 253 244 255;
+  --sidebar-primary: #a855f7;
+  --sidebar-primary-rgb: 168 85 247;
+  --sidebar-primary-foreground: #141223;
+  --sidebar-primary-foreground-rgb: 20 18 35;
+  --sidebar-accent: #1a1430;
+  --sidebar-accent-rgb: 26 20 48;
+  --sidebar-accent-foreground: #fdf4ff;
+  --sidebar-accent-foreground-rgb: 253 244 255;
+  --sidebar-border: #2a2440;
+  --sidebar-border-rgb: 42 36 64;
+  --sidebar-ring: #a855f7;
+  --sidebar-ring-rgb: 168 85 247;
+}
+
 /* Accessibility Focus Visible Ring (Priority 1) */
 :focus-visible {
   outline: 2px solid var(--gradient-start);
@@ -65,7 +155,9 @@ body {
 
 /* Skip to Content accessible helper (Priority 1) */
 .skip-to-content {
-  position: absolute;
+  /* fixed, not absolute: the link now renders on every route, and a
+     document-positioned element would sit off-screen once the page is scrolled. */
+  position: fixed;
   top: -100px;
   left: 1.5rem;
   z-index: 100;

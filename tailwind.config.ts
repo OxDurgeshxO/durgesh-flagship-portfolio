@@ -1,5 +1,12 @@
 import type { Config } from 'tailwindcss'
 
+/**
+ * Resolve a token declared in styles/globals.css as an alpha-capable colour.
+ * Bare RGB channels + <alpha-value> is what lets opacity modifiers such as
+ * `border-border/80`, `bg-primary/10` and `bg-card/50` compile correctly.
+ */
+const token = (channel: string) => `rgb(var(${channel}) / <alpha-value>)`
+
 const config: Config = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -37,6 +44,56 @@ const config: Config = {
           dark: '#e11d48',
         },
         glass: 'rgba(255,255,255,0.05)',
+
+        /* --- Semantic tokens (declared in styles/globals.css) -------------
+           These back the bg-card / border-border / text-muted-foreground /
+           text-foreground / bg-primary / ring-primary utilities that ~200
+           component usages already reference. They previously resolved to
+           nothing, which is why dark routes rendered browser-default white
+           form controls. Values stay bound to the existing palette. */
+        background: token('--background-rgb'),
+        foreground: token('--foreground-rgb'),
+        card: { DEFAULT: token('--card-rgb'), foreground: token('--card-foreground-rgb') },
+        popover: { DEFAULT: token('--popover-rgb'), foreground: token('--popover-foreground-rgb') },
+        primary: { DEFAULT: token('--primary-rgb'), foreground: token('--primary-foreground-rgb') },
+        secondary: { DEFAULT: token('--secondary-rgb'), foreground: token('--secondary-foreground-rgb') },
+        muted: { DEFAULT: token('--muted-rgb'), foreground: token('--muted-foreground-rgb') },
+        accent: { DEFAULT: token('--accent-rgb'), foreground: token('--accent-foreground-rgb') },
+        destructive: { DEFAULT: token('--destructive-rgb'), foreground: token('--destructive-foreground-rgb') },
+        border: token('--border-rgb'),
+        input: token('--input-rgb'),
+        ring: token('--ring-rgb'),
+        chart: {
+          1: token('--chart-1-rgb'),
+          2: token('--chart-2-rgb'),
+          3: token('--chart-3-rgb'),
+          4: token('--chart-4-rgb'),
+          5: token('--chart-5-rgb'),
+        },
+        sidebar: {
+          DEFAULT: token('--sidebar-rgb'),
+          foreground: token('--sidebar-foreground-rgb'),
+          primary: { DEFAULT: token('--sidebar-primary-rgb'), foreground: token('--sidebar-primary-foreground-rgb') },
+          accent: { DEFAULT: token('--sidebar-accent-rgb'), foreground: token('--sidebar-accent-foreground-rgb') },
+          border: token('--sidebar-border-rgb'),
+          ring: token('--sidebar-ring-rgb'),
+        },
+
+        /* slate.500 is this project's muted body/meta text token (22 usages).
+           Tailwind's default #64748b measures 3.86-4.17 against these dark
+           surfaces — under the 4.5 AA threshold, and the single largest source
+           of measured axe violations. #7b8a9e measures ~5.3:1 while staying
+           visibly dimmer than slate.400 (#94a3b8), preserving the hierarchy.
+           Only this shade is overridden; extend deep-merges the rest. */
+        slate: {
+          500: '#7b8a9e',
+        },
+      },
+      borderRadius: {
+        /* Wired to --radius. Numerically identical to Tailwind's defaults. */
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
         mono: ['JetBrains Mono', 'monospace'],

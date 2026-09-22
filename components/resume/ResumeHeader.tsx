@@ -23,13 +23,18 @@ export default function ResumeHeader() {
             <Mail className="size-3.5" />
             <span>{OWNER.email}</span>
           </a>
-          <a
-            href={`tel:${OWNER.phone}`}
-            className="hover:text-purple-500 flex items-center gap-1.5 transition-colors"
-          >
-            <Phone className="size-3.5" />
-            <span>{OWNER.phone}</span>
-          </a>
+          {/* Only render the phone link when a number is actually configured.
+              With NEXT_PUBLIC_PHONE unset this produced href="tel:" and an
+              empty label — an axe `link-name` violation and a dead link. */}
+          {OWNER.phone ? (
+            <a
+              href={`tel:${OWNER.phone}`}
+              className="hover:text-purple-500 flex items-center gap-1.5 transition-colors"
+            >
+              <Phone className="size-3.5" />
+              <span>{OWNER.phone}</span>
+            </a>
+          ) : null}
           <div className="flex items-center gap-1.5">
             <MapPin className="size-3.5" />
             <span>{OWNER.location}</span>

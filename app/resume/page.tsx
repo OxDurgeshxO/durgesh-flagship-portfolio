@@ -77,7 +77,7 @@ export default function ResumePage() {
                     <h3 className="font-bold text-sm text-slate-900 dark:text-white">
                       {proj.title} <span className="font-normal text-xs text-purple-600 dark:text-purple-300">— {proj.tagline}</span>
                     </h3>
-                    <div className="text-xs font-mono text-slate-500 shrink-0">
+                    <div className="text-xs font-mono text-slate-600 shrink-0">
                       {proj.timeline}
                     </div>
                   </div>
@@ -92,7 +92,7 @@ export default function ResumePage() {
                     ))}
                   </ul>
 
-                  <div className="text-[11px] font-mono text-slate-500 mt-1">
+                  <div className="text-[11px] font-mono text-slate-600 mt-1">
                     <span className="font-semibold text-slate-700 dark:text-slate-300">Tech Stack:</span>{" "}
                     {proj.technologies.map((t) => t.name).join(" • ")}
                   </div>
@@ -107,9 +107,9 @@ export default function ResumePage() {
               <div className="avoid-break">
                 <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-1">
                   <h3 className="font-bold text-sm text-slate-900 dark:text-white">
-                    AI Program Fellow <span className="font-normal text-xs text-rose-500 dark:text-rose-400">— UNLOX®</span>
+                    AI Program Fellow <span className="font-normal text-xs text-rose-600 dark:text-rose-400">— UNLOX®</span>
                   </h3>
-                  <div className="text-xs font-mono text-slate-500">Jun 2026 – Present | Remote</div>
+                  <div className="text-xs font-mono text-slate-600">Jun 2026 – Present | Remote</div>
                 </div>
                 <ul className="list-disc list-inside text-xs text-slate-600 dark:text-slate-400 space-y-0.5">
                   <li>Engineered end-to-end AI deployment pipelines with automated containerization.</li>
@@ -123,7 +123,7 @@ export default function ResumePage() {
                   <h3 className="font-bold text-sm text-slate-900 dark:text-white">
                     AI Cohort Member <span className="font-normal text-xs text-purple-600 dark:text-purple-400">— Be10x</span>
                   </h3>
-                  <div className="text-xs font-mono text-slate-500">May 2026 – Present | India</div>
+                  <div className="text-xs font-mono text-slate-600">May 2026 – Present | India</div>
                 </div>
                 <ul className="list-disc list-inside text-xs text-slate-600 dark:text-slate-400 space-y-0.5">
                   <li>Developed multi-step LLM prompt chaining architectures to automate repetitive tasks.</li>
@@ -143,7 +143,7 @@ export default function ResumePage() {
                     <div className="text-xs text-slate-600 dark:text-slate-300">{edu.institution}</div>
                     <div className="text-xs text-purple-600 dark:text-purple-400 font-mono mt-0.5">{edu.grade}</div>
                   </div>
-                  <div className="text-xs font-mono text-slate-500 shrink-0">{edu.period}</div>
+                  <div className="text-xs font-mono text-slate-600 shrink-0">{edu.period}</div>
                 </div>
               ))}
             </div>
