@@ -6,9 +6,11 @@ import { Sparkles, FileText, Activity, Users, ArrowUpRight, ShieldCheck, Zap, Lo
 import ResumeAnalyzerDemo from './ResumeAnalyzerDemo';
 import { FitTrackDemo } from './FitTrackDemo';
 import MarketMatchDemo from './MarketMatchDemo';
+import TokenCounterDemo from './TokenCounterDemo';
+import { Hash } from 'lucide-react';
 import PrivacyNotice from './PrivacyNotice';
 
-type TabKey = 'resume' | 'fittrack' | 'marketmatch';
+type TabKey = 'resume' | 'fittrack' | 'marketmatch' | 'tokenizer';
 
 export function AiLabShell() {
   const [activeTab, setActiveTab] = useState<TabKey>('resume');
@@ -37,6 +39,14 @@ export function AiLabShell() {
       icon: Users,
       badge: 'Unsupervised ML',
       caseStudy: '/work/marketmatch-ai',
+    },
+    {
+      id: 'tokenizer' as TabKey,
+      name: 'Subword Tokenizer',
+      subtitle: 'BPE Segmentation & Pricing',
+      icon: Hash,
+      badge: 'Client-Side Tokenizer',
+      caseStudy: '/work/roleradar',
     },
   ];
 
@@ -119,6 +129,7 @@ export function AiLabShell() {
         {activeTab === 'resume' && <ResumeAnalyzerDemo />}
         {activeTab === 'fittrack' && <FitTrackDemo />}
         {activeTab === 'marketmatch' && <MarketMatchDemo />}
+      {activeTab === 'tokenizer' && <TokenCounterDemo />}
       </div>
 
       {/* Privacy Notice Component */}

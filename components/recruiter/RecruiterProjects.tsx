@@ -118,6 +118,30 @@ export default function RecruiterProjects() {
           );
         })}
       </div>
+      {/* Additional Flagship Architecture Deep Dives */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 pt-4 border-t border-white/5">
+        <Link
+          href="/work/jarvis-realtime-assistant"
+          className="p-4 rounded-xl glass border border-white/5 hover:border-purple-500/30 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex items-center justify-between group"
+        >
+          <div>
+            <div className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors">jarvis-realtime-assistant</div>
+            <div className="text-[11px] text-slate-400">Voice AI &bull; Sub-500ms Gemini Multimodal Pipeline</div>
+          </div>
+          <ArrowRight className="size-4 text-slate-400 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" />
+        </Link>
+
+        <Link
+          href="/work/cnn-streamlit"
+          className="p-4 rounded-xl glass border border-white/5 hover:border-purple-500/30 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex items-center justify-between group"
+        >
+          <div>
+            <div className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors">CNN-STREAMLIT Suite</div>
+            <div className="text-[11px] text-slate-400">Deep Learning &bull; PyTorch Multiclass Vision Engine</div>
+          </div>
+          <ArrowRight className="size-4 text-slate-400 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" />
+        </Link>
+      </div>
     </section>
   );
 }

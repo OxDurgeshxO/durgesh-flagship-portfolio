@@ -31,6 +31,7 @@ import {
 import { OWNER } from "@/lib/data";
 import { trackEvent } from "@/lib/analytics";
 import { saveExperienceMode } from "@/lib/experience-mode";
+import { getSavedPerformanceMode, savePerformanceMode, PerformanceMode } from "@/lib/performance";
 
 interface PaletteAction {
   id: string;
@@ -105,6 +106,82 @@ export default function CommandPalette() {
   const actions: PaletteAction[] = useMemo(
     () => [
       // Quick Actions
+      {
+        id: "toggle-visual-mode",
+        category: "Quick Actions",
+        title: "Toggle Visual Mode (3D WebGL vs Lite)",
+        subtitle: "Switch between high-fidelity 3D and low-bandwidth static performance mode",
+        icon: Zap,
+        shortcut: "3D",
+        aliases: ["visual", "3d", "performance", "lite", "toggle visual", "graphics"],
+        perform: () => {
+          const current = getSavedPerformanceMode();
+          const nextMode: PerformanceMode = current === 'low-bandwidth' ? 'immersive' : 'low-bandwidth';
+          savePerformanceMode(nextMode);
+          triggerToast(`⚡ Switched to ${nextMode === 'low-bandwidth' ? 'Lite Performance' : '3D Immersive'} Mode`);
+        },
+      },
+      // Case Studies Direct Navigation
+      {
+        id: "case-roleradar",
+        category: "Case Studies",
+        title: "Case Study: RoleRadar",
+        subtitle: "AI resume intelligence, ATS parsing, and career positioning platform",
+        icon: Cpu,
+        shortcut: "/roleradar",
+        aliases: ["roleradar", "ats", "resume parser", "case study"],
+        perform: () => {
+          window.location.href = "/work/roleradar";
+        },
+      },
+      {
+        id: "case-fittrack",
+        category: "Case Studies",
+        title: "Case Study: FitTrack AI Platform",
+        subtitle: "Realtime computer vision kinematics and rep counter pipeline",
+        icon: Activity,
+        shortcut: "/fittrack",
+        aliases: ["fittrack", "fitness", "cv", "mediapipe", "kinematics"],
+        perform: () => {
+          window.location.href = "/work/fittrack";
+        },
+      },
+      {
+        id: "case-marketmatch",
+        category: "Case Studies",
+        title: "Case Study: MarketMatch-AI",
+        subtitle: "RFM customer segmentation, cosine vector clustering, and recommendations",
+        icon: Sparkles,
+        shortcut: "/marketmatch",
+        aliases: ["marketmatch", "clustering", "pca", "rfm", "recommendations"],
+        perform: () => {
+          window.location.href = "/work/marketmatch-ai";
+        },
+      },
+      {
+        id: "case-jarvis",
+        category: "Case Studies",
+        title: "Case Study: jarvis-realtime-assistant",
+        subtitle: "Sub-500ms voice-to-voice multimodal AI pipeline with WebSockets",
+        icon: Volume2,
+        shortcut: "/jarvis",
+        aliases: ["jarvis", "voice", "realtime", "assistant", "webrtc"],
+        perform: () => {
+          window.location.href = "/work/jarvis-realtime-assistant";
+        },
+      },
+      {
+        id: "case-cnn",
+        category: "Case Studies",
+        title: "Case Study: CNN-STREAMLIT Suite",
+        subtitle: "Deep learning image classification suite with PyTorch and Streamlit",
+        icon: FlaskConical,
+        shortcut: "/cnn",
+        aliases: ["cnn", "streamlit", "pytorch", "classification", "vision"],
+        perform: () => {
+          window.location.href = "/work/cnn-streamlit";
+        },
+      },
       {
         id: "resume-html",
         category: "Quick Actions",

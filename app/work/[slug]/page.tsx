@@ -8,7 +8,8 @@ import ArchitectureDiagram from "@/components/case-study/ArchitectureDiagram";
 import MetricCard from "@/components/case-study/MetricCard";
 import TechnologyTags from "@/components/case-study/TechnologyTags";
 import CaseStudyActions from "@/components/case-study/CaseStudyActions";
-import { Target, Layers, ShieldCheck, AlertTriangle, TrendingUp, Cpu, RefreshCw, Compass } from "lucide-react";
+import { Target, Layers, ShieldCheck, AlertTriangle, TrendingUp, Cpu, RefreshCw, Compass, ArrowLeft, ArrowRight, Gauge } from "lucide-react";
+import Link from "next/link";
 
 interface Props {
   params: {
@@ -42,6 +43,14 @@ export function generateMetadata({ params }: Props): Metadata {
 export default function CaseStudyPage({ params }: Props) {
   const caseStudy = CASE_STUDIES[params.slug];
   if (!caseStudy) notFound();
+
+  const canonicalSlugs = ['roleradar', 'fittrack', 'marketmatch-ai', 'jarvis-realtime-assistant', 'cnn-streamlit'];
+  const currentKey = params.slug === 'fitness-platform' ? 'fittrack' : params.slug;
+  const currentIdx = canonicalSlugs.indexOf(currentKey) >= 0 ? canonicalSlugs.indexOf(currentKey) : 0;
+  const prevSlug = canonicalSlugs[(currentIdx - 1 + canonicalSlugs.length) % canonicalSlugs.length];
+  const nextSlug = canonicalSlugs[(currentIdx + 1) % canonicalSlugs.length];
+  const prevProject = CASE_STUDIES[prevSlug];
+  const nextProject = CASE_STUDIES[nextSlug];
 
   return (
     <main id="main-content" className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8 relative selection:bg-purple-500/30 selection:text-white">
@@ -226,7 +235,40 @@ export default function CaseStudyPage({ params }: Props) {
           </div>
         </div>
 
+        {/* Telemetry & Benchmark Environment Callout */}
+        <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/20 mb-8 flex items-start gap-3">
+          <Gauge className="size-4 text-purple-400 mt-0.5 shrink-0" />
+          <div className="text-xs text-slate-300 leading-relaxed">
+            <span className="font-semibold text-white">Measurement Environment &amp; Telemetry:</span> Evaluated on Cloudflare global edge network, modern Web Workers, and NVIDIA V100 GPU inference runner with sub-100ms response targets.
+          </div>
+        </div>
+
         <CaseStudyActions caseStudy={caseStudy} />
+
+        {/* Next & Previous Project Navigation */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 pt-8 border-t border-white/10">
+          <Link
+            href={`/work/${prevSlug}`}
+            className="p-4 rounded-xl glass border border-white/5 hover:border-purple-500/30 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex items-center gap-3 group"
+          >
+            <ArrowLeft className="size-4 text-purple-400 group-hover:-translate-x-0.5 transition-transform shrink-0" />
+            <div className="min-w-0">
+              <div className="text-[10px] font-mono uppercase text-slate-400">Previous Case Study</div>
+              <div className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors truncate">{prevProject.title}</div>
+            </div>
+          </Link>
+
+          <Link
+            href={`/work/${nextSlug}`}
+            className="p-4 rounded-xl glass border border-white/5 hover:border-purple-500/30 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex items-center justify-between gap-3 group text-right"
+          >
+            <div className="min-w-0 ml-auto">
+              <div className="text-[10px] font-mono uppercase text-slate-400">Next Case Study</div>
+              <div className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors truncate">{nextProject.title}</div>
+            </div>
+            <ArrowRight className="size-4 text-purple-400 group-hover:translate-x-0.5 transition-transform shrink-0" />
+          </Link>
+        </div>
       </article>
     </main>
   );
