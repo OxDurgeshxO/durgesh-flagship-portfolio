@@ -1,13 +1,22 @@
 "use client";
 
 import { copyToClipboard } from "@/lib/clipboard";
-
 import React, { useState } from "react";
 import Link from "next/link";
-import { Download, Printer, Copy, Check, ArrowLeft, Sparkles } from "lucide-react";
+import { Download, Printer, Copy, Check, ArrowLeft, Palette } from "lucide-react";
 import { OWNER } from "@/lib/data";
 
-export default function ResumeActions() {
+export type ResumeTheme = "pure-white" | "warm-ivory" | "light-gray";
+
+interface ResumeActionsProps {
+  currentTheme?: ResumeTheme;
+  onThemeChange?: (theme: ResumeTheme) => void;
+}
+
+export default function ResumeActions({
+  currentTheme = "pure-white",
+  onThemeChange,
+}: ResumeActionsProps) {
   const [copied, setCopied] = useState(false);
 
   const handlePrint = () => {
@@ -26,15 +35,52 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
     }
   };
 
+  const themes: { id: ResumeTheme; name: string; bgClass: string; desc: string }[] = [
+    { id: "pure-white", name: "Pure White", bgClass: "bg-white border-slate-300", desc: "ATS Gold Standard (Recommended)" },
+    { id: "warm-ivory", name: "Warm Ivory", bgClass: "bg-[#FAF9F5] border-stone-300", desc: "Editorial Off-White" },
+    { id: "light-gray", name: "Light Gray", bgClass: "bg-[#F8FAFC] border-slate-300", desc: "Modern Minimal" },
+  ];
+
   return (
-    <div className="resume-actions-bar bg-slate-900/90 backdrop-blur-md border border-white/10 p-3 rounded-2xl mb-8 flex flex-wrap items-center justify-between gap-3 shadow-xl">
-      <Link
-        href="/recruiter"
-        className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors"
-      >
-        <ArrowLeft className="size-3.5" />
-        <span>Recruiter Fast Track</span>
-      </Link>
+    <div className="resume-actions-bar bg-slate-900/95 backdrop-blur-md border border-white/10 p-3.5 rounded-2xl mb-8 flex flex-wrap items-center justify-between gap-4 shadow-xl">
+      <div className="flex items-center gap-3">
+        <Link
+          href="/recruiter"
+          className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors"
+        >
+          <ArrowLeft className="size-3.5" />
+          <span>Recruiter Fast Track</span>
+        </Link>
+
+        {/* ATS Background Theme Selector */}
+        {onThemeChange && (
+          <div className="hidden sm:flex items-center gap-1.5 pl-3 border-l border-white/10">
+            <span className="text-[11px] font-mono text-slate-400 flex items-center gap-1 mr-1">
+              <Palette className="size-3 text-purple-400" />
+              <span>Theme:</span>
+            </span>
+            <div className="flex items-center rounded-lg bg-white/5 p-0.5 border border-white/10">
+              {themes.map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => onThemeChange(t.id)}
+                  title={`${t.name} - ${t.desc}`}
+                  aria-label={`Switch to ${t.name} background theme`}
+                  aria-pressed={currentTheme === t.id}
+                  className={`px-2.5 py-1 text-[11px] font-medium rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
+                    currentTheme === t.id
+                      ? "bg-white text-slate-900 font-semibold shadow-sm"
+                      : "text-slate-300 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <span className={`size-2.5 rounded-full border border-black/20 ${t.bgClass}`} />
+                  <span>{t.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className="flex flex-wrap items-center gap-2">
         <button

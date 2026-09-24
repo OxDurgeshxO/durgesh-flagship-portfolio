@@ -9,10 +9,10 @@ interface Props {
 export default function ResumeSection({ title, children, className = "" }: Props) {
   return (
     <section className={`mb-6 avoid-break ${className}`}>
-      <h2 className="text-xs font-mono font-bold tracking-widest text-purple-600 dark:text-purple-300 uppercase border-b border-slate-300 dark:border-white/10 pb-1 mb-3">
+      <h2 className="text-xs font-mono font-bold tracking-wider text-slate-900 uppercase border-b-2 border-slate-300 pb-1 mb-3">
         {title}
       </h2>
-      <div className="space-y-4 text-xs md:text-sm text-slate-800 dark:text-slate-200">
+      <div className="space-y-4 text-xs md:text-sm text-slate-800">
         {children}
       </div>
     </section>
