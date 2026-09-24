@@ -52,7 +52,7 @@ html {
 body {
   background-color: var(--bg-primary);
   color: var(--text-body);
-  font-family: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-ui), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   overflow-x: hidden;
   transition: background-color 0.35s ease, color 0.35s ease;
 }
@@ -187,10 +187,25 @@ body {
 
 .glass {
   background: var(--card-glass);
-  backdrop-filter: blur(16px);
+  /* Blur is a per-theme token: Graphite and Noir set it to 0 (flat paper /
+     gallery surfaces), the glass themes keep 14-16px. */
+  -webkit-backdrop-filter: blur(var(--glass-blur, 16px));
+  backdrop-filter: blur(var(--glass-blur, 16px));
   border: 1px solid var(--card-border);
   box-shadow: var(--card-shadow);
   transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Elevation vocabulary. In dark mode the difference between levels is glow; in
+   light mode it is shadow + border. Same three levels, two expressions. */
+.elev-1 {
+  box-shadow: var(--shadow-1);
+}
+.elev-2 {
+  box-shadow: var(--shadow-2);
+}
+.elev-3 {
+  box-shadow: var(--shadow-3);
 }
 
 .glow-violet,
@@ -281,4 +296,98 @@ html.a11y-high-contrast :focus-visible {
 /* 3. Enlarged Typography */
 html.a11y-larger-text {
   font-size: 115% !important;
+}
+
+/* ==========================================================================
+   THEME LAYER (Cobalt Blueprint, dark only)
+   --------------------------------------------------------------------------
+   Declarations here read the tokens defined in styles/theme.css.
+   Nothing here hardcodes a colour.
+
+   Transition discipline: only paint-cheap properties are transitioned
+   (background-color, color, border-color, box-shadow, fill). backdrop-filter,
+   filter and gradients are deliberately NOT transitioned — they repaint per
+   frame on mobile Safari and make the mode switch stutter.
+   ========================================================================== */
+
+html {
+  background-color: var(--canvas);
+}
+
+html,
+body {
+  transition: background-color var(--motion-base) ease, color var(--motion-base) ease;
+}
+
+/* While a theme/mode switch is in flight, stop hover transforms and entrance
+   animations so the change reads as one deliberate event, not a cascade. */
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  animation-duration: 0.001ms !important;
+  transition-duration: 0.001ms !important;
+}
+
+/* Elements that must keep their own tone regardless of mode: brand fills (the
+   fill carries the contrast), third-party brand marks, print/paper surfaces. */
+.tone-lock,
+.tone-lock * {
+  color: var(--on-accent-fill) !important;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+}
+
+/* Reduced motion wins over the theme transition as well. */
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body {
+    transition-duration: 0.001ms !important;
+  }
+}
+html.a11y-reduced-motion,
+html.a11y-reduced-motion body {
+  transition-duration: 0.001ms !important;
+}
+
+/* High-contrast mode, re-pointed at the SEMANTIC layer.
+   Previously this only redefined the legacy --bg-primary-style primitives, so it
+   silently stopped working as soon as a component consumed a semantic token
+   instead. The light branch that used to live here was removed with light mode. */
+html.a11y-high-contrast {
+  --border: #ffffff;
+  --border-strong: #ffffff;
+  --border-subtle: #ffffff;
+  --border-hover: var(--accent-signal);
+  --muted-foreground: #ffffff;
+  --body: #ffffff;
+  --ink: #ffffff;
+  --text-muted: #ffffff;
+  --text-body: #ffffff;
+  --text-main: #ffffff;
+  --card-glass: rgba(8, 6, 16, 0.98);
+  --glass-bg: rgba(8, 6, 16, 0.98);
+  --card-border: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.45);
+}
+
+
+html.a11y-high-contrast .text-slate-400,
+html.a11y-high-contrast .text-slate-500,
+html.a11y-high-contrast .text-slate-300 {
+  color: var(--ink) !important;
+}
+
+html.a11y-high-contrast :focus-visible {
+  outline-width: 3px !important;
+  outline-color: var(--accent-signal) !important;
 }

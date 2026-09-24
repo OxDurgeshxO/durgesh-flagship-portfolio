@@ -1,8 +1,22 @@
 import type { Metadata } from 'next'
-import { Inter, JetBrains_Mono } from 'next/font/google'
+import {
+  Inter,
+  JetBrains_Mono,
+  IBM_Plex_Mono,
+  Space_Grotesk,
+  Newsreader,
+  Instrument_Sans,
+  Archivo,
+} from 'next/font/google'
 import '../styles/globals.css'
+// Portfolio theme: Cobalt Blueprint, dark only.
+// One flat token sheet scoped to :root — no theme switching, no light mode and
+// no attribute scoping. See styles/theme.css for the palette and measured floors.
+import '../styles/theme.css'
 // Cyber Ronin // Neural Edges hero background layer (own namespaced stylesheet).
 import '../components/cyber-ronin/cyber-ronin.css'
+import { THEME_BOOT_SCRIPT } from '@/lib/themes/boot'
+import { ThemeProvider } from '@/lib/themes/provider'
 
 
 const inter = Inter({
@@ -14,7 +28,53 @@ const inter = Inter({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-mono',
+  variable: '--font-jetbrains-mono',
+})
+
+/* Cobalt Blueprint's own faces. Inter + JetBrains Mono remain loaded as the
+   document/UI fallbacks; the three other display families that existed for the
+   removed themes are gone, so they are no longer shipped to visitors at all. */
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-space-grotesk',
+})
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
+  variable: '--font-ibm-plex-mono',
+})
+
+/* Display faces for Graphite Ledger, Ember Titanium and Noir Gallery.
+   preload:false — only one theme is active at a time, so preloading these would
+   cost every visitor bandwidth for fonts they may never render.
+   adjustFontFallback:false — Next 14.2 has no bundled metric-override data for
+   these faces and that lookup is what fails the build; it is the computation
+   being disabled, not the font. */
+const newsreader = Newsreader({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-newsreader',
+  preload: false,
+  adjustFontFallback: false,
+})
+
+const instrumentSans = Instrument_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-instrument-sans',
+  preload: false,
+  adjustFontFallback: false,
+})
+
+const archivo = Archivo({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-archivo',
+  preload: false,
+  adjustFontFallback: false,
 })
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://durgesh-portfolio.pages.dev'
@@ -162,23 +222,35 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme="cobalt" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Anti-FOUC boot script: applies the stored or URL-selected theme before
+            the first paint, so a visitor who chose another theme never sees a
+            flash of the default. It MUST stay inline, synchronous and in <head>.
+            The static data-theme="cobalt" on <html> is the JS-disabled baseline. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
+        <meta name="theme-color" content="#07131f" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }}
         />
       </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable}`}>
+      <body
+        className={`${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable} ${newsreader.variable} ${instrumentSans.variable} ${archivo.variable}`}
+      >
         {/* Global skip link (WCAG 2.4.1). Every route renders a
             <main id="main-content">, so a single link in the root layout covers
             the whole app instead of only the homepage. */}
         <a href="#main-content" className="skip-to-content">
           Skip to main content
         </a>
-        {children}
+        {/* ThemeProvider lives at the ROOT, not inside PortfolioShell:
+            PortfolioShell only wraps the homepage, while /not-found, /error and
+            the secondary routes render this layout plus <Navbar /> — and the
+            navbar contains the theme panel, which reads this context. */}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   )

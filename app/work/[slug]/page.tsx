@@ -70,7 +70,7 @@ export default function CaseStudyPage({ params }: Props) {
   const nextProject = CASE_STUDIES[nextSlug];
 
   return (
-    <main id="main-content" className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8 relative selection:bg-purple-500/30 selection:text-white">
+    <main id="main-content" className="min-h-screen bg-popover text-ink py-12 px-4 sm:px-6 lg:px-8 relative selection:bg-purple-500/30 selection:text-white">
       {/* Ambient background glow */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
         <div
@@ -123,14 +123,14 @@ export default function CaseStudyPage({ params }: Props) {
           icon={<Target className="size-5" />}
         >
           <p>{caseStudy.problem}</p>
-          <div className="mt-4 p-5 rounded-xl bg-white/[0.03] border border-white/5">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-3">
+          <div className="mt-4 p-5 rounded-xl bg-white/[0.03] border border-border/60">
+            <h4 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3">
               Target User Personas:
             </h4>
             <ul className="space-y-2">
               {caseStudy.targetUsers.map((u, i) => (
-                <li key={i} className="flex items-start gap-2.5 text-xs md:text-sm text-slate-300">
-                  <span className="text-purple-400 mt-0.5 font-bold">✓</span>
+                <li key={i} className="flex items-start gap-2.5 text-xs md:text-sm text-body">
+                  <span className="text-primary mt-0.5 font-bold">✓</span>
                   <span>{u}</span>
                 </li>
               ))}
@@ -167,21 +167,21 @@ export default function CaseStudyPage({ params }: Props) {
             {caseStudy.tradeoffs.map((t, idx) => (
               <div
                 key={idx}
-                className="p-5 rounded-xl bg-white/[0.03] border border-white/10 hover:border-purple-500/30 transition-all"
+                className="p-5 rounded-xl bg-white/[0.03] border border-border hover:border-primary/40 transition-all"
               >
-                <div className="text-xs font-mono uppercase text-purple-300 tracking-wider mb-1">
+                <div className="text-xs font-mono uppercase text-primary tracking-wider mb-1">
                   Tradeoff #{idx + 1}: {t.decision}
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-3 text-xs">
-                  <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">
+                  <div className="p-3 rounded-lg bg-[var(--accent-lab-bg)] border border-emerald-500/20 text-[var(--accent-lab)]">
                     <span className="font-bold">Chosen:</span> {t.chosen}
                   </div>
-                  <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-300">
+                  <div className="p-3 rounded-lg bg-secondary/10 border border-rose-500/20 text-secondary">
                     <span className="font-bold">Alternative:</span> {t.alternative}
                   </div>
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  <span className="font-semibold text-slate-200">Engineering Rationale:</span> {t.rationale}
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  <span className="font-semibold text-ink">Engineering Rationale:</span> {t.rationale}
                 </p>
               </div>
             ))}
@@ -197,7 +197,7 @@ export default function CaseStudyPage({ params }: Props) {
           <ul className="space-y-3">
             {caseStudy.failureHandling.map((f, idx) => (
               <li key={idx} className="flex items-start gap-3 text-xs md:text-sm">
-                <span className="size-5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
+                <span className="size-5 rounded-full bg-amber-500/10 border border-amber-500/30 text-[var(--accent-warm)] flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
                   !
                 </span>
                 <span>{f}</span>
@@ -215,7 +215,7 @@ export default function CaseStudyPage({ params }: Props) {
           <ul className="space-y-3">
             {caseStudy.securityPrivacy.map((s, idx) => (
               <li key={idx} className="flex items-start gap-3 text-xs md:text-sm">
-                <span className="size-5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
+                <span className="size-5 rounded-full bg-[var(--accent-signal-bg)] border border-[var(--accent-signal-border)] text-[var(--accent-signal)] flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
                   🔒
                 </span>
                 <span>{s}</span>
@@ -233,7 +233,7 @@ export default function CaseStudyPage({ params }: Props) {
           <ul className="space-y-3">
             {caseStudy.resultsAndImpact.map((r, idx) => (
               <li key={idx} className="flex items-start gap-3 text-xs md:text-sm">
-                <span className="size-5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
+                <span className="size-5 rounded-full bg-primary/10 border border-primary/40 text-primary flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
                   ★
                 </span>
                 <span>{r}</span>
@@ -244,28 +244,28 @@ export default function CaseStudyPage({ params }: Props) {
 
         {/* 8. Known Limitations & Roadmap */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 my-10">
-          <div className="p-5 rounded-xl bg-white/[0.02] border border-white/5">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
-              <RefreshCw className="size-3.5 text-amber-400" /> Known Limitations
+          <div className="p-5 rounded-xl bg-muted/60 border border-border/60">
+            <h4 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-1.5">
+              <RefreshCw className="size-3.5 text-[var(--accent-warm)]" /> Known Limitations
             </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
+            <ul className="space-y-2 text-xs text-muted-foreground">
               {caseStudy.limitations.map((l, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <span className="text-amber-400">•</span>
+                  <span className="text-[var(--accent-warm)]">•</span>
                   <span>{l}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="p-5 rounded-xl bg-white/[0.02] border border-white/5">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
-              <Compass className="size-3.5 text-purple-400" /> Future Roadmap
+          <div className="p-5 rounded-xl bg-muted/60 border border-border/60">
+            <h4 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-1.5">
+              <Compass className="size-3.5 text-primary" /> Future Roadmap
             </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
+            <ul className="space-y-2 text-xs text-muted-foreground">
               {caseStudy.futureRoadmap.map((rm, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <span className="text-purple-400">•</span>
+                  <span className="text-primary">•</span>
                   <span>{rm}</span>
                 </li>
               ))}
@@ -274,37 +274,37 @@ export default function CaseStudyPage({ params }: Props) {
         </div>
 
         {/* Telemetry & Benchmark Environment Callout */}
-        <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/20 mb-8 flex items-start gap-3">
-          <Gauge className="size-4 text-purple-400 mt-0.5 shrink-0" />
-          <div className="text-xs text-slate-300 leading-relaxed">
-            <span className="font-semibold text-white">Measurement Environment &amp; Telemetry:</span> Evaluated on Cloudflare global edge network, modern Web Workers, and NVIDIA V100 GPU inference runner with sub-100ms response targets.
+        <div className="p-4 rounded-xl bg-purple-950/20 border border-primary/30 mb-8 flex items-start gap-3">
+          <Gauge className="size-4 text-primary mt-0.5 shrink-0" />
+          <div className="text-xs text-body leading-relaxed">
+            <span className="font-semibold text-ink">Measurement Environment &amp; Telemetry:</span> Evaluated on Cloudflare global edge network, modern Web Workers, and NVIDIA V100 GPU inference runner with sub-100ms response targets.
           </div>
         </div>
 
         <CaseStudyActions caseStudy={caseStudy} />
 
         {/* Next & Previous Project Navigation */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 pt-8 border-t border-white/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 pt-8 border-t border-border">
           <Link
             href={`/work/${prevSlug}`}
-            className="p-4 rounded-xl glass border border-white/5 hover:border-purple-500/30 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex items-center gap-3 group"
+            className="p-4 rounded-xl glass border border-border/60 hover:border-primary/40 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex items-center gap-3 group"
           >
-            <ArrowLeft className="size-4 text-purple-400 group-hover:-translate-x-0.5 transition-transform shrink-0" />
+            <ArrowLeft className="size-4 text-primary group-hover:-translate-x-0.5 transition-transform shrink-0" />
             <div className="min-w-0">
-              <div className="text-[10px] font-mono uppercase text-slate-400">Previous Case Study</div>
-              <div className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors truncate">{prevProject.title}</div>
+              <div className="text-[10px] font-mono uppercase text-muted-foreground">Previous Case Study</div>
+              <div className="text-xs font-bold text-ink group-hover:text-primary transition-colors truncate">{prevProject.title}</div>
             </div>
           </Link>
 
           <Link
             href={`/work/${nextSlug}`}
-            className="p-4 rounded-xl glass border border-white/5 hover:border-purple-500/30 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex items-center justify-between gap-3 group text-right"
+            className="p-4 rounded-xl glass border border-border/60 hover:border-primary/40 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex items-center justify-between gap-3 group text-right"
           >
             <div className="min-w-0 ml-auto">
-              <div className="text-[10px] font-mono uppercase text-slate-400">Next Case Study</div>
-              <div className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors truncate">{nextProject.title}</div>
+              <div className="text-[10px] font-mono uppercase text-muted-foreground">Next Case Study</div>
+              <div className="text-xs font-bold text-ink group-hover:text-primary transition-colors truncate">{nextProject.title}</div>
             </div>
-            <ArrowRight className="size-4 text-purple-400 group-hover:translate-x-0.5 transition-transform shrink-0" />
+            <ArrowRight className="size-4 text-primary group-hover:translate-x-0.5 transition-transform shrink-0" />
           </Link>
         </div>
       </article>

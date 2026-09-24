@@ -381,7 +381,7 @@ export default function RoamingCompanion3D() {
                 setBubbleVisible(true)
                 playCyberChirp(600, 1000)
               }}
-              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/90 border border-purple-500/50 text-purple-300 hover:border-amber-400 hover:text-white backdrop-blur-xl shadow-lg shadow-purple-500/25 transition-all flex items-center gap-1.5 active:scale-95"
+              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-popover/90 border border-primary/40 text-primary hover:border-amber-400 hover:text-ink backdrop-blur-xl shadow-lg shadow-purple-500/25 transition-all flex items-center gap-1.5 active:scale-95"
               title="CyberBot AI Companion"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
@@ -442,7 +442,7 @@ export default function RoamingCompanion3D() {
                 setMode((m) => (m === 'dock' ? 'roam' : m === 'roam' ? 'follow' : 'dock'))
                 playCyberChirp(550, 750)
               }}
-              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/90 border border-purple-500/40 text-purple-300 hover:border-rose-300 hover:bg-purple-500/20 backdrop-blur-xl transition-all shadow-xl shadow-purple-500/20 flex items-center gap-1.5 cursor-pointer"
+              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-popover/90 border border-primary/40 text-primary hover:border-rose-300 hover:bg-primary/10 backdrop-blur-xl transition-all shadow-xl shadow-black/20 flex items-center gap-1.5 cursor-pointer"
             >
               {mode === 'dock' && (
                 <>
@@ -478,8 +478,8 @@ export default function RoamingCompanion3D() {
               }}
               className={`px-2 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/90 border backdrop-blur-xl transition-all shadow-xl flex items-center gap-1 cursor-pointer ${
                 isMuted
-                  ? 'border-slate-700 text-slate-500 hover:text-slate-300'
-                  : 'border-rose-500/40 text-rose-300 hover:border-rose-400 shadow-rose-500/20'
+                  ? 'border-border-strong text-muted-foreground hover:text-body'
+                  : 'border-rose-500/40 text-secondary hover:border-rose-400 shadow-black/20'
               }`}
               title={isMuted ? "CyberBot Audio Muted (Click to enable futuristic chimes)" : "CyberBot Audio Active (Click to mute)"}
             >

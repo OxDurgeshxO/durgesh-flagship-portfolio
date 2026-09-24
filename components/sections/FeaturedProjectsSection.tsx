@@ -246,14 +246,14 @@ export default function FeaturedProjectsSection() {
         transition={{ duration: 0.5 }}
         className="text-center mb-10"
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 text-xs font-mono text-rose-300 uppercase tracking-widest mb-4">
-          <Sparkles className="size-3.5 text-rose-400" /> Flagship Creations
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-xs font-mono text-secondary uppercase tracking-widest mb-4">
+          <Sparkles className="size-3.5 text-secondary" /> Flagship Creations
         </div>
         <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">
           5 Featured <span className="gradient-text">Platforms</span>
         </h2>
-        <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-rose-500 rounded mx-auto mb-4" />
-        <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+        <div className="w-20 h-1 bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] rounded mx-auto mb-4" />
+        <p className="text-muted-foreground max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
           Curated full-stack AI applications, realtime voice systems, and machine learning pipelines engineered with verified architecture, observable metrics, and production discipline.
         </p>
       </motion.div>
@@ -271,8 +271,8 @@ export default function FeaturedProjectsSection() {
               }}
               className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold transition-all cursor-pointer ${
                 isActive
-                  ? "bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg shadow-purple-500/25 border border-purple-400/50 scale-105"
-                  : "glass text-slate-300 hover:text-white hover:border-purple-500/40 border border-white/5"
+                  ? "bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] text-white shadow-lg shadow-purple-500/25 border border-purple-400/50 scale-105"
+                  : "glass text-body hover:text-ink hover:border-primary/40 border border-border/60"
               }`}
             >
               {cat === "All" ? "All Flagship Platforms" : cat}
@@ -295,7 +295,7 @@ export default function FeaturedProjectsSection() {
                 transition={{ duration: 0.35, delay: idx * 0.05 }}
               >
                 <CardTilt3D accentColor={proj.accent}>
-                  <div className="glass rounded-2xl p-7 md:p-9 border border-white/10 hover:border-purple-500/50 transition-all duration-300 relative overflow-hidden group shadow-xl shadow-purple-500/5">
+                  <div className="glass rounded-2xl p-7 md:p-9 border border-border hover:border-primary/50 transition-all duration-300 relative overflow-hidden group shadow-xl shadow-purple-500/5">
                     {/* Top ambient glow line */}
                     <div
                       className="absolute top-0 left-0 right-0 h-1 opacity-70 group-hover:opacity-100 transition-opacity"
@@ -312,36 +312,36 @@ export default function FeaturedProjectsSection() {
                             <Icon className="size-3" />
                             {proj.badge}
                           </span>
-                          <span className="text-xs font-mono text-slate-400">{proj.category}</span>
+                          <span className="text-xs font-mono text-muted-foreground">{proj.category}</span>
                         </div>
 
-                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-rose-300 transition-colors">
+                        <h3 className="text-2xl md:text-3xl font-bold text-ink mb-2 group-hover:text-secondary transition-colors">
                           {proj.title}
                         </h3>
 
-                        <div className="flex items-center gap-2 text-xs font-mono text-purple-300 mb-4">
-                          <UserCheck className="size-3.5 text-purple-400 shrink-0" />
+                        <div className="flex items-center gap-2 text-xs font-mono text-primary mb-4">
+                          <UserCheck className="size-3.5 text-primary shrink-0" />
                           <span>Role: {proj.role}</span>
                         </div>
 
-                        <p className="text-slate-300 text-sm md:text-[14.5px] leading-relaxed mb-4">
+                        <p className="text-body text-sm md:text-[14.5px] leading-relaxed mb-4">
                           {proj.description}
                         </p>
 
                         {/* Problem Solved */}
-                        <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-slate-300 mb-3 leading-relaxed">
-                          <span className="font-semibold text-rose-300 font-mono uppercase text-[11px]">Problem Solved: </span>
+                        <div className="p-3 rounded-xl bg-white/[0.03] border border-border/60 text-xs text-body mb-3 leading-relaxed">
+                          <span className="font-semibold text-secondary font-mono uppercase text-[11px]">Problem Solved: </span>
                           {proj.challenge}
                         </div>
 
                         {/* Measurable Metric */}
-                        <div className="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-2.5 mb-3 inline-block font-mono text-xs text-slate-300">
-                          <span className="text-emerald-300 font-semibold">Measurable Result:</span> {proj.metrics}
+                        <div className="rounded-xl border border-border/60 bg-muted/60 px-4 py-2.5 mb-3 inline-block font-mono text-xs text-body">
+                          <span className="text-[var(--accent-lab)] font-semibold">Measurable Result:</span> {proj.metrics}
                         </div>
 
                         {/* Known Limitation Callout */}
                         <div className="flex items-start gap-2 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-200 text-xs mb-5">
-                          <AlertTriangle className="size-3.5 text-amber-400 shrink-0 mt-0.5" />
+                          <AlertTriangle className="size-3.5 text-[var(--accent-warm)] shrink-0 mt-0.5" />
                           <div>
                             <span className="font-semibold font-mono uppercase text-[11px]">Known Limitation: </span>
                             <span>{proj.limitation}</span>
@@ -352,7 +352,7 @@ export default function FeaturedProjectsSection() {
                           {proj.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-mono text-slate-300"
+                              className="rounded-lg border border-border bg-white/[0.04] px-3 py-1 text-xs font-mono text-body"
                             >
                               {tag}
                             </span>
@@ -363,20 +363,20 @@ export default function FeaturedProjectsSection() {
                       <div className="flex flex-col sm:flex-row lg:flex-col gap-3 justify-center lg:items-end">
                         <Link
                           href={`/work/${proj.id}`}
-                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 px-4 py-3 text-xs md:text-sm font-semibold text-purple-200 transition-all cursor-pointer w-full sm:w-auto shadow-md shadow-purple-500/10"
+                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-primary/40 px-4 py-3 text-xs md:text-sm font-semibold text-primary transition-all cursor-pointer w-full sm:w-auto shadow-md shadow-black/10"
                         >
-                          <BookOpen className="size-4 text-purple-400" />
+                          <BookOpen className="size-4 text-primary" />
                           Architecture Deep Dive
-                          <span className="text-[11px] font-mono bg-purple-500/30 px-1.5 py-0.5 rounded text-purple-200 ml-1">
+                          <span className="text-[11px] font-mono bg-purple-500/30 px-1.5 py-0.5 rounded text-primary ml-1">
                             /work
                           </span>
                         </Link>
 
                         <button
                           onClick={() => setSelectedProject(proj)}
-                          className="inline-flex items-center justify-center gap-2 rounded-xl glass hover:bg-white/10 border border-white/15 px-4 py-3 text-xs md:text-sm font-semibold text-slate-200 transition-all cursor-pointer w-full sm:w-auto"
+                          className="inline-flex items-center justify-center gap-2 rounded-xl glass hover:bg-accent border border-white/15 px-4 py-3 text-xs md:text-sm font-semibold text-ink transition-all cursor-pointer w-full sm:w-auto"
                         >
-                          <Sparkles className="size-4 text-rose-400" />
+                          <Sparkles className="size-4 text-secondary" />
                           Quick Architecture Spec
                         </button>
 
@@ -385,7 +385,7 @@ export default function FeaturedProjectsSection() {
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={() => trackEvent("github_click", { project_id: proj.id, url: proj.githubUrl })}
-                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 px-5 py-3 text-xs md:text-sm font-semibold text-white transition-all w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-white/50"
+                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-accent hover:bg-white/20 border border-border px-5 py-3 text-xs md:text-sm font-semibold text-ink transition-all w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-white/50"
                         >
                           <Github className="size-4" />
                           Source Code
@@ -397,7 +397,7 @@ export default function FeaturedProjectsSection() {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => trackEvent("project_view", { project_id: proj.id, url: proj.demoUrl })}
-                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 px-5 py-3 text-xs md:text-sm font-semibold text-white shadow-lg shadow-purple-500/20 hover:opacity-90 transition-all w-full sm:w-auto cursor-pointer focus-visible:ring-2 focus-visible:ring-rose-400"
+                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] px-5 py-3 text-xs md:text-sm font-semibold text-white shadow-lg shadow-black/20 hover:opacity-90 transition-all w-full sm:w-auto cursor-pointer focus-visible:ring-2 focus-visible:ring-rose-400"
                           >
                             <ExternalLink className="size-4" />
                             Live Demo
@@ -427,7 +427,7 @@ export default function FeaturedProjectsSection() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedProject(null)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-md"
+              className="fixed inset-0 bg-[var(--overlay-scrim)] backdrop-blur-md"
             />
 
             <motion.div
@@ -437,7 +437,7 @@ export default function FeaturedProjectsSection() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, y: 20 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative w-full max-w-3xl glass border border-purple-500/30 rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl shadow-purple-500/20 max-h-[90vh] overflow-y-auto z-10 bg-[#0c0c14]/95"
+              className="relative w-full max-w-3xl glass border border-primary/40 rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl shadow-black/20 max-h-[90vh] overflow-y-auto z-10 bg-[#0c0c14]/95"
             >
               <div
                 className="absolute top-0 left-0 right-0 h-1.5 rounded-t-3xl"
@@ -447,7 +447,7 @@ export default function FeaturedProjectsSection() {
               <button
                 onClick={() => setSelectedProject(null)}
                 aria-label="Close Case Study Modal"
-                className="absolute top-5 right-5 w-10 h-10 rounded-full glass border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-white/30 transition-all cursor-pointer"
+                className="absolute top-5 right-5 w-10 h-10 rounded-full glass border border-border flex items-center justify-center text-muted-foreground hover:text-ink hover:border-border-strong transition-all cursor-pointer"
               >
                 <X className="size-5" />
               </button>
@@ -460,37 +460,37 @@ export default function FeaturedProjectsSection() {
                   <Sparkles className="size-3.5" />
                   Flagship Overview
                 </div>
-                <h3 id="modal-title" className="text-2xl sm:text-3xl font-extrabold text-white mb-2">
+                <h3 id="modal-title" className="text-2xl sm:text-3xl font-extrabold text-ink mb-2">
                   {selectedProject.title}
                 </h3>
-                <p className="text-purple-300 text-xs font-mono mb-1">
+                <p className="text-primary text-xs font-mono mb-1">
                   Role: {selectedProject.role}
                 </p>
-                <p className="text-slate-400 text-xs font-mono">
+                <p className="text-muted-foreground text-xs font-mono">
                   Category: {selectedProject.category}
                 </p>
               </div>
 
               {/* Problem Solved */}
-              <div className="mb-5 p-5 rounded-2xl bg-white/[0.03] border border-white/5">
-                <div className="flex items-center gap-2 text-rose-300 text-xs font-mono font-semibold uppercase tracking-wider mb-2">
-                  <Cpu className="size-4 text-rose-400" />
+              <div className="mb-5 p-5 rounded-2xl bg-white/[0.03] border border-border/60">
+                <div className="flex items-center gap-2 text-secondary text-xs font-mono font-semibold uppercase tracking-wider mb-2">
+                  <Cpu className="size-4 text-secondary" />
                   Problem Solved
                 </div>
-                <p className="text-slate-300 text-sm leading-relaxed">
+                <p className="text-body text-sm leading-relaxed">
                   {selectedProject.challenge}
                 </p>
               </div>
 
               {/* Architecture Decisions */}
-              <div className="mb-5 p-5 rounded-2xl bg-white/[0.03] border border-white/5">
-                <div className="flex items-center gap-2 text-purple-300 text-xs font-mono font-semibold uppercase tracking-wider mb-3">
-                  <Layers className="size-4 text-purple-400" />
+              <div className="mb-5 p-5 rounded-2xl bg-white/[0.03] border border-border/60">
+                <div className="flex items-center gap-2 text-primary text-xs font-mono font-semibold uppercase tracking-wider mb-3">
+                  <Layers className="size-4 text-primary" />
                   System Architecture & Approach
                 </div>
                 <ul className="space-y-2">
                   {selectedProject.architecture.map((arch, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-xs text-slate-300 leading-relaxed">
+                    <li key={i} className="flex items-start gap-2.5 text-xs text-body leading-relaxed">
                       <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 shrink-0" />
                       <span>{arch}</span>
                     </li>
@@ -499,14 +499,14 @@ export default function FeaturedProjectsSection() {
               </div>
 
               {/* Measurable Results */}
-              <div className="mb-5 p-5 rounded-2xl bg-white/[0.03] border border-white/5">
-                <div className="flex items-center gap-2 text-emerald-300 text-xs font-mono font-semibold uppercase tracking-wider mb-3">
-                  <CheckCircle2 className="size-4 text-emerald-400" />
+              <div className="mb-5 p-5 rounded-2xl bg-white/[0.03] border border-border/60">
+                <div className="flex items-center gap-2 text-[var(--accent-lab)] text-xs font-mono font-semibold uppercase tracking-wider mb-3">
+                  <CheckCircle2 className="size-4 text-[var(--accent-lab)]" />
                   Measurable Production Results
                 </div>
                 <ul className="space-y-2">
                   {selectedProject.impact.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-xs text-slate-300 leading-relaxed">
+                    <li key={i} className="flex items-start gap-2.5 text-xs text-body leading-relaxed">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
                       <span>{item}</span>
                     </li>
@@ -516,22 +516,22 @@ export default function FeaturedProjectsSection() {
 
               {/* Known Limitation */}
               <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-200 text-xs">
-                <div className="flex items-center gap-1.5 font-mono uppercase tracking-wider text-amber-300 font-semibold mb-1">
-                  <AlertTriangle className="size-3.5 text-amber-400" /> Known Limitation
+                <div className="flex items-center gap-1.5 font-mono uppercase tracking-wider text-[var(--accent-warm)] font-semibold mb-1">
+                  <AlertTriangle className="size-3.5 text-[var(--accent-warm)]" /> Known Limitation
                 </div>
                 <p>{selectedProject.limitation}</p>
               </div>
 
               {/* Technology Tags */}
               <div className="mb-8">
-                <div className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-2.5">
+                <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2.5">
                   Core Technologies
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {selectedProject.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 rounded-lg text-xs font-mono bg-white/5 border border-white/10 text-slate-200"
+                      className="px-3 py-1 rounded-lg text-xs font-mono bg-muted border border-border text-ink"
                     >
                       {tag}
                     </span>
@@ -540,14 +540,14 @@ export default function FeaturedProjectsSection() {
               </div>
 
               {/* Modal Actions Footer */}
-              <div className="pt-6 border-t border-white/10 flex flex-wrap gap-4 items-center justify-between">
-                <span className="text-xs text-slate-500 font-mono">
+              <div className="pt-6 border-t border-border flex flex-wrap gap-4 items-center justify-between">
+                <span className="text-xs text-muted-foreground font-mono">
                   Press ESC or click outside to dismiss
                 </span>
                 <div className="flex flex-wrap gap-2.5">
                   <Link
                     href={`/work/${selectedProject.id}`}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-white text-xs font-semibold border border-purple-500/40 transition-all shadow-md shadow-purple-500/20"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-white text-xs font-semibold border border-primary/40 transition-all shadow-md shadow-black/20"
                   >
                     <BookOpen className="size-3.5" />
                     Full Architecture Route
@@ -556,7 +556,7 @@ export default function FeaturedProjectsSection() {
                     href={selectedProject.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl glass border border-white/15 text-white text-xs font-semibold hover:border-purple-400 transition-all"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl glass border border-white/15 text-ink text-xs font-semibold hover:border-purple-400 transition-all"
                   >
                     <Github className="size-3.5" />
                     GitHub Source
@@ -566,7 +566,7 @@ export default function FeaturedProjectsSection() {
                       href={selectedProject.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white text-xs font-semibold hover:opacity-90 transition-all shadow-lg shadow-purple-500/25"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] text-white text-xs font-semibold hover:opacity-90 transition-all shadow-lg shadow-purple-500/25"
                     >
                       <ExternalLink className="size-3.5" />
                       Live Demo

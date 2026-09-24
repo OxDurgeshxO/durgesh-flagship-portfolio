@@ -8,10 +8,10 @@ interface Props {
 
 export function ChangelogEntryCard({ entry }: Props) {
   const categoryColor = {
-    architecture: 'text-purple-400 border-purple-500/30 bg-purple-500/10',
-    aiml: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10',
-    performance: 'text-blue-400 border-blue-500/30 bg-blue-500/10',
-    security: 'text-amber-400 border-amber-500/30 bg-amber-500/10',
+    architecture: 'text-primary border-primary/40 bg-primary/10',
+    aiml: 'text-[var(--accent-lab)] border-[var(--accent-lab-border)] bg-[var(--accent-lab-bg)]',
+    performance: 'text-[var(--accent-signal)] border-[var(--accent-signal-border)] bg-[var(--accent-signal-bg)]',
+    security: 'text-[var(--accent-warm)] border-amber-500/30 bg-amber-500/10',
     cicd: 'text-indigo-400 border-indigo-500/30 bg-indigo-500/10',
   }[entry.category];
 
@@ -47,7 +47,7 @@ export function ChangelogEntryCard({ entry }: Props) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
         {/* Problem */}
         <div className="rounded-xl border border-rose-500/20 bg-rose-500/5 p-4 space-y-2">
-          <div className="flex items-center gap-1.5 font-semibold text-rose-400 uppercase tracking-wider font-mono">
+          <div className="flex items-center gap-1.5 font-semibold text-secondary uppercase tracking-wider font-mono">
             <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
             <span>Problem</span>
           </div>
@@ -56,7 +56,7 @@ export function ChangelogEntryCard({ entry }: Props) {
 
         {/* Implementation */}
         <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-4 space-y-2">
-          <div className="flex items-center gap-1.5 font-semibold text-blue-400 uppercase tracking-wider font-mono">
+          <div className="flex items-center gap-1.5 font-semibold text-[var(--accent-signal)] uppercase tracking-wider font-mono">
             <Wrench className="h-3.5 w-3.5 shrink-0" />
             <span>Implementation</span>
           </div>
@@ -65,7 +65,7 @@ export function ChangelogEntryCard({ entry }: Props) {
 
         {/* Result */}
         <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 space-y-2">
-          <div className="flex items-center gap-1.5 font-semibold text-emerald-400 uppercase tracking-wider font-mono">
+          <div className="flex items-center gap-1.5 font-semibold text-[var(--accent-lab)] uppercase tracking-wider font-mono">
             <Trophy className="h-3.5 w-3.5 shrink-0" />
             <span>Quantified Result</span>
           </div>
@@ -81,7 +81,7 @@ export function ChangelogEntryCard({ entry }: Props) {
         <ul className="space-y-1.5">
           {entry.highlights.map((h, i) => (
             <li key={i} className="text-xs text-muted-foreground flex items-start gap-2">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
+              <CheckCircle2 className="h-3.5 w-3.5 text-[var(--accent-lab)] shrink-0 mt-0.5" />
               <span>{h}</span>
             </li>
           ))}

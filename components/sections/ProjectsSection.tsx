@@ -14,13 +14,13 @@ const LANG_COLOR: Record<string, string> = {
 
 const CATEGORY_STYLES: Record<string, { border: string; badge: string }> = {
   'Customer Analytics & Recommenders': { border: 'border-yellow-500/50', badge: 'bg-yellow-500/10 text-yellow-300 border-yellow-500/30' },
-  'Financial AI & Predictive Analytics': { border: 'border-rose-500/50', badge: 'bg-rose-500/10 text-rose-300 border-rose-500/30' },
-  'Realtime AI Voice & WebSocket Systems': { border: 'border-purple-500/50', badge: 'bg-purple-500/10 text-purple-300 border-purple-500/30' },
+  'Financial AI & Predictive Analytics': { border: 'border-rose-500/50', badge: 'bg-secondary/10 text-secondary border-rose-500/30' },
+  'Realtime AI Voice & WebSocket Systems': { border: 'border-primary/40', badge: 'bg-primary/10 text-primary border-primary/40' },
   'Computer Vision & Deep Learning': { border: 'border-pink-500/50', badge: 'bg-pink-500/10 text-pink-300 border-pink-500/30' },
   'Full Stack AI & Career Tech': { border: 'border-indigo-500/50', badge: 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30' },
 }
 
-const DEFAULT_BADGE = { border: 'border-purple-500/50', badge: 'bg-purple-500/10 text-purple-300 border-purple-500/30' };
+const DEFAULT_BADGE = { border: 'border-primary/40', badge: 'bg-primary/10 text-primary border-primary/40' };
 
 interface Props {
   repos: GitHubRepo[]
@@ -39,14 +39,14 @@ export default function ProjectsSection({ repos }: Props) {
         transition={{ duration: 0.5 }}
         className="text-center mb-14"
       >
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20 mb-3">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/30 mb-3">
           <span>Curated GitHub Showcase</span>
         </div>
         <h2 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
           Featured GitHub <span className="gradient-text">Repositories</span>
         </h2>
-        <div className="w-24 h-1 bg-gradient-to-r from-purple-500 via-rose-400 to-purple-500 rounded mx-auto mb-4" />
-        <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
+        <div className="w-24 h-1 bg-gradient-to-r from-[var(--gradient-start)] via-rose-400 to-purple-500 rounded mx-auto mb-4" />
+        <p className="text-muted-foreground max-w-2xl mx-auto text-sm md:text-base">
           Curated engineering selection from public GitHub repositories demonstrating production architectures, distributed systems, and real-world ML pipelines.
         </p>
       </motion.div>
@@ -66,11 +66,11 @@ export default function ProjectsSection({ repos }: Props) {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.5 }}
                 className={`glass rounded-2xl p-6 border border-white/5 hover:border-purple-500/40 hover:shadow-xl hover:shadow-purple-500/10 transition-all group flex flex-col justify-between relative overflow-hidden h-full ${
-                  i === 0 ? 'bg-gradient-to-br from-purple-950/20 via-slate-900/60 to-slate-900/80 border-purple-500/30' : ''
+                  i === 0 ? 'bg-gradient-to-br from-purple-950/20 via-slate-900/60 to-slate-900/80 border-primary/40' : ''
                 }`}
               >
               {/* Subtle accent glow in the background */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl group-hover:bg-purple-500/10 transition-all pointer-events-none" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all pointer-events-none" />
 
               <div>
                 {/* Header row: Category Badge */}
@@ -80,18 +80,18 @@ export default function ProjectsSection({ repos }: Props) {
                       {repo.category || 'Featured'}
                     </span>
                   </div>
-                  <span className="flex items-center gap-1 text-xs font-mono font-medium px-2 py-0.5 rounded-full bg-slate-800/80 text-purple-300 border border-purple-500/20">
+                  <span className="flex items-center gap-1 text-xs font-mono font-medium px-2 py-0.5 rounded-full bg-muted/80 text-primary border border-primary/30">
                     {repo.language || 'Production'}
                   </span>
                 </div>
 
                 {/* Repo Name */}
-                <h3 className="text-lg md:text-xl font-bold text-white mb-2 group-hover:text-purple-300 transition-colors flex items-center gap-2">
+                <h3 className="text-lg md:text-xl font-bold text-ink mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
                   <span>{repo.name}</span>
                 </h3>
 
                 {/* Description */}
-                <p className="text-slate-300/80 text-sm mb-5 leading-relaxed">
+                <p className="text-body/80 text-sm mb-5 leading-relaxed">
                   {repo.description}
                 </p>
 
@@ -101,7 +101,7 @@ export default function ProjectsSection({ repos }: Props) {
                     {repo.highlights.map(tag => (
                       <span
                         key={tag}
-                        className="px-2.5 py-1 rounded-md text-xs bg-white/5 text-slate-300 border border-white/10 font-medium"
+                        className="px-2.5 py-1 rounded-md text-xs bg-muted text-body border border-border font-medium"
                       >
                         {tag}
                       </span>
@@ -111,8 +111,8 @@ export default function ProjectsSection({ repos }: Props) {
               </div>
 
               {/* Card Footer: Metadata + Action Links */}
-              <div className="pt-4 border-t border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-2">
-                <div className="flex items-center gap-3 text-xs text-slate-400">
+              <div className="pt-4 border-t border-border/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-2">
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
                   {repo.language && (
                     <span className="flex items-center gap-1.5 font-medium">
                       <span
@@ -132,7 +132,7 @@ export default function ProjectsSection({ repos }: Props) {
                       href={repo.live_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30 hover:bg-rose-500/30 transition-all"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary/10 text-secondary border border-rose-500/30 hover:bg-rose-500/30 transition-all"
                     >
                       <span>Live Demo</span>
                     </a>
@@ -141,7 +141,7 @@ export default function ProjectsSection({ repos }: Props) {
                     href={repo.html_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold glass border border-purple-500/30 text-purple-300 hover:bg-purple-500/20 transition-all"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold glass border border-primary/40 text-primary hover:bg-primary/10 transition-all"
                   >
                     <span>GitHub</span>
                   </a>
@@ -163,7 +163,7 @@ export default function ProjectsSection({ repos }: Props) {
           href="https://github.com/OxDurgeshxO?tab=repositories"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-8 py-3.5 glass border border-purple-500/40 text-purple-300 rounded-xl hover:bg-purple-500/10 hover:border-purple-400 transition-all font-medium text-sm"
+          className="inline-flex items-center gap-2 px-8 py-3.5 glass border border-primary/40 text-primary rounded-xl hover:bg-primary/10 hover:border-purple-400 transition-all font-medium text-sm"
         >
           <span>View All Repositories on GitHub</span>
         </a>

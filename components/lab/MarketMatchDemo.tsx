@@ -50,19 +50,19 @@ export default function MarketMatchDemo() {
   };
 
   return (
-    <div className="glass rounded-2xl p-6 md:p-8 border border-white/10 mb-8 bg-white/[0.02]">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 border-b border-white/10 pb-4">
+    <div className="glass rounded-2xl p-6 md:p-8 border border-border mb-8 bg-muted/60">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 border-b border-border pb-4">
         <div>
-          <h3 className="text-lg md:text-xl font-bold text-white tracking-tight flex items-center gap-2">
-            <ShoppingBag className="size-5 text-rose-400" />
+          <h3 className="text-lg md:text-xl font-bold text-ink tracking-tight flex items-center gap-2">
+            <ShoppingBag className="size-5 text-secondary" />
             <span>MarketMatch-AI: Interactive RFM Segmentation Studio</span>
           </h3>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-muted-foreground">
             Unsupervised clustering benchmark simulating real-world e-commerce retail behavior
           </p>
         </div>
         {data && (
-          <div className="flex items-center gap-2 text-xs font-mono text-emerald-300 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+          <div className="flex items-center gap-2 text-xs font-mono text-[var(--accent-lab)] px-3 py-1 rounded-full bg-[var(--accent-lab-bg)] border border-emerald-500/20">
             <span>Silhouette: {data.silhouetteScore}</span>
             <span>•</span>
             <span>Latency: {data.executionLatencyMs}ms</span>
@@ -74,9 +74,9 @@ export default function MarketMatchDemo() {
         {/* Controls Column */}
         <div className="space-y-5">
           <div>
-            <label htmlFor="marketmatch-clusters" className="block text-xs font-mono text-slate-400 mb-2 flex items-center justify-between">
+            <label htmlFor="marketmatch-clusters" className="block text-xs font-mono text-muted-foreground mb-2 flex items-center justify-between">
               <span>Cluster Count (K-Means K):</span>
-              <span className="font-bold text-purple-300 font-mono text-sm">{clusters} Clusters</span>
+              <span className="font-bold text-primary font-mono text-sm">{clusters} Clusters</span>
             </label>
             <input
               id="marketmatch-clusters"
@@ -87,15 +87,15 @@ export default function MarketMatchDemo() {
               onChange={(e) => handleClusterChange(Number(e.target.value))}
               className="w-full accent-purple-500 cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
+            <div className="flex justify-between text-[10px] font-mono text-muted-foreground mt-1">
               <span>K=2</span>
-              <span className="text-purple-400 font-bold">K=5 (Optimal)</span>
+              <span className="text-primary font-bold">K=5 (Optimal)</span>
               <span>K=8</span>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-mono text-slate-400 mb-2">
+            <label className="block text-xs font-mono text-muted-foreground mb-2">
               Clustering Algorithm:
             </label>
             <div className="grid grid-cols-3 gap-2 text-xs font-mono">
@@ -110,7 +110,7 @@ export default function MarketMatchDemo() {
                   className={`py-1.5 px-2 rounded-lg border text-center transition-all cursor-pointer ${
                     algorithm === algo.id
                       ? "bg-purple-600/30 border-purple-400 text-white font-bold"
-                      : "bg-white/5 border-white/10 text-slate-400 hover:text-white"
+                      : "bg-muted border-border text-muted-foreground hover:text-ink"
                   }`}
                 >
                   {algo.label}
@@ -121,15 +121,15 @@ export default function MarketMatchDemo() {
 
           {/* Segment Breakdown */}
           {data && data.segments && (
-            <div className="rounded-xl bg-black/40 border border-white/5 p-4">
-              <h4 className="text-xs font-mono uppercase text-slate-400 mb-2.5 flex items-center gap-1.5">
-                <Users className="size-3.5 text-purple-400" /> Active Segment Personas
+            <div className="rounded-xl bg-black/40 border border-border/60 p-4">
+              <h4 className="text-xs font-mono uppercase text-muted-foreground mb-2.5 flex items-center gap-1.5">
+                <Users className="size-3.5 text-primary" /> Active Segment Personas
               </h4>
               <div className="space-y-2 text-xs">
                 {data.segments.map((seg: any) => (
-                  <div key={seg.name} className="flex items-center justify-between border-b border-white/5 pb-1">
-                    <span className="text-slate-300 font-medium">{seg.name}</span>
-                    <span className="font-mono text-[11px] text-purple-300">
+                  <div key={seg.name} className="flex items-center justify-between border-b border-border/60 pb-1">
+                    <span className="text-body font-medium">{seg.name}</span>
+                    <span className="font-mono text-[11px] text-primary">
                       {seg.share} • Avg {seg.avgSpend}
                     </span>
                   </div>
@@ -140,18 +140,18 @@ export default function MarketMatchDemo() {
         </div>
 
         {/* 2D PCA Dimensionality Projection Scatter Sandbox */}
-        <div className="lg:col-span-2 rounded-xl bg-black/50 border border-white/10 p-5 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+        <div className="lg:col-span-2 rounded-xl bg-[var(--overlay-scrim)] border border-border p-5 flex flex-col justify-between">
+          <div className="flex items-center justify-between text-xs font-mono text-muted-foreground mb-2">
             <span>2D PCA Dimensionality Coordinates (Log1p RFM Space)</span>
-            <span className="text-[11px] text-slate-500">Seed sample: 12 anchor profiles</span>
+            <span className="text-[11px] text-muted-foreground">Seed sample: 12 anchor profiles</span>
           </div>
 
           {/* Scatter Plot Coordinate Area */}
-          <div className="relative w-full h-56 bg-slate-950/80 rounded-xl border border-white/5 p-4 overflow-hidden flex items-center justify-center">
+          <div className="relative w-full h-56 bg-popover/90 rounded-xl border border-border/60 p-4 overflow-hidden flex items-center justify-center">
             {/* Coordinate grid lines */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:2rem_2rem]" />
-            <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-white/10" />
-            <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-white/10" />
+            <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-accent" />
+            <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-accent" />
 
             {data &&
               data.points &&
@@ -174,7 +174,7 @@ export default function MarketMatchDemo() {
                       boxShadow: `0 0 10px ${color}80`,
                     }}
                   >
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/pt:block whitespace-nowrap bg-black/90 text-white text-[10px] font-mono px-2 py-1 rounded border border-white/20 z-20 pointer-events-none shadow-xl">
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/pt:block whitespace-nowrap bg-black/90 text-ink text-[10px] font-mono px-2 py-1 rounded border border-border-strong z-20 pointer-events-none shadow-xl">
                       #{pt.id} {pt.persona} (${pt.m})
                     </div>
                   </div>
@@ -182,7 +182,7 @@ export default function MarketMatchDemo() {
               })}
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-slate-400 mt-4 border-t border-white/5 pt-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-muted-foreground mt-4 border-t border-border/60 pt-3">
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1">
                 <span className="size-2 rounded-full bg-pink-500" /> Champions
@@ -201,7 +201,7 @@ export default function MarketMatchDemo() {
               href="https://oxdurgeshxo-marketmatch-ai-app-y8ysbm.streamlit.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-purple-300 hover:text-white underline"
+              className="text-primary hover:text-ink underline"
             >
               Open Full 3D Streamlit Studio ↗
             </a>

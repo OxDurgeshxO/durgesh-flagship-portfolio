@@ -60,11 +60,11 @@ export default function ChangelogPage() {
             <div className="text-[11px] text-muted-foreground font-mono">Semantic Versioning</div>
           </div>
           <div className="rounded-xl border border-border/80 bg-card p-3 text-center">
-            <div className="text-2xl font-black text-emerald-400">100% Verified</div>
+            <div className="text-2xl font-black text-[var(--accent-lab)]">100% Verified</div>
             <div className="text-[11px] text-muted-foreground font-mono">Automated CI Suites</div>
           </div>
           <div className="col-span-2 sm:col-span-1 rounded-xl border border-border/80 bg-card p-3 text-center">
-            <div className="text-2xl font-black text-blue-400">0 CLS</div>
+            <div className="text-2xl font-black text-[var(--accent-signal)]">0 CLS</div>
             <div className="text-[11px] text-muted-foreground font-mono">Zero Layout Shift</div>
           </div>
         </div>

@@ -354,7 +354,7 @@ export function FitTrackDemo() {
     <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-xl space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/60 pb-4">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400 border border-emerald-500/20 mb-2">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-lab-bg)] px-3 py-1 text-xs font-semibold text-[var(--accent-lab)] border border-emerald-500/20 mb-2">
             <Activity className="h-3.5 w-3.5" />
             FitTrack Kinematics Engine
           </div>
@@ -370,7 +370,7 @@ export function FitTrackDemo() {
             onClick={() => setExercise(exercise === 'squat' ? 'bicep_curl' : 'squat')}
             className="rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors"
           >
-            Exercise: <span className="text-emerald-400 font-semibold">{exercise === 'squat' ? 'Back Squat' : 'Bicep Curl'}</span>
+            Exercise: <span className="text-[var(--accent-lab)] font-semibold">{exercise === 'squat' ? 'Back Squat' : 'Bicep Curl'}</span>
           </button>
           <button
             onClick={() => setIsPlaying(!isPlaying)}
@@ -390,7 +390,7 @@ export function FitTrackDemo() {
             onClick={toggleCamera}
             className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
               useCamera
-                ? 'border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20'
+                ? 'border-red-500/30 bg-red-500/10 text-[var(--accent-critical)] hover:bg-red-500/20'
                 : 'border-border bg-background text-foreground hover:bg-muted'
             }`}
           >
@@ -401,7 +401,7 @@ export function FitTrackDemo() {
       </div>
 
       {cameraError && (
-        <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-300 flex items-center gap-2">
+        <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-[var(--accent-warm)] flex items-center gap-2">
           <Info className="h-4 w-4 shrink-0" />
           {cameraError}
         </div>
@@ -418,11 +418,11 @@ export function FitTrackDemo() {
 
           {/* Real-time telemetry badges on canvas */}
           <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5">
-            <div className="inline-flex items-center gap-1.5 rounded-md bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] font-mono text-emerald-400 border border-emerald-500/30">
+            <div className="inline-flex items-center gap-1.5 rounded-md bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] font-mono text-[var(--accent-lab)] border border-[var(--accent-lab-border)]">
               <Zap className="h-3 w-3" />
               {latencyMs}ms LATENCY
             </div>
-            <div className="inline-flex items-center gap-1.5 rounded-md bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] font-mono text-blue-400 border border-blue-500/30">
+            <div className="inline-flex items-center gap-1.5 rounded-md bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] font-mono text-[var(--accent-signal)] border border-[var(--accent-signal-border)]">
               <Cpu className="h-3 w-3" />
               {fps} FPS (EDGE)
             </div>
@@ -430,8 +430,8 @@ export function FitTrackDemo() {
 
           {/* Live Warning Banner */}
           {activeWarning && (
-            <div className="absolute bottom-3 left-3 right-3 rounded-lg border border-amber-500/40 bg-black/80 backdrop-blur-md p-2.5 text-xs text-amber-300 flex items-center gap-2 animate-pulse">
-              <ShieldAlert className="h-4 w-4 text-amber-400 shrink-0" />
+            <div className="absolute bottom-3 left-3 right-3 rounded-lg border border-amber-500/40 bg-[var(--overlay-scrim)] backdrop-blur-md p-2.5 text-xs text-[var(--accent-warm)] flex items-center gap-2 animate-pulse">
+              <ShieldAlert className="h-4 w-4 text-[var(--accent-warm)] shrink-0" />
               <span>{activeWarning}</span>
             </div>
           )}
@@ -441,11 +441,11 @@ export function FitTrackDemo() {
         <div className="flex flex-col justify-between space-y-4">
           <div className="space-y-4">
             {/* Rep Counter Card */}
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-center">
-              <span className="text-xs uppercase font-mono tracking-wider text-emerald-400">Validated Repetitions</span>
+            <div className="rounded-xl border border-[var(--accent-lab-border)] bg-emerald-500/5 p-4 text-center">
+              <span className="text-xs uppercase font-mono tracking-wider text-[var(--accent-lab)]">Validated Repetitions</span>
               <div className="text-5xl font-black text-foreground tracking-tight my-1">{repCount}</div>
               <div className="text-xs text-muted-foreground flex items-center justify-center gap-1">
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> Complete ROM Verified
+                <CheckCircle2 className="h-3.5 w-3.5 text-[var(--accent-lab)]" /> Complete ROM Verified
               </div>
             </div>
 
@@ -457,7 +457,7 @@ export function FitTrackDemo() {
               </div>
               <div className="flex justify-between items-center text-xs">
                 <span className="text-muted-foreground">Target Joint Angle:</span>
-                <span className="font-mono font-bold text-emerald-400">{currentAngle}°</span>
+                <span className="font-mono font-bold text-[var(--accent-lab)]">{currentAngle}°</span>
               </div>
               <div className="w-full bg-muted/60 rounded-full h-2 overflow-hidden mt-2">
                 <div
@@ -474,7 +474,7 @@ export function FitTrackDemo() {
             {/* Architecture Details */}
             <div className="rounded-xl border border-border/80 bg-background/50 p-4 text-xs space-y-2">
               <div className="font-semibold text-foreground flex items-center gap-1.5">
-                <Cpu className="h-3.5 w-3.5 text-blue-400" />
+                <Cpu className="h-3.5 w-3.5 text-[var(--accent-signal)]" />
                 Pipeline Architecture
               </div>
               <ul className="space-y-1.5 text-muted-foreground list-disc list-inside text-[11px]">
@@ -486,7 +486,7 @@ export function FitTrackDemo() {
           </div>
 
           <div className="rounded-lg border border-border/40 bg-muted/20 p-3 text-[11px] text-muted-foreground flex items-center gap-2">
-            <Info className="h-4 w-4 shrink-0 text-blue-400" />
+            <Info className="h-4 w-4 shrink-0 text-[var(--accent-signal)]" />
             <span>Camera stream runs 100% locally in WebAssembly/WebGL memory; no frames or images leave your device.</span>
           </div>
         </div>

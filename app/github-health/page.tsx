@@ -32,14 +32,14 @@ export default function GitHubHealthPage() {
             <span>Back to Main Portfolio</span>
           </Link>
 
-          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-mono text-blue-400">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--accent-signal-border)] bg-[var(--accent-signal-bg)] px-3 py-1 text-xs font-mono text-[var(--accent-signal)]">
             <Calendar className="h-3.5 w-3.5" />
             <span>AUDIT SNAPSHOT (as of {GITHUB_HEALTH_SNAPSHOT_DATE})</span>
           </div>
         </div>
 
         <div className="space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 rounded-lg bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400 border border-emerald-500/20">
+          <div className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent-lab-bg)] px-3 py-1 text-xs font-semibold text-[var(--accent-lab)] border border-emerald-500/20">
             <Activity className="h-3.5 w-3.5" />
             Point-in-time Repository Snapshot
           </div>

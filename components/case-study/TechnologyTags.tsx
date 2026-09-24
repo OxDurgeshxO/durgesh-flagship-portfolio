@@ -10,11 +10,11 @@ export default function TechnologyTags({ technologies }: Props) {
       {technologies.map((tech) => (
         <span
           key={tech.name}
-          className="px-3 py-1 rounded-xl text-xs font-mono border border-white/10 bg-white/5 text-slate-200 hover:border-purple-500/40 hover:text-white transition-all flex items-center gap-1.5"
+          className="px-3 py-1 rounded-xl text-xs font-mono border border-border bg-muted text-ink hover:border-primary/40 hover:text-ink transition-all flex items-center gap-1.5"
         >
           <span className="size-1.5 rounded-full bg-purple-400" />
           <span className="font-semibold">{tech.name}</span>
-          <span className="text-[10px] text-slate-400">({tech.category})</span>
+          <span className="text-[10px] text-muted-foreground">({tech.category})</span>
         </span>
       ))}
     </div>

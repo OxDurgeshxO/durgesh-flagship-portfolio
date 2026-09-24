@@ -53,17 +53,17 @@ export default function PerformanceModeToggle() {
   ];
 
   return (
-    <div className="glass rounded-2xl p-6 md:p-8 border border-white/10 mb-10 bg-white/[0.02]">
+    <div className="glass rounded-2xl p-6 md:p-8 border border-border mb-10 bg-muted/60">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
-          <h2 className="text-xl font-bold text-white tracking-tight">
+          <h2 className="text-xl font-bold text-ink tracking-tight">
             Runtime Experience & Performance Selector
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-muted-foreground">
             Control GPU acceleration and data usage across the entire portfolio in real time.
           </p>
         </div>
-        <span className="text-xs font-mono px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 w-fit">
+        <span className="text-xs font-mono px-3 py-1 rounded-full border border-primary/40 bg-primary/10 text-primary w-fit">
           Active: {mode.toUpperCase()}
         </span>
       </div>
@@ -78,8 +78,8 @@ export default function PerformanceModeToggle() {
               onClick={() => handleSelect(m.id)}
               className={`p-5 rounded-xl text-left border transition-all cursor-pointer relative ${
                 isActive
-                  ? "bg-purple-950/40 border-purple-400/80 shadow-lg shadow-purple-500/20"
-                  : "bg-white/[0.02] border-white/10 hover:border-white/20"
+                  ? "bg-purple-950/40 border-purple-400/80 shadow-lg shadow-black/20"
+                  : "bg-muted/60 border-border hover:border-border-strong"
               }`}
               aria-pressed={isActive}
             >
@@ -89,13 +89,13 @@ export default function PerformanceModeToggle() {
                 </div>
               )}
               <div className="flex items-center gap-2 mb-2">
-                <Icon className={`size-4 ${isActive ? "text-purple-300" : "text-slate-400"}`} />
-                <span className="font-bold text-sm text-white">{m.label}</span>
+                <Icon className={`size-4 ${isActive ? "text-primary" : "text-muted-foreground"}`} />
+                <span className="font-bold text-sm text-ink">{m.label}</span>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-purple-300 mb-2 inline-block">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-muted text-primary mb-2 inline-block">
                 {m.badge}
               </span>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-muted-foreground leading-relaxed">
                 {m.description}
               </p>
             </button>

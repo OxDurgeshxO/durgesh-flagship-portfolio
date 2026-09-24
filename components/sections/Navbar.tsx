@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { OWNER } from '@/lib/data'
-import ThemeToggle from '@/components/ThemeToggle'
 import { Search, Briefcase, FileText, FlaskConical, Activity, History } from 'lucide-react'
+import ThemeControl from '@/components/ThemeControl'
 
 const NAV_LINKS = ['About', 'Experience', 'Education', 'Projects', 'Contact']
 
@@ -55,7 +55,7 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass shadow-lg shadow-purple-500/10 backdrop-blur-xl' : 'bg-transparent'
+        scrolled ? 'glass shadow-lg shadow-black/10 backdrop-blur-xl' : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
@@ -67,7 +67,7 @@ export default function Navbar() {
 
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex items-center gap-4">
-          <div className="flex items-center gap-1 glass px-2 py-1 rounded-xl border border-white/5 bg-slate-950/40">
+          <div className="flex items-center gap-1 glass px-2 py-1 rounded-xl border border-border/60 bg-card/60">
             {NAV_LINKS.map((link) => {
               const isActive = activeSection === link.toLowerCase()
               return (
@@ -79,8 +79,8 @@ export default function Navbar() {
                   href={`/#${link.toLowerCase()}`}
                   className={`text-xs sm:text-sm font-medium transition-all px-3 py-1 rounded-lg ${
                     isActive
-                      ? 'text-white font-semibold bg-gradient-to-r from-purple-600/40 to-rose-500/40 border border-purple-500/50 shadow-sm shadow-purple-500/20'
-                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                      ? 'text-white font-semibold bg-gradient-to-r from-[var(--gradient-start)]/40 to-[var(--gradient-end)]/40 border border-primary/40 shadow-sm shadow-black/20'
+                      : 'text-muted-foreground hover:text-ink hover:bg-muted'
                   }`}
                 >
                   {link}
@@ -92,25 +92,25 @@ export default function Navbar() {
           {/* AI Lab & Recruiter Fast Track links */}
           <Link
             href="/lab"
-            className="px-3 py-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm shadow-emerald-500/10"
+            className="px-3 py-1.5 rounded-xl border border-[var(--accent-lab-border)] bg-[var(--accent-lab-bg)] hover:bg-emerald-500/20 text-[var(--accent-lab)] text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm shadow-black/5"
             title="Interactive AI Engineering Lab"
           >
-            <FlaskConical className="size-3 text-emerald-400" />
+            <FlaskConical className="size-3 text-[var(--accent-lab)]" />
             <span>AI Lab</span>
           </Link>
 
           <Link
             href="/recruiter"
-            className="px-3 py-1.5 rounded-xl border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 text-purple-200 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm shadow-purple-500/10"
+            className="px-3 py-1.5 rounded-xl border border-primary/40 bg-primary/10 hover:bg-primary/10 text-primary text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm shadow-black/10"
             title="Recruiter Fast-Track"
           >
-            <Briefcase className="size-3 text-rose-400" />
+            <Briefcase className="size-3 text-secondary" />
             <span>Recruiter Mode</span>
           </Link>
 
           <Link
             href="/resume"
-            className="px-2.5 py-1.5 rounded-xl border border-white/10 hover:border-white/20 bg-white/5 text-slate-300 hover:text-white text-xs font-medium flex items-center gap-1.5 transition-all"
+            className="px-2.5 py-1.5 rounded-xl border border-border hover:border-border-strong bg-muted text-body hover:text-ink text-xs font-medium flex items-center gap-1.5 transition-all"
           >
             <FileText className="size-3" />
             <span>Resume</span>
@@ -119,13 +119,13 @@ export default function Navbar() {
           {/* Quick Search Palette Trigger */}
           <button
             onClick={triggerPalette}
-            className="px-2.5 py-1.5 rounded-xl border border-purple-500/30 hover:border-rose-400/50 bg-white/5 hover:bg-purple-500/10 text-xs text-slate-300 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer font-mono"
+            className="px-2.5 py-1.5 rounded-xl border border-primary/40 hover:border-rose-400/50 bg-muted hover:bg-primary/10 text-xs text-body hover:text-ink transition-all flex items-center gap-1.5 cursor-pointer font-mono"
             title="Open Command Palette (Ctrl+K / Cmd+K)"
             aria-label="Search Command Palette"
           >
-            <Search className="size-3.5 text-rose-400" />
+            <Search className="size-3.5 text-secondary" />
             <span className="text-xs">Search</span>
-            <kbd className="text-[10px] bg-white/10 px-1 py-0.5 rounded border border-white/10 text-slate-400">
+            <kbd className="text-[10px] bg-accent px-1 py-0.5 rounded border border-border text-muted-foreground">
               Ctrl+K
             </kbd>
           </button>
@@ -134,11 +134,13 @@ export default function Navbar() {
             href={OWNER.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3 py-1.5 rounded-xl border border-purple-500/40 text-purple-300 text-xs font-semibold hover:bg-purple-500/10 transition-all"
+            className="px-3 py-1.5 rounded-xl border border-primary/40 text-primary text-xs font-semibold hover:bg-primary/10 transition-all"
           >
             GitHub
           </a>
-          <ThemeToggle />
+
+          <ThemeControl />
+          
         </div>
 
         {/* Mobile Header Controls */}
@@ -146,17 +148,19 @@ export default function Navbar() {
           <button
             onClick={triggerPalette}
             aria-label="Open search command palette"
-            className="p-1.5 rounded-lg border border-purple-500/30 text-rose-400 bg-white/5"
+            className="p-1.5 rounded-lg border border-primary/40 text-secondary bg-muted"
           >
             <Search className="size-4" />
           </button>
-          <ThemeToggle />
+
+          <ThemeControl />
+          
           <button
             onClick={() => setOpen(!open)}
             aria-label="Toggle navigation menu"
             aria-expanded={open}
             aria-controls={open ? 'mobile-nav-menu' : undefined}
-            className="text-slate-300 text-xl p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 rounded-lg"
+            className="text-body text-xl p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 rounded-lg"
           >
             ☰
           </button>
@@ -165,32 +169,32 @@ export default function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {open && (
-        <div id="mobile-nav-menu" className="md:hidden glass px-6 pb-5 pt-2 flex flex-col gap-2.5 border-b border-purple-500/20">
-          <div className="grid grid-cols-2 gap-2 pb-2 border-b border-white/5">
+        <div id="mobile-nav-menu" className="md:hidden glass px-6 pb-5 pt-2 flex flex-col gap-2.5 border-b border-primary/30">
+          <div className="grid grid-cols-2 gap-2 pb-2 border-b border-border/60">
             <Link
               href="/lab"
               onClick={() => setOpen(false)}
-              className="flex items-center justify-between text-xs font-semibold p-2 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
+              className="flex items-center justify-between text-xs font-semibold p-2 rounded-lg bg-[var(--accent-lab-bg)] text-[var(--accent-lab)] border border-[var(--accent-lab-border)]"
             >
               <div className="flex items-center gap-1.5">
-                <FlaskConical className="size-3.5 text-emerald-400" />
+                <FlaskConical className="size-3.5 text-[var(--accent-lab)]" />
                 <span>AI Lab</span>
               </div>
             </Link>
             <Link
               href="/recruiter"
               onClick={() => setOpen(false)}
-              className="flex items-center justify-between text-xs font-semibold p-2 rounded-lg bg-purple-500/10 text-purple-300 border border-purple-500/30"
+              className="flex items-center justify-between text-xs font-semibold p-2 rounded-lg bg-primary/10 text-primary border border-primary/40"
             >
               <div className="flex items-center gap-1.5">
-                <Briefcase className="size-3.5 text-rose-400" />
+                <Briefcase className="size-3.5 text-secondary" />
                 <span>Recruiter</span>
               </div>
             </Link>
             <Link
               href="/resume"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-1.5 text-xs font-semibold p-2 rounded-lg bg-white/5 text-slate-200 border border-white/10"
+              className="flex items-center gap-1.5 text-xs font-semibold p-2 rounded-lg bg-muted text-ink border border-border"
             >
               <FileText className="size-3.5" />
               <span>ATS Resume</span>
@@ -198,7 +202,7 @@ export default function Navbar() {
             <Link
               href="/github-health"
               onClick={() => setOpen(false)}
-              className="flex items-center justify-between text-xs font-semibold p-2 rounded-lg bg-blue-500/10 text-blue-300 border border-blue-500/30"
+              className="flex items-center justify-between text-xs font-semibold p-2 rounded-lg bg-[var(--accent-signal-bg)] text-[var(--accent-signal)] border border-[var(--accent-signal-border)]"
             >
               <div className="flex items-center gap-1.5">
                 <Activity className="size-3.5" />
@@ -216,8 +220,8 @@ export default function Navbar() {
                 onClick={() => setOpen(false)}
                 className={`text-sm py-1.5 px-3 rounded-lg transition-colors ${
                   isActive
-                    ? 'text-white font-semibold bg-purple-500/20 border border-purple-500/40'
-                    : 'text-slate-300 hover:text-purple-300'
+                    ? 'text-white font-semibold bg-primary/10 border border-primary/40'
+                    : 'text-body hover:text-primary'
                 }`}
               >
                 {link}
@@ -229,7 +233,7 @@ export default function Navbar() {
               href={OWNER.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 text-center py-2.5 border border-purple-500/50 text-purple-300 rounded-xl text-xs font-semibold"
+              className="flex-1 text-center py-2.5 border border-primary/40 text-primary rounded-xl text-xs font-semibold"
             >
               GitHub ↗
             </a>

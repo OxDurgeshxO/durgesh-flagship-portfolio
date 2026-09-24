@@ -47,19 +47,19 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center bg-[var(--bg-primary)] text-[var(--text-main)]">
       {/* Background glow */}
-      <div className="pointer-events-none absolute h-96 w-96 rounded-full bg-[#a855f7]/15 blur-[120px]" />
+      <div className="pointer-events-none absolute h-96 w-96 rounded-full bg-primary/15 blur-[120px]" />
 
       {/* Skip button */}
       <button
         onClick={() => onCompleteRef.current()}
-        className="absolute top-6 right-6 z-20 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-slate-400 hover:text-white hover:border-white/30 transition-colors"
+        className="absolute top-6 right-6 z-20 rounded-full border border-border bg-muted px-3 py-1 text-xs font-mono text-muted-foreground hover:text-ink hover:border-border-strong transition-colors"
       >
         Skip ➔
       </button>
 
       <div className="relative z-10 flex flex-col items-center gap-5">
         {/* Animated word cycler */}
-        <div className="h-7 overflow-hidden text-center font-mono text-xs md:text-sm tracking-[0.3em] uppercase text-rose-400">
+        <div className="h-7 overflow-hidden text-center font-mono text-xs md:text-sm tracking-[0.3em] uppercase text-secondary">
           <motion.div
             key={wordIndex}
             initial={{ opacity: 0, y: 12 }}
@@ -72,20 +72,20 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
         </div>
 
         {/* Counter */}
-        <div className="font-mono text-6xl md:text-7xl font-bold tracking-tight text-white select-none">
+        <div className="font-mono text-6xl md:text-7xl font-bold tracking-tight text-ink select-none">
           <span>{count}</span>
-          <span className="text-xl text-rose-400 font-normal ml-1">%</span>
+          <span className="text-xl text-secondary font-normal ml-1">%</span>
         </div>
 
         {/* Minimalist Progress Bar */}
-        <div className="h-1 w-48 overflow-hidden rounded-full bg-white/10">
+        <div className="h-1 w-48 overflow-hidden rounded-full bg-accent">
           <div
-            className="h-full bg-gradient-to-r from-purple-500 to-rose-500 transition-all duration-75 ease-out"
+            className="h-full bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] transition-all duration-75 ease-out"
             style={{ width: `${count}%` }}
           />
         </div>
 
-        <p className="text-[10.5px] font-mono text-slate-500 uppercase tracking-widest mt-1">
+        <p className="text-[10.5px] font-mono text-muted-foreground uppercase tracking-widest mt-1">
           Loading 3D Portfolio
         </p>
       </div>

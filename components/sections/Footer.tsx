@@ -16,44 +16,44 @@ export default function Footer() {
     );
   }, []);
   return (
-    <footer className="border-t border-white/5 py-10 text-center text-slate-500 text-sm">
+    <footer className="border-t border-border/60 py-10 text-center text-muted-foreground text-sm">
       <div className="flex flex-wrap justify-center items-center gap-3 mb-4 text-xs font-mono">
-        <Link href="/recruiter" className="text-purple-400 hover:underline flex items-center gap-1" title="Recruiter Fast Track">
+        <Link href="/recruiter" className="text-primary hover:underline flex items-center gap-1" title="Recruiter Fast Track">
           <span>👔 Recruiter Fast Track</span>
         </Link>
         <span>·</span>
-        <Link href="/resume" className="text-slate-400 hover:text-white hover:underline">
+        <Link href="/resume" className="text-muted-foreground hover:text-ink hover:underline">
           📄 ATS Resume
         </Link>
         <span>·</span>
-        <Link href="/lab" className="text-emerald-400 hover:underline flex items-center gap-1" title="AI Engineering Lab">
+        <Link href="/lab" className="text-[var(--accent-lab)] hover:underline flex items-center gap-1" title="AI Engineering Lab">
           <span>🔬 AI Engineering Lab</span>
         </Link>
         <span>·</span>
-        <Link href="/github-health" className="text-blue-400 hover:underline flex items-center gap-1" title="Code Health">
+        <Link href="/github-health" className="text-[var(--accent-signal)] hover:underline flex items-center gap-1" title="Code Health">
           <span>📊 Code Health</span>
         </Link>
         <span>·</span>
-        <Link href="/changelog" className="text-purple-300 hover:underline flex items-center gap-1" title="Changelog">
+        <Link href="/changelog" className="text-primary hover:underline flex items-center gap-1" title="Changelog">
           <span>📜 Changelog</span>
         </Link>
         <span>·</span>
-        <Link href="/performance" className="text-rose-400 hover:underline flex items-center gap-1" title="Performance Center">
+        <Link href="/performance" className="text-secondary hover:underline flex items-center gap-1" title="Performance Center">
           <span>⚡ Performance Center</span>
         </Link>
       </div>
 
       <p className="mb-2">
         Built with{' '}
-        <span className="text-purple-400">Next.js 14</span> ·{' '}
-        <span className="text-rose-400">Three.js</span> ·{' '}
-        <span className="text-purple-400">Framer Motion</span>
+        <span className="text-primary">Next.js 14</span> ·{' '}
+        <span className="text-secondary">Three.js</span> ·{' '}
+        <span className="text-primary">Framer Motion</span>
         {' '}·{' '}
         <a
           href={PORTFOLIO_REPO}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-slate-400 hover:text-purple-400 transition-colors underline underline-offset-2"
+          className="text-muted-foreground hover:text-primary transition-colors underline underline-offset-2"
         >
           View Source ↗
         </a>
@@ -62,16 +62,16 @@ export default function Footer() {
           href={PORTFOLIO_LIVE}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-slate-400 hover:text-rose-400 transition-colors underline underline-offset-2"
+          className="text-muted-foreground hover:text-secondary transition-colors underline underline-offset-2"
         >
           Live Site ↗
         </a>
       </p>
       <p>© {new Date().getFullYear()} {OWNER.name} · All rights reserved</p>
       <div className="flex justify-center gap-6 mt-4">
-        <a href={OWNER.github} target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors">GitHub</a>
-        <a href={OWNER.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-rose-400 transition-colors">LinkedIn</a>
-        <a href={`mailto:${OWNER.email}`} className="hover:text-white transition-colors">Email</a>
+        <a href={OWNER.github} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">GitHub</a>
+        <a href={OWNER.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">LinkedIn</a>
+        <a href={`mailto:${OWNER.email}`} className="hover:text-ink transition-colors">Email</a>
       </div>
     </footer>
   )

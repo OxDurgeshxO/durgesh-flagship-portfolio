@@ -78,19 +78,19 @@ export default function PrivacyPage() {
   ];
 
   return (
-    <main id="main-content" className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8 selection:bg-purple-500/30 selection:text-white">
+    <main id="main-content" className="min-h-screen bg-popover text-ink py-12 px-4 sm:px-6 lg:px-8 selection:bg-purple-500/30 selection:text-white">
       <div className="max-w-4xl mx-auto space-y-10">
         {/* Navigation Breadcrumb */}
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition-colors group"
+            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-ink transition-colors group"
           >
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
             <span>Back to Main Portfolio</span>
           </Link>
 
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-mono text-emerald-400">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--accent-lab-border)] bg-[var(--accent-lab-bg)] px-3 py-1 text-xs font-mono text-[var(--accent-lab)]">
             <ShieldCheck className="h-3.5 w-3.5" />
             <span>ZERO PERSISTENCE AUDITED</span>
           </div>
@@ -98,14 +98,14 @@ export default function PrivacyPage() {
 
         {/* Header */}
         <div className="space-y-4 max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-lg bg-purple-500/10 px-3 py-1 text-xs font-semibold text-purple-400 border border-purple-500/20">
+          <div className="inline-flex items-center gap-2 rounded-lg bg-primary/10 px-3 py-1 text-xs font-semibold text-primary border border-primary/30">
             <Lock className="h-3.5 w-3.5" />
             Security & Privacy Architecture
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">
             Privacy Center & Zero-Persistence Policy
           </h1>
-          <p className="text-base text-slate-400 leading-relaxed">
+          <p className="text-base text-muted-foreground leading-relaxed">
             Every interactive feature in this portfolio is engineered with strict data minimization principles. We do
             not collect, sell, or retain personal data.
           </p>
@@ -118,19 +118,19 @@ export default function PrivacyPage() {
             return (
               <div
                 key={p.title}
-                className="glass rounded-2xl p-6 border border-white/10 bg-slate-900/60 hover:border-purple-500/30 transition-all flex flex-col justify-between"
+                className="glass rounded-2xl p-6 border border-border bg-card/80 hover:border-primary/40 transition-all flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <div className="p-2 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                    <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/30">
                       <Icon className="h-4 w-4" />
                     </div>
-                    <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-300">
+                    <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-muted border border-border text-body">
                       {p.badge}
                     </span>
                   </div>
-                  <h2 className="text-base font-bold text-white mb-2">{p.title}</h2>
-                  <p className="text-xs text-slate-400 leading-relaxed">{p.description}</p>
+                  <h2 className="text-base font-bold text-ink mb-2">{p.title}</h2>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{p.description}</p>
                 </div>
               </div>
             );
@@ -138,17 +138,17 @@ export default function PrivacyPage() {
         </div>
 
         {/* Explicit Hardware Commitment */}
-        <div className="rounded-2xl border border-purple-500/30 bg-purple-500/10 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="rounded-2xl border border-primary/40 bg-primary/10 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h3 className="text-sm font-bold text-white mb-1">Explicit User Consent Rule</h3>
-            <p className="text-xs text-slate-300">
+            <h3 className="text-sm font-bold text-ink mb-1">Explicit User Consent Rule</h3>
+            <p className="text-xs text-body">
               Camera, microphone, and heavy WebGL processing will <strong>never</strong> activate automatically without
               an intentional user click or preference selection.
             </p>
           </div>
           <Link
             href="/lab"
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white text-xs font-semibold hover:opacity-90 transition-all shadow-md shadow-purple-500/20 whitespace-nowrap cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] text-white text-xs font-semibold hover:opacity-90 transition-all shadow-md shadow-black/20 whitespace-nowrap cursor-pointer"
           >
             Explore AI Lab →
           </Link>

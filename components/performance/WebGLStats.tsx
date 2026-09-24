@@ -49,32 +49,32 @@ export default function WebGLStats() {
   }, []);
 
   return (
-    <section className="glass rounded-2xl p-6 border border-white/10 mb-10 bg-white/[0.02]">
-      <div className="flex items-center gap-2 mb-4 text-purple-400">
+    <section className="glass rounded-2xl p-6 border border-border mb-10 bg-muted/60">
+      <div className="flex items-center gap-2 mb-4 text-primary">
         <Cpu className="size-4" />
-        <h3 className="text-xs font-mono uppercase tracking-wider text-white font-bold">
+        <h3 className="text-xs font-mono uppercase tracking-wider text-ink font-bold">
           Live Client Hardware & WebGL Runtime Diagnostics
         </h3>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
-        <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-          <div className="text-[10px] text-slate-500 uppercase">GPU Device / Renderer</div>
-          <div className="text-slate-200 font-semibold truncate mt-1" title={glInfo.renderer}>
+        <div className="p-3.5 rounded-xl bg-muted/60 border border-border/60">
+          <div className="text-[10px] text-muted-foreground uppercase">GPU Device / Renderer</div>
+          <div className="text-ink font-semibold truncate mt-1" title={glInfo.renderer}>
             {glInfo.renderer}
           </div>
         </div>
 
-        <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-          <div className="text-[10px] text-slate-500 uppercase">Graphics Vendor</div>
-          <div className="text-slate-200 font-semibold truncate mt-1">
+        <div className="p-3.5 rounded-xl bg-muted/60 border border-border/60">
+          <div className="text-[10px] text-muted-foreground uppercase">Graphics Vendor</div>
+          <div className="text-ink font-semibold truncate mt-1">
             {glInfo.vendor}
           </div>
         </div>
 
-        <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-          <div className="text-[10px] text-slate-500 uppercase">Max Texture Texture Dimension</div>
-          <div className="text-slate-200 font-semibold truncate mt-1">
+        <div className="p-3.5 rounded-xl bg-muted/60 border border-border/60">
+          <div className="text-[10px] text-muted-foreground uppercase">Max Texture Texture Dimension</div>
+          <div className="text-ink font-semibold truncate mt-1">
             {glInfo.maxTextureSize} × {glInfo.maxTextureSize} px
           </div>
         </div>

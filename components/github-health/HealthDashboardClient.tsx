@@ -44,20 +44,20 @@ export function HealthDashboardClient() {
         <div className="rounded-xl border border-border/80 bg-card p-4">
           <div className="text-xs font-mono uppercase text-muted-foreground">Portfolio Ecosystem</div>
           <div className="text-3xl font-black text-foreground mt-1">{summary.total} Repositories</div>
-          <div className="text-xs text-emerald-400 flex items-center gap-1 mt-1">
+          <div className="text-xs text-[var(--accent-lab)] flex items-center gap-1 mt-1">
             <CheckCircle2 className="h-3 w-3" /> {summary.productionCount} Production-Ready
           </div>
         </div>
 
         <div className="rounded-xl border border-border/80 bg-card p-4">
           <div className="text-xs font-mono uppercase text-muted-foreground">Automated Test Suites</div>
-          <div className="text-3xl font-black text-emerald-400 mt-1">{summary.verifiedTestsCount} Repos</div>
+          <div className="text-3xl font-black text-[var(--accent-lab)] mt-1">{summary.verifiedTestsCount} Repos</div>
           <div className="text-xs text-muted-foreground mt-1">Verified Unit/Integration Tests</div>
         </div>
 
         <div className="rounded-xl border border-border/80 bg-card p-4">
           <div className="text-xs font-mono uppercase text-muted-foreground">Snapshot Verification</div>
-          <div className="text-xl font-bold text-blue-400 mt-2 flex items-center gap-1.5">
+          <div className="text-xl font-bold text-[var(--accent-signal)] mt-2 flex items-center gap-1.5">
             <Calendar className="h-4 w-4" /> as of {summary.snapshotDate}
           </div>
           <div className="text-xs text-muted-foreground mt-1">Grounded Static Audit</div>
