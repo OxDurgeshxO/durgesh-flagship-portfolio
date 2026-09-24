@@ -39,7 +39,7 @@ export default function RecruiterContact() {
         {/* Email */}
         <div className="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-purple-500/40 transition-all flex flex-col justify-between group">
           <div className="flex items-center justify-between text-purple-400 mb-3">
-            <a href={`mailto:${OWNER.email}`} className="hover:opacity-80 transition-opacity">
+            <a href={`mailto:${OWNER.email}`} className="hover:opacity-80 transition-opacity" aria-label="Send email to Durgesh Dutt Sinha">
               <Mail className="size-5" />
             </a>
             <div className="flex items-center gap-2">

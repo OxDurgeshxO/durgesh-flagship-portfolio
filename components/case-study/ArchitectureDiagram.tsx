@@ -72,7 +72,12 @@ export default function ArchitectureDiagram({
 
       {/* Raw ASCII schematic if toggled */}
       {showAscii && diagramAscii && (
-        <div className="mb-6 p-4 rounded-xl bg-black/60 border border-purple-500/20 font-mono text-xs text-purple-300 overflow-x-auto whitespace-pre leading-relaxed">
+        <div
+          className="mb-6 p-4 rounded-xl bg-black/60 border border-purple-500/20 font-mono text-xs text-purple-300 overflow-x-auto whitespace-pre leading-relaxed focus:outline-none focus:ring-1 focus:ring-purple-400"
+          tabIndex={0}
+          role="region"
+          aria-label="Raw ASCII architecture schematic"
+        >
           {diagramAscii.trim()}
         </div>
       )}

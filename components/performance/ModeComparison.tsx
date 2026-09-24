@@ -7,7 +7,12 @@ export default function ModeComparison() {
       <h2 className="text-xl font-bold text-white tracking-tight mb-4">
         Engineering Mode Matrix & Resource Allocation
       </h2>
-      <div className="overflow-x-auto rounded-xl border border-white/10 glass">
+      <div
+        className="overflow-x-auto rounded-xl border border-white/10 glass focus:outline-none focus:ring-1 focus:ring-purple-400"
+        tabIndex={0}
+        role="region"
+        aria-label="Engineering Mode Matrix and Resource Allocation"
+      >
         <table className="w-full text-left text-xs border-collapse">
           <thead>
             <tr className="border-b border-white/10 bg-white/[0.03] text-slate-300 font-mono">
