@@ -45,10 +45,20 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
     <div className="resume-actions-bar bg-slate-900/95 backdrop-blur-md border border-white/10 p-3.5 rounded-2xl mb-8 flex flex-wrap items-center justify-between gap-4 shadow-xl">
       <div className="flex items-center gap-3">
         <Link
-          href="/recruiter"
-          className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors"
+          href="/"
+          className="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+          aria-label="Back to Portfolio Home"
         >
           <ArrowLeft className="size-3.5" />
+          <span>Home</span>
+        </Link>
+
+        <span className="text-white/20">|</span>
+
+        <Link
+          href="/recruiter"
+          className="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors"
+        >
           <span>Recruiter Fast Track</span>
         </Link>
 
