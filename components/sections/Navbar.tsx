@@ -60,10 +60,10 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
         {/* Brand Monogram */}
-        <a href="/" className="text-xl font-bold gradient-text font-mono tracking-tight flex items-center gap-1">
+        <Link href="/" className="text-xl font-bold gradient-text font-mono tracking-tight flex items-center gap-1">
           <span>DDS</span>
           <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
-        </a>
+        </Link>
 
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex items-center gap-4">

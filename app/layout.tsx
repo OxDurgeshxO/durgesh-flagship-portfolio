@@ -178,6 +178,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main-content" className="skip-to-content">
           Skip to main content
         </a>
+        {/* Visual Beta Audit Marker for Live Preview */}
+        <div
+          id="beta-audit-badge"
+          aria-label="Beta Audit Preview Mode"
+          className="fixed bottom-4 right-4 z-50 flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-purple-500/50 text-purple-300 text-xs font-mono shadow-lg shadow-purple-950/50 backdrop-blur-md pointer-events-auto"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+          </span>
+          <span className="font-semibold tracking-wide">BETA AUDIT PREVIEW</span>
+        </div>
         {children}
       </body>
     </html>

@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next'
 import { CASE_STUDIES } from '@/lib/case-studies'
 
+export const dynamic = 'force-static'
+
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://durgesh-portfolio.pages.dev'
 
 // Stable content date (repo ground truth: GITHUB_HEALTH_SNAPSHOT_DATE in lib/github-health.ts,

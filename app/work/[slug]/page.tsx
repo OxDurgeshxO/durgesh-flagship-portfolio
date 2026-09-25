@@ -12,17 +12,18 @@ import { Target, Layers, ShieldCheck, AlertTriangle, TrendingUp, Cpu, RefreshCw,
 import Link from "next/link";
 
 interface Props {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export function generateStaticParams() {
   return Object.keys(CASE_STUDIES).map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const caseStudy = CASE_STUDIES[params.slug];
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const caseStudy = CASE_STUDIES[slug];
   if (!caseStudy) {
     return { title: "Case Study Not Found" };
   }
@@ -30,13 +31,13 @@ export function generateMetadata({ params }: Props): Metadata {
     title: `${caseStudy.title} — Deep Engineering Case Study | Durgesh Dutt Sinha`,
     alternates: {
       // Duplicate-content guard: /work/fitness-platform is a byte-identical alias of /work/fittrack
-      canonical: params.slug === 'fitness-platform' ? '/work/fittrack' : `/work/${params.slug}`,
+      canonical: slug === 'fitness-platform' ? '/work/fittrack' : `/work/${slug}`,
     },
     description: caseStudy.overview,
     openGraph: {
       title: `${caseStudy.title} — Engineering Case Study | Durgesh Dutt Sinha`,
       description: caseStudy.overview,
-      url: `https://durgesh-portfolio.pages.dev/work/${params.slug}`,
+      url: `https://durgesh-portfolio.pages.dev/work/${slug}`,
       siteName: 'Durgesh Dutt Sinha Flagship Portfolio',
       images: [
         {
@@ -57,12 +58,13 @@ export function generateMetadata({ params }: Props): Metadata {
   };
 }
 
-export default function CaseStudyPage({ params }: Props) {
-  const caseStudy = CASE_STUDIES[params.slug];
+export default async function CaseStudyPage({ params }: Props) {
+  const { slug } = await params;
+  const caseStudy = CASE_STUDIES[slug];
   if (!caseStudy) notFound();
 
   const canonicalSlugs = ['roleradar', 'fittrack', 'marketmatch-ai', 'jarvis-realtime-assistant', 'cnn-streamlit'];
-  const currentKey = params.slug === 'fitness-platform' ? 'fittrack' : params.slug;
+  const currentKey = slug === 'fitness-platform' ? 'fittrack' : slug;
   const currentIdx = canonicalSlugs.indexOf(currentKey) >= 0 ? canonicalSlugs.indexOf(currentKey) : 0;
   const prevSlug = canonicalSlugs[(currentIdx - 1 + canonicalSlugs.length) % canonicalSlugs.length];
   const nextSlug = canonicalSlugs[(currentIdx + 1) % canonicalSlugs.length];
@@ -95,7 +97,7 @@ export default function CaseStudyPage({ params }: Props) {
             },
             articleSection: caseStudy.category,
             keywords: caseStudy.technologies.map((t) => t.name).join(", "),
-            url: `https://durgesh-portfolio.pages.dev/work/${params.slug}`,
+            url: `https://durgesh-portfolio.pages.dev/work/${slug}`,
           }).replace(/</g, "\\u003c"),
         }}
       />

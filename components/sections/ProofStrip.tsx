@@ -22,7 +22,7 @@ const PROOF_ITEMS: ProofItem[] = [
   {
     icon: Code2,
     label: 'Main Technologies',
-    value: 'Next.js &middot; TS &middot; PyTorch',
+    value: 'Next.js · TS · PyTorch',
   },
   {
     icon: Globe,
@@ -66,7 +66,7 @@ export default function ProofStrip() {
                   <span className="truncate">{item.label}</span>
                 </div>
                 <div className="text-white text-xs sm:text-sm font-semibold tracking-tight flex items-center gap-1 group">
-                  <span dangerouslySetInnerHTML={{ __html: item.value }} />
+                  <span>{item.value}</span>
                   {item.href && (
                     <ArrowUpRight className="size-3 text-slate-400 group-hover:text-purple-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
                   )}
