@@ -12,17 +12,17 @@ import { Target, Layers, ShieldCheck, AlertTriangle, TrendingUp, Cpu, RefreshCw,
 import Link from "next/link";
 
 interface Props {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
+  };
 }
 
 export function generateStaticParams() {
   return Object.keys(CASE_STUDIES).map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+export function generateMetadata({ params }: Props): Metadata {
+  const { slug } = params;
   const caseStudy = CASE_STUDIES[slug];
   if (!caseStudy) {
     return { title: "Case Study Not Found" };
@@ -58,8 +58,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function CaseStudyPage({ params }: Props) {
-  const { slug } = await params;
+export default function CaseStudyPage({ params }: Props) {
+  const { slug } = params;
   const caseStudy = CASE_STUDIES[slug];
   if (!caseStudy) notFound();
 

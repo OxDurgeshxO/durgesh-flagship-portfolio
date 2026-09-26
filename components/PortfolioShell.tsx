@@ -1,12 +1,29 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Component, ErrorInfo } from "react";
 import dynamic from "next/dynamic";
 import LoadingScreen from "@/components/LoadingScreen";
 import { Background } from "@/components/Background";
 import CommandPalette from "@/components/CommandPalette";
 import AccessibilityPanel from "@/components/accessibility/AccessibilityPanel";
 import { getSavedPerformanceMode, PerformanceMode } from "@/lib/performance";
+
+class SafeCompanionBoundary extends Component<{ children: React.ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.warn("3D Companion failed to initialize, suppressing gracefully:", error?.message || error);
+  }
+  render() {
+    if (this.state.hasError) return null;
+    return this.props.children;
+  }
+}
 
 const RoamingCompanion3D = dynamic(
   () => import("@/components/companion/RoamingCompanion3D"),
@@ -79,7 +96,11 @@ export function PortfolioShell({ children }: { children: React.ReactNode }) {
       <Background />
 
       {/* Roaming 3D Interactive Cyber Figure - unmounted in low-bandwidth mode */}
-      {mounted && !isLoading && !isLowBandwidth && <RoamingCompanion3D />}
+      {mounted && !isLoading && !isLowBandwidth && (
+        <SafeCompanionBoundary>
+          <RoamingCompanion3D />
+        </SafeCompanionBoundary>
+      )}
 
       {/* Global Accessibility Control Panel (Alt + A) */}
       {mounted && <AccessibilityPanel />}
