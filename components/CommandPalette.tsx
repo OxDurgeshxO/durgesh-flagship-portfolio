@@ -636,7 +636,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setOpen(false)}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 bg-[var(--overlay-scrim)] backdrop-blur-md"
           />
 
           {/* Palette Dialog Card */}
@@ -650,7 +650,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -16 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="relative w-full max-w-2xl glass rounded-2xl border border-purple-500/40 shadow-2xl shadow-purple-500/30 overflow-hidden z-10 bg-[#0c0a18]/95"
+            className="relative w-full max-w-2xl glass rounded-2xl border border-primary/40 shadow-2xl shadow-purple-500/30 overflow-hidden z-10 bg-[#0c0a18]/95"
           >
             {/* Accessible dialog title (visually hidden) */}
             <h2 id="command-palette-title" className="sr-only">
@@ -658,11 +658,11 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
             </h2>
 
             {/* Top ambient color strip */}
-            <div className="h-1 bg-gradient-to-r from-purple-500 via-rose-500 to-purple-500" />
+            <div className="h-1 bg-gradient-to-r from-[var(--gradient-start)] via-rose-500 to-purple-500" />
 
             {/* Search Input Bar */}
-            <div className="flex items-center gap-3 px-5 py-4 border-b border-white/10">
-              <Search className="size-5 text-rose-400 shrink-0" />
+            <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
+              <Search className="size-5 text-secondary shrink-0" />
               <input
                 ref={inputRef}
                 type="text"
@@ -674,15 +674,15 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
                   setSelectedIndex(0);
                 }}
                 onKeyDown={handleKeyNav}
-                className="w-full bg-transparent text-white text-sm sm:text-base placeholder-slate-500 focus:outline-none font-medium"
+                className="w-full bg-transparent text-ink text-sm sm:text-base placeholder-slate-500 focus:outline-none font-medium"
               />
-              <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-mono font-bold bg-white/5 border border-white/10 text-slate-400 px-2 py-0.5 rounded">
+              <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-mono font-bold bg-muted border border-border text-muted-foreground px-2 py-0.5 rounded">
                 ESC to close
               </span>
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close command palette"
-                className="sm:hidden text-slate-400 hover:text-white p-1"
+                className="sm:hidden text-muted-foreground hover:text-ink p-1"
               >
                 <X className="size-4" />
               </button>
@@ -695,15 +695,15 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="px-5 py-2.5 bg-gradient-to-r from-purple-900/40 via-rose-900/30 to-purple-900/40 border-b border-purple-500/30 flex items-center justify-between text-xs text-rose-200 font-medium"
+                  className="px-5 py-2.5 bg-gradient-to-r from-purple-900/40 via-rose-900/30 to-purple-900/40 border-b border-primary/40 flex items-center justify-between text-xs text-rose-200 font-medium"
                 >
                   <div className="flex items-center gap-2">
-                    <Sparkles className="size-3.5 text-rose-400 animate-pulse shrink-0" />
+                    <Sparkles className="size-3.5 text-secondary animate-pulse shrink-0" />
                     <span>{toast}</span>
                   </div>
                   <button
                     onClick={() => setToast(null)}
-                    className="text-slate-400 hover:text-white p-0.5 text-xs cursor-pointer"
+                    className="text-muted-foreground hover:text-ink p-0.5 text-xs cursor-pointer"
                   >
                     ✕
                   </button>
@@ -714,7 +714,7 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
             {/* Command Results List */}
             <div className="max-h-[60vh] overflow-y-auto p-2 space-y-1">
               {filtered.length === 0 ? (
-                <div className="text-center py-12 text-slate-500 text-sm">
+                <div className="text-center py-12 text-muted-foreground text-sm">
                   <Command className="size-8 mx-auto mb-2 text-slate-600" />
                   No matching commands or actions found.
                 </div>
@@ -734,16 +734,16 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
                       onMouseEnter={() => setSelectedIndex(idx)}
                       className={`w-full text-left px-4 py-3 rounded-xl flex items-center justify-between gap-3 transition-all cursor-pointer ${
                         isSelected
-                          ? "bg-purple-500/20 border border-purple-500/40 text-white shadow-md shadow-purple-500/10"
-                          : "text-slate-300 hover:bg-white/5 border border-transparent"
+                          ? "bg-primary/10 border border-primary/40 text-white shadow-md shadow-black/10"
+                          : "text-body hover:bg-muted border border-transparent"
                       }`}
                     >
                       <div className="flex items-center gap-3.5 min-w-0">
                         <div
                           className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
                             isSelected
-                              ? "bg-gradient-to-br from-purple-600 to-rose-500 text-white shadow-md shadow-purple-500/30"
-                              : "bg-white/5 text-purple-300 border border-white/10"
+                              ? "bg-gradient-to-br from-[var(--gradient-start)] to-[var(--gradient-end)] text-white shadow-md shadow-purple-500/30"
+                              : "bg-muted text-primary border border-border"
                           }`}
                         >
                           <Icon className="size-4" />
@@ -751,11 +751,11 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
                         <div className="min-w-0">
                           <div className="text-sm font-semibold truncate flex items-center gap-2">
                             <span>{action.title}</span>
-                            <span className="text-[10px] font-mono uppercase px-1.5 py-0.2 rounded bg-white/5 text-slate-400 font-normal">
+                            <span className="text-[10px] font-mono uppercase px-1.5 py-0.2 rounded bg-muted text-muted-foreground font-normal">
                               {action.category}
                             </span>
                           </div>
-                          <div className="text-xs text-slate-400 truncate">
+                          <div className="text-xs text-muted-foreground truncate">
                             {action.subtitle}
                           </div>
                         </div>
@@ -763,12 +763,12 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
 
                       <div className="flex items-center gap-2 shrink-0">
                         {action.shortcut && (
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-rose-300 font-bold">
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-muted border border-border text-secondary font-bold">
                             {action.shortcut}
                           </span>
                         )}
                         {isSelected && (
-                          <ArrowRight className="size-4 text-rose-400 animate-pulse" />
+                          <ArrowRight className="size-4 text-secondary animate-pulse" />
                         )}
                       </div>
                     </button>
@@ -778,12 +778,12 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
             </div>
 
             {/* Footer Hotkey Tips */}
-            <div className="px-5 py-2.5 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-500 bg-white/[0.01]">
+            <div className="px-5 py-2.5 border-t border-border flex items-center justify-between text-[11px] font-mono text-muted-foreground bg-white/[0.01]">
               <div className="flex items-center gap-4">
                 <span>↑↓ Navigate</span>
                 <span>↵ Select</span>
               </div>
-              <div className="flex items-center gap-1.5 text-purple-300">
+              <div className="flex items-center gap-1.5 text-primary">
                 <span>Neo-Tokyo HUD</span>
                 <span>•</span>
                 <span>DDS Portfolio</span>

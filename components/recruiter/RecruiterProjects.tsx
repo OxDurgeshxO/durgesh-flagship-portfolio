@@ -23,10 +23,10 @@ export default function RecruiterProjects() {
     <section className="mb-10">
       <div className="flex items-center justify-between gap-4 mb-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">
+          <h2 className="text-xl md:text-2xl font-bold text-ink tracking-tight">
             Top 3 Flagship Engineering Showcases
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-muted-foreground">
             Selected platforms with full architecture specs, tradeoffs, and verified metrics
           </p>
         </div>
@@ -38,21 +38,21 @@ export default function RecruiterProjects() {
           return (
             <div
               key={proj.slug}
-              className="glass rounded-xl p-5 md:p-6 border border-white/10 hover:border-purple-500/40 transition-all bg-white/[0.02]"
+              className="glass rounded-xl p-5 md:p-6 border border-border hover:border-primary/40 transition-all bg-muted/60"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
                 <div className="flex items-center gap-2.5">
                   <span
-                    className="p-2 rounded-lg bg-white/5 border border-white/10"
+                    className="p-2 rounded-lg bg-muted border border-border"
                     style={{ color: proj.accent }}
                   >
                     <Icon className="size-4" />
                   </span>
                   <div>
-                    <h3 className="text-base font-bold text-white tracking-tight">
+                    <h3 className="text-base font-bold text-ink tracking-tight">
                       {proj.title}
                     </h3>
-                    <span className="text-xs font-mono text-purple-300">
+                    <span className="text-xs font-mono text-primary">
                       {proj.category} • {proj.badge}
                     </span>
                   </div>
@@ -61,7 +61,7 @@ export default function RecruiterProjects() {
                 <div className="flex items-center gap-2 shrink-0">
                   <Link
                     href={`/work/${proj.slug}`}
-                    className="px-3 py-1.5 rounded-lg bg-purple-600/20 hover:bg-purple-600/30 text-purple-200 border border-purple-500/30 text-xs font-semibold inline-flex items-center gap-1.5 transition-all"
+                    className="px-3 py-1.5 rounded-lg bg-purple-600/20 hover:bg-purple-600/30 text-primary border border-primary/40 text-xs font-semibold inline-flex items-center gap-1.5 transition-all"
                   >
                     <span>Read Full Case Study</span>
                     <ArrowRight className="size-3" />
@@ -71,7 +71,7 @@ export default function RecruiterProjects() {
                       href={proj.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 transition-all"
+                      className="p-2 rounded-lg bg-muted hover:bg-accent text-body hover:text-ink border border-border transition-all"
                       title="Launch Live App"
                     >
                       <ExternalLink className="size-3.5" />
@@ -81,7 +81,7 @@ export default function RecruiterProjects() {
                     href={proj.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 transition-all"
+                    className="p-2 rounded-lg bg-muted hover:bg-accent text-body hover:text-ink border border-border transition-all"
                     title="View GitHub Repository"
                   >
                     <Github className="size-3.5" />
@@ -89,16 +89,16 @@ export default function RecruiterProjects() {
                 </div>
               </div>
 
-              <p className="text-xs text-slate-300 leading-relaxed mb-3">
+              <p className="text-xs text-body leading-relaxed mb-3">
                 {proj.overview}
               </p>
 
               {/* Metric Highlights */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
                 {proj.metrics.map((m) => (
-                  <div key={m.label} className="p-2 rounded-lg bg-white/[0.02] border border-white/5">
-                    <div className="text-[10px] font-mono text-slate-500 uppercase">{m.label}</div>
-                    <div className="text-xs font-bold text-white">{m.value}</div>
+                  <div key={m.label} className="p-2 rounded-lg bg-muted/60 border border-border/60">
+                    <div className="text-[10px] font-mono text-muted-foreground uppercase">{m.label}</div>
+                    <div className="text-xs font-bold text-ink">{m.value}</div>
                   </div>
                 ))}
               </div>
@@ -108,7 +108,7 @@ export default function RecruiterProjects() {
                 {proj.technologies.slice(0, 5).map((t) => (
                   <span
                     key={t.name}
-                    className="px-2 py-0.5 rounded-md bg-white/5 text-[10px] font-mono text-slate-400"
+                    className="px-2 py-0.5 rounded-md bg-muted text-[10px] font-mono text-muted-foreground"
                   >
                     {t.name}
                   </span>
@@ -119,27 +119,27 @@ export default function RecruiterProjects() {
         })}
       </div>
       {/* Additional Flagship Architecture Deep Dives */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 pt-4 border-t border-white/5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 pt-4 border-t border-border/60">
         <Link
           href="/work/jarvis-realtime-assistant"
-          className="p-4 rounded-xl glass border border-white/5 hover:border-purple-500/30 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex items-center justify-between group"
+          className="p-4 rounded-xl glass border border-border/60 hover:border-primary/40 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex items-center justify-between group"
         >
           <div>
-            <div className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors">jarvis-realtime-assistant</div>
-            <div className="text-[11px] text-slate-400">Voice AI &bull; Sub-500ms Gemini Multimodal Pipeline</div>
+            <div className="text-xs font-bold text-ink group-hover:text-primary transition-colors">jarvis-realtime-assistant</div>
+            <div className="text-[11px] text-muted-foreground">Voice AI &bull; Sub-500ms Gemini Multimodal Pipeline</div>
           </div>
-          <ArrowRight className="size-4 text-slate-400 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" />
+          <ArrowRight className="size-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
         </Link>
 
         <Link
           href="/work/cnn-streamlit"
-          className="p-4 rounded-xl glass border border-white/5 hover:border-purple-500/30 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex items-center justify-between group"
+          className="p-4 rounded-xl glass border border-border/60 hover:border-primary/40 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex items-center justify-between group"
         >
           <div>
-            <div className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors">CNN-STREAMLIT Suite</div>
-            <div className="text-[11px] text-slate-400">Deep Learning &bull; PyTorch Multiclass Vision Engine</div>
+            <div className="text-xs font-bold text-ink group-hover:text-primary transition-colors">CNN-STREAMLIT Suite</div>
+            <div className="text-[11px] text-muted-foreground">Deep Learning &bull; PyTorch Multiclass Vision Engine</div>
           </div>
-          <ArrowRight className="size-4 text-slate-400 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" />
+          <ArrowRight className="size-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
         </Link>
       </div>
     </section>

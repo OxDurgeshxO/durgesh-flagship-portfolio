@@ -41,7 +41,7 @@ export function RepositoryHealthCard({ repo }: Props) {
           <ul className="space-y-1">
             {repo.highlights.map((h, i) => (
               <li key={i} className="text-xs text-muted-foreground flex items-start gap-1.5">
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <CheckCircle2 className="h-3.5 w-3.5 text-[var(--accent-lab)] shrink-0 mt-0.5" />
                 <span>{h}</span>
               </li>
             ))}

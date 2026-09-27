@@ -40,7 +40,7 @@ export default function AiLabPage() {
 
         {/* Header Section */}
         <div className="space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 rounded-lg bg-purple-500/10 px-3 py-1 text-xs font-semibold text-purple-400 border border-purple-500/20">
+          <div className="inline-flex items-center gap-2 rounded-lg bg-primary/10 px-3 py-1 text-xs font-semibold text-primary border border-primary/30">
             <Cpu className="h-3.5 w-3.5" />
             Applied Machine Learning & Computer Vision
           </div>

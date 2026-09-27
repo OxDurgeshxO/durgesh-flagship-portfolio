@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   },
 }
 
+
 export default async function Home() {
   let profile = null
   let repos: GitHubRepo[] = []

@@ -59,7 +59,18 @@ export default function HeroSection() {
   }
 
   return (
-    <section id="hero" className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-20 pb-16">
+    <section
+      id="hero"
+      data-surface="hero"
+      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-20 pb-16"
+    >
+      {/* data-surface="hero" re-declares the palette for the hero subtree
+          (see styles/theme.css). Rationale: the WebGL rig is lit for a
+          near-black canvas and the Cyber Ronin plate is warm dark photography,
+          so the band is kept on those values rather than re-authored. Page-level
+          tokens (canvas, hero fade, grid) are deliberately NOT re-declared, so the
+          band still fades into the page below. */}
+
       {/* Cyber Ronin // Neural Edges animated background.
           Base plate renders at z-0 (under the 3D core + existing gradients),
           spotlight reveal + spec panel at z-15 (above them, below the content).
@@ -73,8 +84,8 @@ export default function HeroSection() {
 
       {/* Gradient overlays with pointer-events-none */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[var(--hero-fade)] to-[var(--bg-primary)] z-10" />
-      <div className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#a855f7]/15 rounded-full blur-[120px] z-10" />
-      <div className="pointer-events-none absolute top-1/2 left-1/4 w-[300px] h-[300px] bg-[#f43f5e]/15 rounded-full blur-[100px] z-10" />
+      <div className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/15 rounded-full blur-[120px] z-10" />
+      <div className="pointer-events-none absolute top-1/2 left-1/4 w-[300px] h-[300px] bg-secondary/15 rounded-full blur-[100px] z-10" />
 
       {/* Interactive Content */}
       <div className="relative z-20 text-center px-6 max-w-4xl mx-auto pointer-events-auto">
@@ -82,18 +93,18 @@ export default function HeroSection() {
           className="flex flex-wrap items-center justify-center gap-2.5 mb-6 ronin-fade-up"
           style={{ animationDelay: '0.15s' }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/40 text-purple-300 text-xs sm:text-sm glass">
-            <Sparkles className="size-3.5 text-purple-400" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 text-primary text-xs sm:text-sm glass">
+            <Sparkles className="size-3.5 text-primary" />
             <span>AI/ML Engineer &middot; Production AI Systems</span>
           </div>
           <button
             type="button"
             onClick={togglePerformanceMode}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-white/10 hover:border-purple-500/50 text-slate-300 hover:text-white text-xs glass transition-all focus-visible:ring-2 focus-visible:ring-purple-400 cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-border hover:border-primary/50 text-body hover:text-ink text-xs glass transition-all focus-visible:ring-2 focus-visible:ring-purple-400 cursor-pointer"
             title={isLowBandwidth ? 'Switch to Full 3D Visual Mode' : 'Switch to Lite Performance Mode'}
             aria-label={isLowBandwidth ? 'Enable 3D visual mode' : 'Enable lite performance mode'}
           >
-            <Zap className={`size-3.5 ${isLowBandwidth ? 'text-slate-400' : 'text-rose-400'}`} />
+            <Zap className={`size-3.5 ${isLowBandwidth ? 'text-muted-foreground' : 'text-secondary'}`} />
             <span>Visual: {isLowBandwidth ? 'Lite' : '3D Active'}</span>
           </button>
         </div>
@@ -114,7 +125,7 @@ export default function HeroSection() {
         </h1>
 
         <div
-          className="text-xl md:text-2xl font-semibold text-slate-200 mb-4 h-10 flex items-center justify-center ronin-fade-up"
+          className="text-xl md:text-2xl font-semibold text-ink mb-4 h-10 flex items-center justify-center ronin-fade-up"
           style={{ animationDelay: '0.62s' }}
         >
           <TypeAnimation
@@ -130,7 +141,7 @@ export default function HeroSection() {
         </div>
 
         <p
-          className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto mb-6 leading-relaxed font-normal ronin-fade-up"
+          className="text-body text-base md:text-lg max-w-2xl mx-auto mb-6 leading-relaxed font-normal ronin-fade-up"
           style={{ animationDelay: '0.72s' }}
         >
           I build fast, accessible web applications and practical AI prototypes.
@@ -141,20 +152,20 @@ export default function HeroSection() {
           className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto mb-8 text-left ronin-fade-up"
           style={{ animationDelay: '0.77s' }}
         >
-          <div className="glass rounded-xl p-3 border border-white/5 bg-white/[0.02]">
-            <div className="text-[10px] font-mono text-purple-400 uppercase tracking-wider mb-0.5">Architecture</div>
-            <div className="text-xs font-semibold text-white">Next.js &amp; TypeScript</div>
-            <div className="text-[11px] text-slate-400 mt-0.5 leading-tight">100% typed App Router, static export, 0 WebGL on ATS routes.</div>
+          <div className="glass rounded-xl p-3 border border-border/60 bg-muted/60">
+            <div className="text-[10px] font-mono text-primary uppercase tracking-wider mb-0.5">Architecture</div>
+            <div className="text-xs font-semibold text-ink">Next.js &amp; TypeScript</div>
+            <div className="text-[11px] text-muted-foreground mt-0.5 leading-tight">100% typed App Router, static export, 0 WebGL on ATS routes.</div>
           </div>
-          <div className="glass rounded-xl p-3 border border-white/5 bg-white/[0.02]">
-            <div className="text-[10px] font-mono text-rose-400 uppercase tracking-wider mb-0.5">Intelligence</div>
-            <div className="text-xs font-semibold text-white">Applied AI &amp; ML</div>
-            <div className="text-[11px] text-slate-400 mt-0.5 leading-tight">Realtime voice/vision agents, PyTorch models, structured prompt chains.</div>
+          <div className="glass rounded-xl p-3 border border-border/60 bg-muted/60">
+            <div className="text-[10px] font-mono text-secondary uppercase tracking-wider mb-0.5">Intelligence</div>
+            <div className="text-xs font-semibold text-ink">Applied AI &amp; ML</div>
+            <div className="text-[11px] text-muted-foreground mt-0.5 leading-tight">Realtime voice/vision agents, PyTorch models, structured prompt chains.</div>
           </div>
-          <div className="glass rounded-xl p-3 border border-white/5 bg-white/[0.02]">
-            <div className="text-[10px] font-mono text-sky-400 uppercase tracking-wider mb-0.5">Reliability</div>
-            <div className="text-xs font-semibold text-white">Cloudflare Edge &amp; A11y</div>
-            <div className="text-[11px] text-slate-400 mt-0.5 leading-tight">WCAG AA compliance across 10 routes, hardened security headers.</div>
+          <div className="glass rounded-xl p-3 border border-border/60 bg-muted/60">
+            <div className="text-[10px] font-mono text-[var(--accent-signal)] uppercase tracking-wider mb-0.5">Reliability</div>
+            <div className="text-xs font-semibold text-ink">Cloudflare Edge &amp; A11y</div>
+            <div className="text-[11px] text-muted-foreground mt-0.5 leading-tight">WCAG AA compliance across 10 routes, hardened security headers.</div>
           </div>
         </div>
 
@@ -165,7 +176,7 @@ export default function HeroSection() {
           <a
             href="#projects"
             onClick={() => trackEvent('contact_click', { button: 'view_projects_hero' })}
-            className="px-7 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white font-semibold hover:opacity-90 transition-all glow-purple cursor-pointer focus-visible:ring-2 focus-visible:ring-purple-400 shadow-lg shadow-purple-500/20 text-sm sm:text-base inline-flex items-center gap-2"
+            className="px-7 py-3 rounded-xl bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] text-white font-semibold hover:opacity-90 transition-all glow-purple cursor-pointer focus-visible:ring-2 focus-visible:ring-purple-400 shadow-lg shadow-black/20 text-sm sm:text-base inline-flex items-center gap-2"
           >
             <span>View Selected Work</span>
             <ArrowRight className="size-4" />
@@ -176,10 +187,10 @@ export default function HeroSection() {
             href="/resume.pdf"
             download="Durgesh_Dutt_Sinha_Resume.pdf"
             onClick={() => trackEvent('theme_toggle', { action: 'download_pdf_hero' })}
-            className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold transition-all inline-flex items-center gap-2 shadow-md shadow-black/20 cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-rose-400"
+            className="px-6 py-3 rounded-xl bg-accent hover:bg-accent border border-border-strong text-ink font-semibold transition-all inline-flex items-center gap-2 shadow-md shadow-black/20 cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-rose-400"
             title="Download Official Verified PDF Resume"
           >
-            <Download className="size-4 text-rose-400" />
+            <Download className="size-4 text-secondary" />
             <span>Download Resume</span>
           </a>
 
@@ -187,19 +198,19 @@ export default function HeroSection() {
           <Link
             href="/resume"
             onClick={() => trackEvent('theme_toggle', { action: 'view_resume_hero' })}
-            className="px-5 py-3 rounded-xl glass border border-purple-500/40 text-purple-200 font-semibold hover:bg-purple-500/15 hover:border-purple-400/70 transition-all inline-flex items-center gap-2 shadow-lg shadow-purple-500/10 cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-purple-400"
+            className="px-5 py-3 rounded-xl glass border border-primary/40 text-primary font-semibold hover:bg-primary/10 hover:border-primary/70 transition-all inline-flex items-center gap-2 shadow-lg shadow-black/10 cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-purple-400"
             title="View Official HTML Resume (ATS-friendly, 0 WebGL)"
           >
-            <FileText className="size-4 text-purple-400" />
+            <FileText className="size-4 text-primary" />
             <span>ATS HTML View</span>
           </Link>
 
           <a
             href="#contact"
             onClick={() => trackEvent('contact_click', { button: 'contact_me_hero' })}
-            className="px-5 py-3 rounded-xl glass border border-slate-700 text-slate-300 font-semibold hover:bg-white/5 hover:border-slate-500 transition-all cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-purple-400 inline-flex items-center gap-1.5"
+            className="px-5 py-3 rounded-xl glass border border-border-strong text-body font-semibold hover:bg-muted hover:border-slate-500 transition-all cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-purple-400 inline-flex items-center gap-1.5"
           >
-            <Mail className="size-4 text-slate-400" />
+            <Mail className="size-4 text-muted-foreground" />
             <span>Contact</span>
           </a>
 
@@ -208,9 +219,9 @@ export default function HeroSection() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackEvent('github_click', { source: 'hero_cta' })}
-            className="px-4 py-3 rounded-xl glass border border-slate-700 text-slate-300 font-semibold hover:border-slate-400 transition-all cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-slate-300 inline-flex items-center gap-1.5"
+            className="px-4 py-3 rounded-xl glass border border-border-strong text-body font-semibold hover:border-slate-400 transition-all cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-slate-300 inline-flex items-center gap-1.5"
           >
-            <Github className="size-4 text-slate-400" />
+            <Github className="size-4 text-muted-foreground" />
             <span>GitHub</span>
           </a>
         </div>

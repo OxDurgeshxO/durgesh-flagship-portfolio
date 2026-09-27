@@ -28,25 +28,25 @@ export default function RecruiterSummary() {
   };
 
   return (
-    <div className="glass rounded-2xl p-6 border border-white/10 mb-8 bg-white/[0.02]">
+    <div className="glass rounded-2xl p-6 border border-border mb-8 bg-muted/60">
       <div className="flex items-center justify-between gap-4 mb-3">
         <div className="flex items-center gap-2">
-          <Sparkles className="size-4 text-purple-400" />
-          <h2 className="text-sm md:text-base font-bold text-white tracking-tight">
+          <Sparkles className="size-4 text-primary" />
+          <h2 className="text-sm md:text-base font-bold text-ink tracking-tight">
             1-Click Candidate Summary for Hiring Teams
           </h2>
         </div>
         <button
           onClick={handleCopy}
-          className="text-xs font-mono font-semibold px-3 py-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 text-purple-200 flex items-center gap-1.5 transition-all cursor-pointer"
+          className="text-xs font-mono font-semibold px-3 py-1.5 rounded-lg border border-primary/40 bg-primary/10 hover:bg-primary/10 text-primary flex items-center gap-1.5 transition-all cursor-pointer"
           aria-label="Copy candidate executive summary to clipboard"
         >
-          {copied ? <Check className="size-3.5 text-emerald-400" /> : <Copy className="size-3.5" />}
+          {copied ? <Check className="size-3.5 text-[var(--accent-lab)]" /> : <Copy className="size-3.5" />}
           <span>{copied ? "Copied to Clipboard!" : "Copy Summary"}</span>
         </button>
       </div>
 
-      <p className="text-xs text-slate-400 leading-relaxed font-mono bg-black/40 p-4 rounded-xl border border-white/5 whitespace-pre-line select-all">
+      <p className="text-xs text-muted-foreground leading-relaxed font-mono bg-black/40 p-4 rounded-xl border border-border/60 whitespace-pre-line select-all">
         {CANDIDATE_SUMMARY}
       </p>
     </div>

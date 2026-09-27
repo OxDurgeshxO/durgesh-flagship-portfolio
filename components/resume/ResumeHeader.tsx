@@ -32,7 +32,7 @@ export default function ResumeHeader() {
 
         {OWNER.phone ? (
           <>
-            <span className="text-slate-300 hidden sm:inline" aria-hidden="true">•</span>
+            <span className="text-body hidden sm:inline" aria-hidden="true">•</span>
             <a
               href={`tel:${OWNER.phone}`}
               className="hover:text-blue-600 hover:underline flex items-center gap-1.5 font-medium transition-colors"
@@ -44,7 +44,7 @@ export default function ResumeHeader() {
           </>
         ) : null}
 
-        <span className="text-slate-300 hidden sm:inline" aria-hidden="true">•</span>
+        <span className="text-body hidden sm:inline" aria-hidden="true">•</span>
         <a
           href={OWNER.linkedin}
           target="_blank"
@@ -56,7 +56,7 @@ export default function ResumeHeader() {
           <span>linkedin.com/in/durgesh-dutt-s-4ba74924b</span>
         </a>
 
-        <span className="text-slate-300 hidden sm:inline" aria-hidden="true">•</span>
+        <span className="text-body hidden sm:inline" aria-hidden="true">•</span>
         <a
           href={OWNER.github}
           target="_blank"
@@ -68,7 +68,7 @@ export default function ResumeHeader() {
           <span>github.com/OxDurgeshxO</span>
         </a>
 
-        <span className="text-slate-300 hidden sm:inline" aria-hidden="true">•</span>
+        <span className="text-body hidden sm:inline" aria-hidden="true">•</span>
         <a
           href="https://durgesh-portfolio.pages.dev"
           target="_blank"

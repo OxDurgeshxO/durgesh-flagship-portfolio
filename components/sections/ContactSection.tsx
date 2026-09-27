@@ -92,15 +92,15 @@ export default function ContactSection() {
         transition={{ duration: 0.5 }}
         className="text-center mb-16"
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-300 border border-rose-500/25 mb-4 shadow-sm shadow-rose-500/10">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold bg-secondary/10 text-secondary border border-rose-500/25 mb-4 shadow-sm shadow-rose-500/10">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span>Available for AIML & Full-Stack Engineering Roles</span>
         </div>
         <h2 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
           Get In <span className="gradient-text">Touch</span>
         </h2>
-        <div className="w-24 h-1 bg-gradient-to-r from-purple-500 via-rose-400 to-purple-500 rounded mx-auto mb-4" />
-        <p className="text-slate-400 max-w-xl mx-auto text-sm md:text-base">
+        <div className="w-24 h-1 bg-gradient-to-r from-[var(--gradient-start)] via-rose-400 to-purple-500 rounded mx-auto mb-4" />
+        <p className="text-muted-foreground max-w-xl mx-auto text-sm md:text-base">
           Whether you have an opportunity, an AI architecture question, or want to collaborate on cutting-edge models, I&apos;d love to connect.
         </p>
       </motion.div>
@@ -115,47 +115,47 @@ export default function ContactSection() {
           className="lg:col-span-2 space-y-4"
         >
           {/* Quick Copy Email Card */}
-          <div className="glass rounded-2xl p-5 border border-white/10 hover:border-purple-500/40 transition-all group relative overflow-hidden">
+          <div className="glass rounded-2xl p-5 border border-border hover:border-primary/40 transition-all group relative overflow-hidden">
             <div className="flex items-start justify-between gap-3 mb-2">
-              <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-xl text-purple-300">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center text-xl text-primary">
                 ✉️
               </div>
               <button
                 onClick={handleCopyEmail}
-                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white/5 hover:bg-purple-500/20 text-purple-300 border border-white/10 hover:border-purple-500/30 transition-all active:scale-95 cursor-pointer"
+                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-muted hover:bg-primary/10 text-primary border border-border hover:border-primary/40 transition-all active:scale-95 cursor-pointer"
               >
                 {copied ? '✓ Copied!' : 'Copy'}
               </button>
             </div>
-            <div className="text-xs text-slate-400 font-medium">Direct Email</div>
-            <div className="text-sm md:text-base font-semibold text-white group-hover:text-purple-300 transition-colors truncate">
+            <div className="text-xs text-muted-foreground font-medium">Direct Email</div>
+            <div className="text-sm md:text-base font-semibold text-ink group-hover:text-primary transition-colors truncate">
               {OWNER.email}
             </div>
           </div>
 
           {/* Location Card */}
-          <div className="glass rounded-2xl p-5 border border-white/10">
+          <div className="glass rounded-2xl p-5 border border-border">
             <div className="flex items-center gap-3 mb-1">
-              <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-xl text-rose-300">
+              <div className="w-10 h-10 rounded-xl bg-secondary/10 border border-rose-500/20 flex items-center justify-center text-xl text-secondary">
                 📍
               </div>
               <div>
-                <div className="text-xs text-slate-400 font-medium">Location</div>
-                <div className="text-sm font-semibold text-white">{OWNER.location}</div>
+                <div className="text-xs text-muted-foreground font-medium">Location</div>
+                <div className="text-sm font-semibold text-ink">{OWNER.location}</div>
               </div>
             </div>
-            <p className="text-xs text-slate-400 mt-2 pl-1">Timezone: IST (UTC+5:30) • Open to Remote & Hybrid</p>
+            <p className="text-xs text-muted-foreground mt-2 pl-1">Timezone: IST (UTC+5:30) • Open to Remote & Hybrid</p>
           </div>
 
           {/* Social Profiles Card */}
-          <div className="glass rounded-2xl p-5 border border-white/10 space-y-3">
-            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Professional Profiles</div>
+          <div className="glass rounded-2xl p-5 border border-border space-y-3">
+            <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Professional Profiles</div>
             <div className="grid grid-cols-2 gap-3">
               <a
                 href={OWNER.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0A66C2]/15 text-[#38bdf8] border border-[#0A66C2]/30 hover:bg-[#0A66C2] hover:text-white transition-all text-xs font-semibold"
+                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0A66C2]/15 text-[#38bdf8] border border-[#0A66C2]/30 hover:bg-[#0A66C2] hover:text-ink transition-all text-xs font-semibold"
               >
                 <span>LinkedIn</span>
                 <span>↗</span>
@@ -164,7 +164,7 @@ export default function ContactSection() {
                 href={OWNER.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl glass border border-white/15 text-slate-200 hover:border-purple-400/50 hover:text-purple-300 transition-all text-xs font-semibold"
+                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl glass border border-white/15 text-ink hover:border-primary/70 hover:text-primary transition-all text-xs font-semibold"
               >
                 <span>GitHub</span>
                 <span>↗</span>
@@ -183,29 +183,29 @@ export default function ContactSection() {
         >
           <form
             onSubmit={handleSubmit}
-            className="glass rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl relative overflow-hidden space-y-5"
+            className="glass rounded-3xl p-6 sm:p-8 border border-border shadow-2xl relative overflow-hidden space-y-5"
           >
             {status === 'sent' ? (
               <div role="status" aria-live="polite" className="text-center py-12">
-                <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-3xl mx-auto mb-4">
+                <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-[var(--accent-lab)] border border-[var(--accent-lab-border)] flex items-center justify-center text-3xl mx-auto mb-4">
                   ✓
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">Message Dispatched!</h3>
-                <p className="text-slate-300 text-sm max-w-md mx-auto mb-4">
+                <h3 className="text-xl font-bold text-ink mb-2">Message Dispatched!</h3>
+                <p className="text-body text-sm max-w-md mx-auto mb-4">
                   Your message was sent successfully. Durgesh will respond within 24 hours.
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3">
                   <button
                     type="button"
                     onClick={handleCopyDraft}
-                    className="px-5 py-2.5 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-semibold hover:bg-purple-500/30 transition-all cursor-pointer"
+                    className="px-5 py-2.5 rounded-xl bg-primary/10 text-primary border border-primary/40 text-xs font-semibold hover:bg-purple-500/30 transition-all cursor-pointer"
                   >
                     {draftCopied ? '✓ Copied to Clipboard!' : '📋 Copy Draft Backup'}
                   </button>
                   <button
                     type="button"
                     onClick={() => setStatus('idle')}
-                    className="px-5 py-2.5 rounded-xl glass border border-white/20 text-xs text-slate-300 hover:text-white cursor-pointer"
+                    className="px-5 py-2.5 rounded-xl glass border border-border-strong text-xs text-body hover:text-ink cursor-pointer"
                   >
                     Send Another Message
                   </button>
@@ -214,19 +214,19 @@ export default function ContactSection() {
             ) : (
               <>
                 {/* Direct Dispatch Status */}
-                <div className="flex items-center justify-between border-b border-white/10 pb-2.5 mb-1 text-[11px] font-mono">
-                  <span className="text-slate-400 flex items-center gap-1.5">
+                <div className="flex items-center justify-between border-b border-border pb-2.5 mb-1 text-[11px] font-mono">
+                  <span className="text-muted-foreground flex items-center gap-1.5">
                     <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                     Direct Message Dispatch
                   </span>
-                  <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 text-[10px] font-semibold uppercase tracking-wider">
+                  <span className="px-2 py-0.5 rounded bg-[var(--accent-lab-bg)] text-[var(--accent-lab)] border border-[var(--accent-lab-border)] text-[10px] font-semibold uppercase tracking-wider">
                     Edge API Active
                   </span>
                 </div>
 
                 {/* Subject Selector */}
                 <div>
-                  <label id="contact-subject-label" className="block text-xs font-medium text-slate-300 mb-2">What would you like to discuss?</label>
+                  <label id="contact-subject-label" className="block text-xs font-medium text-body mb-2">What would you like to discuss?</label>
                   <div role="group" aria-labelledby="contact-subject-label" className="flex flex-wrap gap-2">
                     {SUBJECT_OPTIONS.map((sub) => (
                       <button
@@ -236,8 +236,8 @@ export default function ContactSection() {
                         aria-pressed={form.subject === sub}
                         className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                           form.subject === sub
-                            ? 'bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-md shadow-purple-500/20'
-                            : 'bg-white/5 text-slate-400 hover:text-white border border-white/5 hover:border-white/20'
+                            ? 'bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] text-white shadow-md shadow-black/20'
+                            : 'bg-muted text-muted-foreground hover:text-ink border border-border/60 hover:border-border-strong'
                         }`}
                       >
                         {sub}
@@ -249,7 +249,7 @@ export default function ContactSection() {
                 {/* Name & Email Row */}
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="contact-name" className="block text-xs font-medium text-slate-300 mb-1.5">Your Name</label>
+                    <label htmlFor="contact-name" className="block text-xs font-medium text-body mb-1.5">Your Name</label>
                     <input
                       id="contact-name"
                       name="name"
@@ -258,11 +258,11 @@ export default function ContactSection() {
                       placeholder="e.g. Alex Morgan"
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all"
+                      className="w-full bg-muted border border-border rounded-xl px-4 py-3 text-ink placeholder-slate-500 text-sm focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all"
                     />
                   </div>
                   <div>
-                    <label htmlFor="contact-email" className="block text-xs font-medium text-slate-300 mb-1.5">Your Email</label>
+                    <label htmlFor="contact-email" className="block text-xs font-medium text-body mb-1.5">Your Email</label>
                     <input
                       id="contact-email"
                       name="email"
@@ -271,7 +271,7 @@ export default function ContactSection() {
                       placeholder="alex@company.com"
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all"
+                      className="w-full bg-muted border border-border rounded-xl px-4 py-3 text-ink placeholder-slate-500 text-sm focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all"
                     />
                   </div>
                 </div>
@@ -290,7 +290,7 @@ export default function ContactSection() {
 
                 {/* Message Box */}
                 <div>
-                  <label htmlFor="contact-message" className="block text-xs font-medium text-slate-300 mb-1.5">Message</label>
+                  <label htmlFor="contact-message" className="block text-xs font-medium text-body mb-1.5">Message</label>
                   <textarea
                     id="contact-message"
                     name="message"
@@ -299,17 +299,17 @@ export default function ContactSection() {
                     placeholder="Tell me about your project, team, or ideas..."
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all resize-none"
+                    className="w-full bg-muted border border-border rounded-xl px-4 py-3 text-ink placeholder-slate-500 text-sm focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all resize-none"
                   />
                 </div>
 
                 {error && (
-                  <div role="alert" aria-live="assertive" className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-300 flex flex-col gap-2">
+                  <div role="alert" aria-live="assertive" className="rounded-xl border border-rose-500/30 bg-secondary/10 p-3 text-xs text-secondary flex flex-col gap-2">
                     <p>{error}</p>
                     <button
                       type="button"
                       onClick={handleMailtoFallback}
-                      className="self-start text-[11px] font-semibold text-rose-200 underline hover:text-white"
+                      className="self-start text-[11px] font-semibold text-rose-200 underline hover:text-ink"
                     >
                       Open Email Client →
                     </button>
@@ -321,7 +321,7 @@ export default function ContactSection() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-rose-500 text-white font-semibold hover:opacity-95 active:scale-[0.99] transition-all shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                    className="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-[var(--gradient-start)] via-indigo-600 to-[var(--gradient-end)] text-white font-semibold hover:opacity-95 active:scale-[0.99] transition-all shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                   >
                     <span>{loading ? 'Sending...' : 'Send Message'}</span>
                     <span>✉️</span>
@@ -329,7 +329,7 @@ export default function ContactSection() {
                   <button
                     type="button"
                     onClick={handleCopyDraft}
-                    className="py-3.5 px-5 rounded-xl glass border border-purple-500/30 hover:border-rose-400/60 text-purple-200 hover:text-white text-xs font-semibold transition-all active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                    className="py-3.5 px-5 rounded-xl glass border border-primary/40 hover:border-rose-400/60 text-primary hover:text-ink text-xs font-semibold transition-all active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer shadow-md"
                     title="Copy formatted message draft to paste into Gmail, Outlook, or LinkedIn"
                   >
                     <span>{draftCopied ? '✓ Draft Copied!' : '📋 Copy Draft to Clipboard'}</span>

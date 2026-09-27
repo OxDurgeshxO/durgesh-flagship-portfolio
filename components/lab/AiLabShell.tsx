@@ -57,7 +57,7 @@ export function AiLabShell() {
       {/* Top Banner & Telemetry highlights */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="rounded-xl border border-border/80 bg-card/60 p-4 flex items-center gap-3">
-          <div className="rounded-lg bg-emerald-500/10 p-2.5 text-emerald-400">
+          <div className="rounded-lg bg-[var(--accent-lab-bg)] p-2.5 text-[var(--accent-lab)]">
             <Zap className="h-5 w-5" />
           </div>
           <div>
@@ -67,7 +67,7 @@ export function AiLabShell() {
         </div>
 
         <div className="rounded-xl border border-border/80 bg-card/60 p-4 flex items-center gap-3">
-          <div className="rounded-lg bg-blue-500/10 p-2.5 text-blue-400">
+          <div className="rounded-lg bg-[var(--accent-signal-bg)] p-2.5 text-[var(--accent-signal)]">
             <ShieldCheck className="h-5 w-5" />
           </div>
           <div>
@@ -77,7 +77,7 @@ export function AiLabShell() {
         </div>
 
         <div className="rounded-xl border border-border/80 bg-card/60 p-4 flex items-center gap-3">
-          <div className="rounded-lg bg-purple-500/10 p-2.5 text-purple-400">
+          <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
             <Lock className="h-5 w-5" />
           </div>
           <div>

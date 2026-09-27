@@ -19,13 +19,13 @@ export const metadata: Metadata = {
 
 export default function PerformancePage() {
   return (
-    <main id="main-content" className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8 selection:bg-purple-500/30 selection:text-white">
+    <main id="main-content" className="min-h-screen bg-popover text-ink py-12 px-4 sm:px-6 lg:px-8 selection:bg-purple-500/30 selection:text-white">
       <div className="max-w-5xl mx-auto">
         {/* Navigation Bar */}
-        <div className="flex items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
+        <div className="flex items-center justify-between gap-4 mb-8 border-b border-border pb-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-white transition-colors group"
+            className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-ink transition-colors group"
           >
             <ArrowLeft className="size-3.5 group-hover:-translate-x-1 transition-transform" />
             Back to Immersive Home
@@ -33,13 +33,13 @@ export default function PerformancePage() {
           <div className="flex items-center gap-2">
             <Link
               href="/recruiter"
-              className="text-xs font-mono px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 transition-all"
+              className="text-xs font-mono px-3 py-1 rounded-full border border-primary/40 bg-primary/10 text-primary hover:bg-primary/10 transition-all"
             >
               👔 Recruiter Fast Track
             </Link>
             <Link
               href="/resume"
-              className="text-xs font-mono px-3 py-1 rounded-full border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 transition-all"
+              className="text-xs font-mono px-3 py-1 rounded-full border border-border bg-muted text-body hover:bg-accent transition-all"
             >
               📄 HTML Resume
             </Link>
@@ -49,18 +49,18 @@ export default function PerformancePage() {
         {/* Hero Header */}
         <div className="mb-10">
           <div className="flex flex-wrap items-center gap-2 mb-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-purple-500/10 text-purple-300 border border-purple-500/20">
-              <Gauge className="size-3.5 text-rose-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-primary/10 text-primary border border-primary/30">
+              <Gauge className="size-3.5 text-secondary" />
               <span>Frontend & WebGL Performance Center</span>
             </div>
-            <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-mono text-[var(--accent-lab)] bg-[var(--accent-lab-bg)] border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
               Reviewed: {PERFORMANCE_REVIEW_DATE}
             </span>
           </div>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-3">
+          <h1 className="text-3xl md:text-5xl font-extrabold text-ink tracking-tight mb-3">
             Performance Budgets &amp; Build Footprint
           </h1>
-          <p className="text-slate-400 text-sm md:text-base max-w-3xl leading-relaxed">
+          <p className="text-muted-foreground text-sm md:text-base max-w-3xl leading-relaxed">
             Every feature on this portfolio is engineered against strict performance budgets. Figures on this page are labelled with whether they were actually observed: the build footprint comes from the production build output, while the Core Web Vitals entries are declared budgets that no committed tool has yet verified.
           </p>
         </div>
@@ -73,7 +73,7 @@ export default function PerformancePage() {
 
         {/* Core Metrics Grid */}
         <section className="mb-12">
-          <h2 className="text-xl font-bold text-white tracking-tight mb-4 flex items-center gap-2">
+          <h2 className="text-xl font-bold text-ink tracking-tight mb-4 flex items-center gap-2">
             <span>📊</span> Core Web Vitals Budgets &amp; Measured Build Footprint
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

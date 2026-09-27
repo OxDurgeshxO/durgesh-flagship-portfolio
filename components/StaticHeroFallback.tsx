@@ -14,16 +14,16 @@ export function StaticHeroFallback() {
       {/* Cybernetic Neural Core Static Illustration */}
       <div className="relative w-[340px] h-[340px] sm:w-[480px] sm:h-[480px] flex items-center justify-center opacity-85">
         {/* Outer Concentric Pulse Rings */}
-        <div className="absolute inset-0 rounded-full border border-purple-500/20 animate-[spin_40s_linear_infinite]" />
+        <div className="absolute inset-0 rounded-full border border-primary/30 animate-[spin_40s_linear_infinite]" />
         <div className="absolute inset-6 rounded-full border border-dashed border-rose-500/25 animate-[spin_28s_linear_infinite_reverse]" />
         <div className="absolute inset-16 rounded-full border border-purple-400/20" />
 
         {/* Central Core Ambient Glow */}
-        <div className="absolute w-36 h-36 rounded-full bg-gradient-to-tr from-purple-600/30 to-rose-500/30 blur-2xl animate-pulse" />
+        <div className="absolute w-36 h-36 rounded-full bg-gradient-to-tr from-[var(--gradient-start)]/30 to-[var(--gradient-end)]/30 blur-2xl animate-pulse" />
 
         {/* Geometric Hexagonal Lattice SVG */}
         <svg
-          className="w-full h-full text-purple-400/30"
+          className="w-full h-full text-primary/30"
           viewBox="0 0 400 400"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

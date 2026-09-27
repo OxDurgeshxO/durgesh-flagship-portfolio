@@ -11,11 +11,11 @@ interface Props {
 
 export default function CaseStudyHeader({ caseStudy }: Props) {
   return (
-    <header className="mb-12 border-b border-white/10 pb-8">
+    <header className="mb-12 border-b border-border pb-8">
       <div className="flex items-center justify-between gap-4 mb-6">
         <Link
           href="/#projects"
-          className="inline-flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-white transition-colors group"
+          className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-ink transition-colors group"
         >
           <ArrowLeft className="size-3.5 group-hover:-translate-x-1 transition-transform" />
           Back to Featured Projects
@@ -23,7 +23,7 @@ export default function CaseStudyHeader({ caseStudy }: Props) {
         <div className="flex items-center gap-2">
           <Link
             href="/recruiter"
-            className="text-xs font-mono px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 transition-all"
+            className="text-xs font-mono px-3 py-1 rounded-full border border-primary/40 bg-primary/10 text-primary hover:bg-primary/10 transition-all"
           >
             👔 Recruiter Mode
           </Link>
@@ -31,34 +31,34 @@ export default function CaseStudyHeader({ caseStudy }: Props) {
       </div>
 
             <div className="flex flex-wrap items-center gap-2.5 mb-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-mono text-slate-300">
-          <Sparkles className="size-3 text-rose-400" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-muted text-xs font-mono text-body">
+          <Sparkles className="size-3 text-secondary" />
           <span>{caseStudy.category}</span>
-          <span className="text-slate-500">&middot;</span>
-          <span className="text-purple-300">{caseStudy.badge}</span>
+          <span className="text-muted-foreground">&middot;</span>
+          <span className="text-primary">{caseStudy.badge}</span>
         </div>
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-purple-500/20 bg-purple-500/10 text-xs font-mono text-purple-300">
-          <Clock className="size-3 text-purple-400" />
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-xs font-mono text-primary">
+          <Clock className="size-3 text-primary" />
           <span>~5 min technical read</span>
         </div>
       </div>
 
-      <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-4">
+      <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-ink tracking-tight mb-4">
         {caseStudy.title}
       </h1>
 
-      <p className="text-lg md:text-xl text-slate-300 max-w-3xl leading-relaxed mb-6 font-light">
+      <p className="text-lg md:text-xl text-body max-w-3xl leading-relaxed mb-6 font-light">
         {caseStudy.tagline}
       </p>
 
       {/* Meta Bar */}
-      <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400 border-t border-white/5 pt-4">
+      <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-muted-foreground border-t border-border/60 pt-4">
         <div className="flex items-center gap-1.5">
-          <UserCheck className="size-3.5 text-purple-400" />
+          <UserCheck className="size-3.5 text-primary" />
           <span>Role: {caseStudy.role}</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <Calendar className="size-3.5 text-rose-400" />
+          <Calendar className="size-3.5 text-secondary" />
           <span>Timeline: {caseStudy.timeline}</span>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function CaseStudyHeader({ caseStudy }: Props) {
             href={caseStudy.demoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 hover:from-purple-500 hover:to-rose-400 text-white font-semibold text-xs md:text-sm inline-flex items-center gap-2 shadow-lg shadow-purple-500/20 transition-all"
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] hover:from-[var(--gradient-start)] hover:to-rose-400 text-white font-semibold text-xs md:text-sm inline-flex items-center gap-2 shadow-lg shadow-black/20 transition-all"
           >
             <ExternalLink className="size-4" />
             <span>Launch Live Production App</span>
@@ -80,7 +80,7 @@ export default function CaseStudyHeader({ caseStudy }: Props) {
           href={caseStudy.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-5 py-2.5 rounded-xl glass hover:bg-white/10 text-slate-200 hover:text-white font-semibold text-xs md:text-sm inline-flex items-center gap-2 border border-white/10 transition-all"
+          className="px-5 py-2.5 rounded-xl glass hover:bg-accent text-ink hover:text-ink font-semibold text-xs md:text-sm inline-flex items-center gap-2 border border-border transition-all"
         >
           <Github className="size-4" />
           <span>View Source Repository</span>

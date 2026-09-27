@@ -1,0 +1,102 @@
+app\error.tsx                                        bg-secondary/10x1, from-[var(--gradient-start)]x1, shadow-black/20x1, text-inkx2, text-ink(white)x1, text-muted-foregroundx1, text-secondaryx2, to-[var(--gradient-end)]x1
+app\not-found.tsx                                    bg-primary/10x2, bg-secondary/10x1, border-primary/40x1, from-[var(--gradient-start)]x1, shadow-black/20x1, text-inkx2, text-muted-foregroundx1, text-primaryx2, text-secondaryx2, to-[var(--gradient-end)]x1
+app\page.tsx                                         bg-accentx1, border-border-strongx2, border-primary/40x2, from-[var(--gradient-start)]x1, shadow-black/10x1, shadow-black/20x1, text-bodyx2, text-inkx1, text-ink(white)x2, text-primaryx2, to-[var(--gradient-end)]x1
+app\changelog\page.tsx                               text-[var(--accent-lab)]x1, text-[var(--accent-signal)]x1
+app\github-health\page.tsx                           bg-[var(--accent-lab-bg)]x1, bg-[var(--accent-signal-bg)]x1, border-[var(--accent-signal-border)]x1, text-[var(--accent-lab)]x1, text-[var(--accent-signal)]x1
+app\lab\page.tsx                                     bg-primary/10x1, border-primary/30x1, text-primaryx1
+app\performance\page.tsx                             bg-[var(--accent-lab-bg)]x1, bg-mutedx1, bg-popoverx1, bg-primary/10x3, border-borderx2, border-primary/30x1, border-primary/40x1, hover:bg-accentx1, hover:text-inkx1, text-[var(--accent-lab)]x1, text-bodyx1, text-inkx1, text-ink(white)x2, text-muted-foregroundx2, text-primaryx2, text-secondaryx1
+app\privacy\page.tsx                                 bg-[var(--accent-lab-bg)]x1, bg-card/80x1, bg-mutedx1, bg-popoverx1, bg-primary/10x3, border-[var(--accent-lab-border)]x1, border-borderx2, border-primary/30x2, border-primary/40x2, from-[var(--gradient-start)]x1, hover:text-inkx1, shadow-black/20x1, text-[var(--accent-lab)]x1, text-bodyx2, text-inkx1, text-ink(white)x3, text-muted-foregroundx3, text-primaryx2, to-[var(--gradient-end)]x1
+app\recruiter\page.tsx                               bg-popoverx1, text-inkx1
+app\resume\page.tsx                                  bg-popoverx1
+app\work\[slug]\page.tsx                             bg-[var(--accent-lab-bg)]x1, bg-[var(--accent-signal-bg)]x1, bg-muted/60x2, bg-popoverx1, bg-primary/10x1, bg-secondary/10x1, border-[var(--accent-signal-border)]x1, border-borderx2, border-border/60x5, border-primary/30x1, border-primary/40x4, text-[var(--accent-lab)]x1, text-[var(--accent-signal)]x1, text-[var(--accent-warm)]x3, text-bodyx2, text-inkx2, text-ink(white)x3, text-muted-foregroundx8, text-primaryx10, text-secondaryx1
+components\Background.tsx                            bg-primary/14x1, bg-secondary/12x2
+components\CommandPalette.tsx                        bg-[var(--overlay-scrim)]x1, bg-mutedx4, bg-primary/10x1, border-borderx5, border-primary/40x3, from-[var(--gradient-start)]x2, hover:bg-mutedx1, hover:text-inkx2, shadow-black/10x1, text-bodyx1, text-ink(white)x1, text-muted-foregroundx7, text-primaryx2, text-secondaryx4, to-[var(--gradient-end)]x1
+components\LoadingScreen.tsx                         bg-accentx1, bg-mutedx1, bg-primary/15x1, border-borderx1, from-[var(--gradient-start)]x1, hover:border-border-strongx1, hover:text-inkx1, text-ink(white)x1, text-muted-foregroundx2, text-secondaryx2, to-[var(--gradient-end)]x1
+components\StaticHeroFallback.tsx                    border-primary/30x1, from-[var(--gradient-start)]x1, text-primaryx1, to-[var(--gradient-end)]x1
+components\accessibility\AccessibilityPanel.tsx      bg-[var(--overlay-scrim)]x1, bg-mutedx9, bg-popoverx1, bg-popover/90x1, bg-primary/10x1, border-borderx2, border-border-strongx4, border-border/60x4, border-primary/40x3, from-[var(--gradient-start)]x1, hover:bg-accentx1, hover:text-inkx2, shadow-black/20x1, text-bodyx1, text-inkx1, text-ink(white)x9, text-muted-foregroundx7, text-primaryx7, to-[var(--gradient-end)]x1
+components\case-study\ArchitectureDiagram.tsx        bg-mutedx4, border-borderx4, border-border/60x2, border-primary/30x1, hover:bg-accentx1, hover:border-border-strongx1, text-bodyx2, text-ink(white)x2, text-muted-foregroundx4, text-primaryx2, text-secondaryx1
+components\case-study\CaseStudyActions.tsx           border-borderx4, border-primary/40x1, from-[var(--gradient-start)]x2, hover:bg-accentx3, hover:text-inkx3, shadow-black/20x1, text-[var(--accent-lab)]x1, text-inkx2, text-ink(white)x1, text-muted-foregroundx2, text-primaryx1, to-[var(--gradient-end)]x1
+components\case-study\CaseStudyHeader.tsx            bg-mutedx1, bg-primary/10x3, border-borderx3, border-border/60x1, border-primary/30x1, border-primary/40x1, from-[var(--gradient-start)]x2, hover:bg-accentx1, hover:text-inkx2, shadow-black/20x1, text-bodyx2, text-inkx1, text-ink(white)x1, text-muted-foregroundx3, text-primaryx5, text-secondaryx2, to-[var(--gradient-end)]x1
+components\case-study\CaseStudySection.tsx           text-bodyx1, text-ink(white)x1, text-muted-foregroundx1, text-primaryx1
+components\case-study\MetricCard.tsx                 border-borderx1, hover:border-border-strongx1, text-muted-foregroundx2
+components\case-study\TechnologyTags.tsx             bg-mutedx1, border-borderx1, border-primary/40x1, hover:text-inkx1, text-inkx1, text-muted-foregroundx1
+components\changelog\ChangelogEntryCard.tsx          bg-[var(--accent-lab-bg)]x1, bg-[var(--accent-signal-bg)]x1, bg-primary/10x1, border-[var(--accent-lab-border)]x1, border-[var(--accent-signal-border)]x1, border-primary/40x1, text-[var(--accent-lab)]x3, text-[var(--accent-signal)]x2, text-[var(--accent-warm)]x1, text-primaryx1, text-secondaryx1
+components\companion\RoamingCompanion3D.tsx          bg-popoverx2, bg-primary/10x1, border-border-strongx1, border-primary/40x2, hover:text-inkx1, shadow-black/20x2, text-bodyx1, text-muted-foregroundx1, text-primaryx2, text-secondaryx1
+components\companion\SpeechBubble.tsx                bg-popoverx1, bg-primary/10x2, bg-secondary/10x1, border-borderx1, border-border/60x1, border-primary/40x3, hover:bg-accentx1, hover:text-inkx1, text-inkx1, text-muted-foregroundx1, text-primaryx3, text-secondaryx1
+components\github-health\HealthBadge.tsx             bg-[var(--accent-lab-bg)]x1, bg-[var(--accent-signal-bg)]x1, bg-cardx2, border-[var(--accent-lab-border)]x1, border-borderx1, border-border-strongx1, text-[var(--accent-lab)]x2, text-[var(--accent-signal)]x1, text-[var(--accent-warm)]x1, text-muted-foregroundx2
+components\github-health\HealthDashboardClient.tsx   text-[var(--accent-lab)]x2, text-[var(--accent-signal)]x1
+components\github-health\RepositoryHealthCard.tsx    text-[var(--accent-lab)]x1
+components\lab\AiLabShell.tsx                        bg-[var(--accent-lab-bg)]x1, bg-[var(--accent-signal-bg)]x1, bg-primary/10x1, text-[var(--accent-lab)]x1, text-[var(--accent-signal)]x1, text-primaryx1
+components\lab\FitTrackDemo.tsx                      bg-[var(--accent-lab-bg)]x1, bg-[var(--overlay-scrim)]x1, border-[var(--accent-lab-border)]x2, border-[var(--accent-signal-border)]x1, text-[var(--accent-critical)]x1, text-[var(--accent-lab)]x6, text-[var(--accent-signal)]x3, text-[var(--accent-warm)]x3
+components\lab\MarketMatchDemo.tsx                   bg-[var(--accent-lab-bg)]x1, bg-[var(--overlay-scrim)]x1, bg-accentx2, bg-mutedx1, bg-muted/60x1, bg-popover/90x1, border-borderx4, border-border-strongx1, border-border/60x4, hover:text-inkx2, text-[var(--accent-lab)]x1, text-bodyx1, text-ink(white)x2, text-muted-foregroundx9, text-primaryx5, text-secondaryx1
+components\lab\PrivacyNotice.tsx                     bg-[var(--accent-lab-bg)]x1, border-primary/30x1, text-[var(--accent-lab)]x2, text-bodyx1, text-ink(white)x1, text-muted-foregroundx1
+components\lab\ResumeAnalyzerDemo.tsx                bg-[var(--accent-lab-bg)]x1, bg-[var(--accent-signal-bg)]x1, bg-[var(--overlay-scrim)]x2, bg-muted/60x1, bg-primary/10x3, bg-secondary/10x2, border-[var(--accent-signal-border)]x1, border-borderx5, border-border/60x2, border-primary/40x3, from-[var(--gradient-start)]x2, shadow-black/20x1, text-[var(--accent-lab)]x2, text-[var(--accent-signal)]x1, text-inkx2, text-ink(white)x3, text-muted-foregroundx7, text-primaryx5, text-secondaryx3, to-[var(--gradient-end)]x1
+components\lab\TokenCounterDemo.tsx                  bg-[var(--accent-lab-bg)]x1, bg-[var(--accent-signal-bg)]x1, bg-cardx1, bg-card/80x1, bg-mutedx4, bg-muted/60x2, bg-primary/10x3, bg-secondary/10x1, border-[var(--accent-lab-border)]x2, border-[var(--accent-signal-border)]x1, border-borderx4, border-border/60x5, border-primary/40x3, hover:text-inkx1, text-[var(--accent-lab)]x5, text-[var(--accent-signal)]x3, text-bodyx1, text-ink(white)x3, text-muted-foregroundx10, text-primaryx5
+components\performance\MetricCard.tsx                bg-muted/60x1, border-borderx1, border-border/60x1, border-primary/40x1, text-[var(--accent-lab)]x2, text-[var(--accent-warm)]x2, text-ink(white)x1, text-muted-foregroundx3, text-primaryx1
+components\performance\ModeComparison.tsx            bg-muted/60x1, border-borderx2, text-[var(--accent-lab)]x2, text-bodyx1, text-ink(white)x2, text-muted-foregroundx1, text-primaryx1, text-secondaryx1
+components\performance\PerformanceModeToggle.tsx     bg-mutedx1, bg-muted/60x2, bg-primary/10x1, border-borderx2, border-primary/40x1, hover:border-border-strongx1, shadow-black/20x1, text-ink(white)x2, text-muted-foregroundx3, text-primaryx3
+components\performance\WebGLStats.tsx                bg-muted/60x4, border-borderx1, border-border/60x3, text-inkx3, text-ink(white)x1, text-muted-foregroundx3, text-primaryx1
+components\recruiter\RecruiterContact.tsx            bg-[var(--accent-lab-bg)]x1, bg-mutedx6, bg-muted/60x1, bg-primary/10x1, border-[var(--accent-lab-border)]x1, border-[var(--accent-signal-border)]x1, border-borderx1, border-border/60x4, border-primary/40x2, hover:bg-accentx2, text-[var(--accent-lab)]x5, text-[var(--accent-signal)]x1, text-ink(white)x5, text-muted-foregroundx10, text-primaryx3
+components\recruiter\RecruiterHero.tsx               bg-[var(--accent-lab-bg)]x1, bg-[var(--overlay-scrim)]x1, bg-cardx1, bg-mutedx3, bg-primary/10x1, border-borderx6, border-border/60x1, border-primary/30x1, border-primary/40x1, from-[var(--gradient-start)]x2, hover:bg-accentx3, hover:border-border-strongx1, hover:text-inkx6, text-[var(--accent-lab)]x1, text-bodyx1, text-inkx3, text-ink(white)x2, text-muted-foregroundx3, text-primaryx8, text-secondaryx2, to-[var(--gradient-end)]x1
+components\recruiter\RecruiterProjects.tsx           bg-mutedx4, bg-muted/60x2, border-borderx4, border-border/60x4, border-primary/40x4, hover:bg-accentx2, hover:text-inkx2, text-bodyx3, text-ink(white)x5, text-muted-foregroundx7, text-primaryx6
+components\recruiter\RecruiterSkills.tsx             bg-mutedx1, bg-muted/60x3, border-borderx3, border-border/60x2, border-primary/40x1, text-inkx1, text-ink(white)x7, text-muted-foregroundx4, text-primaryx3, text-secondaryx1
+components\recruiter\RecruiterSummary.tsx            bg-muted/60x1, bg-primary/10x2, border-borderx1, border-border/60x1, border-primary/40x1, text-[var(--accent-lab)]x1, text-ink(white)x1, text-muted-foregroundx1, text-primaryx2
+components\resume\ResumeActions.tsx                  bg-cardx1, bg-mutedx3, border-borderx5, from-[var(--gradient-start)]x2, hover:bg-accentx2, hover:bg-mutedx1, hover:text-inkx3, shadow-black/20x1, text-[var(--accent-lab)]x1, text-bodyx3, text-ink(white)x1, text-muted-foregroundx3, text-primaryx1, to-[var(--gradient-end)]x1
+components\resume\ResumeHeader.tsx                   text-bodyx4
+components\sections\AboutSection.tsx                 bg-primary/10x1, bg-secondary/10x1, border-borderx1, border-border/60x1, border-primary/40x2, from-[var(--gradient-start)]x1, text-bodyx2, text-muted-foregroundx1, text-primaryx1, text-secondaryx2, to-[var(--gradient-end)]x1
+components\sections\ContactSection.tsx               bg-[var(--accent-lab-bg)]x1, bg-mutedx5, bg-primary/10x3, bg-secondary/10x3, border-[var(--accent-lab-border)]x2, border-borderx9, border-border-strongx1, border-border/60x1, border-primary/30x1, border-primary/40x4, from-[var(--gradient-start)]x3, hover:border-border-strongx1, hover:border-primary/70x1, hover:text-inkx5, shadow-black/20x1, text-[var(--accent-lab)]x2, text-bodyx6, text-inkx1, text-ink(white)x6, text-muted-foregroundx7, text-primaryx6, text-secondaryx3, to-[var(--gradient-end)]x2
+components\sections\EducationSection.tsx             bg-[var(--accent-lab-bg)]x1, bg-mutedx3, bg-primary/10x3, bg-secondary/10x3, border-[var(--accent-lab-border)]x1, border-borderx5, border-border/60x2, border-primary/30x1, border-primary/40x3, from-[var(--gradient-start)]x2, text-[var(--accent-lab)]x1, text-[var(--accent-warm)]x3, text-bodyx4, text-ink(white)x3, text-muted-foregroundx7, text-primaryx5, text-secondaryx4
+components\sections\ExperienceSection.tsx            border-borderx1, border-border/60x1, border-primary/30x2, from-[var(--gradient-start)]x1, text-bodyx1, text-ink(white)x1, text-muted-foregroundx2, to-[var(--gradient-end)]x1
+components\sections\FeaturedProjectsSection.tsx      bg-[var(--overlay-scrim)]x1, bg-accentx1, bg-mutedx1, bg-muted/60x1, bg-primary/10x1, border-borderx6, border-border/60x6, border-primary/40x5, from-[var(--gradient-start)]x4, hover:bg-accentx1, hover:border-border-strongx1, hover:border-primary/50x1, hover:text-inkx2, shadow-black/10x1, shadow-black/20x3, text-[var(--accent-lab)]x3, text-[var(--accent-warm)]x3, text-bodyx8, text-inkx2, text-ink(white)x4, text-muted-foregroundx6, text-primaryx8, text-secondaryx7, to-[var(--gradient-end)]x4
+components\sections\Footer.tsx                       border-border/60x1, hover:text-inkx2, text-[var(--accent-lab)]x1, text-[var(--accent-signal)]x1, text-muted-foregroundx4, text-primaryx6, text-secondaryx4
+components\sections\HeroSection.tsx                  bg-accentx1, bg-muted/60x3, bg-primary/10x1, bg-primary/15x1, bg-secondary/15x1, border-borderx1, border-border-strongx3, border-border/60x3, border-primary/40x2, from-[var(--gradient-start)]x1, hover:bg-accentx1, hover:bg-mutedx1, hover:border-primary/50x1, hover:border-primary/70x1, hover:text-inkx1, shadow-black/10x1, shadow-black/20x1, text-[var(--accent-signal)]x1, text-bodyx4, text-inkx1, text-ink(white)x4, text-muted-foregroundx6, text-primaryx5, text-secondaryx3, to-[var(--gradient-end)]x1
+components\sections\Navbar.tsx                       bg-[var(--accent-lab-bg)]x2, bg-[var(--accent-signal-bg)]x1, bg-accentx1, bg-card/60x1, bg-mutedx4, bg-primary/10x6, border-[var(--accent-lab-border)]x2, border-[var(--accent-signal-border)]x1, border-borderx3, border-border/60x2, border-primary/30x1, border-primary/40x8, from-[var(--gradient-start)]x1, hover:bg-mutedx1, hover:border-border-strongx1, hover:text-inkx3, shadow-black/10x2, shadow-black/20x1, shadow-black/5x1, text-[var(--accent-lab)]x4, text-[var(--accent-signal)]x1, text-bodyx4, text-inkx1, text-muted-foregroundx2, text-primaryx5, text-secondaryx4, to-[var(--gradient-end)]x1
+components\sections\ProjectsSection.tsx              bg-mutedx2, bg-primary/10x6, bg-secondary/10x2, border-borderx1, border-border/60x1, border-primary/30x2, border-primary/40x7, from-[var(--gradient-start)]x1, text-bodyx2, text-ink(white)x1, text-muted-foregroundx2, text-primaryx7, text-secondaryx2
+components\sections\ProofStrip.tsx                   border-borderx1, text-ink(white)x1, text-muted-foregroundx2, text-primaryx2
+
+APPLIED � 55 files, 1260 replacements
+   152  text-muted-foreground
+   134  text-primary
+    96  border-border
+    83  text-ink(white)
+    73  border-primary/40
+    61  text-body
+    60  bg-muted
+    58  border-border/60
+    55  text-secondary
+    54  text-[var(--accent-lab)]
+    52  bg-primary/10
+    42  hover:text-ink
+    33  from-[var(--gradient-start)]
+    30  text-ink
+    25  bg-muted/60
+    23  to-[var(--gradient-end)]
+    19  text-[var(--accent-signal)]
+    19  hover:bg-accent
+    18  shadow-black/20
+    18  bg-[var(--accent-lab-bg)]
+    17  border-primary/30
+    16  bg-secondary/10
+    16  text-[var(--accent-warm)]
+    13  border-border-strong
+    13  border-[var(--accent-lab-border)]
+     9  bg-popover
+     8  bg-[var(--accent-signal-bg)]
+     8  border-[var(--accent-signal-border)]
+     8  bg-[var(--overlay-scrim)]
+     8  hover:border-border-strong
+     7  bg-accent
+     6  shadow-black/10
+     5  bg-card
+     4  hover:bg-muted
+     2  bg-card/80
+     2  bg-secondary/12
+     2  bg-primary/15
+     2  bg-popover/90
+     2  hover:border-primary/70
+     2  hover:border-primary/50
+     1  bg-primary/14
+     1  text-[var(--accent-critical)]
+     1  bg-secondary/15
+     1  bg-card/60
+     1  shadow-black/5

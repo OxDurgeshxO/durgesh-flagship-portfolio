@@ -45,6 +45,16 @@ const config: Config = {
         },
         glass: 'rgba(255,255,255,0.05)',
 
+        /* --- Theme tokens (styles/theme.css) --------------------------------
+           The only colour names components should use. They are declared as
+           channel triples so opacity modifiers (`bg-card/50`,
+           `border-border/80`) still compile. */
+        canvas: token('--canvas-rgb'),
+        ink: token('--ink-rgb'),
+        body: token('--body-rgb'),
+        'border-strong': token('--border-strong-rgb'),
+        'accent-fill': token('--accent-fill-rgb'),
+
         /* --- Semantic tokens (declared in styles/globals.css) -------------
            These back the bg-card / border-border / text-muted-foreground /
            text-foreground / bg-primary / ring-primary utilities that ~200
@@ -96,8 +106,13 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        mono: ['JetBrains Mono', 'monospace'],
-        sans: ['Inter', 'sans-serif'],
+        /* Bound to the per-theme --font-* tokens, so a theme can change the
+           display and body faces. Fallbacks keep the current look if a token
+           is missing. */
+        display: ['var(--font-display)', 'Inter', 'sans-serif'],
+        ui: ['var(--font-ui)', 'Inter', 'sans-serif'],
+        mono: ['var(--font-mono)', 'JetBrains Mono', 'monospace'],
+        sans: ['var(--font-ui)', 'Inter', 'sans-serif'],
       },
       animation: {
         'spin-slow': 'spin 20s linear infinite',
