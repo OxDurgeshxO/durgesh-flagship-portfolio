@@ -1,37 +1,42 @@
 /* ==========================================================================
    SpaceEdu Cosmic Planetary Background Layer
    --------------------------------------------------------------------------
-   Full-viewport cinematic planetary hero & portfolio background.
-   Applied globally across all routes and sections.
+   Scoped cinematic planetary & cosmic atmosphere.
+   Extends from About Me section through the footer.
+   Hero section maintains its native 3D AI Core and ambient glow.
    ========================================================================== */
 
 :root {
   --space-bg: #04101f;
   --space-cyan: #79dce8;
+  --space-cyan-logo: #5fd0e1;
+  --space-rule: rgba(255, 255, 255, 0.15);
+  --space-card-bg: rgba(7, 18, 39, 0.65);
 }
 
-body {
-  background-color: var(--space-bg, #04101f) !important;
-}
-
-main#main-content {
-  background-color: transparent !important;
+.space-cosmos-wrapper {
+  position: relative;
+  width: 100%;
+  background: var(--space-bg, #04101f);
 }
 
 .space-bg-root {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   pointer-events: none;
-  background-color: var(--space-bg);
   z-index: 0;
 }
 
 .space-bg-sky {
-  position: absolute;
-  inset: 0;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -56,9 +61,21 @@ main#main-content {
 .space-bg-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 35%, rgba(4, 16, 31, 0.2) 0%, rgba(4, 16, 31, 0.72) 75%, #04101f 100%),
-              linear-gradient(180deg, rgba(4, 16, 31, 0.3) 0%, rgba(4, 16, 31, 0.45) 50%, rgba(4, 16, 31, 0.8) 85%, #04101f 100%);
+  background: radial-gradient(circle at 50% 35%, rgba(4, 16, 31, 0.25) 0%, rgba(4, 16, 31, 0.75) 75%, #04101f 100%),
+              linear-gradient(180deg, rgba(4, 16, 31, 0.4) 0%, rgba(4, 16, 31, 0.55) 50%, rgba(4, 16, 31, 0.85) 85%, #04101f 100%);
   pointer-events: none;
+}
+
+/* Top transition mask to blend seamlessly from the Hero section into the cosmic space */
+.space-transition-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(4, 16, 31, 0.5) 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
 }
 
 /* Star dust ambient particle shimmer */
@@ -86,12 +103,13 @@ main#main-content {
   gap: 8px;
   padding: 6px 10px;
   border-radius: 9999px;
-  background: rgba(4, 16, 31, 0.78);
+  background: rgba(4, 16, 31, 0.82);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(121, 220, 232, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   pointer-events: auto;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .space-dock-btn {
@@ -141,11 +159,6 @@ main#main-content {
 .space-dock-link:hover {
   opacity: 0.85;
   text-decoration: underline;
-}
-
-/* Semi-transparent veil for hero gradient overlay so cosmic planetary backdrop shines through */
-#hero .bg-gradient-to-b {
-  background: linear-gradient(180deg, rgba(4, 16, 31, 0.15) 0%, rgba(4, 16, 31, 0.4) 50%, rgba(4, 16, 31, 0.75) 100%) !important;
 }
 
 /* ---------- Typography and entrance animation gates ----------------------- */

@@ -16,7 +16,6 @@ import '../styles/theme.css'
 // Cyber Ronin // Neural Edges hero background layer (own namespaced stylesheet).
 import '../components/cyber-ronin/cyber-ronin.css'
 import '../components/space/space-background.css'
-import SpaceBackground from '@/components/space/SpaceBackground'
 import { THEME_BOOT_SCRIPT } from '@/lib/themes/boot'
 import { ThemeProvider } from '@/lib/themes/provider'
 
@@ -253,7 +252,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             the secondary routes render this layout plus <Navbar /> — and the
             navbar contains the theme panel, which reads this context. */}
         <ThemeProvider>
-          <SpaceBackground />
           {children}
         </ThemeProvider>
       </body>

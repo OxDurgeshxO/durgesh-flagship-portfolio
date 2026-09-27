@@ -83,6 +83,17 @@ export default function SpaceBackground({
   className = "",
 }: SpaceBackgroundProps) {
   const [selectedPlanet, setSelectedPlanet] = useState<PlanetKey>("earth");
+  const [isPastHero, setIsPastHero] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show planetary controls once user scrolls toward About section
+      setIsPastHero(window.scrollY > 350);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     return armEntranceGate();
@@ -94,6 +105,9 @@ export default function SpaceBackground({
 
   return (
     <div className={`space-bg-root ${className}`.trim()} aria-hidden="true">
+      {/* Top transition mask blending from Hero into Deep Space */}
+      <div className="space-transition-mask" />
+
       <div
         className="space-bg-sky"
         style={{ backgroundImage: `url('${PLANETS[selectedPlanet].still}')` }}
@@ -118,7 +132,7 @@ export default function SpaceBackground({
       <div className="space-bg-overlay" />
 
       <aside
-        className="space-dock"
+        className={`space-dock ${isPastHero ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}
         role="region"
         aria-label="Celestial Planetary Background Control"
       >
