@@ -1,7 +1,12 @@
-/* Dedicated Print & Screen Stylesheet for Durgesh Dutt Sinha's Resume */
+/* Dedicated Print & Screen Stylesheet for Durgesh Dutt Sinha's Professional 1-Page Resume */
 
 @media print {
-  /* Hide all non-printable UI chrome */
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm;
+  }
+
+  /* Hide all interactive and non-printable UI */
   header nav,
   .resume-actions-bar,
   .no-print,
@@ -10,63 +15,112 @@
     display: none !important;
   }
 
-  body,
-  main,
-  .resume-container {
+  html,
+  body {
     background: #ffffff !important;
-    color: #111827 !important;
-    font-size: 11pt !important;
-    line-height: 1.4 !important;
+    color: #0f172a !important;
+    font-size: 8.5pt !important;
+    line-height: 1.28 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    min-height: auto !important;
+  }
+
+  .resume-container,
+  .resume-page {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
     max-width: 100% !important;
-    box-shadow: none !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
   }
 
   a {
-    color: #111827 !important;
+    color: #0f172a !important;
     text-decoration: none !important;
   }
 
-  .resume-page {
-    padding: 0.5in !important;
-    margin: 0 !important;
-    page-break-after: avoid;
-  }
-
-  .page-break-before {
-    page-break-before: always;
-  }
-
-  .avoid-break {
-    page-break-inside: avoid;
+  .resume-header {
+    border-bottom: 1.5pt solid #0f172a !important;
+    padding-bottom: 2pt !important;
+    margin-bottom: 5pt !important;
   }
 
   h1 {
-    font-size: 22pt !important;
+    font-size: 18pt !important;
+    line-height: 1.1 !important;
     color: #0f172a !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
   }
 
   h2 {
-    font-size: 13pt !important;
-    color: #1e293b !important;
-    border-bottom: 1.5pt solid #cbd5e1 !important;
-    padding-bottom: 2pt !important;
-    margin-top: 10pt !important;
-    margin-bottom: 6pt !important;
+    font-size: 9.5pt !important;
+    color: #0f172a !important;
+    border-bottom: 1pt solid #0f172a !important;
+    padding-bottom: 1pt !important;
+    margin-top: 5pt !important;
+    margin-bottom: 3pt !important;
     text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    font-weight: 700 !important;
   }
 
   h3 {
-    font-size: 11pt !important;
+    font-size: 9pt !important;
     color: #0f172a !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
   }
 
-  .skill-badge {
-    border: 1px solid #cbd5e1 !important;
-    background: #f8fafc !important;
-    color: #334155 !important;
-    padding: 1pt 4pt !important;
-    font-size: 9pt !important;
+  p, li, span, div {
+    font-size: 8.5pt !important;
+    line-height: 1.28 !important;
   }
+
+  .avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  ul {
+    margin-top: 1pt !important;
+    margin-bottom: 2pt !important;
+    padding-left: 12pt !important;
+  }
+
+  li {
+    margin-bottom: 1pt !important;
+  }
+
+  .project-item {
+    margin-bottom: 3.5pt !important;
+  }
+
+  .experience-item {
+    margin-bottom: 2.5pt !important;
+  }
+}
+
+/* Screen styling helpers */
+.resume-container {
+  box-sizing: border-box;
+}
+
+.resume-container strong {
+  font-weight: 600;
 }
