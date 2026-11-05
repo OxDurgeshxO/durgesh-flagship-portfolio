@@ -83,3 +83,4 @@ If `RESEND_API_KEY` is not configured in the environment, the endpoint operates 
 - [ ] Playwright E2E suite passing (102/102 tests).
 - [ ] KV namespace `RATE_LIMIT` bound in Pages dashboard.
 - [ ] `RESEND_API_KEY` and `CONTACT_TO_EMAIL` set in Pages dashboard.
+

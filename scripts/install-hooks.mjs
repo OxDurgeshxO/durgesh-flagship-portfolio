@@ -30,3 +30,4 @@ try {
 } catch (err) {
   console.warn('[Git Hooks] Could not install pre-push hook:', err.message)
 }
+
