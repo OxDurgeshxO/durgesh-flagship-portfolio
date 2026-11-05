@@ -18,6 +18,7 @@ const ROLE_TAXONOMIES: Record<string, { required: string[]; optional: string[] }
 
 const DEFAULT_ROLE = 'AIML Engineer';
 const LAB_RATE_LIMIT = { limit: 20, windowSeconds: 60 };
+const MAX_BODY_BYTES = 50_000;
 
 export const onRequestGet = async () => {
   return new Response(JSON.stringify({ status: 'ok', endpoint: '/api/lab/resume' }), {
@@ -43,6 +44,12 @@ export const onRequestPost = async (context: { request: Request; env: RateLimitE
           headers: { 'Content-Type': 'application/json', 'Retry-After': '60' },
         },
       );
+    }
+
+    // Reject oversized bodies before parsing
+    const contentLength = Number(context.request.headers.get('content-length') ?? 0);
+    if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {
+      return jsonError('Request body too large.', 413);
     }
 
     const body: any = await context.request.json();

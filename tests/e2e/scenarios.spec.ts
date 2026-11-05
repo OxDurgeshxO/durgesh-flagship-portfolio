@@ -2,9 +2,14 @@ import { test, expect } from '@playwright/test';
 import { CASE_STUDIES } from '../../lib/case-studies';
 
 test.describe('Doc1 Core Scenarios & Resilience Verification', () => {
+  test.beforeEach(async () => {
+    // 60s per-test budget allows cold-boot WebGL scenes and intro loaders to settle
+    test.setTimeout(60000);
+  });
+
   // 1. Homepage loads with a visible hero heading
   test('1. Homepage loads with a visible hero heading', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     const heading = page.locator('h1');
     await expect(heading).toBeVisible();
     await expect(heading).toContainText('Durgesh Dutt Sinha');
@@ -12,7 +17,7 @@ test.describe('Doc1 Core Scenarios & Resilience Verification', () => {
 
   // 2. Primary CTA navigates to selected work
   test('2. Primary CTA navigates to selected work', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     const cta = page.getByRole('link', { name: /View Selected Work/i });
     await expect(cta).toBeVisible();
     await expect(cta).toHaveAttribute('href', /#projects|#featured-projects/);
@@ -20,7 +25,7 @@ test.describe('Doc1 Core Scenarios & Resilience Verification', () => {
 
   // 3. Navigation works on mobile
   test('3. Navigation works on mobile', async ({ page, isMobile }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     if (isMobile) {
       // Mobile header should be visible with navigation elements
       const nav = page.locator('nav, header');
@@ -37,7 +42,7 @@ test.describe('Doc1 Core Scenarios & Resilience Verification', () => {
     expect(slugs.length).toBeGreaterThanOrEqual(5);
 
     for (const slug of slugs) {
-      const response = await page.goto(`/work/${slug}`);
+      const response = await page.goto(`/work/${slug}`, { waitUntil: 'domcontentloaded' });
       expect(response?.status()).toBe(200);
       const h1 = page.locator('h1');
       await expect(h1).toBeVisible();
@@ -54,14 +59,14 @@ test.describe('Doc1 Core Scenarios & Resilience Verification', () => {
 
   // 6. Custom 404 renders
   test('6. Custom 404 renders for unknown paths', async ({ page }) => {
-    const response = await page.goto('/_not-found');
+    const response = await page.goto('/_not-found', { waitUntil: 'domcontentloaded' });
     // In static export, _not-found page is prerendered
     await expect(page.locator('body')).toContainText(/not found|page not found|404/i);
   });
 
   // 7. Keyboard users can reach primary controls
   test('7. Keyboard navigation reaches primary landmarks and buttons', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.keyboard.press('Tab');
     const focused = await page.evaluate(() => document.activeElement?.tagName);
     expect(focused).toBeTruthy();
@@ -70,7 +75,7 @@ test.describe('Doc1 Core Scenarios & Resilience Verification', () => {
   // 8. Reduced-motion mode disables or reduces animation
   test('8. Reduced-motion mode respected', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     const hero = page.locator('#hero');
     await expect(hero).toBeVisible();
   });
@@ -87,7 +92,7 @@ test.describe('Doc1 Core Scenarios & Resilience Verification', () => {
       } as any;
     });
 
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     const heading = page.locator('h1');
     await expect(heading).toBeVisible();
     await expect(heading).toContainText('Durgesh Dutt Sinha');
@@ -98,7 +103,7 @@ test.describe('Doc1 Core Scenarios & Resilience Verification', () => {
   // 10. Mobile navigation closes on Escape key
   test('10. Mobile navigation closes on Escape key', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     const hamburger = page.getByRole('button', { name: /Toggle navigation menu/i });
     await expect(hamburger).toBeVisible();
     await hamburger.click();

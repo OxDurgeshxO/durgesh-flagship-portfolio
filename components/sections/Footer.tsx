@@ -9,7 +9,7 @@ const PORTFOLIO_LIVE = 'https://durgesh-portfolio.pages.dev'
 export default function Footer() {
   useEffect(() => {
     console.log(
-      "%c CYBER RONIN // NEURAL CORE %c\n%cDurgesh Dutt Sinha - AI/ML Engineer & Full-Stack Architect\nInterested in production architectures or collaborating? Email: durgeshdsinha@gmail.com\nPress Cmd+K for command palette navigation.",
+      "%c CYBERBOT AI // NEURAL CORE %c\n%cDurgesh Dutt Sinha - AI/ML Engineer & Full-Stack Architect\nInterested in production architectures or collaborating? Email: durgeshdsinha@gmail.com\nPress Cmd+K for command palette navigation.",
       "background: #7c3aed; color: #fff; font-weight: bold; font-size: 13px; padding: 4px 8px; border-radius: 4px;",
       "",
       "color: #a855f7; font-family: monospace; font-size: 11px; font-weight: normal;"

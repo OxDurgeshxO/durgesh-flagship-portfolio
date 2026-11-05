@@ -260,6 +260,7 @@ export default function AICoreScene() {
       className="absolute inset-0 w-full h-full pointer-events-none"
     >
       <Canvas
+        aria-hidden="true"
         camera={{ position: [0, 0, 5], fov: 48 }}
         dpr={dpr}
         frameloop={shouldRenderLoop ? 'always' : 'never'}
