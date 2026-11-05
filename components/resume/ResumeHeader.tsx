@@ -25,7 +25,6 @@ export default function ResumeHeader() {
         <a
           href={`mailto:${OWNER.email}`}
           className="hover:text-blue-600 hover:underline flex items-center gap-1 font-medium transition-colors"
-          aria-label="Email Durgesh Dutt Sinha"
         >
           <Mail className="size-3 text-slate-600" aria-hidden="true" />
           <span>{OWNER.email}</span>
@@ -37,7 +36,6 @@ export default function ResumeHeader() {
             <a
               href={`tel:${OWNER.phone}`}
               className="hover:text-blue-600 hover:underline flex items-center gap-1 font-medium transition-colors"
-              aria-label="Call Durgesh Dutt Sinha"
             >
               <Phone className="size-3 text-slate-600" aria-hidden="true" />
               <span>{OWNER.phone}</span>
@@ -51,7 +49,6 @@ export default function ResumeHeader() {
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-blue-600 hover:underline flex items-center gap-1 font-medium transition-colors"
-          aria-label="Durgesh Dutt Sinha on LinkedIn"
         >
           <Linkedin className="size-3 text-slate-600" aria-hidden="true" />
           <span>LinkedIn</span>
@@ -63,7 +60,6 @@ export default function ResumeHeader() {
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-blue-600 hover:underline flex items-center gap-1 font-medium transition-colors"
-          aria-label="Durgesh Dutt Sinha on GitHub"
         >
           <Github className="size-3 text-slate-600" aria-hidden="true" />
           <span>GitHub</span>
@@ -75,7 +71,6 @@ export default function ResumeHeader() {
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-blue-600 hover:underline flex items-center gap-1 font-medium transition-colors"
-          aria-label="Durgesh Dutt Sinha Portfolio"
         >
           <Globe className="size-3 text-slate-600" aria-hidden="true" />
           <span>durgesh-portfolio.pages.dev</span>

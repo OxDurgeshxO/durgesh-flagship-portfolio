@@ -48,10 +48,10 @@ export default function ResumeAnalyzerDemo() {
     <div className="glass rounded-2xl p-6 md:p-8 border border-border mb-8 bg-muted/60">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 border-b border-border pb-4">
         <div>
-          <h3 className="text-lg md:text-xl font-bold text-ink tracking-tight flex items-center gap-2">
+          <h2 className="text-lg md:text-xl font-bold text-ink tracking-tight flex items-center gap-2">
             <FileText className="size-5 text-primary" />
             <span>Interactive Resume & ATS Intelligence Demo</span>
-          </h3>
+          </h2>
           <p className="text-xs text-muted-foreground">
             Simulates RoleRadar&apos;s 8-point parser, skill gap extractor, and Google XYZ transformer
           </p>

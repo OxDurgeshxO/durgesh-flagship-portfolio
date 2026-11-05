@@ -100,7 +100,7 @@ export default function HeroSection() {
             onClick={togglePerformanceMode}
             className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-border hover:border-primary/50 text-body hover:text-ink text-xs glass transition-all focus-visible:ring-2 focus-visible:ring-purple-400 cursor-pointer"
             title={isLowBandwidth ? 'Switch to Full 3D Visual Mode' : 'Switch to Lite Performance Mode'}
-            aria-label={isLowBandwidth ? 'Enable 3D visual mode' : 'Enable lite performance mode'}
+            aria-label={isLowBandwidth ? 'Visual: Lite (Enable 3D visual mode)' : 'Visual: 3D Active (Enable lite performance mode)'}
           >
             <Zap className={`size-3.5 ${isLowBandwidth ? 'text-muted-foreground' : 'text-secondary'}`} />
             <span>Visual: {isLowBandwidth ? 'Lite' : '3D Active'}</span>

@@ -44,3 +44,6 @@ next-env.d.ts
 
 # Serena AST MCP cache
 .serena/
+
+# Teamwork Agent metadata
+.agents/

@@ -43,7 +43,7 @@ export default function AboutSection({ profile }: Props) {
           <h2 className="text-3xl md:text-4xl font-bold mb-2 text-ink">About <span className="gradient-text">Me</span></h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[var(--space-cyan,#79dce8)] via-[var(--gradient-start)] to-[var(--gradient-end)] rounded mb-6" />
           <p className="text-body leading-relaxed mb-6">
-            I am an AIML Engineer and Full-Stack Architect completing my Master of Computer Applications (AIML) at Sri Balaji University, Pune. As an AI Program Fellow at UNLOXr and Be10x AI Cohort Member, I specialize in building autonomous agents, sub-50ms computer vision pipelines, and resilient full-stack platforms with failover architecture.
+            I am an AIML Engineer and Full-Stack Architect completing my Master of Computer Applications (AIML) at Sri Balaji University, Pune. As an AI Program Fellow at UNLOX® and Be10x AI Cohort Member, I specialize in building autonomous agents, sub-50ms computer vision pipelines, and resilient full-stack platforms with failover architecture.
           </p>
           <div className="flex flex-wrap gap-3 mb-8">
             {['🤖 AI Engineering', '⚡ Prompt Engineering', '🏗️ System Architecture', '☁️ AWS ML', '💻 Full-Stack Dev'].map(tag => (

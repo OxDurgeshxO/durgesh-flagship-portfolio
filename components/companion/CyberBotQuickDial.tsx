@@ -37,6 +37,7 @@ export default function CyberBotQuickDial({
     link.href = '/resume.pdf'
     link.download = 'Durgesh_Sinha_Resume_2026.pdf'
     link.target = '_blank'
+    link.rel = 'noopener noreferrer'
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)

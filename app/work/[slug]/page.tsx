@@ -30,8 +30,8 @@ export function generateMetadata({ params }: Props): Metadata {
   return {
     title: `${caseStudy.title} — Deep Engineering Case Study | Durgesh Dutt Sinha`,
     alternates: {
-      // Duplicate-content guard: /work/fitness-platform is a byte-identical alias of /work/fittrack
-      canonical: slug === 'fitness-platform' ? '/work/fittrack' : `/work/${slug}`,
+      // Duplicate-content guard: /work/fitness-platform and /work/fittrack-ai are byte-identical aliases of /work/fittrack
+      canonical: (slug === 'fitness-platform' || slug === 'fittrack-ai') ? '/work/fittrack' : `/work/${slug}`,
     },
     description: caseStudy.overview,
     openGraph: {
@@ -126,9 +126,9 @@ export default function CaseStudyPage({ params }: Props) {
         >
           <p>{caseStudy.problem}</p>
           <div className="mt-4 p-5 rounded-xl bg-white/[0.03] border border-border/60">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3">
+            <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3">
               Target User Personas:
-            </h4>
+            </h3>
             <ul className="space-y-2">
               {caseStudy.targetUsers.map((u, i) => (
                 <li key={i} className="flex items-start gap-2.5 text-xs md:text-sm text-body">
@@ -247,9 +247,9 @@ export default function CaseStudyPage({ params }: Props) {
         {/* 8. Known Limitations & Roadmap */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 my-10">
           <div className="p-5 rounded-xl bg-muted/60 border border-border/60">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-1.5">
+            <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-1.5">
               <RefreshCw className="size-3.5 text-[var(--accent-warm)]" /> Known Limitations
-            </h4>
+            </h3>
             <ul className="space-y-2 text-xs text-muted-foreground">
               {caseStudy.limitations.map((l, i) => (
                 <li key={i} className="flex items-start gap-2">
@@ -261,9 +261,9 @@ export default function CaseStudyPage({ params }: Props) {
           </div>
 
           <div className="p-5 rounded-xl bg-muted/60 border border-border/60">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-1.5">
+            <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-1.5">
               <Compass className="size-3.5 text-primary" /> Future Roadmap
-            </h4>
+            </h3>
             <ul className="space-y-2 text-xs text-muted-foreground">
               {caseStudy.futureRoadmap.map((rm, i) => (
                 <li key={i} className="flex items-start gap-2">

@@ -130,7 +130,7 @@ export default function Navbar() {
             onClick={triggerPalette}
             className="px-2.5 py-1.5 rounded-xl border border-primary/40 hover:border-rose-400/50 bg-muted hover:bg-primary/10 text-xs text-body hover:text-ink transition-all flex items-center gap-1.5 cursor-pointer font-mono"
             title="Open Command Palette (Ctrl+K / Cmd+K)"
-            aria-label="Search Command Palette"
+            aria-label="Search (Ctrl+K) - Command Palette"
           >
             <Search className="size-3.5 text-secondary" />
             <span className="text-xs">Search</span>

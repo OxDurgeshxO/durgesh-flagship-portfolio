@@ -201,10 +201,10 @@ export default function CommandPalette() {
         id: "spaceedu-simulation",
         category: "Quick Actions",
         title: "SpaceEdu • 3D Planetary Simulation",
-        subtitle: "Interactive Three.js cosmic simulation of planetary orbits and physics",
+        subtitle: "Interactive Three.js celestial physics & planetary educational explorer",
         icon: Sparkles,
         shortcut: "/spaceedu",
-        aliases: ["spaceedu", "space", "planets", "astronomy", "cosmos", "simulation"],
+        aliases: ["spaceedu", "space", "planets", "solar system", "celestial", "astronomy", "cosmos", "simulation", "3d simulation"],
         perform: () => {
           router.push("/spaceedu");
         },

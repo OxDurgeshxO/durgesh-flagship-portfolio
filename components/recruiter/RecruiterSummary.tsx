@@ -39,7 +39,7 @@ export default function RecruiterSummary() {
         <button
           onClick={handleCopy}
           className="text-xs font-mono font-semibold px-3 py-1.5 rounded-lg border border-primary/40 bg-primary/10 hover:bg-primary/10 text-primary flex items-center gap-1.5 transition-all cursor-pointer"
-          aria-label="Copy candidate executive summary to clipboard"
+          aria-label={copied ? "Copied to Clipboard!" : "Copy Summary to clipboard"}
         >
           {copied ? <Check className="size-3.5 text-[var(--accent-lab)]" /> : <Copy className="size-3.5" />}
           <span>{copied ? "Copied to Clipboard!" : "Copy Summary"}</span>

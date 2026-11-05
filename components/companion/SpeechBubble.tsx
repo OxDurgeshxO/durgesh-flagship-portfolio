@@ -188,6 +188,8 @@ export default function SpeechBubble({
                   <Search className="size-3.5" />
                 </div>
                 <input
+                  id="cyberbot-query"
+                  name="query"
                   type="text"
                   placeholder="Ask anything about Durgesh..."
                   value={inputQuery}
@@ -195,6 +197,8 @@ export default function SpeechBubble({
                   onFocus={() => onInputFocusChange?.(true)}
                   onBlur={() => onInputFocusChange?.(false)}
                   onClick={(e) => e.stopPropagation()}
+                  autoComplete="off"
+                  aria-label="Ask anything about Durgesh"
                   className="w-full pl-8 pr-8 py-1.5 text-xs rounded-xl bg-black/40 border border-white/15 text-white placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-400 transition-all"
                 />
                 <button

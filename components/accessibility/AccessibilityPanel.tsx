@@ -157,7 +157,7 @@ export function AccessibilityPanel() {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-5 left-5 z-40 p-2.5 rounded-full glass border border-primary/40 bg-popover/90 text-primary hover:text-ink hover:border-purple-400 hover:scale-105 transition-all shadow-lg shadow-black/20 cursor-pointer"
+        className="fixed bottom-5 left-5 z-40 min-w-[44px] min-h-[44px] p-2.5 rounded-full glass border border-primary/40 bg-popover/90 text-primary hover:text-ink hover:border-purple-400 hover:scale-105 transition-all shadow-lg shadow-black/20 cursor-pointer flex items-center justify-center"
         aria-label="Open Accessibility Panel (Alt + A)"
         title="Accessibility & Contrast Settings (Alt + A)"
       >
@@ -179,6 +179,8 @@ export function AccessibilityPanel() {
 
             {/* Dialog Card */}
             <motion.div
+              ref={panelRef}
+              onKeyDown={handleKeyDownTrap}
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}

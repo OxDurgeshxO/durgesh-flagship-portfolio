@@ -52,9 +52,9 @@ export default function WebGLStats() {
     <section className="glass rounded-2xl p-6 border border-border mb-10 bg-muted/60">
       <div className="flex items-center gap-2 mb-4 text-primary">
         <Cpu className="size-4" />
-        <h3 className="text-xs font-mono uppercase tracking-wider text-ink font-bold">
+        <h2 className="text-xs font-mono uppercase tracking-wider text-ink font-bold">
           Live Client Hardware & WebGL Runtime Diagnostics
-        </h3>
+        </h2>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">

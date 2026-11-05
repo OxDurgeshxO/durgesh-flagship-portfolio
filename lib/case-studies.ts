@@ -562,9 +562,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
   },
 };
 
-// Compatibility alias ensuring /work/fitness-platform continues to resolve alongside /work/fittrack
+// Compatibility aliases ensuring /work/fitness-platform and /work/fittrack-ai continue to resolve alongside /work/fittrack
 CASE_STUDIES['fitness-platform'] = {
   ...CASE_STUDIES.fittrack,
   slug: 'fitness-platform',
+};
+
+CASE_STUDIES['fittrack-ai'] = {
+  ...CASE_STUDIES.fittrack,
+  slug: 'fittrack-ai',
 };
 

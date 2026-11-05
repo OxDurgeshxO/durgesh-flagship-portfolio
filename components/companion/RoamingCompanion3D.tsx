@@ -51,7 +51,7 @@ const CYBERBOT_VOICELINES = [
 const TOUR_LANDMARKS = [
   { id: 'hero', title: 'Mission Briefing', msg: "👋 Welcome! I'm CyberBot AI. Let me give you a quick guided tour of Durgesh's production portfolio!" },
   { id: 'featured-projects', title: 'Flagship Systems', msg: "🚀 Flagship: RoleRadar AI career intelligence platform evaluating 16 engineering roles with multi-model scoring!" },
-  { id: 'projects', title: 'Engineering Catalog', msg: "📊 Real-time MediaPipe pose detection under 50ms, MarketMatch-AI clustering, and interactive 3D demos." },
+  { id: 'github-projects', title: 'Engineering Catalog', msg: "📊 Real-time MediaPipe pose detection under 50ms, MarketMatch-AI clustering, and interactive 3D demos." },
   { id: 'experience', title: 'Track Record', msg: "💼 Proven experience in enterprise GenAI, autonomous agent swarms, and high-performance full-stack architectures." },
   { id: 'contact', title: 'Collaboration Portal', msg: "📬 You've completed the tour! Grab Durgesh's verified audit report or send a direct message below." }
 ]
@@ -389,6 +389,7 @@ export default function RoamingCompanion3D() {
         link.href = '/resume.pdf'
         link.download = 'Durgesh_Sinha_Resume_2026.pdf'
         link.target = '_blank'
+        link.rel = 'noopener noreferrer'
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)

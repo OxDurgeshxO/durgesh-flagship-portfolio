@@ -254,6 +254,7 @@ export default function ContactSection() {
                       id="contact-name"
                       name="name"
                       type="text"
+                      autoComplete="name"
                       required
                       placeholder="e.g. Alex Morgan"
                       value={form.name}
@@ -267,6 +268,7 @@ export default function ContactSection() {
                       id="contact-email"
                       name="email"
                       type="email"
+                      autoComplete="email"
                       required
                       placeholder="alex@company.com"
                       value={form.email}

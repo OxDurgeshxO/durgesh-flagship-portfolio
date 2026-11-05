@@ -62,10 +62,10 @@ export default function TokenCounterDemo() {
     <div className="glass rounded-2xl p-6 md:p-8 border border-border mb-8 bg-muted/60">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 border-b border-border pb-4">
         <div>
-          <h3 className="text-lg md:text-xl font-bold text-ink tracking-tight flex items-center gap-2">
+          <h2 className="text-lg md:text-xl font-bold text-ink tracking-tight flex items-center gap-2">
             <Hash className="size-5 text-primary" />
             <span>Interactive Subword BPE Tokenizer &amp; Cost Estimator</span>
-          </h3>
+          </h2>
           <p className="text-xs text-muted-foreground">
             Visualizes LLM token boundaries, byte-pair segmentation, and per-model pricing in real-time
           </p>

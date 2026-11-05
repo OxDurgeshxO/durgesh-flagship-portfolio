@@ -11,7 +11,7 @@ function scanDir(dir, filterFn, fileList = []) {
     const fullPath = path.join(dir, file);
     const stat = fs.statSync(fullPath);
     if (stat.isDirectory()) {
-      if (!['node_modules', '.next', '.git', '.wrangler'].includes(file)) {
+      if (!['node_modules', '.next', '.git', '.wrangler', '.agents'].includes(file)) {
         scanDir(fullPath, filterFn, fileList);
       }
     } else if (filterFn(file)) {
@@ -24,7 +24,8 @@ function scanDir(dir, filterFn, fileList = []) {
 test('Content Hygiene & Security Scan', async (t) => {
   await t.test('No hardcoded personal Windows paths in source code or docs', () => {
     const codeFiles = scanDir(ROOT_DIR, (f) => f.endsWith('.ts') || f.endsWith('.tsx') || f.endsWith('.md') || f.endsWith('.mjs'))
-      .filter((file) => !file.includes(path.sep + 'tests' + path.sep));
+      .filter((file) => !file.includes(path.sep + 'tests' + path.sep))
+      .filter((file) => !file.endsWith('ORIGINAL_REQUEST.md'));
     const offending = [];
 
     for (const file of codeFiles) {

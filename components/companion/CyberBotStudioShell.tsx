@@ -26,6 +26,67 @@ import { searchKnowledge, SUGGESTED_QUESTION_CHIPS } from '@/lib/companion/knowl
 import { CyberBotVoiceListener, VoiceCommandResult } from '@/lib/companion/voice-recognition'
 import { CyberBotSkinId, CYBERBOT_SKINS, ALL_SKIN_IDS, getNextSkinId } from '@/lib/companion/skins'
 
+interface StudioWebGLErrorBoundaryProps {
+  children: React.ReactNode
+}
+
+interface StudioWebGLErrorBoundaryState {
+  hasError: boolean
+}
+
+class StudioWebGLErrorBoundary extends React.Component<
+  StudioWebGLErrorBoundaryProps,
+  StudioWebGLErrorBoundaryState
+> {
+  constructor(props: StudioWebGLErrorBoundaryProps) {
+    super(props)
+    this.state = { hasError: false }
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+
+  componentDidCatch(err: any) {
+    console.warn('CyberBot 3D Studio WebGL initialization failed:', err?.message || err)
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="w-full h-full min-h-[360px] flex flex-col items-center justify-center p-6 text-center rounded-2xl bg-black/40 border border-amber-500/30 backdrop-blur-md">
+          <div className="relative mb-4 flex items-center justify-center">
+            <div className="size-20 rounded-full bg-amber-500/10 border-2 border-amber-400/40 flex items-center justify-center animate-pulse">
+              <Zap className="size-8 text-amber-400" />
+            </div>
+            <div
+              className="absolute inset-0 rounded-full border border-dashed border-amber-400/30 animate-spin"
+              style={{ animationDuration: '10s' }}
+            />
+          </div>
+          <h3 className="text-base font-bold text-amber-300 font-mono tracking-wide mb-1">
+            WebGL Acceleration Unavailable
+          </h3>
+          <p className="text-xs text-slate-400 max-w-sm mb-4 leading-relaxed font-mono">
+            3D hardware acceleration encountered a fault. Studio navigation, voicelines, and controls remain operational.
+          </p>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              this.setState({ hasError: false })
+            }}
+            className="px-4 py-1.5 rounded-full text-xs font-mono font-semibold bg-amber-500/20 border border-amber-400/60 text-amber-300 hover:bg-amber-500/30 transition-all cursor-pointer flex items-center gap-1.5 active:scale-95"
+          >
+            <RotateCw className="size-3.5" />
+            <span>Reload 3D Engine</span>
+          </button>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
+
 function safeGetItem(key: string): string | null {
   if (typeof window === 'undefined') return null
   try {
@@ -523,25 +584,27 @@ export default function CyberBotStudioShell() {
           onClick={triggerFlip}
           title="Click to flip! Double-click or press B to dance!"
         >
-          <Canvas
-            aria-hidden="true"
-            camera={{ position: [0, 0, 3.8], fov: 42 }}
-            gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
-            dpr={[1, 2]}
-          >
-            <Suspense fallback={null}>
-              <CyberBotModel
-                isHovered={isHovered}
-                isSpinning={isSpinning}
-                spinProgress={spinProgress}
-                mousePos={mousePos}
-                mood={mood}
-                isSpeaking={isSpeaking}
-                isDancing={isDancing}
-                skin={skin}
-              />
-            </Suspense>
-          </Canvas>
+          <StudioWebGLErrorBoundary>
+            <Canvas
+              aria-hidden="true"
+              camera={{ position: [0, 0, 3.8], fov: 42 }}
+              gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
+              dpr={[1, 2]}
+            >
+              <Suspense fallback={null}>
+                <CyberBotModel
+                  isHovered={isHovered}
+                  isSpinning={isSpinning}
+                  spinProgress={spinProgress}
+                  mousePos={mousePos}
+                  mood={mood}
+                  isSpeaking={isSpeaking}
+                  isDancing={isDancing}
+                  skin={skin}
+                />
+              </Suspense>
+            </Canvas>
+          </StudioWebGLErrorBoundary>
         </div>
 
         {/* Floating Studio Control Dock */}

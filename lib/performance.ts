@@ -189,11 +189,12 @@ export const MODE_COMPARISONS: ModeFeatureComparison[] = [
 ];
 
 const STORAGE_KEY = 'portfolio_performance_mode';
+const EXPERIENCE_STORAGE_KEY = 'portfolio-experience-mode';
 
 export function getSavedPerformanceMode(): PerformanceMode {
   if (typeof window === 'undefined') return 'immersive';
   try {
-    const saved = localStorage.getItem(STORAGE_KEY) as PerformanceMode;
+    const saved = (localStorage.getItem(STORAGE_KEY) || localStorage.getItem(EXPERIENCE_STORAGE_KEY)) as PerformanceMode;
     if (saved === 'immersive' || saved === 'balanced' || saved === 'low-bandwidth') {
       return saved;
     }
@@ -211,8 +212,11 @@ export function savePerformanceMode(mode: PerformanceMode): void {
   if (typeof window === 'undefined') return;
   try {
     localStorage.setItem(STORAGE_KEY, mode);
+    localStorage.setItem(EXPERIENCE_STORAGE_KEY, mode);
     window.dispatchEvent(new CustomEvent('performance-mode-change', { detail: mode }));
+    window.dispatchEvent(new CustomEvent('experience-mode-change', { detail: mode }));
   } catch {
     // ignore
   }
 }
+

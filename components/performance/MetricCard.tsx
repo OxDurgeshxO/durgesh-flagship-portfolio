@@ -30,7 +30,7 @@ export default function PerformanceMetricCard({ metric }: Props) {
         {metric.value}
       </div>
 
-      <h4 className="text-xs font-bold text-primary mb-1.5">{metric.name}</h4>
+      <h3 className="text-xs font-bold text-primary mb-1.5">{metric.name}</h3>
 
       <p className="text-xs text-muted-foreground leading-relaxed mb-3">
         {metric.description}

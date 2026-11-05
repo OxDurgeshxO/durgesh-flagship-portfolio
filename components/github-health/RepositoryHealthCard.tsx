@@ -16,9 +16,9 @@ export function RepositoryHealthCard({ repo }: Props) {
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="space-y-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h3 className="text-xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
+              <h2 className="text-xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
                 {repo.name}
-              </h3>
+              </h2>
               <StatusBadge status={repo.status} />
               <CiBadge status={repo.ciStatus} />
             </div>

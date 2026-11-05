@@ -1,16 +1,18 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ShoppingBag, RefreshCw, Sliders, Layers, Users, Download } from "lucide-react";
+import { ShoppingBag, RefreshCw, Sliders, Layers, Users, Download, AlertCircle } from "lucide-react";
 
 export default function MarketMatchDemo() {
   const [clusters, setClusters] = useState(5);
   const [algorithm, setAlgorithm] = useState("kmeans");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchSimulation = async (k: number, algo: string) => {
     setLoading(true);
+    setError(null);
     try {
       const res = await fetch("/api/lab/marketmatch", {
         method: "POST",
@@ -18,9 +20,12 @@ export default function MarketMatchDemo() {
         body: JSON.stringify({ clusters: k, algorithm: algo }),
       });
       const json = await res.json();
+      if (!res.ok) {
+        throw new Error(json.error || `Simulation request failed with status ${res.status}`);
+      }
       setData(json);
-    } catch {
-      // ignore
+    } catch (err: any) {
+      setError(err?.message || "Failed to execute customer segmentation clustering.");
     } finally {
       setLoading(false);
     }
@@ -53,10 +58,10 @@ export default function MarketMatchDemo() {
     <div className="glass rounded-2xl p-6 md:p-8 border border-border mb-8 bg-muted/60">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 border-b border-border pb-4">
         <div>
-          <h3 className="text-lg md:text-xl font-bold text-ink tracking-tight flex items-center gap-2">
+          <h2 className="text-lg md:text-xl font-bold text-ink tracking-tight flex items-center gap-2">
             <ShoppingBag className="size-5 text-secondary" />
             <span>MarketMatch-AI: Interactive RFM Segmentation Studio</span>
-          </h3>
+          </h2>
           <p className="text-xs text-muted-foreground">
             Unsupervised clustering benchmark simulating real-world e-commerce retail behavior
           </p>
@@ -69,6 +74,13 @@ export default function MarketMatchDemo() {
           </div>
         )}
       </div>
+
+      {error && (
+        <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs mb-6 flex items-center gap-2 font-mono">
+          <AlertCircle className="size-4 shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Controls Column */}
@@ -122,9 +134,9 @@ export default function MarketMatchDemo() {
           {/* Segment Breakdown */}
           {data && data.segments && (
             <div className="rounded-xl bg-black/40 border border-border/60 p-4">
-              <h4 className="text-xs font-mono uppercase text-muted-foreground mb-2.5 flex items-center gap-1.5">
+              <h3 className="text-xs font-mono uppercase text-muted-foreground mb-2.5 flex items-center gap-1.5">
                 <Users className="size-3.5 text-primary" /> Active Segment Personas
-              </h4>
+              </h3>
               <div className="space-y-2 text-xs">
                 {data.segments.map((seg: any) => (
                   <div key={seg.name} className="flex items-center justify-between border-b border-border/60 pb-1">
