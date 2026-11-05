@@ -223,7 +223,7 @@ export default function ResumeView() {
                 <div key={edu.degree} className="text-xs sm:text-[11.5px] leading-tight">
                   <div className="flex items-baseline justify-between gap-1">
                     <h3 className="font-bold text-slate-950">{edu.degree}</h3>
-                    <span className="text-[11px] font-medium text-slate-500 shrink-0">{edu.period}</span>
+                    <span className="text-[11px] font-medium text-slate-700 shrink-0">{edu.period}</span>
                   </div>
                   <div className="text-slate-700 font-medium">{edu.institution}</div>
                   <div className="text-[11px] text-slate-600">{edu.grade}</div>

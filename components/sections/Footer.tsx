@@ -41,6 +41,14 @@ export default function Footer() {
         <Link href="/performance" className="text-secondary hover:underline flex items-center gap-1" title="Performance Center">
           <span>⚡ Performance Center</span>
         </Link>
+        <span>·</span>
+        <Link href="/spaceedu" className="text-cyan-400 hover:underline flex items-center gap-1" title="SpaceEdu 3D Planetary Simulation">
+          <span>🚀 SpaceEdu 3D</span>
+        </Link>
+        <span>·</span>
+        <Link href="/cyberbot" className="text-amber-400 hover:underline flex items-center gap-1" title="CyberBot AI 3D Studio">
+          <span>🤖 CyberBot AI</span>
+        </Link>
       </div>
 
       <p className="mb-2">

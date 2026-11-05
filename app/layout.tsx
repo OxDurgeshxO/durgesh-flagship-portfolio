@@ -9,9 +9,8 @@ import {
   Archivo,
 } from 'next/font/google'
 import '../styles/globals.css'
-// Portfolio theme: Cobalt Blueprint, dark only.
-// One flat token sheet scoped to :root — no theme switching, no light mode and
-// no attribute scoping. See styles/theme.css for the palette and measured floors.
+// Portfolio themes: 6 dark appearances (Cobalt Blueprint default, Aurora, Graphite, Ember, Sage, Noir).
+// Tokenized variables scoped in styles/theme.css with WCAG 2.1 passing contrast floors.
 import '../styles/theme.css'
 // Cyber Ronin // Neural Edges hero background layer (own namespaced stylesheet).
 import '../components/cyber-ronin/cyber-ronin.css'

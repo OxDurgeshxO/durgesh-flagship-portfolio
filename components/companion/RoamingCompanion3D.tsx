@@ -51,6 +51,7 @@ export default function RoamingCompanion3D() {
   const containerRef = useRef<HTMLDivElement>(null)
   const animFrameRef = useRef<number | null>(null)
   const dragOffsetRef = useRef({ x: 0, y: 0 })
+  const audioCtxRef = useRef<AudioContext | null>(null)
 
   // Audio synthesis helper for futuristic chimes
   const playCyberChirp = useCallback((freq = 520, freq2 = 880) => {
@@ -92,17 +93,45 @@ export default function RoamingCompanion3D() {
       // Set dynamic time-of-day greeting (Priority 3)
       setActiveMessage(getTimeBasedGreeting())
 
-      // Start docked in bottom-right corner with ample safety margin
-      const startX = isMobile ? Math.max(16, window.innerWidth - 150) : Math.max(80, window.innerWidth - 220)
-      const startY = isMobile ? Math.max(30, window.innerHeight - 190) : Math.max(80, window.innerHeight - 260)
+      // Start docked in bottom-right corner with safe responsive margins
+      const botW = isMobile ? 150 : 176
+      const botH = isMobile ? 190 : 224
+      const startX = Math.max(16, window.innerWidth - botW - 16)
+      const startY = Math.max(70, window.innerHeight - botH - (isMobile ? 70 : 30))
       posRef.current = { x: startX, y: startY }
       targetRef.current = { x: startX, y: startY }
+      if (containerRef.current) {
+        containerRef.current.style.transform = `translate3d(${startX}px, ${startY}px, 0)`
+      }
       setBubbleAlign('left')
 
       const savedMute = localStorage.getItem('cyberbot_muted') === 'true'
       setIsMuted(savedMute)
       isMutedRef.current = savedMute
     }
+
+    // Global listener for summon button in Hero or Navbar
+    const handleSummon = () => {
+      setMode('roam')
+      setBubbleVisible(true)
+      setIsSpinning(true)
+      setMood('stunt')
+      playCyberChirp(600, 1200)
+      setActiveMessage("Hey there! 🤖 I'm CyberBot AI. I'm right here with you! Click me for flips or explore Durgesh's production systems!")
+      const width = window.innerWidth
+      const height = window.innerHeight
+      const botW = width < 768 ? 150 : 176
+      const botH = width < 768 ? 190 : 224
+      const centerX = Math.max(16, (width - botW) / 2)
+      const centerY = Math.max(80, (height - botH) / 2)
+      posRef.current = { x: centerX, y: centerY }
+      targetRef.current = { x: centerX, y: centerY }
+      if (containerRef.current) {
+        containerRef.current.style.transform = `translate3d(${centerX}px, ${centerY}px, 0)`
+      }
+      setTimeout(() => setMood('happy'), 950)
+    }
+    window.addEventListener('summon-cyberbot', handleSummon)
 
     // Keep initial greeting visible on desktop
     const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 768
@@ -176,6 +205,7 @@ export default function RoamingCompanion3D() {
       clearTimeout(welcomeTimer)
       if (dismissTimer) clearTimeout(dismissTimer)
       window.removeEventListener('scroll', handleSectionScroll)
+      window.removeEventListener('summon-cyberbot', handleSummon)
       window.removeEventListener('cyberbot-mute-toggle', handleMuteToggle)
     }
   }, [playCyberChirp])
@@ -220,18 +250,21 @@ export default function RoamingCompanion3D() {
     const updateMotion = (now: number) => {
       const width = window.innerWidth
       const height = window.innerHeight
-      const safeMinX = 60
-      const safeMaxX = width - 220
-      const safeMinY = 80
-      const safeMaxY = height - 260
+      const isMobile = width < 768
+      const botW = isMobile ? 150 : 176
+      const botH = isMobile ? 190 : 224
+      const safeMinX = 16
+      const safeMaxX = Math.max(safeMinX, width - botW - 16)
+      const safeMinY = 70
+      const safeMaxY = Math.max(safeMinY, height - botH - (isMobile ? 70 : 30))
 
       if (!isDragging) {
         if (mode === 'dock') {
-          // Park gracefully at bottom right
-          const targetX = Math.max(safeMinX, width - 210)
-          const targetY = Math.max(safeMinY, height - 260)
-          posRef.current.x += (targetX - posRef.current.x) * 0.08
-          posRef.current.y += (targetY - posRef.current.y) * 0.08
+          // Park gracefully at bottom right, strictly inside viewport
+          const targetX = safeMaxX
+          const targetY = safeMaxY
+          posRef.current.x += (targetX - posRef.current.x) * 0.12
+          posRef.current.y += (targetY - posRef.current.y) * 0.12
         } else if (mode === 'roam' && !isHovered) {
           // Smooth waypoint navigation across screen
           if (now - lastWaypointTime > 5000) {
@@ -365,7 +398,7 @@ export default function RoamingCompanion3D() {
   }
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-40 hidden sm:block">
+    <div className="fixed inset-0 pointer-events-none z-40 block">
       {/* 3D CyberBot Floating Anchor */}
       <div
         ref={containerRef}
@@ -381,10 +414,10 @@ export default function RoamingCompanion3D() {
                 setBubbleVisible(true)
                 playCyberChirp(600, 1000)
               }}
-              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-popover/90 border border-primary/40 text-primary hover:border-amber-400 hover:text-ink backdrop-blur-xl shadow-lg shadow-purple-500/25 transition-all flex items-center gap-1.5 active:scale-95"
+              className="px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-[#120f1d]/90 border border-[#f59e0b]/70 text-[#f59e0b] shadow-[0_0_15px_rgba(245,158,11,0.3)] backdrop-blur-xl transition-all flex items-center gap-2 active:scale-95 hover:border-[#f59e0b]"
               title="CyberBot AI Companion"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-[#c084fc] shadow-[0_0_8px_#c084fc] animate-pulse" />
               <span>💬 CyberBot AI</span>
             </button>
           </div>
@@ -442,11 +475,11 @@ export default function RoamingCompanion3D() {
                 setMode((m) => (m === 'dock' ? 'roam' : m === 'roam' ? 'follow' : 'dock'))
                 playCyberChirp(550, 750)
               }}
-              className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-popover/90 border border-primary/40 text-primary hover:border-rose-300 hover:bg-primary/10 backdrop-blur-xl transition-all shadow-xl shadow-black/20 flex items-center gap-1.5 cursor-pointer"
+              className="px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-[#120f1d]/90 border border-[#f59e0b]/60 text-[#f59e0b] shadow-[0_0_12px_rgba(245,158,11,0.2)] backdrop-blur-xl transition-all flex items-center gap-2 cursor-pointer hover:border-[#f59e0b]"
             >
               {mode === 'dock' && (
                 <>
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981] animate-pulse" />
                   <span>💤 Docked</span>
                 </>
               )}

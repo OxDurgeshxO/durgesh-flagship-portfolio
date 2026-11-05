@@ -101,7 +101,7 @@ export default function RecruiterContact() {
         <div className="p-4 rounded-xl bg-muted border border-border/60 hover:border-[var(--accent-lab-border)] transition-all flex flex-col justify-between group">
           <div className="flex items-center justify-between text-[var(--accent-lab)] mb-3">
             {OWNER.phone ? (
-              <a href={`tel:${OWNER.phone}`} className="hover:opacity-80 transition-opacity">
+              <a href={`tel:${OWNER.phone}`} aria-label={`Call ${OWNER.name} at ${OWNER.phone}`} className="hover:opacity-80 transition-opacity">
                 <Phone className="size-5" />
               </a>
             ) : (

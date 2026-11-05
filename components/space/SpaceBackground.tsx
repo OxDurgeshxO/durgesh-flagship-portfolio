@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 const READY_EVENT = "portfolio-ready";
 const READY_TIMEOUT_MS = 4000;
@@ -10,41 +10,8 @@ export interface SpaceBackgroundProps {
   className?: string;
 }
 
-type PlanetKey = "earth" | "venus" | "mars";
-
-interface PlanetData {
-  name: string;
-  icon: string;
-  video: string;
-  still: string;
-}
-
-const PLANETS: Record<PlanetKey, PlanetData> = {
-  earth: {
-    name: "Earth",
-    icon: "🌍",
-    video:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260827_202422_3ffb4889-c520-432d-8458-038009eb40df.mp4",
-    still:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260827_202133_508c64b8-a31e-4290-bdfc-1187df70e0a6.png",
-  },
-  venus: {
-    name: "Venus",
-    icon: "🪐",
-    video:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260827_202422_b211cd74-013b-4dd3-bfd0-64491d8696fa.mp4",
-    still:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260827_202133_cf55d1d8-7b59-4a64-80da-d72052ae974e.png",
-  },
-  mars: {
-    name: "Mars",
-    icon: "🔴",
-    video:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260827_202422_51eae59a-2459-4c84-907c-cc5edfe5fea7.mp4",
-    still:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260827_202133_0ba6de7c-285d-43dc-b7ab-8c54c73707cb.png",
-  },
-};
+const EARTH_VIDEO = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260827_202422_3ffb4889-c520-432d-8458-038009eb40df.mp4";
+const EARTH_STILL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260827_202133_508c64b8-a31e-4290-bdfc-1187df70e0a6.png";
 
 function armEntranceGate() {
   if (typeof document === "undefined") return () => {};
@@ -82,19 +49,6 @@ export default function SpaceBackground({
   active = true,
   className = "",
 }: SpaceBackgroundProps) {
-  const [selectedPlanet, setSelectedPlanet] = useState<PlanetKey>("earth");
-  const [isPastHero, setIsPastHero] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // Show planetary controls once user scrolls toward About section
-      setIsPastHero(window.scrollY > 350);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   useEffect(() => {
     return armEntranceGate();
   }, []);
@@ -104,60 +58,29 @@ export default function SpaceBackground({
   }
 
   return (
-    <div className={`space-bg-root ${className}`.trim()} aria-hidden="true">
+    <div className={`space-bg-root ${className}`.trim()}>
       {/* Top transition mask blending from Hero into Deep Space */}
       <div className="space-transition-mask" />
 
       <div
         className="space-bg-sky"
-        style={{ backgroundImage: `url('${PLANETS[selectedPlanet].still}')` }}
+        style={{ backgroundImage: `url('${EARTH_STILL}')` }}
       >
-        {(Object.keys(PLANETS) as PlanetKey[]).map((p) => (
-          <video
-            key={p}
-            className={`space-bg-video ${selectedPlanet === p ? "is-active" : ""}`}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload={p === "earth" ? "auto" : "none"}
-            src={PLANETS[p].video}
-            poster={PLANETS[p].still}
-            aria-hidden="true"
-          />
-        ))}
+        <video
+          className="space-bg-video is-active"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          src={EARTH_VIDEO}
+          poster={EARTH_STILL}
+          aria-hidden="true"
+        />
       </div>
 
       <div className="space-stars" />
       <div className="space-bg-overlay" />
-
-      <aside
-        className={`space-dock ${isPastHero ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}
-        role="region"
-        aria-label="Celestial Planetary Background Control"
-      >
-        {(Object.keys(PLANETS) as PlanetKey[]).map((p) => (
-          <button
-            key={p}
-            type="button"
-            className={`space-dock-btn ${selectedPlanet === p ? "is-active" : ""}`}
-            onClick={() => setSelectedPlanet(p)}
-            aria-pressed={selectedPlanet === p}
-          >
-            <span>{PLANETS[p].icon}</span>
-            <span>{PLANETS[p].name}</span>
-          </button>
-        ))}
-        <a
-          href="/spaceedu.html"
-          className="space-dock-link"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Open Full SpaceEdu Interactive Hero Page"
-        >
-          Full SpaceEdu &rarr;
-        </a>
-      </aside>
     </div>
   );
 }

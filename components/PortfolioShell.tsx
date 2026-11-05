@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, Component, ErrorInfo } from "r
 import dynamic from "next/dynamic";
 import LoadingScreen from "@/components/LoadingScreen";
 import { Background } from "@/components/Background";
-import CommandPalette from "@/components/CommandPalette";
+const CommandPalette = dynamic(() => import("@/components/CommandPalette"), { ssr: false });
 import AccessibilityPanel from "@/components/accessibility/AccessibilityPanel";
 import { getSavedPerformanceMode, PerformanceMode } from "@/lib/performance";
 

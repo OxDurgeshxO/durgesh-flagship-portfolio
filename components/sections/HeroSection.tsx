@@ -105,6 +105,17 @@ export default function HeroSection() {
             <Zap className={`size-3.5 ${isLowBandwidth ? 'text-muted-foreground' : 'text-secondary'}`} />
             <span>Visual: {isLowBandwidth ? 'Lite' : '3D Active'}</span>
           </button>
+          <button
+            type="button"
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('summon-cyberbot'));
+            }}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#f59e0b]/70 bg-[#120f1d]/90 hover:border-[#f59e0b] text-[#f59e0b] shadow-[0_0_12px_rgba(245,158,11,0.25)] text-xs font-mono font-semibold glass transition-all cursor-pointer active:scale-95"
+            title="Summon CyberBot AI companion to center"
+          >
+            <span className="w-2 h-2 rounded-full bg-[#c084fc] shadow-[0_0_8px_#c084fc] animate-pulse" />
+            <span>💬 Meet CyberBot AI</span>
+          </button>
         </div>
 
         {/* Same name, same gradient — each word is wrapped so it can stagger in

@@ -37,7 +37,7 @@ function isAllowedOrigin(origin: string | null): boolean {
       hostname === 'localhost' ||
       hostname === '127.0.0.1' ||
       hostname.endsWith('.pages.dev') ||
-      hostname.endsWith('durgeshdsinha.com')
+      (hostname === 'durgeshdsinha.com' || hostname.endsWith('.durgeshdsinha.com'))
     );
   } catch {
     return false;

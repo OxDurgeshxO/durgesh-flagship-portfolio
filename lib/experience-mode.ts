@@ -25,7 +25,7 @@ export const EXPERIENCE_MODES: ModeDetail[] = [
     label: 'Balanced',
     badge: 'Optimized Mobile',
     description: 'Hardware-throttled WebGL, clamped DPR, reduced shadow passes, and audio muted by default.',
-    particleCount: '1,200 particles',
+    particleCount: '50 mobile particles',
     dpr: '1.0 Clamped',
     audio: 'Muted by Default',
   },

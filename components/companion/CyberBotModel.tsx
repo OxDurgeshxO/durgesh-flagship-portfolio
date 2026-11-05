@@ -120,6 +120,28 @@ export default function CyberBotModel({
       <pointLight position={[0, -2, -1]} intensity={3.0} color="#a855f7" />
       <pointLight position={[0, 0.4, 1.2]} intensity={isHovered ? 3.8 : 2.2} color={primaryGlow} distance={3} />
 
+      {/* Dual Vertical Glowing Neon Antenna Loops */}
+      <mesh position={[-0.14, 0.52, 0]}>
+        <torusGeometry args={[0.18, 0.018, 16, 48]} />
+        <meshStandardMaterial
+          color="#fb7185"
+          emissive="#f43f5e"
+          emissiveIntensity={4.8}
+          roughness={0.1}
+          metalness={0.85}
+        />
+      </mesh>
+      <mesh position={[0.14, 0.52, 0]}>
+        <torusGeometry args={[0.18, 0.018, 16, 48]} />
+        <meshStandardMaterial
+          color="#fb7185"
+          emissive="#f43f5e"
+          emissiveIntensity={4.8}
+          roughness={0.1}
+          metalness={0.85}
+        />
+      </mesh>
+
       {/* Outer Holographic Halo */}
       <mesh ref={haloOuterRef} position={[0, 0.85, 0]}>
         <torusGeometry args={[0.42, 0.02, 16, 48]} />

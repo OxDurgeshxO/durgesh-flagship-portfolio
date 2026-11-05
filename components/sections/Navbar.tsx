@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { OWNER } from '@/lib/data'
-import { Search, Briefcase, FileText, FlaskConical, Activity, History } from 'lucide-react'
+import { Search, Briefcase, FileText, FlaskConical, Activity, History, Bot } from 'lucide-react'
 import ThemeControl from '@/components/ThemeControl'
 
 const NAV_LINKS = ['About', 'Experience', 'Education', 'Projects', 'Contact']
