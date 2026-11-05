@@ -20,18 +20,14 @@
     "audit:lhci": "echo Running LHCI with .lighthouserc.json && exit 0"
   },
   "dependencies": {
-    "@gsap/react": "^2.1.1",
     "@react-three/drei": "^9.109.2",
     "@react-three/fiber": "^8.16.8",
-    "clsx": "^2.1.1",
     "framer-motion": "^11.3.19",
-    "gsap": "^3.12.5",
     "lucide-react": "^0.414.0",
     "next": "^14.2.35",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-type-animation": "^3.2.0",
-    "tailwind-merge": "^2.4.0",
     "three": "^0.166.1"
   },
   "devDependencies": {

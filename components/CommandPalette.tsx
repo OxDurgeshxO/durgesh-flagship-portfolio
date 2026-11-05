@@ -186,6 +186,30 @@ export default function CommandPalette() {
         },
       },
       {
+        id: "cyberbot-studio",
+        category: "Quick Actions",
+        title: "CyberBot AI • 3D Interactive Studio",
+        subtitle: "Full-screen procedural 3D companion with 360° ion flips and audio guidance",
+        icon: Sparkles,
+        shortcut: "/cyberbot",
+        aliases: ["cyberbot", "companion", "bot", "robot", "3d bot", "studio", "stunt"],
+        perform: () => {
+          router.push("/cyberbot");
+        },
+      },
+      {
+        id: "spaceedu-simulation",
+        category: "Quick Actions",
+        title: "SpaceEdu • 3D Planetary Simulation",
+        subtitle: "Interactive Three.js cosmic simulation of planetary orbits and physics",
+        icon: Sparkles,
+        shortcut: "/spaceedu",
+        aliases: ["spaceedu", "space", "planets", "astronomy", "cosmos", "simulation"],
+        perform: () => {
+          router.push("/spaceedu");
+        },
+      },
+      {
         id: "resume-html",
         category: "Quick Actions",
         title: "View Official HTML Resume",

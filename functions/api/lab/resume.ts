@@ -1,4 +1,4 @@
-import { checkRateLimit, getClientIp, jsonError, type RateLimitEnv } from '../../../lib/api/guards';
+import { checkRateLimit, getClientIp, jsonError, isAllowedOrigin, type RateLimitEnv } from '../../../lib/api/guards';
 import { validateResumeInput } from '../../../lib/lab/validation';
 
 const ROLE_TAXONOMIES: Record<string, { required: string[]; optional: string[] }> = {
@@ -28,6 +28,10 @@ export const onRequestGet = async () => {
 export const onRequestPost = async (context: { request: Request; env: RateLimitEnv }) => {
   const startTime = Date.now();
   try {
+    const origin = context.request.headers.get('origin');
+    if (!isAllowedOrigin(origin)) {
+      return jsonError('Untrusted request origin.', 403);
+    }
     const clientIp = getClientIp(context.request);
     const rate = await checkRateLimit(context.env, clientIp, LAB_RATE_LIMIT);
 

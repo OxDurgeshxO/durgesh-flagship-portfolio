@@ -1,5 +1,5 @@
 import React from "react";
-import { SKILLS, EDUCATION, CERTIFICATIONS } from "@/lib/data";
+import { EDUCATION, CERTIFICATIONS } from "@/lib/data";
 import { Award, GraduationCap } from "lucide-react";
 
 export default function RecruiterSkills() {

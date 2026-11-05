@@ -125,3 +125,19 @@ export function jsonError(message: string, status: number): Response {
     headers: { 'Content-Type': 'application/json' },
   });
 }
+
+export function isAllowedOrigin(origin: string | null): boolean {
+  if (!origin) return true;
+  try {
+    const url = new URL(origin);
+    const hostname = url.hostname.toLowerCase();
+    return (
+      hostname === 'localhost' ||
+      hostname === '127.0.0.1' ||
+      hostname.endsWith('.pages.dev') ||
+      (hostname === 'durgeshdsinha.com' || hostname.endsWith('.durgeshdsinha.com'))
+    );
+  } catch {
+    return false;
+  }
+}

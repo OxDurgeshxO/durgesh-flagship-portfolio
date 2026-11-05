@@ -240,12 +240,24 @@ export default function RoamingCompanion3D() {
     }
   }, [isDragging, playCyberChirp])
 
-  // Physics & Roaming Loop
+  // Physics & Roaming Loop with Battery Sleep Mode
   useEffect(() => {
     if (!mounted) return
 
     let lastWaypointTime = performance.now()
     let spinStart: number | null = null
+    let isSleeping = false
+
+    const wakeUp = () => {
+      if (isSleeping) {
+        isSleeping = false
+        if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+        animFrameRef.current = requestAnimationFrame(updateMotion)
+      }
+    }
+
+    window.addEventListener('pointermove', wakeUp, { passive: true })
+    window.addEventListener('scroll', wakeUp, { passive: true })
 
     const updateMotion = (now: number) => {
       const width = window.innerWidth
@@ -316,12 +328,23 @@ export default function RoamingCompanion3D() {
         containerRef.current.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`
       }
 
+      // Battery Saver: sleep loop when docked and settled
+      if (mode === 'dock' && !isHovered && !isSpinning && !isDragging) {
+        const settled = Math.abs(safeMaxX - posRef.current.x) < 0.2 && Math.abs(safeMaxY - posRef.current.y) < 0.2
+        if (settled) {
+          isSleeping = true
+          return
+        }
+      }
+
       animFrameRef.current = requestAnimationFrame(updateMotion)
     }
 
     animFrameRef.current = requestAnimationFrame(updateMotion)
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+      window.removeEventListener('pointermove', wakeUp)
+      window.removeEventListener('scroll', wakeUp)
     }
   }, [mounted, isHovered, isSpinning, mode, isDragging])
 

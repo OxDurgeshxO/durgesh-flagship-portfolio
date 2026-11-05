@@ -23,6 +23,7 @@ const ROUTES = [
   { path: '/github-health', name: 'GitHub health' },
   { path: '/performance', name: 'Performance' },
   { path: '/privacy', name: 'Privacy' },
+  { path: '/cyberbot', name: 'CyberBot Studio' },
   { path: '/this-route-does-not-exist', name: 'Not found' },
 ];
 

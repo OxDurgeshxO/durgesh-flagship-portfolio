@@ -192,10 +192,12 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
         if (!resendRes.ok) {
           let resendError = 'Resend API error';
           try { const d = await resendRes.json(); resendError = d?.message || resendError; } catch {}
-          console.warn('[Contact Function] Resend warning:', resendRes.status, resendError);
+          console.warn('[Contact Function] Resend error:', resendRes.status, resendError);
+          return jsonError(`Failed to dispatch contact message via email gateway (${resendRes.status}): ${resendError}`, 502);
         }
-      } catch (e) {
+      } catch (e: any) {
         console.warn('[Contact Function] Resend network error:', e);
+        return jsonError('Email dispatch gateway unavailable. Please contact directly via email.', 502);
       }
     } else {
       console.log(`[Contact Function] Simulation dispatch for ${safeEmail}: ${safeSubject}`);
