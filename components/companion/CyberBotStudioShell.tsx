@@ -194,6 +194,7 @@ export default function CyberBotStudioShell() {
           <div className="absolute inset-0 rounded-full bg-gradient-to-b from-purple-500/10 via-transparent to-rose-500/10 blur-xl pointer-events-none" />
 
           <Canvas
+            aria-hidden="true"
             camera={{ position: [0, 0, 3.2], fov: 45 }}
             dpr={[1, 2]}
             gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}

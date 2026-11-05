@@ -514,6 +514,7 @@ export default function RoamingCompanion3D() {
           )}
 
           <Canvas
+            aria-hidden="true"
             camera={{ position: [0, 0, 3.2], fov: 45 }}
             dpr={[1, 1.5]}
             gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
