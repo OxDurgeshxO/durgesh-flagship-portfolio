@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { FileText, Download, Sparkles, ArrowRight, Github, Mail, Zap } from 'lucide-react'
+import { FileText, Download, Sparkles, ArrowRight, Github, Mail, Zap, Bot } from 'lucide-react'
 import { TypeAnimation } from 'react-type-animation'
 import { OWNER } from '@/lib/data'
 import { trackEvent } from '@/lib/analytics'
@@ -214,6 +214,19 @@ export default function HeroSection() {
             <FileText className="size-4 text-primary" />
             <span>ATS HTML View</span>
           </Link>
+
+          {/* CyberBot 3D Summon Trigger */}
+          <button
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('summon-cyberbot'))
+              trackEvent('cyberbot_interact', { action: 'hero_summon' })
+            }}
+            className="px-4 py-3 rounded-xl glass border border-purple-500/50 text-purple-300 font-semibold hover:bg-purple-500/15 hover:border-purple-400 transition-all cursor-pointer text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-purple-400 inline-flex items-center gap-1.5 shadow-md shadow-purple-500/10 active:scale-95"
+            title="Summon CyberBot 3D AI Assistant (or press Alt+C)"
+          >
+            <Bot className="size-4 text-purple-400 animate-pulse" />
+            <span>CyberBot AI</span>
+          </button>
 
           <a
             href="#contact"

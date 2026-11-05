@@ -89,7 +89,16 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* AI Lab & Recruiter Fast Track links */}
+          {/* CyberBot 3D, AI Lab & Recruiter Fast Track links */}
+          <Link
+            href="/cyberbot"
+            className="px-3 py-1.5 rounded-xl border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm shadow-black/10"
+            title="3D CyberBot AI Studio (Three.js & R3F)"
+          >
+            <Bot className="size-3 text-purple-400" />
+            <span>CyberBot 3D</span>
+          </Link>
+
           <Link
             href="/lab"
             className="px-3 py-1.5 rounded-xl border border-[var(--accent-lab-border)] bg-[var(--accent-lab-bg)] hover:bg-emerald-500/20 text-[var(--accent-lab)] text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm shadow-black/5"
@@ -171,6 +180,17 @@ export default function Navbar() {
       {open && (
         <div id="mobile-nav-menu" className="md:hidden glass px-6 pb-5 pt-2 flex flex-col gap-2.5 border-b border-primary/30">
           <div className="grid grid-cols-2 gap-2 pb-2 border-b border-border/60">
+            <Link
+              href="/cyberbot"
+              onClick={() => setOpen(false)}
+              className="col-span-2 flex items-center justify-between text-xs font-semibold p-2 rounded-lg bg-purple-500/15 text-purple-300 border border-purple-500/40"
+            >
+              <div className="flex items-center gap-1.5">
+                <Bot className="size-3.5 text-purple-400" />
+                <span>CyberBot 3D Studio</span>
+              </div>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-200">Three.js • R3F</span>
+            </Link>
             <Link
               href="/lab"
               onClick={() => setOpen(false)}

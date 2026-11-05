@@ -6,7 +6,11 @@
       "url": [
         "http://localhost:3000/",
         "http://localhost:3000/resume",
-        "http://localhost:3000/work/roleradar"
+        "http://localhost:3000/work/roleradar",
+        "http://localhost:3000/cyberbot",
+        "http://localhost:3000/lab",
+        "http://localhost:3000/recruiter",
+        "http://localhost:3000/github-health"
       ]
     },
     "assert": {

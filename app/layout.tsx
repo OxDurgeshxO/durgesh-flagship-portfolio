@@ -224,6 +224,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://avatars.githubusercontent.com" />
         {/* Anti-FOUC boot script: applies the stored or URL-selected theme before
             the first paint, so a visitor who chose another theme never sees a
             flash of the default. It MUST stay inline, synchronous and in <head>.
