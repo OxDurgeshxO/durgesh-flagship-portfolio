@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Github, ExternalLink, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { RepositoryHealth } from '@/lib/github-health';
 import { StatusBadge, CiBadge, AuditDateBadge } from './HealthBadge';
+import Sparkline from './Sparkline';
 
 interface Props {
   repo: RepositoryHealth;
@@ -65,8 +66,11 @@ export function RepositoryHealthCard({ repo }: Props) {
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 pt-6 border-t border-border/40 mt-6">
-        <div className="text-xs text-muted-foreground font-mono">
-          Last Verified: {repo.lastCommitDate}
+        <div className="flex items-center gap-2">
+          <div className="text-xs text-muted-foreground font-mono">
+            Verified: {repo.lastCommitDate}
+          </div>
+          <Sparkline width={84} height={20} color="#10b981" />
         </div>
 
         <div className="flex items-center gap-2">

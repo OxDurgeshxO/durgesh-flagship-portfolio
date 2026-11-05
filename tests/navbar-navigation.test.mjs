@@ -29,3 +29,17 @@ test('Hero Specification: HeroSection component source contains CyberBot summon 
   const heroSource = fs.readFileSync(path.resolve(process.cwd(), 'components/sections/HeroSection.tsx'), 'utf-8')
   assert.ok(heroSource.includes('summon-cyberbot'), 'HeroSection must dispatch summon-cyberbot event')
 })
+
+test('Recruiter Specification: RecruiterHero contains ScheduleModal and direct interview booking', () => {
+  const recruiterHero = fs.readFileSync(path.resolve(process.cwd(), 'components/recruiter/RecruiterHero.tsx'), 'utf-8')
+  assert.ok(recruiterHero.includes('ScheduleModal'), 'RecruiterHero must import and render ScheduleModal')
+  assert.ok(recruiterHero.includes('Schedule Technical Screen'), 'RecruiterHero must offer Schedule Technical Screen CTA')
+})
+
+test('Telemetry & Health Specification: Components contain Sparkline and Audio Waveform', () => {
+  const healthCard = fs.readFileSync(path.resolve(process.cwd(), 'components/github-health/RepositoryHealthCard.tsx'), 'utf-8')
+  assert.ok(healthCard.includes('Sparkline'), 'RepositoryHealthCard must render Sparkline')
+
+  const telemetry = fs.readFileSync(path.resolve(process.cwd(), 'components/companion/CyberBotTelemetryOverlay.tsx'), 'utf-8')
+  assert.ok(telemetry.includes('Neural Audio Waveform'), 'CyberBotTelemetryOverlay must render audio waveform spectrum')
+})

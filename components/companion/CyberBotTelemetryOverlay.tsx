@@ -140,6 +140,30 @@ export default function CyberBotTelemetryOverlay({
                 </span>
               </div>
 
+              {/* Neural Audio Waveform Spectrum */}
+              <div className="flex flex-col px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/5 gap-1.5">
+                <div className="flex items-center justify-between text-slate-400">
+                  <span className="flex items-center gap-1.5">
+                    <Activity className="size-3 text-cyan-400" />
+                    Neural Audio Waveform:
+                  </span>
+                  <span className="text-[10px] text-cyan-300 font-mono">44.1 kHz • Active</span>
+                </div>
+                <div className="flex items-end justify-between h-5 gap-1 px-1">
+                  {[45, 80, 60, 95, 30, 70, 85, 40, 90, 65, 35, 75, 55, 90, 60, 45].map((h, i) => (
+                    <span
+                      key={i}
+                      className="w-1 bg-gradient-to-t from-cyan-500 to-purple-400 rounded-full animate-pulse"
+                      style={{
+                        height: `${h}%`,
+                        animationDuration: `${0.4 + (i % 5) * 0.15}s`,
+                        animationDelay: `${(i % 4) * 0.1}s`,
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+
               {/* Battery if available */}
               {batteryLevel !== null && (
                 <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/5">

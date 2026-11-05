@@ -2,11 +2,13 @@
 
 import React from "react";
 import Link from "next/link";
-import { Download, FileText, ArrowRight, CheckCircle2, Sparkles, MapPin, Briefcase, Eye, X } from "lucide-react";
+import { Download, FileText, ArrowRight, CheckCircle2, Sparkles, MapPin, Briefcase, Eye, X, Calendar } from "lucide-react";
 import { OWNER } from "@/lib/data";
+import ScheduleModal from "./ScheduleModal";
 
 export default function RecruiterHero() {
   const [previewOpen, setPreviewOpen] = React.useState(false);
+  const [scheduleOpen, setScheduleOpen] = React.useState(false);
 
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -64,6 +66,16 @@ export default function RecruiterHero() {
 
       {/* High-Priority CTAs (Above the fold) */}
       <div className="flex flex-wrap items-center gap-3">
+        <button
+          type="button"
+          onClick={() => setScheduleOpen(true)}
+          className="px-5 py-2.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 font-semibold text-xs md:text-sm inline-flex items-center gap-2 border border-cyan-500/40 shadow-md shadow-cyan-500/10 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-cyan-400 active:scale-95"
+          title="Schedule direct technical screen"
+        >
+          <Calendar className="size-4 text-cyan-400" />
+          <span>Schedule Technical Screen</span>
+        </button>
+
         <a
           href="/resume.pdf"
           download="Durgesh_Dutt_Sinha_Resume.pdf"
@@ -141,6 +153,9 @@ export default function RecruiterHero() {
           </div>
         </div>
       )}
+
+      {/* Schedule Interview Modal */}
+      <ScheduleModal isOpen={scheduleOpen} onClose={() => setScheduleOpen(false)} />
     </div>
   );
 }
