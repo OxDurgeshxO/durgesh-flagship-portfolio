@@ -40,6 +40,7 @@ export default function RoamingCompanion3D() {
   const [mode, setMode] = useState<MotionMode>('dock')
   const [isDragging, setIsDragging] = useState(false)
   const [bubbleAlign, setBubbleAlign] = useState<'left' | 'right' | 'center'>('left')
+  const [isIdle, setIsIdle] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
   const isMutedRef = useRef(false)
   isMutedRef.current = isMuted
@@ -257,6 +258,29 @@ export default function RoamingCompanion3D() {
     }
   }, [isDragging, playCyberChirp])
 
+  // Inactivity tracking: 5000ms idle timer to throttle WebGL loops and save battery
+  useEffect(() => {
+    let idleTimer: NodeJS.Timeout | null = null
+
+    const resetIdleTimer = () => {
+      setIsIdle(false)
+      if (idleTimer) clearTimeout(idleTimer)
+      idleTimer = setTimeout(() => {
+        setIsIdle(true)
+      }, 5000)
+    }
+
+    resetIdleTimer()
+
+    const events = ['pointermove', 'pointerdown', 'wheel', 'keydown', 'scroll', 'touchstart']
+    events.forEach((ev) => window.addEventListener(ev, resetIdleTimer, { passive: true }))
+
+    return () => {
+      if (idleTimer) clearTimeout(idleTimer)
+      events.forEach((ev) => window.removeEventListener(ev, resetIdleTimer))
+    }
+  }, [])
+
   // Physics & Roaming Loop with Battery Sleep Mode
   useEffect(() => {
     if (!mounted) return
@@ -273,8 +297,8 @@ export default function RoamingCompanion3D() {
       }
     }
 
-    window.addEventListener('pointermove', wakeUp, { passive: true })
-    window.addEventListener('scroll', wakeUp, { passive: true })
+    const wakeEvents = ['pointermove', 'pointerdown', 'wheel', 'keydown', 'scroll', 'touchstart']
+    wakeEvents.forEach((ev) => window.addEventListener(ev, wakeUp, { passive: true }))
 
     const updateMotion = (now: number) => {
       const width = window.innerWidth
@@ -345,10 +369,10 @@ export default function RoamingCompanion3D() {
         containerRef.current.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`
       }
 
-      // Battery Saver: sleep loop when docked and settled
-      if (mode === 'dock' && !isHovered && !isSpinning && !isDragging) {
+      // Battery Saver: sleep loop when idle or when docked and settled
+      if (!isHovered && !isSpinning && !isDragging) {
         const settled = Math.abs(safeMaxX - posRef.current.x) < 0.2 && Math.abs(safeMaxY - posRef.current.y) < 0.2
-        if (settled) {
+        if ((mode === 'dock' && settled) || isIdle) {
           isSleeping = true
           return
         }
@@ -360,10 +384,9 @@ export default function RoamingCompanion3D() {
     animFrameRef.current = requestAnimationFrame(updateMotion)
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
-      window.removeEventListener('pointermove', wakeUp)
-      window.removeEventListener('scroll', wakeUp)
+      wakeEvents.forEach((ev) => window.removeEventListener(ev, wakeUp))
     }
-  }, [mounted, isHovered, isSpinning, mode, isDragging])
+  }, [mounted, isHovered, isSpinning, mode, isDragging, isIdle])
 
   // Handle Click Interaction
   const handleClick = (e: React.MouseEvent) => {
@@ -494,6 +517,7 @@ export default function RoamingCompanion3D() {
             camera={{ position: [0, 0, 3.2], fov: 45 }}
             dpr={[1, 1.5]}
             gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
+            frameloop={isIdle && !isHovered && !isSpinning && !isDragging ? 'demand' : 'always'}
             className="w-full h-full"
           >
             <Suspense fallback={null}>

@@ -17,7 +17,7 @@
     "test:e2e": "playwright test",
     "test:a11y": "playwright test a11y.spec.ts",
     "check:links": "node scripts/check-links.mjs",
-    "audit:lhci": "echo Running LHCI with .lighthouserc.json && exit 0"
+    "audit:lhci": "npx @lhci/cli autorun --config=.lighthouserc.json"
   },
   "dependencies": {
     "@react-three/drei": "^9.109.2",
