@@ -86,6 +86,9 @@ export default function RoamingCompanion3D() {
   const [knowledgeAction, setKnowledgeAction] = useState<{ url: string; label: string } | null>(null)
   const [isBubbleHovered, setIsBubbleHovered] = useState(false)
   const [isInputFocused, setIsInputFocused] = useState(false)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const prefersReducedMotionRef = useRef(false)
+  prefersReducedMotionRef.current = prefersReducedMotion
 
   const isMutedRef = useRef(false)
   isMutedRef.current = isMuted
@@ -254,6 +257,11 @@ export default function RoamingCompanion3D() {
 
   // Execute stunt flip
   const triggerFlip = useCallback(() => {
+    if (prefersReducedMotionRef.current) {
+      setMood('happy')
+      playStuntChirp()
+      return
+    }
     setIsSpinning(true)
     setMood('stunt')
     playStuntChirp()
@@ -483,6 +491,22 @@ export default function RoamingCompanion3D() {
       if (savedSkin && CYBERBOT_SKINS[savedSkin]) {
         setSkin(savedSkin)
         skinRef.current = savedSkin
+      }
+
+      // Detect and honor prefers-reduced-motion
+      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+      setPrefersReducedMotion(motionQuery.matches)
+      prefersReducedMotionRef.current = motionQuery.matches
+      if (motionQuery.matches) {
+        setMode('dock')
+      }
+      const handleMotionChange = (e: MediaQueryListEvent) => {
+        setPrefersReducedMotion(e.matches)
+        prefersReducedMotionRef.current = e.matches
+        if (e.matches) setMode('dock')
+      }
+      if (motionQuery.addEventListener) {
+        motionQuery.addEventListener('change', handleMotionChange)
       }
     }
 

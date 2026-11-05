@@ -82,6 +82,7 @@ export default function CyberBotStudioShell() {
   voiceEnabledRef.current = voiceEnabled
   const skinRef = useRef<CyberBotSkinId>('cobalt-prime')
   skinRef.current = skin
+  const prefersReducedMotionRef = useRef(false)
 
   const mousePosRef = useRef({ x: 0.5, y: 0.5 })
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 })
@@ -180,6 +181,11 @@ export default function CyberBotStudioShell() {
   }, [])
 
   const triggerFlip = useCallback(() => {
+    if (prefersReducedMotionRef.current) {
+      setMood('happy')
+      playStuntChirp()
+      return
+    }
     setIsSpinning(true)
     setMood('stunt')
     playStuntChirp()
@@ -300,6 +306,15 @@ export default function CyberBotStudioShell() {
     if (savedSkin && CYBERBOT_SKINS[savedSkin]) {
       setSkin(savedSkin)
       skinRef.current = savedSkin
+    }
+
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    prefersReducedMotionRef.current = motionQuery.matches
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      prefersReducedMotionRef.current = e.matches
+    }
+    if (motionQuery.addEventListener) {
+      motionQuery.addEventListener('change', handleMotionChange)
     }
 
     const handleMouseMove = (e: MouseEvent) => {

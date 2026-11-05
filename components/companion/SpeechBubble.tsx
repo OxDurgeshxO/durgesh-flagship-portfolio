@@ -46,6 +46,19 @@ export default function SpeechBubble({
 }: SpeechBubbleProps) {
   const [inputQuery, setInputQuery] = useState('')
 
+  // Handle Escape key to dismiss bubble smoothly
+  React.useEffect(() => {
+    if (!visible) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation()
+        onDismiss?.()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [visible, onDismiss])
+
   // Determine positioning classes: dock securely ABOVE CyberBot
   let positionClasses = 'bottom-[104%] right-0'
   let tailClasses = '-bottom-2 right-12 border-r border-b border-purple-500/40 rotate-45'

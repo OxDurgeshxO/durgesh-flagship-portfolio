@@ -4,9 +4,9 @@
 
 `durgesh-flagship-portfolio` is an enterprise-grade AI and full-stack engineering showcase built on **Next.js 14 (App Router)**, **React 18**, **TypeScript 5**, and **Tailwind CSS**. It is deployed globally on **Cloudflare Pages** via edge Anycast network distribution.
 
-The application is architected around two core personas:
-1. **Recruiters & Engineering Managers**: Require sub-second access to verified credentials, ATS-ready resume downloads, and architectural summaries without heavy rendering overhead.
-2. **Technical Reviewers & AI Engineers**: Require interactive proof of client-side machine learning inference, real-time computer vision kinematics, and measurable performance telemetry.
+The application serves two core personas:
+1. **Recruiters & Engineering Managers**: Sub-second access to verified credentials, ATS-ready resume downloads, and architectural summaries without heavy rendering overhead.
+2. **Technical Reviewers & AI Engineers**: Interactive proof of client-side machine learning inference, real-time computer vision kinematics, and measurable performance telemetry.
 
 ---
 
@@ -25,15 +25,16 @@ The application is architected around two core personas:
 +-----------------------+                           +-------------------+
 |  Static SSR Shell     |                           |  Edge API Routes  |
 |  - / (Portfolio Home) |                           |  - /api/contact   |
-|  - /resume            |                           |  - /api/lab/*     |
-|  - /recruiter         |                           +-------------------+
-|  - /work/[slug]       |                                     |
-|  - /privacy           |                                     v
-|  - /changelog         |                           +-------------------+
-|  - /github-health     |                           | External Services |
-|  - /performance       |                           | - Resend API      |
-+-----------------------+                           | - GitHub REST API |
-          |                                         +-------------------+
+|  - /cyberbot          |                           |  - /api/lab/*     |
+|  - /resume            |                           +-------------------+
+|  - /recruiter         |                                     |
+|  - /work/[slug]       |                                     v
+|  - /privacy           |                           +-------------------+
+|  - /changelog         |                           | External Services |
+|  - /github-health     |                           | - Resend API      |
+|  - /performance       |                           | - GitHub REST API |
++-----------------------+                           +-------------------+
+          |
           v
 +-------------------------------------------------------------------------+
 |                      Client-Side Execution Layer                        |
@@ -46,33 +47,22 @@ The application is architected around two core personas:
 |  +---------------------------+   +-----------------------------------+  |
 |                                                                         |
 |  +---------------------------+   +-----------------------------------+  |
-|  | Global Accessibility Hub  |   | Raycast Command Palette HUD       |  |
-|  | - Reduced Motion Overrides|   | - Keyboard Search (Ctrl+K)        |  |
-|  | - High-Contrast Styles    |   | - Route / Section Quick-Jump      |  |
-|  +---------------------------+   +-----------------------------------+  |
+|  | CyberBot 3D Companion Hub |   | Raycast Command Palette HUD       |  |
+|  | - Procedural Three.js R3F |   | - Keyboard Search (Ctrl+K)        |  |
+|  | - Semantic Knowledge Q&A  |   | - Route / Section Quick-Jump      |  |
+|  | - Multi-Chassis Skins     |   |                                   |  |
+|  | - Voice Synthesis & Rec   |   +-----------------------------------+  |
+|  +---------------------------+                                          |
 +-------------------------------------------------------------------------+
 ```
 
 ---
 
-## Core Subsystems
+## CyberBot 3D Subsystem (V10)
 
-### 1. Dynamic 3D Scene Isolation
-- **Three.js & React Three Fiber (`@react-three/fiber`, `@react-three/drei`)**:
-  - The Holographic AI Neural Core (`components/3d/AICoreScene.tsx`) and the 3D CyberBot Companion (`components/companion/RoamingCompanion3D.tsx`) are dynamically imported with `{ ssr: false }`.
-  - All canvas computations run in isolated WebGL render loops using frame delta clamping (`useFrame((_, delta) => Math.min(delta, 0.1))`) to prevent frame skips during tab switching.
-  - In Low-Bandwidth Mode, WebGL canvases are not mounted at all, replaced by the zero-JS CSS/SVG `StaticHeroFallback`.
-
-### 2. Interactive AI Lab Sandbox
-- **FitTrack Biomechanical Kinematics**:
-  - Employs MediaPipe 33-point pose landmark estimation.
-  - Video feeds are strictly processed in-browser via HTML5 Canvas; frames never leave the client device.
-  - Trigonometric joint angle calculation (`θ = arccos((a·b) / (|a||b|))`) computes joint extensions in real-time under 45ms latency.
-- **MarketMatch RFM Clustering**:
-  - Client-side implementation of K-Means and DBSCAN clustering on normalized Recency, Frequency, and Monetary (RFM) feature vectors with 2D PCA projection scatter rendering.
-- **RoleRadar ATS Scorer**:
-  - Real-time token extraction and missing keyword detection evaluated against industry role vectors.
-
-### 3. Edge Route & Serverless Handling
-- Request handling lives in Cloudflare Pages Functions (`functions/api/**`). The Next.js app is a static export (`output: 'export'`), so it has no server runtime — the former `app/api/**` routes were unreachable and have been removed.
-- Honeypot filters (`_gotcha`), KV-backed IP rate limiting (`lib/api/guards.ts`), HTML escaping of every interpolated value, and payload length caps protect the external email API and the AI Lab endpoints.
+The companion system runs procedural Three.js rendering via `@react-three/fiber` and `@react-three/drei`:
+1. **Procedural Geometry**: Custom meshes (head, visor, antenna loops, chest arc reactor, ion jetpack thrusters) with zero external 3D asset download penalty.
+2. **Kinematic Controller**: Look-at mouse tracking, idle bobbing, spring damping, acrobatic 360 ion flip stunt animations.
+3. **Semantic Knowledge Base**: In-memory token scoring across 7 flagship domains with instant suggestions and direct URL action routing.
+4. **Speech & Audio**: Web Speech Synthesis API abstraction with emoji-stripping, pitch modulation, voice detection, and user-gesture safety gates.
+5. **Chassis Skin Engine**: 4 reactive palettes (`cobalt-prime`, `emerald-core`, `amethyst-void`, `solar-flare`) saved to `localStorage`.
