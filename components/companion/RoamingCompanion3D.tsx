@@ -615,6 +615,10 @@ export default function RoamingCompanion3D() {
               handleVoiceCommand,
               (active) => setIsListening(active)
             )
+          } else {
+            setActiveMessage("Voice recognition is not supported in this browser. Try Chrome, Edge, or Safari, or use the search bar!")
+            setBubbleVisible(true)
+            playCyberChirp(480, 650)
           }
         } else if (e.key === 't' || e.key === 'T') {
           e.preventDefault()
@@ -625,8 +629,25 @@ export default function RoamingCompanion3D() {
 
     window.addEventListener('keydown', handleGlobalKeyDown)
 
+    // Tap / Click outside to dismiss bubble, quick-dial, or telemetry
+    const handleGlobalPointerDown = (e: PointerEvent) => {
+      if (!containerRef.current) return
+      const target = e.target as Node | null
+      if (target && !containerRef.current.contains(target)) {
+        if (!tourActiveRef.current) {
+          setBubbleVisible(false)
+          setQuickDialOpen(false)
+          setTelemetryOpen(false)
+          cancelDismissTimer()
+        }
+      }
+    }
+
+    window.addEventListener('pointerdown', handleGlobalPointerDown)
+
     return () => {
       cancelDismissTimer()
+      window.removeEventListener('pointerdown', handleGlobalPointerDown)
       window.removeEventListener('scroll', handleSectionScroll)
       window.removeEventListener('summon-cyberbot', handleSummon)
       window.removeEventListener('keydown', handleGlobalKeyDown)
@@ -1052,8 +1073,9 @@ export default function RoamingCompanion3D() {
                     (active) => setIsListening(active)
                   )
                 } else {
-                  setActiveMessage("Voice recognition is not supported in this browser. Try Chrome/Edge!")
+                  setActiveMessage("Voice recognition is not supported in this browser. Try Chrome, Edge, or Safari, or use the search bar!")
                   setBubbleVisible(true)
+                  playCyberChirp(480, 650)
                 }
               }}
               className={`px-2 py-1 rounded-full text-[10px] font-mono font-bold backdrop-blur-xl transition-all shadow-xl flex items-center gap-1 cursor-pointer ${

@@ -49,11 +49,16 @@ test.describe('CyberBot Companion Interactive System & Popup Persistence', () =>
     // Press Escape to close quick dial
     await page.keyboard.press('Escape')
     await expect(quickDialDrawer).not.toBeVisible()
+
+    // Test clicking outside to dismiss speech bubble
+    await page.locator('body').click({ position: { x: 50, y: 50 } })
+    await page.waitForTimeout(500)
+    await expect(speechBubble).not.toBeVisible()
   })
 
   test('CyberBot Studio page renders full 3D canvas and controls', async ({ page }) => {
     await page.goto('/cyberbot', { waitUntil: 'domcontentloaded' })
-    const heading = page.locator('h1')
+    const heading = page.locator('h1').first()
     await expect(heading).toContainText(/CyberBot 3D Studio/i)
 
     // Canvas exists
@@ -63,5 +68,14 @@ test.describe('CyberBot Companion Interactive System & Popup Persistence', () =>
     // Studio action buttons exist
     const flipButton = page.getByRole('button', { name: /360° Ion Flip/i })
     await expect(flipButton).toBeVisible()
+
+    // Studio Quick-Dial button exists and opens drawer
+    const studioQuickDialBtn = page.locator('button[title*="Recruiter Quick-Dial"]')
+    await expect(studioQuickDialBtn).toBeVisible()
+    await studioQuickDialBtn.click()
+    const studioDrawer = page.locator('text=Recruiter Quick-Dial')
+    await expect(studioDrawer).toBeVisible({ timeout: 5000 })
+    await page.keyboard.press('Escape')
+    await expect(studioDrawer).not.toBeVisible()
   })
 })

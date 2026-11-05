@@ -14,9 +14,12 @@ import {
   Palette,
   Activity,
   Music,
+  Zap,
+  ShieldCheck,
 } from 'lucide-react'
 import CyberBotModel from '@/components/companion/CyberBotModel'
 import SpeechBubble from '@/components/companion/SpeechBubble'
+import CyberBotQuickDial from '@/components/companion/CyberBotQuickDial'
 import CyberBotTelemetryOverlay from '@/components/companion/CyberBotTelemetryOverlay'
 import { CyberBotSpeechEngine, stripEmojis } from '@/lib/companion/speech'
 import { searchKnowledge, SUGGESTED_QUESTION_CHIPS } from '@/lib/companion/knowledge'
@@ -69,6 +72,7 @@ export default function CyberBotStudioShell() {
   const [skin, setSkin] = useState<CyberBotSkinId>('cobalt-prime')
   const [isDancing, setIsDancing] = useState(false)
   const [isListening, setIsListening] = useState(false)
+  const [quickDialOpen, setQuickDialOpen] = useState(false)
   const [telemetryOpen, setTelemetryOpen] = useState(false)
   const [knowledgeAction, setKnowledgeAction] = useState<{ url: string; label: string } | null>(null)
 
@@ -340,12 +344,21 @@ export default function CyberBotStudioShell() {
             handleVoiceCommand,
             (active) => setIsListening(active)
           )
+        } else {
+          setActiveMessage("Voice recognition is not supported in this browser. Try Chrome, Edge, or Safari, or use the search bar!")
+          setBubbleVisible(true)
+          playCyberChirp(480, 650)
         }
+      } else if (e.key === 'q' || e.key === 'Q') {
+        e.preventDefault()
+        setQuickDialOpen((v) => !v)
+        playCyberChirp(600, 950)
       } else if (e.key === 'd' || e.key === 'D') {
         e.preventDefault()
         setMode((m) => (m === 'dock' ? 'roam' : m === 'roam' ? 'follow' : 'dock'))
         playCyberChirp(550, 750)
       } else if (e.key === 'Escape') {
+        if (quickDialOpen) setQuickDialOpen(false)
         if (telemetryOpen) setTelemetryOpen(false)
         setBubbleVisible(false)
         CyberBotSpeechEngine.getInstance().cancel()
@@ -371,6 +384,7 @@ export default function CyberBotStudioShell() {
     handleVoiceCommand,
     nextVoiceLine,
     playCyberChirp,
+    quickDialOpen,
     speakCurrentLine,
     telemetryOpen,
     triggerDance,
@@ -441,7 +455,8 @@ export default function CyberBotStudioShell() {
               else if (action === 'next') nextVoiceLine()
               else if (action === 'dance') triggerDance()
               else if (action === 'quick-dial') {
-                window.location.href = '/resume'
+                setQuickDialOpen(true)
+                playCyberChirp(600, 950)
               } else if (action === 'tour-start') {
                 window.location.href = '/#projects'
               }
@@ -451,6 +466,18 @@ export default function CyberBotStudioShell() {
               CyberBotSpeechEngine.getInstance().cancel()
               setIsSpeaking(false)
             }}
+          />
+        </div>
+
+        {/* Quick-Dial Drawer in Studio */}
+        <div className="relative z-30 max-w-sm w-full flex justify-center">
+          <CyberBotQuickDial
+            visible={quickDialOpen}
+            onClose={() => setQuickDialOpen(false)}
+            onStartTour={() => {
+              window.location.href = '/#projects'
+            }}
+            onPlayChime={playCyberChirp}
           />
         </div>
 
@@ -595,6 +622,36 @@ export default function CyberBotStudioShell() {
             <Activity className="size-3.5 text-cyan-400" />
             <span>Telemetry</span>
           </button>
+
+          {/* Quick-Dial Drawer Trigger */}
+          <button
+            onClick={() => {
+              setQuickDialOpen((v) => !v)
+              playCyberChirp(600, 950)
+            }}
+            className={`px-3 py-1.5 rounded-full text-xs font-mono font-semibold backdrop-blur-md transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
+              quickDialOpen
+                ? 'bg-emerald-500/25 border border-emerald-400 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
+                : 'bg-white/5 border border-white/15 text-slate-200 hover:text-white hover:border-emerald-400/50'
+            }`}
+            title="Recruiter Quick-Dial (Key Q)"
+          >
+            <Zap className="size-3.5 text-emerald-400" />
+            <span>Quick-Dial</span>
+          </button>
+
+          {/* Audit PDF Direct Link */}
+          <a
+            href="/technical_audit_report.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => playCyberChirp(600, 950)}
+            className="px-3 py-1.5 rounded-full text-xs font-mono font-semibold bg-white/5 border border-white/15 text-slate-200 hover:text-white hover:border-amber-400/50 backdrop-blur-md transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
+            title="View Technical Audit Report PDF"
+          >
+            <ShieldCheck className="size-3.5 text-amber-400" />
+            <span>Audit PDF</span>
+          </a>
 
           {/* Sound Toggle */}
           <button

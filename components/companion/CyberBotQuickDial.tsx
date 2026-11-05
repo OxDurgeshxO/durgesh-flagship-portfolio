@@ -52,10 +52,10 @@ export default function CyberBotQuickDial({
           transition={{ type: 'spring', stiffness: 450, damping: 28 }}
           className="absolute bottom-[104%] right-0 w-72 pointer-events-auto select-none z-50 mb-2"
         >
-          <div className="glass rounded-2xl p-3.5 border border-primary/50 shadow-2xl shadow-purple-500/30 backdrop-blur-2xl bg-popover/95">
+          <div className="rounded-2xl p-4 border border-purple-500/40 shadow-[0_16px_48px_rgba(0,0,0,0.85)] backdrop-blur-2xl relative bg-[#0b0f17]/96 text-slate-100">
             {/* Header */}
-            <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-border/80">
-              <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-primary">
+            <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-white/10">
+              <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-purple-300">
                 <Sparkles className="size-3.5 text-amber-400" />
                 <span>Recruiter Quick-Dial</span>
               </div>
@@ -64,8 +64,8 @@ export default function CyberBotQuickDial({
                   e.stopPropagation()
                   onClose()
                 }}
-                className="text-muted-foreground hover:text-foreground text-xs p-1 rounded hover:bg-white/10 transition-colors"
-                title="Close Quick-Dial"
+                className="text-slate-400 hover:text-white text-xs p-1 rounded-lg hover:bg-white/10 transition-colors"
+                title="Close Quick-Dial (Esc)"
                 aria-label="Close Quick Dial"
               >
                 <X className="size-3.5" />
@@ -73,20 +73,20 @@ export default function CyberBotQuickDial({
             </div>
 
             {/* Action Buttons */}
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               {/* 1. Download Resume PDF */}
               <button
                 onClick={(e) => {
                   e.stopPropagation()
                   downloadResume()
                 }}
-                className="w-full px-3 py-2 rounded-xl text-xs font-medium bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-between transition-all active:scale-98"
+                className="w-full px-3 py-2 rounded-xl text-xs font-semibold bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 flex items-center justify-between transition-all active:scale-95"
               >
                 <div className="flex items-center gap-2">
                   <FileDown className="size-3.5 text-emerald-400" />
                   <span>Download Resume PDF</span>
                 </div>
-                <span className="text-[10px] font-mono opacity-70">1-Page</span>
+                <span className="text-[10px] font-mono opacity-80 bg-emerald-950/60 px-1.5 py-0.5 rounded border border-emerald-500/30">1-Page</span>
               </button>
 
               {/* 2. One-Click Copy Email */}
@@ -95,7 +95,7 @@ export default function CyberBotQuickDial({
                   e.stopPropagation()
                   copyEmail()
                 }}
-                className="w-full px-3 py-2 rounded-xl text-xs font-medium bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30 flex items-center justify-between transition-all active:scale-98"
+                className="w-full px-3 py-2 rounded-xl text-xs font-semibold bg-purple-500/15 hover:bg-purple-500/25 text-purple-200 border border-purple-500/40 flex items-center justify-between transition-all active:scale-95"
               >
                 <div className="flex items-center gap-2">
                   {copied ? (
@@ -105,7 +105,7 @@ export default function CyberBotQuickDial({
                   )}
                   <span>{copied ? 'Email Copied!' : 'Copy Direct Email'}</span>
                 </div>
-                <span className="text-[10px] font-mono opacity-70">
+                <span className="text-[10px] font-mono opacity-80 bg-purple-950/60 px-1.5 py-0.5 rounded border border-purple-500/30">
                   {copied ? '✓ In Clipboard' : 'Gmail'}
                 </span>
               </button>
@@ -119,13 +119,13 @@ export default function CyberBotQuickDial({
                   e.stopPropagation()
                   onPlayChime?.(600, 950)
                 }}
-                className="w-full px-3 py-2 rounded-xl text-xs font-medium bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-between transition-all active:scale-98 block"
+                className="w-full px-3 py-2 rounded-xl text-xs font-semibold bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 flex items-center justify-between transition-all active:scale-95 block"
               >
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="size-3.5 text-amber-400" />
                   <span>Audit Report PDF</span>
                 </div>
-                <span className="text-[10px] font-mono opacity-70">A4 Verified</span>
+                <span className="text-[10px] font-mono opacity-80 bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-500/30">A4 Verified</span>
               </a>
 
               {/* 4. Recruiter Tour */}
@@ -135,15 +135,18 @@ export default function CyberBotQuickDial({
                   onClose()
                   onStartTour()
                 }}
-                className="w-full px-3 py-2 rounded-xl text-xs font-medium bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 flex items-center justify-between transition-all active:scale-98"
+                className="w-full px-3 py-2 rounded-xl text-xs font-semibold bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/40 flex items-center justify-between transition-all active:scale-95"
               >
                 <div className="flex items-center gap-2">
-                  <Compass className="size-3.5 text-purple-400" />
+                  <Compass className="size-3.5 text-sky-400" />
                   <span>Guided Recruiter Tour</span>
                 </div>
-                <span className="text-[10px] font-mono opacity-70">5 Stops</span>
+                <span className="text-[10px] font-mono opacity-80 bg-sky-950/60 px-1.5 py-0.5 rounded border border-sky-500/30">5 Stops</span>
               </button>
             </div>
+
+            {/* Directional Tail Pointer with matching dark solid background */}
+            <div className="absolute -bottom-2 right-12 w-3.5 h-3.5 bg-[#0b0f17] border-r border-b border-purple-500/40 rotate-45" />
           </div>
         </motion.div>
       )}
