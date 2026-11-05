@@ -7,6 +7,22 @@ import { ArrowLeft, Sparkles, Volume2, VolumeX, RotateCw, Lightbulb, Compass, Sh
 import CyberBotModel from '@/components/companion/CyberBotModel'
 import SpeechBubble from '@/components/companion/SpeechBubble'
 
+function safeGetItem(key: string): string | null {
+  if (typeof window === 'undefined') return null
+  try {
+    return localStorage.getItem(key)
+  } catch {
+    return null
+  }
+}
+
+function safeSetItem(key: string, value: string): void {
+  if (typeof window === 'undefined') return
+  try {
+    localStorage.setItem(key, value)
+  } catch {}
+}
+
 const CYBERBOT_VOICELINES = [
   "🚀 Welcome to my interactive 3D studio! I'm CyberBot AI, built with Three.js & React Three Fiber.",
   "⚡ Check out RoleRadar — an enterprise AI career intelligence platform evaluating 16 roles with multi-model scoring!",
@@ -37,7 +53,7 @@ export default function CyberBotStudioShell() {
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 })
   const audioCtxRef = useRef<AudioContext | null>(null)
 
-  // Audio chirp generator with cached AudioContext
+  // Audio chirp generator with cached AudioContext (AUD-01 Guard)
   const getAudioContext = useCallback((): AudioContext | null => {
     try {
       if (!audioCtxRef.current) {
@@ -72,9 +88,30 @@ export default function CyberBotStudioShell() {
     } catch {}
   }, [getAudioContext])
 
+  // Acrobatic Ion Flip 800ms procedural sine sweep (520Hz -> 880Hz -> 1300Hz)
+  const playStuntChirp = useCallback(() => {
+    if (isMutedRef.current) return
+    try {
+      const ctx = getAudioContext()
+      if (!ctx) return
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.type = 'sine'
+      osc.frequency.setValueAtTime(520, ctx.currentTime)
+      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.3)
+      osc.frequency.exponentialRampToValueAtTime(1300, ctx.currentTime + 0.65)
+      gain.gain.setValueAtTime(0.09, ctx.currentTime)
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8)
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+      osc.start()
+      osc.stop(ctx.currentTime + 0.8)
+    } catch {}
+  }, [getAudioContext])
+
   useEffect(() => {
     setMounted(true)
-    const saved = localStorage.getItem('cyberbot_muted') === 'true'
+    const saved = safeGetItem('cyberbot_muted') === 'true'
     setIsMuted(saved)
     isMutedRef.current = saved
 
@@ -86,13 +123,19 @@ export default function CyberBotStudioShell() {
     }
 
     window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close().catch(() => {})
+        audioCtxRef.current = null
+      }
+    }
   }, [])
 
   const triggerFlip = () => {
     setIsSpinning(true)
     setMood('stunt')
-    playCyberChirp(600, 1300)
+    playStuntChirp()
     let start: number | null = null
     const duration = 800
     const animate = (now: number) => {
@@ -159,46 +202,38 @@ export default function CyberBotStudioShell() {
         </div>
       </header>
 
-      {/* Main Showcase Stage */}
-      <main className="relative z-20 flex-1 flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full my-auto">
-        {/* Floating Speech Bubble Above Bot */}
-        <div className="relative w-full max-w-md flex justify-center mb-4">
+      {/* Center 3D Stage */}
+      <main id="main-content" className="relative flex-1 flex flex-col items-center justify-center p-4">
+        {/* Voiceline Speech Bubble HUD */}
+        <div className="relative z-20 mb-4 max-w-md w-full flex justify-center">
           <SpeechBubble
             message={activeMessage}
             visible={bubbleVisible}
             align="center"
-            onAction={(action) => {
-              if (action === 'flip') triggerFlip()
-              else if (action === 'next') nextVoiceLine()
-              else setBubbleVisible(false)
-            }}
             onDismiss={() => setBubbleVisible(false)}
           />
         </div>
 
-        {/* 3D Canvas Viewport */}
+        {/* Interactive 3D Canvas */}
         <div
+          className="relative w-full max-w-2xl h-[400px] sm:h-[480px] cursor-grab active:cursor-grabbing"
           onMouseEnter={() => {
             setIsHovered(true)
             setMood('happy')
+            playCyberChirp(680, 950)
           }}
           onMouseLeave={() => {
             setIsHovered(false)
             setMood('normal')
           }}
           onClick={triggerFlip}
-          className="relative w-72 h-80 sm:w-96 sm:h-[420px] cursor-pointer select-none transition-transform duration-300 hover:scale-105"
-          title="Click to perform 360° acrobatic stunt flip! 🤖"
+          title="Click to perform 360° Ion Stunt Flip"
         >
-          {/* Subtle Ambient Radial Glow */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-purple-500/10 via-transparent to-rose-500/10 blur-xl pointer-events-none" />
-
           <Canvas
             aria-hidden="true"
-            camera={{ position: [0, 0, 3.2], fov: 45 }}
-            dpr={[1, 2]}
+            camera={{ position: [0, 0, 3.8], fov: 42 }}
             gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
-            className="w-full h-full"
+            dpr={[1, 2]}
           >
             <Suspense fallback={null}>
               <CyberBotModel
@@ -212,9 +247,9 @@ export default function CyberBotStudioShell() {
           </Canvas>
         </div>
 
-        {/* Bottom Interactive Controls Strip (Matching Reference Image) */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-          {/* Dock / Roam Pill */}
+        {/* Floating Studio Control Dock */}
+        <div className="relative z-20 mt-4 flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 max-w-xl">
+          {/* Mode Pill Toggle */}
           <button
             onClick={() => {
               setMode((m) => (m === 'dock' ? 'roam' : m === 'roam' ? 'follow' : 'dock'))
@@ -248,7 +283,7 @@ export default function CyberBotStudioShell() {
               const next = !isMuted
               setIsMuted(next)
               isMutedRef.current = next
-              localStorage.setItem('cyberbot_muted', String(next))
+              safeSetItem('cyberbot_muted', String(next))
               if (!next) playCyberChirp(600, 950)
             }}
             className={`px-3 py-1.5 rounded-full text-xs font-mono font-bold bg-[#120f1d]/90 border backdrop-blur-xl transition-all shadow-xl flex items-center gap-1.5 cursor-pointer ${
@@ -288,15 +323,15 @@ export default function CyberBotStudioShell() {
           Three.js WebGL &middot; React Three Fiber &middot; Procedural 3D Mesh Animation
         </div>
         <div className="mt-2 sm:mt-0 flex items-center justify-center gap-4">
-          <span className="flex items-center gap-1">
-            <ShieldCheck className="size-3.5 text-emerald-400" />
-            Zero Server Persistence
-          </span>
+          <Link href="/performance" className="text-slate-400 hover:text-slate-200 transition-colors">
+            Performance Metrics
+          </Link>
           <span>&middot;</span>
-          <span>Sub-50ms Reactivity</span>
+          <Link href="/privacy" className="text-slate-400 hover:text-slate-200 transition-colors">
+            Privacy
+          </Link>
         </div>
       </footer>
     </div>
   )
 }
-

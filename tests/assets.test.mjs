@@ -50,4 +50,12 @@ test('Required Public Assets Verification', async (t) => {
     const stats = fs.statSync(ogPath);
     assert.ok(stats.size > 1000, 'og-image.png must not be empty');
   });
+
+  await t.test('Public directory contains zero dead/untracked legacy ronin assets', () => {
+    const assetsDir = path.join(ROOT_DIR, 'public/assets');
+    assert.ok(
+      !fs.existsSync(assetsDir) || fs.readdirSync(assetsDir).length === 0,
+      'public/assets directory must be clean and free of dead legacy ronin assets',
+    );
+  });
 });

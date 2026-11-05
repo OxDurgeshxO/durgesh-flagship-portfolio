@@ -112,7 +112,7 @@ export default function CyberBotModel({
   const darkChassisColor = '#0f172a' // Midnight Obsidian Slate
 
   return (
-    <group ref={groupRef} dispose={null} scale={[1.15, 1.15, 1.15]}>
+    <group ref={groupRef} scale={[1.15, 1.15, 1.15]}>
       {/* Studio 3-Point Lighting for High-End 3D Definition */}
       <ambientLight intensity={1.2} />
       <directionalLight position={[3, 4, 4]} intensity={2.8} color="#ffffff" />

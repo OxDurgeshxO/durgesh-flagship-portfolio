@@ -14,6 +14,22 @@ function getTimeBasedGreeting(): string {
   return "Burning the midnight oil with AI? 🌙 Durgesh builds systems 24/7!"
 }
 
+function safeGetItem(key: string): string | null {
+  if (typeof window === 'undefined') return null
+  try {
+    return localStorage.getItem(key)
+  } catch {
+    return null
+  }
+}
+
+function safeSetItem(key: string, value: string): void {
+  if (typeof window === 'undefined') return
+  try {
+    localStorage.setItem(key, value)
+  } catch {}
+}
+
 const CYBERBOT_VOICELINES = [
   "🚀 Check out RoleRadar — an enterprise AI career intelligence platform evaluating 16 roles with multi-model scoring!",
   "🏋️ The AI Fitness Platform runs real-time MediaPipe pose detection under 50ms with live audio feedback!",
@@ -97,6 +113,27 @@ export default function RoamingCompanion3D() {
     }
   }, [getAudioContext])
 
+  // Acrobatic Ion Flip 800ms procedural sine sweep (520Hz -> 880Hz -> 1300Hz)
+  const playStuntChirp = useCallback(() => {
+    if (isMutedRef.current) return
+    try {
+      const ctx = getAudioContext()
+      if (!ctx) return
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.type = 'sine'
+      osc.frequency.setValueAtTime(520, ctx.currentTime)
+      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.3)
+      osc.frequency.exponentialRampToValueAtTime(1300, ctx.currentTime + 0.65)
+      gain.gain.setValueAtTime(0.09, ctx.currentTime)
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8)
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+      osc.start()
+      osc.stop(ctx.currentTime + 0.8)
+    } catch {}
+  }, [getAudioContext])
+
   useEffect(() => {
     setMounted(true)
     if (typeof window !== 'undefined') {
@@ -119,7 +156,7 @@ export default function RoamingCompanion3D() {
       }
       setBubbleAlign('left')
 
-      const savedMute = localStorage.getItem('cyberbot_muted') === 'true'
+      const savedMute = safeGetItem('cyberbot_muted') === 'true'
       setIsMuted(savedMute)
       isMutedRef.current = savedMute
     }
@@ -130,7 +167,7 @@ export default function RoamingCompanion3D() {
       setBubbleVisible(true)
       setIsSpinning(true)
       setMood('stunt')
-      playCyberChirp(600, 1200)
+      playStuntChirp()
       setActiveMessage("Hey there! 🤖 I'm CyberBot AI. I'm right here with you! Click me for flips or explore Durgesh's production systems!")
       const width = window.innerWidth
       const height = window.innerHeight
@@ -208,7 +245,7 @@ export default function RoamingCompanion3D() {
         setIsMuted(custom.detail.muted)
         isMutedRef.current = custom.detail.muted
       } else {
-        const saved = localStorage.getItem('cyberbot_muted') === 'true'
+        const saved = safeGetItem('cyberbot_muted') === 'true'
         setIsMuted(saved)
         isMutedRef.current = saved
       }
@@ -226,7 +263,7 @@ export default function RoamingCompanion3D() {
         audioCtxRef.current = null
       }
     }
-  }, [playCyberChirp])
+  }, [playCyberChirp, playStuntChirp])
 
   // Global mouse tracking
   useEffect(() => {
@@ -393,7 +430,7 @@ export default function RoamingCompanion3D() {
     e.stopPropagation()
     setIsSpinning(true)
     setMood('stunt')
-    playCyberChirp(600, 1200)
+    playStuntChirp()
 
     const nextIndex = (voiceIndex + 1) % CYBERBOT_VOICELINES.length
     setVoiceIndex(nextIndex)
@@ -438,7 +475,7 @@ export default function RoamingCompanion3D() {
     if (action === 'flip') {
       setIsSpinning(true)
       setMood('stunt')
-      playCyberChirp(650, 1300)
+      playStuntChirp()
       setTimeout(() => setMood('happy'), 950)
     } else if (action === 'projects') {
       const el = document.getElementById('projects') || document.getElementById('featured-projects')
@@ -569,7 +606,7 @@ export default function RoamingCompanion3D() {
                 const next = !isMuted
                 setIsMuted(next)
                 isMutedRef.current = next
-                localStorage.setItem('cyberbot_muted', String(next))
+                safeSetItem('cyberbot_muted', String(next))
                 if (!next) {
                   playCyberChirp(600, 950)
                 }
