@@ -112,3 +112,4 @@ export function searchKnowledge(query: string): KnowledgeEntry | null {
 
   return maxScore >= 3 ? bestEntry : null
 }
+

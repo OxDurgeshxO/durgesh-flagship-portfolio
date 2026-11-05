@@ -395,6 +395,7 @@ export default function CyberBotStudioShell() {
 
       {/* Top Header Bar */}
       <header className="relative z-30 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
+        <h1 className="sr-only">CyberBot 3D Studio</h1>
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-slate-400 hover:text-white transition-colors group px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md"
@@ -438,6 +439,12 @@ export default function CyberBotStudioShell() {
             onAction={(action) => {
               if (action === 'flip') triggerFlip()
               else if (action === 'next') nextVoiceLine()
+              else if (action === 'dance') triggerDance()
+              else if (action === 'quick-dial') {
+                window.location.href = '/resume'
+              } else if (action === 'tour-start') {
+                window.location.href = '/#projects'
+              }
             }}
             onDismiss={() => {
               setBubbleVisible(false)

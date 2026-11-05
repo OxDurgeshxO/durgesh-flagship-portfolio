@@ -31,6 +31,7 @@ export const metadata: Metadata = {
 export default function CyberBotPage() {
   return (
     <main id="main-content" className="min-h-screen bg-[#07050e]">
+      <h1 className="sr-only">CyberBot 3D Studio</h1>
       <CyberBotStudioShell />
     </main>
   )

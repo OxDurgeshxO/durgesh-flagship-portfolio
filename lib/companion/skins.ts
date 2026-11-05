@@ -109,3 +109,4 @@ export function getNextSkinId(current: CyberBotSkinId): CyberBotSkinId {
   const idx = ALL_SKIN_IDS.indexOf(current)
   return ALL_SKIN_IDS[(idx + 1) % ALL_SKIN_IDS.length]
 }
+

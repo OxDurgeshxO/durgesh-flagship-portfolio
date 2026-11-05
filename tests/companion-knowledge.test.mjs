@@ -89,3 +89,4 @@ test('Voice Command Listener: accurately classifies speech transcripts', () => {
   listener.handleTranscript('what is roleradar?')
   assert.equal(results[results.length - 1].action, 'query')
 })
+

@@ -84,6 +84,8 @@ export default function RoamingCompanion3D() {
   const [quickDialOpen, setQuickDialOpen] = useState(false)
   const [telemetryOpen, setTelemetryOpen] = useState(false)
   const [knowledgeAction, setKnowledgeAction] = useState<{ url: string; label: string } | null>(null)
+  const [isBubbleHovered, setIsBubbleHovered] = useState(false)
+  const [isInputFocused, setIsInputFocused] = useState(false)
 
   const isMutedRef = useRef(false)
   isMutedRef.current = isMuted
@@ -95,6 +97,50 @@ export default function RoamingCompanion3D() {
   tourStepRef.current = tourStep
   const skinRef = useRef<CyberBotSkinId>('cobalt-prime')
   skinRef.current = skin
+  const isHoveredRef = useRef(false)
+  isHoveredRef.current = isHovered
+  const isBubbleHoveredRef = useRef(false)
+  isBubbleHoveredRef.current = isBubbleHovered
+  const isInputFocusedRef = useRef(false)
+  isInputFocusedRef.current = isInputFocused
+  const quickDialOpenRef = useRef(false)
+  quickDialOpenRef.current = quickDialOpen
+  const telemetryOpenRef = useRef(false)
+  telemetryOpenRef.current = telemetryOpen
+  const dismissTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const cancelDismissTimer = useCallback(() => {
+    if (dismissTimeoutRef.current) {
+      clearTimeout(dismissTimeoutRef.current)
+      dismissTimeoutRef.current = null
+    }
+  }, [])
+
+  const startDismissTimer = useCallback((delayMs = 8000) => {
+    cancelDismissTimer()
+    if (
+      isHoveredRef.current ||
+      isBubbleHoveredRef.current ||
+      isInputFocusedRef.current ||
+      tourActiveRef.current ||
+      quickDialOpenRef.current ||
+      telemetryOpenRef.current
+    ) {
+      return
+    }
+    dismissTimeoutRef.current = setTimeout(() => {
+      if (
+        !isHoveredRef.current &&
+        !isBubbleHoveredRef.current &&
+        !isInputFocusedRef.current &&
+        !tourActiveRef.current &&
+        !quickDialOpenRef.current &&
+        !telemetryOpenRef.current
+      ) {
+        setBubbleVisible(false)
+      }
+    }, delayMs)
+  }, [cancelDismissTimer])
 
   // Position in viewport pixels
   const posRef = useRef({ x: 0, y: 0 })
@@ -448,9 +494,9 @@ export default function RoamingCompanion3D() {
 
     // Keep initial greeting visible on desktop
     const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 768
-    const welcomeTimer = setTimeout(() => {
-      setBubbleVisible(false)
-    }, isMobileViewport ? 0 : 9000)
+    if (!isMobileViewport) {
+      startDismissTimer(10000)
+    }
 
     // Real-Time Section Scroll Spy
     const SECTION_PROMPTS: { id: string; msg: string }[] = [
@@ -464,7 +510,6 @@ export default function RoamingCompanion3D() {
     ]
 
     let lastDetectedSection = ''
-    let dismissTimer: NodeJS.Timeout | null = null
     let ticking = false
 
     const handleSectionScroll = () => {
@@ -490,10 +535,7 @@ export default function RoamingCompanion3D() {
                 setBubbleVisible(true)
                 playCyberChirp(580, 850)
                 speakVoiceLine(msg)
-                if (dismissTimer) clearTimeout(dismissTimer)
-                dismissTimer = setTimeout(() => {
-                  setBubbleVisible(false)
-                }, 8500)
+                startDismissTimer(8500)
               }
               break
             }
@@ -584,8 +626,7 @@ export default function RoamingCompanion3D() {
     window.addEventListener('keydown', handleGlobalKeyDown)
 
     return () => {
-      clearTimeout(welcomeTimer)
-      if (dismissTimer) clearTimeout(dismissTimer)
+      cancelDismissTimer()
       window.removeEventListener('scroll', handleSectionScroll)
       window.removeEventListener('summon-cyberbot', handleSummon)
       window.removeEventListener('keydown', handleGlobalKeyDown)
@@ -598,11 +639,13 @@ export default function RoamingCompanion3D() {
     }
   }, [
     advanceTour,
+    cancelDismissTimer,
     cycleSkin,
     handleVoiceCommand,
     playCyberChirp,
     quickDialOpen,
     speakVoiceLine,
+    startDismissTimer,
     stopTour,
     summonBotToCenter,
     telemetryOpen,
@@ -779,22 +822,43 @@ export default function RoamingCompanion3D() {
 
   const handleMouseEnter = () => {
     setIsHovered(true)
+    isHoveredRef.current = true
     setMood('happy')
     setBubbleVisible(true)
+    cancelDismissTimer()
     playCyberChirp(700, 950)
   }
 
   const handleMouseLeave = () => {
     if (!isDragging) {
       setIsHovered(false)
+      isHoveredRef.current = false
       setMood('normal')
-      setTimeout(() => {
-        if (!tourActiveRef.current && !quickDialOpen && !telemetryOpen) {
-          setBubbleVisible(false)
-        }
-      }, 5000)
+      startDismissTimer(8000)
     }
   }
+
+  const handleBubbleMouseEnter = useCallback(() => {
+    setIsBubbleHovered(true)
+    isBubbleHoveredRef.current = true
+    cancelDismissTimer()
+  }, [cancelDismissTimer])
+
+  const handleBubbleMouseLeave = useCallback(() => {
+    setIsBubbleHovered(false)
+    isBubbleHoveredRef.current = false
+    startDismissTimer(8000)
+  }, [startDismissTimer])
+
+  const handleInputFocusChange = useCallback((focused: boolean) => {
+    setIsInputFocused(focused)
+    isInputFocusedRef.current = focused
+    if (focused) {
+      cancelDismissTimer()
+    } else {
+      startDismissTimer(8000)
+    }
+  }, [cancelDismissTimer, startDismissTimer])
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (e.button !== 0) return
@@ -814,6 +878,8 @@ export default function RoamingCompanion3D() {
       advanceTour(tourActive ? tourStep + 1 : 0)
     } else if (action === 'tour-stop') {
       stopTour()
+    } else if (action === 'dance') {
+      triggerDance()
     }
   }
 
@@ -890,8 +956,12 @@ export default function RoamingCompanion3D() {
           onSelectChip={(chip) => handleAskQuestion(chip)}
           onAskQuestion={(q) => handleAskQuestion(q)}
           onAction={handleBubbleAction}
+          onMouseEnter={handleBubbleMouseEnter}
+          onMouseLeave={handleBubbleMouseLeave}
+          onInputFocusChange={handleInputFocusChange}
           onDismiss={() => {
             if (tourActive) stopTour()
+            cancelDismissTimer()
             setBubbleVisible(false)
             CyberBotSpeechEngine.getInstance().cancel()
             setIsSpeaking(false)
