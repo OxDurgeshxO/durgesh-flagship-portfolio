@@ -4,6 +4,7 @@ import { CASE_STUDIES } from '../../lib/case-studies';
 test.describe('Post-Deployment Static Route Smoke Tests', () => {
   const staticRoutes = [
     '/',
+    '/cyberbot',
     '/resume',
     '/recruiter',
     '/performance',

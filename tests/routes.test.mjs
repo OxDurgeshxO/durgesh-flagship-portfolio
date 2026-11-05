@@ -8,6 +8,7 @@ const ROOT_DIR = process.cwd();
 test('Required Routes Specification Verification', async (t) => {
   const requiredPageRoutes = [
     'app/page.tsx',
+    'app/cyberbot/page.tsx',
     'app/resume/page.tsx',
     'app/recruiter/page.tsx',
     'app/performance/page.tsx',

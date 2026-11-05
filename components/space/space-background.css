@@ -92,75 +92,6 @@
   pointer-events: none;
 }
 
-/* Interactive Space Widget Dock */
-.space-dock {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 40;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 9999px;
-  background: rgba(4, 16, 31, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(121, 220, 232, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  pointer-events: auto;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.space-dock-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border-radius: 9999px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.8);
-  background: transparent;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.space-dock-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.space-dock-btn.is-active {
-  color: #071227;
-  background: linear-gradient(180deg, #ffffff 0%, #d8ecfe 100%);
-  border-color: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 14px rgba(121, 220, 232, 0.45);
-}
-
-.space-dock-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 10px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--space-cyan);
-  text-decoration: none;
-  border-left: 1px solid rgba(255, 255, 255, 0.2);
-  margin-left: 4px;
-  transition: opacity 0.2s;
-}
-
-.space-dock-link:hover {
-  opacity: 0.85;
-  text-decoration: underline;
-}
-
 /* ---------- Typography and entrance animation gates ----------------------- */
 .ronin-word,
 .ronin-fade-up {
@@ -197,22 +128,6 @@ html[data-space-ready='true'] .ronin-fade-up {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@media (max-width: 640px) {
-  .space-dock {
-    bottom: 12px;
-    right: 12px;
-    padding: 4px 8px;
-    gap: 4px;
-  }
-  .space-dock-btn {
-    padding: 4px 8px;
-    font-size: 10px;
-  }
-  .space-dock-link {
-    display: none;
   }
 }
 

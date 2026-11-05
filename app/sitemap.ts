@@ -22,6 +22,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
+      url: `${BASE_URL}/cyberbot`,
+      lastModified: CONTENT_LAST_MODIFIED,
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
       url: `${BASE_URL}/resume`,
       lastModified: CONTENT_LAST_MODIFIED,
       changeFrequency: 'monthly',
