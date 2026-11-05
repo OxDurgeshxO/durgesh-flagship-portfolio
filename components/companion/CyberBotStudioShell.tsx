@@ -35,15 +35,29 @@ export default function CyberBotStudioShell() {
 
   const mousePosRef = useRef({ x: 0.5, y: 0.5 })
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 })
+  const audioCtxRef = useRef<AudioContext | null>(null)
 
-  // Audio chirp generator
+  // Audio chirp generator with cached AudioContext
+  const getAudioContext = useCallback((): AudioContext | null => {
+    try {
+      if (!audioCtxRef.current) {
+        const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
+        if (AudioCtx) audioCtxRef.current = new AudioCtx()
+      }
+      if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
+        audioCtxRef.current.resume().catch(() => {})
+      }
+      return audioCtxRef.current
+    } catch {
+      return null
+    }
+  }, [])
+
   const playCyberChirp = useCallback((freq = 520, freq2 = 880) => {
     if (isMutedRef.current) return
     try {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
-      if (!AudioCtx) return
-      const ctx = new AudioCtx()
-      if (ctx.state === 'suspended') ctx.resume().catch(() => {})
+      const ctx = getAudioContext()
+      if (!ctx) return
       const osc = ctx.createOscillator()
       const gain = ctx.createGain()
       osc.type = 'sine'
@@ -56,7 +70,7 @@ export default function CyberBotStudioShell() {
       osc.start()
       osc.stop(ctx.currentTime + 0.22)
     } catch {}
-  }, [])
+  }, [getAudioContext])
 
   useEffect(() => {
     setMounted(true)

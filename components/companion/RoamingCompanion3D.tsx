@@ -53,16 +53,29 @@ export default function RoamingCompanion3D() {
   const dragOffsetRef = useRef({ x: 0, y: 0 })
   const audioCtxRef = useRef<AudioContext | null>(null)
 
-  // Audio synthesis helper for futuristic chimes
+  // Audio synthesis helper with singleton AudioContext
+  const getAudioContext = useCallback((): AudioContext | null => {
+    try {
+      if (!audioCtxRef.current) {
+        const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
+        if (AudioCtx) {
+          audioCtxRef.current = new AudioCtx()
+        }
+      }
+      if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
+        audioCtxRef.current.resume().catch(() => {})
+      }
+      return audioCtxRef.current
+    } catch {
+      return null
+    }
+  }, [])
+
   const playCyberChirp = useCallback((freq = 520, freq2 = 880) => {
     if (isMutedRef.current) return
     try {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
-      if (!AudioCtx) return
-      const ctx = new AudioCtx()
-      if (ctx.state === 'suspended') {
-        ctx.resume().catch(() => {})
-      }
+      const ctx = getAudioContext()
+      if (!ctx) return
       const osc = ctx.createOscillator()
       const gain = ctx.createGain()
 
@@ -81,7 +94,7 @@ export default function RoamingCompanion3D() {
     } catch {
       // Audio playback silently catches if blocked by browser autoplay policy
     }
-  }, [])
+  }, [getAudioContext])
 
   useEffect(() => {
     setMounted(true)
@@ -207,6 +220,10 @@ export default function RoamingCompanion3D() {
       window.removeEventListener('scroll', handleSectionScroll)
       window.removeEventListener('summon-cyberbot', handleSummon)
       window.removeEventListener('cyberbot-mute-toggle', handleMuteToggle)
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close().catch(() => {})
+        audioCtxRef.current = null
+      }
     }
   }, [playCyberChirp])
 

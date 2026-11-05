@@ -76,6 +76,16 @@ test('Security Guardrails & Input Validation Specification', async (t) => {
     assert.ok(guards.includes('cf-connecting-ip'), 'guards.ts must key on the Cloudflare-set client IP header');
   });
 
+  await t.test('CORS origin guard strictly validates canonical domains and rejects arbitrary third-party pages.dev origins', () => {
+    const guards = readSource('lib/api/guards.ts');
+    assert.ok(guards.includes('durgesh-portfolio.pages.dev'), 'guards.ts must check canonical durgesh-portfolio.pages.dev');
+    assert.ok(!guards.includes("hostname.endsWith('.pages.dev')"), 'guards.ts must not permit arbitrary *.pages.dev domains');
+
+    const contact = readSource('functions/api/contact.ts');
+    assert.ok(contact.includes('isAllowedOrigin'), 'contact.ts must import and use isAllowedOrigin');
+    assert.ok(!contact.includes('function isAllowedOrigin'), 'contact.ts must not contain duplicate isAllowedOrigin definition');
+  });
+
   await t.test('Unreachable Next.js API routes stay deleted', () => {
     assert.ok(
       !fs.existsSync(path.join(ROOT_DIR, 'app', 'api')),

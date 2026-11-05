@@ -3,6 +3,7 @@ import {
   escapeHtml,
   getClientIp,
   jsonError,
+  isAllowedOrigin,
   type RateLimitEnv,
 } from '../../lib/api/guards';
 
@@ -28,21 +29,7 @@ export const onRequestGet = async () => {
 };
 
 
-function isAllowedOrigin(origin: string | null): boolean {
-  if (!origin) return true;
-  try {
-    const url = new URL(origin);
-    const hostname = url.hostname.toLowerCase();
-    return (
-      hostname === 'localhost' ||
-      hostname === '127.0.0.1' ||
-      hostname.endsWith('.pages.dev') ||
-      (hostname === 'durgeshdsinha.com' || hostname.endsWith('.durgeshdsinha.com'))
-    );
-  } catch {
-    return false;
-  }
-}
+
 
 export const onRequestPost = async (context: { request: Request; env: Env }) => {
   try {
@@ -193,7 +180,7 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
           let resendError = 'Resend API error';
           try { const d = await resendRes.json(); resendError = d?.message || resendError; } catch {}
           console.warn('[Contact Function] Resend error:', resendRes.status, resendError);
-          return jsonError(`Failed to dispatch contact message via email gateway (${resendRes.status}): ${resendError}`, 502);
+          return jsonError('Email dispatch gateway unavailable. Please contact directly via email.', 502);
         }
       } catch (e: any) {
         console.warn('[Contact Function] Resend network error:', e);

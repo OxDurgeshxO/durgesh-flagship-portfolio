@@ -5,6 +5,7 @@ test.describe('Post-Deployment Static Route Smoke Tests', () => {
   const staticRoutes = [
     '/',
     '/cyberbot',
+    '/spaceedu',
     '/resume',
     '/recruiter',
     '/performance',

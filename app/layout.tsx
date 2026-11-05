@@ -12,8 +12,6 @@ import '../styles/globals.css'
 // Portfolio themes: 6 dark appearances (Cobalt Blueprint default, Aurora, Graphite, Ember, Sage, Noir).
 // Tokenized variables scoped in styles/theme.css with WCAG 2.1 passing contrast floors.
 import '../styles/theme.css'
-// Cyber Ronin // Neural Edges hero background layer (own namespaced stylesheet).
-import '../components/cyber-ronin/cyber-ronin.css'
 import '../components/space/space-background.css'
 import { THEME_BOOT_SCRIPT } from '@/lib/themes/boot'
 import { ThemeProvider } from '@/lib/themes/provider'

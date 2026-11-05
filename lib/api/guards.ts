@@ -126,6 +126,11 @@ export function jsonError(message: string, status: number): Response {
   });
 }
 
+/**
+ * Validate that an origin header comes from trusted first-party environments.
+ * Prevents arbitrary third-party websites (including arbitrary other .pages.dev sites)
+ * from posting to edge API handlers.
+ */
 export function isAllowedOrigin(origin: string | null): boolean {
   if (!origin) return true;
   try {
@@ -134,8 +139,10 @@ export function isAllowedOrigin(origin: string | null): boolean {
     return (
       hostname === 'localhost' ||
       hostname === '127.0.0.1' ||
-      hostname.endsWith('.pages.dev') ||
-      (hostname === 'durgeshdsinha.com' || hostname.endsWith('.durgeshdsinha.com'))
+      hostname === 'durgesh-portfolio.pages.dev' ||
+      hostname.endsWith('.durgesh-portfolio.pages.dev') ||
+      hostname === 'durgeshdsinha.com' ||
+      hostname.endsWith('.durgeshdsinha.com')
     );
   } catch {
     return false;

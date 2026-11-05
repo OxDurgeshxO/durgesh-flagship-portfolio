@@ -25,10 +25,15 @@ test.describe('Contact Form Interaction & Resilience', () => {
     await page.locator('#contact-email').fill('ada@example.com');
     await page.locator('#contact-message').fill('Hello Durgesh, this is a test inquiry about intelligent systems engineering.');
 
-    // Submit form
+    // Submit form and await response
     const submitBtn = page.getByRole('button', { name: /Send Message/i });
-    await expect(submitBtn).toBeVisible();
-    await submitBtn.click();
+    await submitBtn.scrollIntoViewIfNeeded();
+    await expect(submitBtn).toBeEnabled();
+
+    await Promise.all([
+      page.waitForResponse((res) => res.url().includes('/api/contact')),
+      submitBtn.click(),
+    ]);
 
     // Verify success banner and updated copy
     await expect(page.getByText('Message Dispatched!')).toBeVisible({ timeout: 10000 });
@@ -56,7 +61,13 @@ test.describe('Contact Form Interaction & Resilience', () => {
     await page.locator('#contact-message').fill('Checking rate limit handling in UI.');
 
     const submitBtn = page.getByRole('button', { name: /Send Message/i });
-    await submitBtn.click();
+    await submitBtn.scrollIntoViewIfNeeded();
+    await expect(submitBtn).toBeEnabled();
+
+    await Promise.all([
+      page.waitForResponse((res) => res.url().includes('/api/contact')),
+      submitBtn.click(),
+    ]);
 
     // Verify error banner displays rate limit error message
     await expect(
