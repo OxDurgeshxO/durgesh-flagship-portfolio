@@ -4,8 +4,13 @@ import React, { useState, useEffect, useRef, useCallback, Suspense } from 'react
 import { Canvas } from '@react-three/fiber'
 import CyberBotModel from './CyberBotModel'
 import SpeechBubble from './SpeechBubble'
+import CyberBotQuickDial from './CyberBotQuickDial'
+import CyberBotTelemetryOverlay from './CyberBotTelemetryOverlay'
 import { trackEvent } from '@/lib/analytics'
 import { CyberBotSpeechEngine, stripEmojis } from '@/lib/companion/speech'
+import { searchKnowledge, SUGGESTED_QUESTION_CHIPS } from '@/lib/companion/knowledge'
+import { CyberBotVoiceListener, VoiceCommandResult } from '@/lib/companion/voice-recognition'
+import { CyberBotSkinId, CYBERBOT_SKINS, getNextSkinId } from '@/lib/companion/skins'
 
 function getTimeBasedGreeting(): string {
   const hour = new Date().getHours()
@@ -72,6 +77,14 @@ export default function RoamingCompanion3D() {
   const [tourActive, setTourActive] = useState(false)
   const [tourStep, setTourStep] = useState(0)
 
+  // Ultimate features states
+  const [skin, setSkin] = useState<CyberBotSkinId>('cobalt-prime')
+  const [isDancing, setIsDancing] = useState(false)
+  const [isListening, setIsListening] = useState(false)
+  const [quickDialOpen, setQuickDialOpen] = useState(false)
+  const [telemetryOpen, setTelemetryOpen] = useState(false)
+  const [knowledgeAction, setKnowledgeAction] = useState<{ url: string; label: string } | null>(null)
+
   const isMutedRef = useRef(false)
   isMutedRef.current = isMuted
   const voiceEnabledRef = useRef(false)
@@ -80,6 +93,8 @@ export default function RoamingCompanion3D() {
   tourActiveRef.current = tourActive
   const tourStepRef = useRef(0)
   tourStepRef.current = tourStep
+  const skinRef = useRef<CyberBotSkinId>('cobalt-prime')
+  skinRef.current = skin
 
   // Position in viewport pixels
   const posRef = useRef({ x: 0, y: 0 })
@@ -128,9 +143,7 @@ export default function RoamingCompanion3D() {
 
       osc.start()
       osc.stop(ctx.currentTime + 0.22)
-    } catch {
-      // Audio playback silently catches if blocked by browser autoplay policy
-    }
+    } catch {}
   }, [getAudioContext])
 
   // Acrobatic Ion Flip 800ms procedural sine sweep (520Hz -> 880Hz -> 1300Hz)
@@ -151,6 +164,28 @@ export default function RoamingCompanion3D() {
       gain.connect(ctx.destination)
       osc.start()
       osc.stop(ctx.currentTime + 0.8)
+    } catch {}
+  }, [getAudioContext])
+
+  // Procedural 8-bit chip dance groove melody
+  const playDanceGroove = useCallback(() => {
+    if (isMutedRef.current) return
+    try {
+      const ctx = getAudioContext()
+      if (!ctx) return
+      const notes = [261.63, 329.63, 392.0, 523.25, 440.0, 349.23, 392.0, 523.25]
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator()
+        const gain = ctx.createGain()
+        osc.type = 'triangle'
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.24)
+        gain.gain.setValueAtTime(0.07, ctx.currentTime + idx * 0.24)
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.24 + 0.2)
+        osc.connect(gain)
+        gain.connect(ctx.destination)
+        osc.start(ctx.currentTime + idx * 0.24)
+        osc.stop(ctx.currentTime + idx * 0.24 + 0.2)
+      })
     } catch {}
   }, [getAudioContext])
 
@@ -181,11 +216,37 @@ export default function RoamingCompanion3D() {
     }, 950)
   }, [playStuntChirp])
 
+  // Execute beat dance
+  const triggerDance = useCallback(() => {
+    setIsDancing(true)
+    setMood('happy')
+    playDanceGroove()
+    const danceMsg = "Let's groove! 🎶 Engineering is precision, art, and rhythm!"
+    setActiveMessage(danceMsg)
+    setBubbleVisible(true)
+    speakVoiceLine(danceMsg)
+    setTimeout(() => {
+      setIsDancing(false)
+    }, 8500)
+  }, [playDanceGroove, speakVoiceLine])
+
+  // Cycle chassis skin
+  const cycleSkin = useCallback(() => {
+    const next = getNextSkinId(skinRef.current)
+    setSkin(next)
+    skinRef.current = next
+    safeSetItem('cyberbot_skin', next)
+    playCyberChirp(600, 1050)
+    const skinName = CYBERBOT_SKINS[next].name
+    setActiveMessage(`Chassis skin switched to ${skinName}! ✨`)
+    setBubbleVisible(true)
+    speakVoiceLine(`Skin switched to ${skinName}`)
+  }, [playCyberChirp, speakVoiceLine])
+
   // Recruiter Guided Tour Step Advancement
   const advanceTour = useCallback((stepIdx?: number) => {
     const currentStep = stepIdx ?? (tourStepRef.current + 1)
     if (currentStep >= TOUR_LANDMARKS.length) {
-      // Tour completed
       setTourActive(false)
       tourActiveRef.current = false
       setTourStep(0)
@@ -228,12 +289,102 @@ export default function RoamingCompanion3D() {
     playCyberChirp(480, 600)
   }, [playCyberChirp])
 
+  // Semantic Q&A Search Handler
+  const handleAskQuestion = useCallback((query: string) => {
+    const result = searchKnowledge(query)
+    if (result) {
+      setActiveMessage(result.answer)
+      if (result.actionUrl && result.actionLabel) {
+        setKnowledgeAction({ url: result.actionUrl, label: result.actionLabel })
+      } else {
+        setKnowledgeAction(null)
+      }
+      setBubbleVisible(true)
+      triggerFlip()
+      speakVoiceLine(result.answer)
+      playCyberChirp(600, 1000)
+    } else {
+      const fallback = "I couldn't find an exact match, but Durgesh specializes in AI/ML, autonomous agents, and Next.js! Check out RoleRadar or his resume below."
+      setActiveMessage(fallback)
+      setKnowledgeAction({ url: '/resume', label: 'View Verified Resume 📄' })
+      setBubbleVisible(true)
+      speakVoiceLine(fallback)
+      playCyberChirp(480, 650)
+    }
+  }, [playCyberChirp, speakVoiceLine, triggerFlip])
+
+  // Voice Command Handler
+  const handleVoiceCommand = useCallback((result: VoiceCommandResult) => {
+    playCyberChirp(550, 950)
+    switch (result.action) {
+      case 'flip':
+        triggerFlip()
+        break
+      case 'projects':
+        const el = document.getElementById('projects') || document.getElementById('featured-projects')
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+        setActiveMessage("Navigating to flagship production projects! 🚀")
+        setBubbleVisible(true)
+        speakVoiceLine("Navigating to projects")
+        break
+      case 'tour':
+        advanceTour(0)
+        break
+      case 'resume':
+        const link = document.createElement('a')
+        link.href = '/resume.pdf'
+        link.download = 'Durgesh_Sinha_Resume_2026.pdf'
+        link.target = '_blank'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        setActiveMessage("Downloading Durgesh's 1-page verified resume! 📄")
+        setBubbleVisible(true)
+        speakVoiceLine("Downloading verified resume")
+        break
+      case 'contact':
+        const contactEl = document.getElementById('contact')
+        if (contactEl) contactEl.scrollIntoView({ behavior: 'smooth' })
+        setActiveMessage("Opening contact portal. Send Durgesh a direct message! 📬")
+        setBubbleVisible(true)
+        speakVoiceLine("Opening contact portal")
+        break
+      case 'mute':
+        const nextMute = !isMutedRef.current
+        setIsMuted(nextMute)
+        isMutedRef.current = nextMute
+        safeSetItem('cyberbot_muted', String(nextMute))
+        setActiveMessage(nextMute ? "Audio muted 🔕" : "Audio active 🔊")
+        setBubbleVisible(true)
+        break
+      case 'voice':
+        const nextVoice = !voiceEnabledRef.current
+        setVoiceEnabled(nextVoice)
+        voiceEnabledRef.current = nextVoice
+        safeSetItem('cyberbot_voice_enabled', String(nextVoice))
+        setActiveMessage(nextVoice ? "Voice synthesis active 🎙️" : "Voice synthesis off 🔇")
+        setBubbleVisible(true)
+        break
+      case 'skin':
+        cycleSkin()
+        break
+      case 'dance':
+        triggerDance()
+        break
+      case 'query':
+        if (result.matchedQuery) {
+          handleAskQuestion(result.matchedQuery)
+        }
+        break
+    }
+  }, [advanceTour, cycleSkin, handleAskQuestion, playCyberChirp, speakVoiceLine, triggerDance, triggerFlip])
+
   // Center summon
   const summonBotToCenter = useCallback(() => {
     setMode('roam')
     setBubbleVisible(true)
     triggerFlip()
-    const greeting = "Hey there! 🤖 I'm CyberBot AI. I'm right here with you! Press Alt+T for a tour or Space for stunts!"
+    const greeting = "Hey there! 🤖 I'm CyberBot AI. I'm right here with you! Press Alt+T for a tour, ask me anything, or press B to dance!"
     setActiveMessage(greeting)
     speakVoiceLine(greeting)
 
@@ -281,6 +432,12 @@ export default function RoamingCompanion3D() {
       const savedVoice = safeGetItem('cyberbot_voice_enabled') === 'true'
       setVoiceEnabled(savedVoice)
       voiceEnabledRef.current = savedVoice
+
+      const savedSkin = safeGetItem('cyberbot_skin') as CyberBotSkinId
+      if (savedSkin && CYBERBOT_SKINS[savedSkin]) {
+        setSkin(savedSkin)
+        skinRef.current = savedSkin
+      }
     }
 
     // Global listener for summon button in Hero or Navbar
@@ -311,7 +468,6 @@ export default function RoamingCompanion3D() {
     let ticking = false
 
     const handleSectionScroll = () => {
-      // Do not interrupt active recruiter tour with scroll-spy triggers
       if (tourActiveRef.current) return
       if (ticking) return
       ticking = true
@@ -330,6 +486,7 @@ export default function RoamingCompanion3D() {
               if (lastDetectedSection !== id) {
                 lastDetectedSection = id
                 setActiveMessage(msg)
+                setKnowledgeAction(null)
                 setBubbleVisible(true)
                 playCyberChirp(580, 850)
                 speakVoiceLine(msg)
@@ -347,22 +504,8 @@ export default function RoamingCompanion3D() {
 
     window.addEventListener('scroll', handleSectionScroll, { passive: true })
 
-    const handleMuteToggle = (e: Event) => {
-      const custom = e as CustomEvent<{ muted: boolean }>
-      if (custom.detail && typeof custom.detail.muted === 'boolean') {
-        setIsMuted(custom.detail.muted)
-        isMutedRef.current = custom.detail.muted
-      } else {
-        const saved = safeGetItem('cyberbot_muted') === 'true'
-        setIsMuted(saved)
-        isMutedRef.current = saved
-      }
-    }
-    window.addEventListener('cyberbot-mute-toggle', handleMuteToggle)
-
-    // Global Hotkey Suite: Alt+C (Summon), Alt+T (Tour), Escape (Dismiss)
+    // Global Hotkey Suite
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
-      // Ignore if user is currently typing inside an input, textarea, or contentEditable
       const target = e.target as HTMLElement | null
       const isInput = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)
 
@@ -374,14 +517,15 @@ export default function RoamingCompanion3D() {
 
       if (e.altKey && (e.key === 't' || e.key === 'T')) {
         e.preventDefault()
-        advanceTour(tourActiveRef.current ? (tourStepRef.current + 1) : 0)
+        advanceTour(tourActiveRef.current ? tourStepRef.current + 1 : 0)
         return
       }
 
       if (e.key === 'Escape') {
-        if (tourActiveRef.current) {
-          stopTour()
-        } else {
+        if (quickDialOpen) setQuickDialOpen(false)
+        if (telemetryOpen) setTelemetryOpen(false)
+        if (tourActiveRef.current) stopTour()
+        else {
           setBubbleVisible(false)
           CyberBotSpeechEngine.getInstance().cancel()
           setIsSpeaking(false)
@@ -395,8 +539,21 @@ export default function RoamingCompanion3D() {
           const nextIndex = (voiceIndex + 1) % CYBERBOT_VOICELINES.length
           setVoiceIndex(nextIndex)
           setActiveMessage(CYBERBOT_VOICELINES[nextIndex])
+          setKnowledgeAction(null)
           setBubbleVisible(true)
           speakVoiceLine(CYBERBOT_VOICELINES[nextIndex])
+        } else if (e.key === 'b' || e.key === 'B') {
+          e.preventDefault()
+          triggerDance()
+        } else if (e.key === 'q' || e.key === 'Q') {
+          e.preventDefault()
+          setQuickDialOpen((v) => !v)
+        } else if (e.key === 'h' || e.key === 'H') {
+          e.preventDefault()
+          setTelemetryOpen((v) => !v)
+        } else if (e.key === 's' || e.key === 'S') {
+          e.preventDefault()
+          cycleSkin()
         } else if (e.key === 'd' || e.key === 'D') {
           e.preventDefault()
           setMode((m) => (m === 'dock' ? 'roam' : m === 'roam' ? 'follow' : 'dock'))
@@ -410,19 +567,16 @@ export default function RoamingCompanion3D() {
           if (!next) playCyberChirp(600, 950)
         } else if (e.key === 'v' || e.key === 'V') {
           e.preventDefault()
-          const next = !voiceEnabledRef.current
-          setVoiceEnabled(next)
-          voiceEnabledRef.current = next
-          safeSetItem('cyberbot_voice_enabled', String(next))
-          if (next) {
-            speakVoiceLine("Voice synthesis active. CyberBot online!")
-          } else {
-            CyberBotSpeechEngine.getInstance().cancel()
-            setIsSpeaking(false)
+          const listener = CyberBotVoiceListener.getInstance()
+          if (listener.isSupported()) {
+            listener.listen(
+              handleVoiceCommand,
+              (active) => setIsListening(active)
+            )
           }
         } else if (e.key === 't' || e.key === 'T') {
           e.preventDefault()
-          advanceTour(tourActiveRef.current ? (tourStepRef.current + 1) : 0)
+          advanceTour(tourActiveRef.current ? tourStepRef.current + 1 : 0)
         }
       }
     }
@@ -434,15 +588,28 @@ export default function RoamingCompanion3D() {
       if (dismissTimer) clearTimeout(dismissTimer)
       window.removeEventListener('scroll', handleSectionScroll)
       window.removeEventListener('summon-cyberbot', handleSummon)
-      window.removeEventListener('cyberbot-mute-toggle', handleMuteToggle)
       window.removeEventListener('keydown', handleGlobalKeyDown)
       CyberBotSpeechEngine.getInstance().cancel()
+      CyberBotVoiceListener.getInstance().stop()
       if (audioCtxRef.current) {
         audioCtxRef.current.close().catch(() => {})
         audioCtxRef.current = null
       }
     }
-  }, [advanceTour, playCyberChirp, speakVoiceLine, stopTour, summonBotToCenter, triggerFlip, voiceIndex])
+  }, [
+    advanceTour,
+    cycleSkin,
+    handleVoiceCommand,
+    playCyberChirp,
+    quickDialOpen,
+    speakVoiceLine,
+    stopTour,
+    summonBotToCenter,
+    telemetryOpen,
+    triggerDance,
+    triggerFlip,
+    voiceIndex,
+  ])
 
   // Global mouse tracking
   useEffect(() => {
@@ -450,10 +617,7 @@ export default function RoamingCompanion3D() {
       mouseScreenRef.current = { x: e.clientX, y: e.clientY }
 
       if (isDragging) {
-        // Stop tour on manual drag repositioning
-        if (tourActiveRef.current) {
-          stopTour()
-        }
+        if (tourActiveRef.current) stopTour()
         const maxX = window.innerWidth - 180
         const maxY = window.innerHeight - 250
         posRef.current = {
@@ -478,7 +642,7 @@ export default function RoamingCompanion3D() {
     }
   }, [isDragging, playCyberChirp, stopTour])
 
-  // Inactivity tracking: 5000ms idle timer to throttle WebGL loops and save battery
+  // Inactivity tracking
   useEffect(() => {
     let idleTimer: NodeJS.Timeout | null = null
 
@@ -491,7 +655,6 @@ export default function RoamingCompanion3D() {
     }
 
     resetIdleTimer()
-
     const events = ['pointermove', 'pointerdown', 'wheel', 'keydown', 'scroll', 'touchstart']
     events.forEach((ev) => window.addEventListener(ev, resetIdleTimer, { passive: true }))
 
@@ -501,7 +664,7 @@ export default function RoamingCompanion3D() {
     }
   }, [])
 
-  // Physics & Roaming Loop with Battery Sleep Mode
+  // Physics & Roaming Loop
   useEffect(() => {
     if (!mounted) return
 
@@ -533,13 +696,11 @@ export default function RoamingCompanion3D() {
 
       if (!isDragging) {
         if (mode === 'dock') {
-          // Park gracefully at bottom right, strictly inside viewport
           const targetX = safeMaxX
           const targetY = safeMaxY
           posRef.current.x += (targetX - posRef.current.x) * 0.12
           posRef.current.y += (targetY - posRef.current.y) * 0.12
         } else if (mode === 'roam' && !isHovered) {
-          // Smooth waypoint navigation across screen
           if (now - lastWaypointTime > 5000) {
             targetRef.current = {
               x: safeMinX + Math.random() * (safeMaxX - safeMinX),
@@ -547,13 +708,11 @@ export default function RoamingCompanion3D() {
             }
             lastWaypointTime = now
           }
-
           const dx = targetRef.current.x - posRef.current.x
           const dy = targetRef.current.y - posRef.current.y
           posRef.current.x += dx * 0.016
           posRef.current.y += dy * 0.016
         } else if (mode === 'follow' && !isHovered) {
-          // Accompany cursor with friendly offset
           const targetX = Math.max(safeMinX, Math.min(safeMaxX, mouseScreenRef.current.x + 60))
           const targetY = Math.max(safeMinY, Math.min(safeMaxY, mouseScreenRef.current.y - 120))
           posRef.current.x += (targetX - posRef.current.x) * 0.04
@@ -561,7 +720,6 @@ export default function RoamingCompanion3D() {
         }
       }
 
-      // Dynamic adaptive alignment for speech bubble
       if (posRef.current.x > width - 360) {
         setBubbleAlign('left')
       } else if (posRef.current.x < 320) {
@@ -570,7 +728,6 @@ export default function RoamingCompanion3D() {
         setBubbleAlign('center')
       }
 
-      // Handle 360° jump spin stunt
       if (isSpinning) {
         if (spinStart === null) spinStart = now
         const elapsed = (now - spinStart) / 800
@@ -584,14 +741,13 @@ export default function RoamingCompanion3D() {
         }
       }
 
-      // Direct transform update
       if (containerRef.current) {
         containerRef.current.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`
       }
 
-      // Battery Saver: sleep loop when idle or when docked and settled
-      if (!isHovered && !isSpinning && !isDragging) {
-        const settled = Math.abs(safeMaxX - posRef.current.x) < 0.2 && Math.abs(safeMaxY - posRef.current.y) < 0.2
+      if (!isHovered && !isSpinning && !isDragging && !isDancing) {
+        const settled =
+          Math.abs(safeMaxX - posRef.current.x) < 0.2 && Math.abs(safeMaxY - posRef.current.y) < 0.2
         if ((mode === 'dock' && settled) || isIdle) {
           isSleeping = true
           return
@@ -606,9 +762,8 @@ export default function RoamingCompanion3D() {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
       wakeEvents.forEach((ev) => window.removeEventListener(ev, wakeUp))
     }
-  }, [mounted, isHovered, isSpinning, mode, isDragging, isIdle])
+  }, [mounted, isHovered, isSpinning, mode, isDragging, isIdle, isDancing])
 
-  // Handle Click Interaction
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
     triggerFlip()
@@ -616,12 +771,12 @@ export default function RoamingCompanion3D() {
     const nextIndex = (voiceIndex + 1) % CYBERBOT_VOICELINES.length
     setVoiceIndex(nextIndex)
     setActiveMessage(CYBERBOT_VOICELINES[nextIndex])
+    setKnowledgeAction(null)
     setBubbleVisible(true)
     speakVoiceLine(CYBERBOT_VOICELINES[nextIndex])
     trackEvent('cyberbot_interact', { action: 'stunt_spin', line_index: nextIndex })
   }
 
-  // Handle Hover Interaction
   const handleMouseEnter = () => {
     setIsHovered(true)
     setMood('happy')
@@ -634,14 +789,13 @@ export default function RoamingCompanion3D() {
       setIsHovered(false)
       setMood('normal')
       setTimeout(() => {
-        if (!tourActiveRef.current) {
+        if (!tourActiveRef.current && !quickDialOpen && !telemetryOpen) {
           setBubbleVisible(false)
         }
       }, 5000)
     }
   }
 
-  // Handle Dragging
   const handleMouseDown = (e: React.MouseEvent) => {
     if (e.button !== 0) return
     setIsDragging(true)
@@ -654,18 +808,10 @@ export default function RoamingCompanion3D() {
   const handleBubbleAction = (action: string) => {
     if (action === 'flip') {
       triggerFlip()
-    } else if (action === 'projects') {
-      const el = document.getElementById('projects') || document.getElementById('featured-projects')
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
-      setBubbleVisible(false)
-    } else if (action === 'next') {
-      const nextIndex = (voiceIndex + 1) % CYBERBOT_VOICELINES.length
-      setVoiceIndex(nextIndex)
-      setActiveMessage(CYBERBOT_VOICELINES[nextIndex])
-      playCyberChirp(520, 980)
-      speakVoiceLine(CYBERBOT_VOICELINES[nextIndex])
+    } else if (action === 'quick-dial') {
+      setQuickDialOpen((v) => !v)
     } else if (action === 'tour-start' || action === 'tour-next') {
-      advanceTour(tourActive ? (tourStep + 1) : 0)
+      advanceTour(tourActive ? tourStep + 1 : 0)
     } else if (action === 'tour-stop') {
       stopTour()
     }
@@ -673,7 +819,6 @@ export default function RoamingCompanion3D() {
 
   if (!mounted) return null
 
-  // Relative mouse for 3D look-at
   const relativeMouse = {
     x: (mouseScreenRef.current.x - posRef.current.x) / window.innerWidth,
     y: (mouseScreenRef.current.y - posRef.current.y) / window.innerHeight,
@@ -687,6 +832,8 @@ export default function RoamingCompanion3D() {
       }
     : null
 
+  const activeSkinObj = CYBERBOT_SKINS[skin]
+
   return (
     <div className="fixed inset-0 pointer-events-none z-40 block">
       {/* 3D CyberBot Floating Anchor */}
@@ -694,12 +841,12 @@ export default function RoamingCompanion3D() {
         ref={containerRef}
         tabIndex={0}
         role="region"
-        aria-label="CyberBot 3D AI Companion. Hotkeys: Space to flip, T for Tour, V for Voice, M to Mute, Escape to dismiss."
+        aria-label="CyberBot 3D AI Companion. Hotkeys: Space to flip, B to dance, Q for quick-dial, H for telemetry, S to change skin, V to speak, Escape to close."
         className="absolute top-0 left-0 w-44 h-56 select-none will-change-transform rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
         style={{ touchAction: 'none' }}
       >
         {/* Quick Chat Callout Badge (visible when bubble is dismissed) */}
-        {!bubbleVisible && (
+        {!bubbleVisible && !quickDialOpen && !telemetryOpen && (
           <div className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-auto">
             <button
               onClick={(e) => {
@@ -708,7 +855,7 @@ export default function RoamingCompanion3D() {
                 playCyberChirp(600, 1000)
                 speakVoiceLine(activeMessage)
               }}
-              className="px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-[#120f1d]/90 border border-[#f59e0b]/70 text-[#f59e0b] shadow-[0_0_15px_rgba(245,158,11,0.3)] backdrop-blur-xl transition-all flex items-center gap-2 active:scale-95 hover:border-[#f59e0b]"
+              className={`px-3 py-1 rounded-full text-[11px] font-mono font-semibold ${activeSkinObj.badgeBg} border ${activeSkinObj.accentBorder} ${activeSkinObj.badgeText} shadow-[0_0_15px_rgba(245,158,11,0.3)] backdrop-blur-xl transition-all flex items-center gap-2 active:scale-95`}
               title="CyberBot AI Companion (Press Alt+C to summon)"
             >
               <span className="w-2 h-2 rounded-full bg-[#c084fc] shadow-[0_0_8px_#c084fc] animate-pulse" />
@@ -717,12 +864,31 @@ export default function RoamingCompanion3D() {
           </div>
         )}
 
-        {/* Adaptive Speech Bubble */}
+        {/* Quick Dial Drawer */}
+        <CyberBotQuickDial
+          visible={quickDialOpen}
+          onClose={() => setQuickDialOpen(false)}
+          onStartTour={() => advanceTour(0)}
+          onPlayChime={playCyberChirp}
+        />
+
+        {/* Telemetry Overlay */}
+        <CyberBotTelemetryOverlay
+          visible={telemetryOpen}
+          onClose={() => setTelemetryOpen(false)}
+        />
+
+        {/* Adaptive Speech Bubble with Q&A and Voice Recognition */}
         <SpeechBubble
           message={activeMessage}
-          visible={bubbleVisible}
+          visible={bubbleVisible && !quickDialOpen && !telemetryOpen}
           align={bubbleAlign}
           tourStatus={currentTourStatus}
+          knowledgeAction={knowledgeAction}
+          isListening={isListening}
+          suggestedChips={SUGGESTED_QUESTION_CHIPS}
+          onSelectChip={(chip) => handleAskQuestion(chip)}
+          onAskQuestion={(q) => handleAskQuestion(q)}
           onAction={handleBubbleAction}
           onDismiss={() => {
             if (tourActive) stopTour()
@@ -741,15 +907,23 @@ export default function RoamingCompanion3D() {
           className={`w-full h-full relative cursor-grab active:cursor-grabbing pointer-events-auto rounded-3xl transition-all duration-300 ${
             isHovered
               ? 'drop-shadow-[0_0_35px_rgba(244,63,94,0.7)] scale-105'
-              : isSpeaking
+              : isSpeaking || isDancing
               ? 'drop-shadow-[0_0_30px_rgba(245,158,11,0.6)] scale-102'
               : 'drop-shadow-[0_0_20px_rgba(168,85,247,0.4)]'
           }`}
-          title="Click for acrobatic flip! Drag to move. Alt+C to summon, Alt+T for Tour."
+          title="Click to flip! Double-click or press B to dance! Drag to move."
         >
           {/* Holographic Pulse Aura on Hover or Speaking */}
-          {(isHovered || isSpeaking) && (
-            <div className={`absolute inset-x-2 bottom-0 h-16 rounded-full border ${isSpeaking ? 'border-amber-400/60' : 'border-purple-400/50'} animate-ping pointer-events-none opacity-40`} />
+          {(isHovered || isSpeaking || isDancing) && (
+            <div
+              className={`absolute inset-x-2 bottom-0 h-16 rounded-full border ${
+                isDancing
+                  ? 'border-emerald-400/70'
+                  : isSpeaking
+                  ? 'border-amber-400/60'
+                  : 'border-purple-400/50'
+              } animate-ping pointer-events-none opacity-40`}
+            />
           )}
 
           <Canvas
@@ -757,7 +931,11 @@ export default function RoamingCompanion3D() {
             camera={{ position: [0, 0, 3.2], fov: 45 }}
             dpr={[1, 1.5]}
             gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
-            frameloop={isIdle && !isHovered && !isSpinning && !isDragging && !isSpeaking ? 'demand' : 'always'}
+            frameloop={
+              isIdle && !isHovered && !isSpinning && !isDragging && !isSpeaking && !isDancing
+                ? 'demand'
+                : 'always'
+            }
             className="w-full h-full"
           >
             <Suspense fallback={null}>
@@ -768,47 +946,61 @@ export default function RoamingCompanion3D() {
                 mousePos={relativeMouse}
                 mood={mood}
                 isSpeaking={isSpeaking}
+                isDancing={isDancing}
+                skin={skin}
               />
             </Suspense>
           </Canvas>
 
           {/* Mini Interactive Mode & Audio Controls Pill */}
-          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-auto flex items-center gap-1.5">
-            {/* Motion Mode Cycle */}
+          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-auto flex items-center gap-1">
+            {/* Quick-Dial Drawer Trigger */}
             <button
               onClick={(e) => {
                 e.stopPropagation()
-                setMode((m) => (m === 'dock' ? 'roam' : m === 'roam' ? 'follow' : 'dock'))
-                playCyberChirp(550, 750)
+                setQuickDialOpen((v) => !v)
+                playCyberChirp(650, 950)
               }}
-              className="px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold bg-[#120f1d]/90 border border-[#f59e0b]/60 text-[#f59e0b] shadow-[0_0_12px_rgba(245,158,11,0.2)] backdrop-blur-xl transition-all flex items-center gap-1.5 cursor-pointer hover:border-[#f59e0b]"
-              title="Motion Mode (Key D)"
+              className={`px-2 py-1 rounded-full text-[10px] font-mono font-bold backdrop-blur-xl transition-all shadow-xl flex items-center gap-1 cursor-pointer ${
+                quickDialOpen
+                  ? 'bg-emerald-500/25 border border-emerald-400 text-emerald-300'
+                  : 'bg-slate-950/90 border border-white/10 text-slate-300 hover:text-emerald-300'
+              }`}
+              title="Recruiter Quick-Dial (Key Q)"
             >
-              {mode === 'dock' && (
-                <>
-                  <span className="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981] animate-pulse" />
-                  <span>💤 Dock</span>
-                </>
-              )}
-              {mode === 'roam' && (
-                <>
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-ping" />
-                  <span>🟢 Roam</span>
-                </>
-              )}
-              {mode === 'follow' && (
-                <>
-                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce" />
-                  <span>🧲 Follow</span>
-                </>
-              )}
+              <span>⚡</span>
+            </button>
+
+            {/* Voice Recognition Push-to-Talk */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                const listener = CyberBotVoiceListener.getInstance()
+                if (listener.isSupported()) {
+                  listener.listen(
+                    handleVoiceCommand,
+                    (active) => setIsListening(active)
+                  )
+                } else {
+                  setActiveMessage("Voice recognition is not supported in this browser. Try Chrome/Edge!")
+                  setBubbleVisible(true)
+                }
+              }}
+              className={`px-2 py-1 rounded-full text-[10px] font-mono font-bold backdrop-blur-xl transition-all shadow-xl flex items-center gap-1 cursor-pointer ${
+                isListening
+                  ? 'bg-rose-500/25 border border-rose-400 text-rose-300 animate-pulse'
+                  : 'bg-slate-950/90 border border-white/10 text-slate-300 hover:text-rose-300'
+              }`}
+              title="Voice Commands (Key V)"
+            >
+              <span>🎤</span>
             </button>
 
             {/* Recruiter Guided Tour Button */}
             <button
               onClick={(e) => {
                 e.stopPropagation()
-                advanceTour(tourActive ? (tourStep + 1) : 0)
+                advanceTour(tourActive ? tourStep + 1 : 0)
               }}
               className={`px-2 py-1 rounded-full text-[10px] font-mono font-bold backdrop-blur-xl transition-all shadow-xl flex items-center gap-1 cursor-pointer ${
                 tourActive
@@ -818,33 +1010,37 @@ export default function RoamingCompanion3D() {
               title="Recruiter Guided Tour (Alt+T or Key T)"
             >
               <span>🧭</span>
-              <span className="hidden sm:inline">{tourActive ? `${tourStep + 1}/${TOUR_LANDMARKS.length}` : 'Tour'}</span>
+              <span className="hidden sm:inline">
+                {tourActive ? `${tourStep + 1}/${TOUR_LANDMARKS.length}` : 'Tour'}
+              </span>
             </button>
 
-            {/* Synthetic Voice Engine Toggle */}
+            {/* Skin Cycle Button */}
             <button
               onClick={(e) => {
                 e.stopPropagation()
-                const next = !voiceEnabled
-                setVoiceEnabled(next)
-                voiceEnabledRef.current = next
-                safeSetItem('cyberbot_voice_enabled', String(next))
-                if (next) {
-                  speakVoiceLine("Voice synthesis activated.")
-                } else {
-                  CyberBotSpeechEngine.getInstance().cancel()
-                  setIsSpeaking(false)
-                }
+                cycleSkin()
+              }}
+              className="px-2 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/90 border border-white/10 text-slate-300 hover:text-purple-300 backdrop-blur-xl transition-all shadow-xl flex items-center gap-1 cursor-pointer"
+              title="Change Chassis Skin (Key S)"
+            >
+              <span>🎨</span>
+            </button>
+
+            {/* Telemetry HUD Toggle */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setTelemetryOpen((v) => !v)
               }}
               className={`px-2 py-1 rounded-full text-[10px] font-mono font-bold backdrop-blur-xl transition-all shadow-xl flex items-center gap-1 cursor-pointer ${
-                voiceEnabled
-                  ? 'bg-emerald-500/20 border border-emerald-400 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.35)]'
-                  : 'bg-slate-950/90 border border-border-strong text-muted-foreground hover:text-body'
+                telemetryOpen
+                  ? 'bg-cyan-500/25 border border-cyan-400 text-cyan-300'
+                  : 'bg-slate-950/90 border border-white/10 text-slate-300 hover:text-cyan-300'
               }`}
-              title={voiceEnabled ? "Voice Synthesis Active (Key V to disable)" : "Enable Web Speech API Voice (Key V)"}
+              title="Hardware Telemetry (Key H)"
             >
-              <span>{voiceEnabled ? '🎙️' : '🔇'}</span>
-              <span className="hidden sm:inline">{voiceEnabled ? 'Voice' : 'Voice'}</span>
+              <span>📊</span>
             </button>
 
             {/* Audio Mute / Unmute Toggle */}
@@ -864,7 +1060,7 @@ export default function RoamingCompanion3D() {
                   ? 'border-border-strong text-muted-foreground hover:text-body'
                   : 'border-rose-500/40 text-secondary hover:border-rose-400 shadow-black/20'
               }`}
-              title={isMuted ? "CyberBot Audio Muted (Key M)" : "CyberBot Audio Active (Key M)"}
+              title={isMuted ? 'CyberBot Audio Muted (Key M)' : 'CyberBot Audio Active (Key M)'}
             >
               <span>{isMuted ? '🔕' : '🔊'}</span>
             </button>
