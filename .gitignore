@@ -22,6 +22,7 @@ build/
 coverage/
 playwright-report/
 test-results/
+.lighthouseci/
 
 # Logs
 *.log
