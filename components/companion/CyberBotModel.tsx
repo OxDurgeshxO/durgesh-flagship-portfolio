@@ -10,6 +10,7 @@ interface CyberBotProps {
   spinProgress: number
   mousePos: { x: number; y: number }
   mood: 'normal' | 'happy' | 'stunt'
+  isSpeaking?: boolean
 }
 
 export default function CyberBotModel({
@@ -18,6 +19,7 @@ export default function CyberBotModel({
   spinProgress,
   mousePos,
   mood,
+  isSpeaking = false,
 }: CyberBotProps) {
   const groupRef = useRef<THREE.Group>(null)
   const haloOuterRef = useRef<THREE.Mesh>(null)
@@ -29,7 +31,7 @@ export default function CyberBotModel({
   const rightHandRef = useRef<THREE.Group>(null)
   const thrusterFlameRef = useRef<THREE.Mesh>(null)
 
-  // Priority 1: Mobile performance scaling
+  // Mobile performance scaling
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
   const sparkCount = isMobile ? 8 : 24
   const sparkPositions = useMemo(() => {
@@ -67,15 +69,17 @@ export default function CyberBotModel({
 
     // Dual Counter-Rotating Holographic Halos
     if (haloOuterRef.current && haloInnerRef.current) {
-      haloOuterRef.current.rotation.y += delta * (isHovered ? 3.5 : 1.5)
+      haloOuterRef.current.rotation.y += delta * (isHovered || isSpeaking ? 3.5 : 1.5)
       haloOuterRef.current.rotation.x = Math.sin(time * 2) * 0.2
-      haloInnerRef.current.rotation.y -= delta * (isHovered ? 2.5 : 1.0)
+      haloInnerRef.current.rotation.y -= delta * (isHovered || isSpeaking ? 2.5 : 1.0)
       haloInnerRef.current.rotation.z = Math.cos(time * 2) * 0.2
     }
 
-    // Arc Reactor Core Pulse
+    // Arc Reactor Core Pulse (accelerates and expands when speaking)
     if (coreRef.current) {
-      const pulse = 1 + Math.sin(time * 6) * 0.15
+      const pulseSpeed = isSpeaking ? 14 : 6
+      const pulseAmp = isSpeaking ? 0.28 : 0.15
+      const pulse = 1 + Math.sin(time * pulseSpeed) * pulseAmp
       coreRef.current.scale.set(pulse, pulse, pulse)
     }
 
@@ -100,14 +104,14 @@ export default function CyberBotModel({
     // Eye blinking / expression
     if (eyeLeftRef.current && eyeRightRef.current) {
       const blink = Math.sin(time * 0.7) > 0.96 ? 0.1 : 1
-      const scaleY = mood === 'happy' ? 0.35 : blink
+      const scaleY = mood === 'happy' || isSpeaking ? 0.35 : blink
       eyeLeftRef.current.scale.y = scaleY
       eyeRightRef.current.scale.y = scaleY
     }
   })
 
-  const primaryGlow = isHovered ? '#f43f5e' : '#a855f7' // Rose Quartz hover / Sunset Violet normal
-  const accentGlow = isHovered ? '#c084fc' : '#fb7185' // Sunset Violet / Rose Quartz
+  const primaryGlow = isHovered || isSpeaking ? '#f43f5e' : '#a855f7' // Rose Quartz hover / Sunset Violet normal
+  const accentGlow = isHovered || isSpeaking ? '#c084fc' : '#fb7185' // Sunset Violet / Rose Quartz
   const armorColor = '#f1f5f9' // Crisp Pearlescent Platinum White
   const darkChassisColor = '#0f172a' // Midnight Obsidian Slate
 
@@ -118,15 +122,15 @@ export default function CyberBotModel({
       <directionalLight position={[3, 4, 4]} intensity={2.8} color="#ffffff" />
       <directionalLight position={[-4, 2, -2]} intensity={2.2} color="#fb7185" />
       <pointLight position={[0, -2, -1]} intensity={3.0} color="#a855f7" />
-      <pointLight position={[0, 0.4, 1.2]} intensity={isHovered ? 3.8 : 2.2} color={primaryGlow} distance={3} />
+      <pointLight position={[0, 0.4, 1.2]} intensity={isHovered || isSpeaking ? 4.2 : 2.2} color={primaryGlow} distance={3} />
 
-      {/* Dual Vertical Glowing Neon Antenna Loops */}
+      {/* Dual Vertical Glowing Neon Antenna Loops (brightens dynamically when speaking) */}
       <mesh position={[-0.14, 0.52, 0]}>
         <torusGeometry args={[0.18, 0.018, 16, 48]} />
         <meshStandardMaterial
           color="#fb7185"
           emissive="#f43f5e"
-          emissiveIntensity={4.8}
+          emissiveIntensity={isSpeaking ? 7.2 : 4.8}
           roughness={0.1}
           metalness={0.85}
         />
@@ -136,7 +140,7 @@ export default function CyberBotModel({
         <meshStandardMaterial
           color="#fb7185"
           emissive="#f43f5e"
-          emissiveIntensity={4.8}
+          emissiveIntensity={isSpeaking ? 7.2 : 4.8}
           roughness={0.1}
           metalness={0.85}
         />
@@ -148,7 +152,7 @@ export default function CyberBotModel({
         <meshStandardMaterial
           color={primaryGlow}
           emissive={primaryGlow}
-          emissiveIntensity={isHovered ? 4.0 : 2.2}
+          emissiveIntensity={isHovered || isSpeaking ? 4.5 : 2.2}
           roughness={0.1}
           metalness={0.9}
         />
@@ -160,7 +164,7 @@ export default function CyberBotModel({
         <meshStandardMaterial
           color={accentGlow}
           emissive={accentGlow}
-          emissiveIntensity={isHovered ? 3.5 : 1.8}
+          emissiveIntensity={isHovered || isSpeaking ? 3.8 : 1.8}
           roughness={0.1}
           metalness={0.9}
         />
@@ -271,7 +275,7 @@ export default function CyberBotModel({
           <meshStandardMaterial
             color={primaryGlow}
             emissive={primaryGlow}
-            emissiveIntensity={isHovered ? 5.0 : 3.0}
+            emissiveIntensity={isHovered || isSpeaking ? 5.5 : 3.0}
             roughness={0.1}
           />
         </mesh>
@@ -336,7 +340,7 @@ export default function CyberBotModel({
         </bufferGeometry>
         <pointsMaterial
           size={0.04}
-          color={isHovered ? '#fb7185' : '#c084fc'}
+          color={isHovered || isSpeaking ? '#fb7185' : '#c084fc'}
           transparent
           opacity={0.75}
           blending={THREE.AdditiveBlending}

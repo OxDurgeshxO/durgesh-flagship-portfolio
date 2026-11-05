@@ -3,9 +3,10 @@
 import React, { useState, useRef, Suspense, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { Canvas } from '@react-three/fiber'
-import { ArrowLeft, Sparkles, Volume2, VolumeX, RotateCw, Lightbulb, Compass, ShieldCheck } from 'lucide-react'
+import { ArrowLeft, Sparkles, Volume2, VolumeX, RotateCw, Lightbulb, Mic, MicOff } from 'lucide-react'
 import CyberBotModel from '@/components/companion/CyberBotModel'
 import SpeechBubble from '@/components/companion/SpeechBubble'
+import { CyberBotSpeechEngine, stripEmojis } from '@/lib/companion/speech'
 
 function safeGetItem(key: string): string | null {
   if (typeof window === 'undefined') return null
@@ -46,8 +47,13 @@ export default function CyberBotStudioShell() {
   const [bubbleVisible, setBubbleVisible] = useState(true)
   const [mode, setMode] = useState<'dock' | 'roam' | 'follow'>('dock')
   const [isMuted, setIsMuted] = useState(false)
+  const [voiceEnabled, setVoiceEnabled] = useState(false)
+  const [isSpeaking, setIsSpeaking] = useState(false)
+
   const isMutedRef = useRef(false)
   isMutedRef.current = isMuted
+  const voiceEnabledRef = useRef(false)
+  voiceEnabledRef.current = voiceEnabled
 
   const mousePosRef = useRef({ x: 0.5, y: 0.5 })
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 })
@@ -109,30 +115,23 @@ export default function CyberBotStudioShell() {
     } catch {}
   }, [getAudioContext])
 
-  useEffect(() => {
-    setMounted(true)
-    const saved = safeGetItem('cyberbot_muted') === 'true'
-    setIsMuted(saved)
-    isMutedRef.current = saved
+  const speakCurrentLine = useCallback((text: string) => {
+    if (!voiceEnabledRef.current || isMutedRef.current) return
+    const speechEngine = CyberBotSpeechEngine.getInstance()
+    if (!speechEngine.isAvailable()) return
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const x = e.clientX / window.innerWidth
-      const y = e.clientY / window.innerHeight
-      mousePosRef.current = { x, y }
-      setMousePos({ x, y })
-    }
+    const clean = stripEmojis(text)
+    if (!clean) return
 
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      if (audioCtxRef.current) {
-        audioCtxRef.current.close().catch(() => {})
-        audioCtxRef.current = null
-      }
-    }
+    speechEngine.speak(clean, {
+      pitch: 1.12,
+      rate: 1.05,
+      onStart: () => setIsSpeaking(true),
+      onEnd: () => setIsSpeaking(false),
+    })
   }, [])
 
-  const triggerFlip = () => {
+  const triggerFlip = useCallback(() => {
     setIsSpinning(true)
     setMood('stunt')
     playStuntChirp()
@@ -151,15 +150,88 @@ export default function CyberBotStudioShell() {
       }
     }
     requestAnimationFrame(animate)
-  }
+  }, [playStuntChirp])
 
-  const nextVoiceLine = () => {
+  const nextVoiceLine = useCallback(() => {
     const nextIdx = (voiceIndex + 1) % CYBERBOT_VOICELINES.length
     setVoiceIndex(nextIdx)
     setActiveMessage(CYBERBOT_VOICELINES[nextIdx])
     setBubbleVisible(true)
     playCyberChirp(520, 950)
-  }
+    speakCurrentLine(CYBERBOT_VOICELINES[nextIdx])
+  }, [playCyberChirp, speakCurrentLine, voiceIndex])
+
+  useEffect(() => {
+    setMounted(true)
+    const savedMute = safeGetItem('cyberbot_muted') === 'true'
+    setIsMuted(savedMute)
+    isMutedRef.current = savedMute
+
+    const savedVoice = safeGetItem('cyberbot_voice_enabled') === 'true'
+    setVoiceEnabled(savedVoice)
+    voiceEnabledRef.current = savedVoice
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = e.clientX / window.innerWidth
+      const y = e.clientY / window.innerHeight
+      mousePosRef.current = { x, y }
+      setMousePos({ x, y })
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null
+      const isInput = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)
+      if (isInput) return
+
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault()
+        triggerFlip()
+      } else if (e.key === 'n' || e.key === 'N') {
+        e.preventDefault()
+        nextVoiceLine()
+      } else if (e.key === 'm' || e.key === 'M') {
+        e.preventDefault()
+        const next = !isMutedRef.current
+        setIsMuted(next)
+        isMutedRef.current = next
+        safeSetItem('cyberbot_muted', String(next))
+        if (!next) playCyberChirp(600, 950)
+      } else if (e.key === 'v' || e.key === 'V') {
+        e.preventDefault()
+        const next = !voiceEnabledRef.current
+        setVoiceEnabled(next)
+        voiceEnabledRef.current = next
+        safeSetItem('cyberbot_voice_enabled', String(next))
+        if (next) {
+          speakCurrentLine("Voice synthesis active in CyberBot Studio!")
+        } else {
+          CyberBotSpeechEngine.getInstance().cancel()
+          setIsSpeaking(false)
+        }
+      } else if (e.key === 'd' || e.key === 'D') {
+        e.preventDefault()
+        setMode((m) => (m === 'dock' ? 'roam' : m === 'roam' ? 'follow' : 'dock'))
+        playCyberChirp(550, 750)
+      } else if (e.key === 'Escape') {
+        setBubbleVisible(false)
+        CyberBotSpeechEngine.getInstance().cancel()
+        setIsSpeaking(false)
+      }
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('keydown', handleKeyDown)
+      CyberBotSpeechEngine.getInstance().cancel()
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close().catch(() => {})
+        audioCtxRef.current = null
+      }
+    }
+  }, [nextVoiceLine, playCyberChirp, speakCurrentLine, triggerFlip])
 
   if (!mounted) {
     return (
@@ -188,7 +260,7 @@ export default function CyberBotStudioShell() {
         {/* Reference Image Matching Pill Badge */}
         <div className="px-4 py-1.5 rounded-full text-xs font-mono font-semibold bg-[#120f1d]/90 border border-[#f59e0b]/70 text-[#f59e0b] shadow-[0_0_20px_rgba(245,158,11,0.35)] backdrop-blur-xl flex items-center gap-2.5">
           <span className="w-2.5 h-2.5 rounded-full bg-[#c084fc] shadow-[0_0_10px_#c084fc] animate-pulse" />
-          <span className="tracking-wide">💬 CyberBot AI</span>
+          <span className="tracking-wide">💬 CyberBot AI Studio</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -210,13 +282,23 @@ export default function CyberBotStudioShell() {
             message={activeMessage}
             visible={bubbleVisible}
             align="center"
-            onDismiss={() => setBubbleVisible(false)}
+            onAction={(action) => {
+              if (action === 'flip') triggerFlip()
+              else if (action === 'next') nextVoiceLine()
+            }}
+            onDismiss={() => {
+              setBubbleVisible(false)
+              CyberBotSpeechEngine.getInstance().cancel()
+              setIsSpeaking(false)
+            }}
           />
         </div>
 
         {/* Interactive 3D Canvas */}
         <div
-          className="relative w-full max-w-2xl h-[400px] sm:h-[480px] cursor-grab active:cursor-grabbing"
+          className={`relative w-full max-w-2xl h-[400px] sm:h-[480px] cursor-grab active:cursor-grabbing transition-transform duration-300 ${
+            isSpeaking ? 'scale-102 drop-shadow-[0_0_35px_rgba(245,158,11,0.5)]' : ''
+          }`}
           onMouseEnter={() => {
             setIsHovered(true)
             setMood('happy')
@@ -227,7 +309,7 @@ export default function CyberBotStudioShell() {
             setMood('normal')
           }}
           onClick={triggerFlip}
-          title="Click to perform 360° Ion Stunt Flip"
+          title="Click to perform 360° Ion Stunt Flip (or press Space)"
         >
           <Canvas
             aria-hidden="true"
@@ -242,6 +324,7 @@ export default function CyberBotStudioShell() {
                 spinProgress={spinProgress}
                 mousePos={mousePos}
                 mood={mood}
+                isSpeaking={isSpeaking}
               />
             </Suspense>
           </Canvas>
@@ -256,6 +339,7 @@ export default function CyberBotStudioShell() {
               playCyberChirp(550, 750)
             }}
             className="px-4 py-1.5 rounded-full text-xs font-mono font-semibold bg-[#120f1d]/90 border border-[#f59e0b]/60 text-[#f59e0b] shadow-[0_0_15px_rgba(245,158,11,0.25)] backdrop-blur-xl transition-all flex items-center gap-2 cursor-pointer hover:border-[#f59e0b] active:scale-95"
+            title="Toggle Mode (Key D)"
           >
             {mode === 'dock' && (
               <>
@@ -277,6 +361,31 @@ export default function CyberBotStudioShell() {
             )}
           </button>
 
+          {/* Synthetic Voice Toggle */}
+          <button
+            onClick={() => {
+              const next = !voiceEnabled
+              setVoiceEnabled(next)
+              voiceEnabledRef.current = next
+              safeSetItem('cyberbot_voice_enabled', String(next))
+              if (next) {
+                speakCurrentLine("Voice synthesis active. CyberBot online!")
+              } else {
+                CyberBotSpeechEngine.getInstance().cancel()
+                setIsSpeaking(false)
+              }
+            }}
+            className={`px-3 py-1.5 rounded-full text-xs font-mono font-bold backdrop-blur-xl transition-all shadow-xl flex items-center gap-1.5 cursor-pointer ${
+              voiceEnabled
+                ? 'bg-emerald-500/20 border border-emerald-400 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.35)]'
+                : 'bg-[#120f1d]/90 border border-white/10 text-slate-400 hover:text-white'
+            }`}
+            title="Toggle Web Speech Voice (Key V)"
+          >
+            {voiceEnabled ? <Mic className="size-3.5" /> : <MicOff className="size-3.5" />}
+            <span>{voiceEnabled ? 'Voice Active' : 'Voice Off'}</span>
+          </button>
+
           {/* Sound Toggle */}
           <button
             onClick={() => {
@@ -291,7 +400,7 @@ export default function CyberBotStudioShell() {
                 ? 'border-white/10 text-slate-400 hover:text-white'
                 : 'border-rose-500/40 text-rose-300 hover:border-rose-400'
             }`}
-            title={isMuted ? 'Unmute Audio' : 'Mute Audio'}
+            title={isMuted ? 'Unmute Audio (Key M)' : 'Mute Audio (Key M)'}
           >
             {isMuted ? <VolumeX className="size-3.5" /> : <Volume2 className="size-3.5" />}
             <span>{isMuted ? 'Muted' : 'Audio On'}</span>
@@ -301,6 +410,7 @@ export default function CyberBotStudioShell() {
           <button
             onClick={triggerFlip}
             className="px-3.5 py-1.5 rounded-full text-xs font-mono font-semibold bg-white/5 border border-white/15 text-slate-200 hover:text-white hover:border-purple-400/50 backdrop-blur-md transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
+            title="360° Flip (Space)"
           >
             <RotateCw className="size-3.5 text-purple-400" />
             <span>360° Ion Flip</span>
@@ -310,10 +420,22 @@ export default function CyberBotStudioShell() {
           <button
             onClick={nextVoiceLine}
             className="px-3.5 py-1.5 rounded-full text-xs font-mono font-semibold bg-white/5 border border-white/15 text-slate-200 hover:text-white hover:border-amber-400/50 backdrop-blur-md transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
+            title="Next Tip (Key N)"
           >
             <Lightbulb className="size-3.5 text-amber-400" />
             <span>Next Tip</span>
           </button>
+        </div>
+
+        {/* Hotkey Helper Strip */}
+        <div className="relative z-20 mt-3 flex items-center gap-3 text-[11px] font-mono text-slate-500">
+          <span className="hidden sm:inline">Hotkeys:</span>
+          <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-400">Space: Flip</span>
+          <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-400">V: Voice</span>
+          <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-400">M: Mute</span>
+          <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-400">D: Mode</span>
+          <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-400">N: Tip</span>
+          <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-400">Esc: Close</span>
         </div>
       </main>
 

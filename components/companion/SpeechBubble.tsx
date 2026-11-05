@@ -7,6 +7,11 @@ interface SpeechBubbleProps {
   message: string
   visible: boolean
   align?: 'left' | 'right' | 'center'
+  tourStatus?: {
+    current: number
+    total: number
+    title: string
+  } | null
   onAction?: (action: string) => void
   onDismiss?: () => void
 }
@@ -15,6 +20,7 @@ export default function SpeechBubble({
   message,
   visible,
   align = 'left',
+  tourStatus = null,
   onAction,
   onDismiss,
 }: SpeechBubbleProps) {
@@ -53,7 +59,13 @@ export default function SpeechBubble({
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-purple-400" />
                 </span>
                 <span className="text-[11px] font-mono font-bold tracking-wider text-primary uppercase flex items-center gap-1.5">
-                  <span>🤖 CyberBot • AI Companion</span>
+                  {tourStatus ? (
+                    <span className="text-amber-400">
+                      🧭 Tour: {tourStatus.title} ({tourStatus.current}/{tourStatus.total})
+                    </span>
+                  ) : (
+                    <span>🤖 CyberBot • AI Companion</span>
+                  )}
                 </span>
               </div>
               {onDismiss && (
@@ -63,7 +75,8 @@ export default function SpeechBubble({
                     onDismiss()
                   }}
                   className="text-muted-foreground hover:text-ink text-xs px-1.5 py-0.5 hover:bg-accent rounded transition-colors"
-                  title="Close message"
+                  title="Close message (Esc)"
+                  aria-label="Close speech bubble"
                 >
                   ✕
                 </button>
@@ -77,33 +90,67 @@ export default function SpeechBubble({
 
             {/* Quick Action Pills */}
             <div className="flex items-center gap-2 pt-1 border-t border-border/60 flex-wrap">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  if (onAction) onAction('flip')
-                }}
-                className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-primary/10 text-primary border border-primary/40 hover:bg-purple-500/35 transition-all active:scale-95"
-              >
-                🔄 360° Stunt
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  if (onAction) onAction('projects')
-                }}
-                className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-secondary/10 text-secondary border border-rose-500/30 hover:bg-rose-500/35 transition-all active:scale-95"
-              >
-                🚀 Top Projects
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  if (onAction) onAction('next')
-                }}
-                className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-primary/10 text-primary border border-primary/40 hover:bg-purple-500/35 transition-all active:scale-95"
-              >
-                💬 Next Insight
-              </button>
+              {tourStatus ? (
+                <>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      if (onAction) onAction('tour-next')
+                    }}
+                    className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all active:scale-95"
+                  >
+                    ⏭️ {tourStatus.current === tourStatus.total ? 'Finish Tour' : 'Next Stop'}
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      if (onAction) onAction('tour-stop')
+                    }}
+                    className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-rose-500/10 text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 transition-all active:scale-95"
+                  >
+                    ⏹️ Exit Tour
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      if (onAction) onAction('flip')
+                    }}
+                    className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-primary/10 text-primary border border-primary/40 hover:bg-purple-500/35 transition-all active:scale-95"
+                  >
+                    🔄 Stunt
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      if (onAction) onAction('flip')
+                    }}
+                    className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-primary/10 text-primary border border-primary/40 hover:bg-purple-500/35 transition-all active:scale-95"
+                  >
+                    🔄 360° Stunt
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      if (onAction) onAction('tour-start')
+                    }}
+                    className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all active:scale-95"
+                  >
+                    🧭 Tour (Alt+T)
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      if (onAction) onAction('next')
+                    }}
+                    className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-secondary/10 text-secondary border border-rose-500/30 hover:bg-rose-500/35 transition-all active:scale-95"
+                  >
+                    💬 Next Tip
+                  </button>
+                </>
+              )}
             </div>
 
             {/* Directional Tail Pointer */}

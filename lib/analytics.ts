@@ -9,6 +9,7 @@ export type AnalyticsEvent =
   | "contact_click"
   | "theme_toggle"
   | "cyberbot_interact"
+  | "cyberbot_tour"
   | "command_palette_open"
   | "filter_category_click"
   | "copy_email";

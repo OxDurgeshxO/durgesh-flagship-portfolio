@@ -5,6 +5,7 @@ import { Canvas } from '@react-three/fiber'
 import CyberBotModel from './CyberBotModel'
 import SpeechBubble from './SpeechBubble'
 import { trackEvent } from '@/lib/analytics'
+import { CyberBotSpeechEngine, stripEmojis } from '@/lib/companion/speech'
 
 function getTimeBasedGreeting(): string {
   const hour = new Date().getHours()
@@ -42,6 +43,14 @@ const CYBERBOT_VOICELINES = [
   "🧪 CyberBot is an interactive 3D companion built with Three.js and React Three Fiber!",
 ]
 
+const TOUR_LANDMARKS = [
+  { id: 'hero', title: 'Mission Briefing', msg: "👋 Welcome! I'm CyberBot AI. Let me give you a quick guided tour of Durgesh's production portfolio!" },
+  { id: 'featured-projects', title: 'Flagship Systems', msg: "🚀 Flagship: RoleRadar AI career intelligence platform evaluating 16 engineering roles with multi-model scoring!" },
+  { id: 'projects', title: 'Engineering Catalog', msg: "📊 Real-time MediaPipe pose detection under 50ms, MarketMatch-AI clustering, and interactive 3D demos." },
+  { id: 'experience', title: 'Track Record', msg: "💼 Proven experience in enterprise GenAI, autonomous agent swarms, and high-performance full-stack architectures." },
+  { id: 'contact', title: 'Collaboration Portal', msg: "📬 You've completed the tour! Grab Durgesh's verified audit report or send a direct message below." }
+]
+
 type MotionMode = 'dock' | 'roam' | 'follow'
 
 export default function RoamingCompanion3D() {
@@ -58,8 +67,19 @@ export default function RoamingCompanion3D() {
   const [bubbleAlign, setBubbleAlign] = useState<'left' | 'right' | 'center'>('left')
   const [isIdle, setIsIdle] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
+  const [voiceEnabled, setVoiceEnabled] = useState(false)
+  const [isSpeaking, setIsSpeaking] = useState(false)
+  const [tourActive, setTourActive] = useState(false)
+  const [tourStep, setTourStep] = useState(0)
+
   const isMutedRef = useRef(false)
   isMutedRef.current = isMuted
+  const voiceEnabledRef = useRef(false)
+  voiceEnabledRef.current = voiceEnabled
+  const tourActiveRef = useRef(false)
+  tourActiveRef.current = tourActive
+  const tourStepRef = useRef(0)
+  tourStepRef.current = tourStep
 
   // Position in viewport pixels
   const posRef = useRef({ x: 0, y: 0 })
@@ -134,6 +154,103 @@ export default function RoamingCompanion3D() {
     } catch {}
   }, [getAudioContext])
 
+  // Synthetic Voice Output with Jarvis Mode Synchronization
+  const speakVoiceLine = useCallback((text: string) => {
+    if (!voiceEnabledRef.current || isMutedRef.current) return
+    const speechEngine = CyberBotSpeechEngine.getInstance()
+    if (!speechEngine.isAvailable()) return
+
+    const clean = stripEmojis(text)
+    if (!clean) return
+
+    speechEngine.speak(clean, {
+      pitch: 1.12,
+      rate: 1.05,
+      onStart: () => setIsSpeaking(true),
+      onEnd: () => setIsSpeaking(false),
+    })
+  }, [])
+
+  // Execute stunt flip
+  const triggerFlip = useCallback(() => {
+    setIsSpinning(true)
+    setMood('stunt')
+    playStuntChirp()
+    setTimeout(() => {
+      setMood('happy')
+    }, 950)
+  }, [playStuntChirp])
+
+  // Recruiter Guided Tour Step Advancement
+  const advanceTour = useCallback((stepIdx?: number) => {
+    const currentStep = stepIdx ?? (tourStepRef.current + 1)
+    if (currentStep >= TOUR_LANDMARKS.length) {
+      // Tour completed
+      setTourActive(false)
+      tourActiveRef.current = false
+      setTourStep(0)
+      tourStepRef.current = 0
+      setActiveMessage("🎉 Tour complete! Feel free to explore freely or grab Durgesh's resume.")
+      setBubbleVisible(true)
+      playCyberChirp(600, 1100)
+      speakVoiceLine("Tour complete! Feel free to explore freely.")
+      trackEvent('cyberbot_tour', { action: 'complete' })
+      return
+    }
+
+    setTourActive(true)
+    tourActiveRef.current = true
+    setTourStep(currentStep)
+    tourStepRef.current = currentStep
+
+    const landmark = TOUR_LANDMARKS[currentStep]
+    const targetEl = document.getElementById(landmark.id)
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+
+    setActiveMessage(landmark.msg)
+    setBubbleVisible(true)
+    triggerFlip()
+    speakVoiceLine(landmark.msg)
+    trackEvent('cyberbot_tour', { action: 'step', landmark: landmark.id, step: currentStep })
+  }, [playCyberChirp, speakVoiceLine, triggerFlip])
+
+  const stopTour = useCallback(() => {
+    if (!tourActiveRef.current) return
+    setTourActive(false)
+    tourActiveRef.current = false
+    setTourStep(0)
+    tourStepRef.current = 0
+    CyberBotSpeechEngine.getInstance().cancel()
+    setIsSpeaking(false)
+    setActiveMessage("Tour paused. Let me know if you need anything! 🤖")
+    playCyberChirp(480, 600)
+  }, [playCyberChirp])
+
+  // Center summon
+  const summonBotToCenter = useCallback(() => {
+    setMode('roam')
+    setBubbleVisible(true)
+    triggerFlip()
+    const greeting = "Hey there! 🤖 I'm CyberBot AI. I'm right here with you! Press Alt+T for a tour or Space for stunts!"
+    setActiveMessage(greeting)
+    speakVoiceLine(greeting)
+
+    const width = window.innerWidth
+    const height = window.innerHeight
+    const botW = width < 768 ? 150 : 176
+    const botH = width < 768 ? 190 : 224
+    const centerX = Math.max(16, (width - botW) / 2)
+    const centerY = Math.max(80, (height - botH) / 2)
+    posRef.current = { x: centerX, y: centerY }
+    targetRef.current = { x: centerX, y: centerY }
+    if (containerRef.current) {
+      containerRef.current.style.transform = `translate3d(${centerX}px, ${centerY}px, 0)`
+      containerRef.current.focus()
+    }
+  }, [speakVoiceLine, triggerFlip])
+
   useEffect(() => {
     setMounted(true)
     if (typeof window !== 'undefined') {
@@ -141,8 +258,9 @@ export default function RoamingCompanion3D() {
       if (isMobile) {
         setBubbleVisible(false)
       }
-      // Set dynamic time-of-day greeting (Priority 3)
-      setActiveMessage(getTimeBasedGreeting())
+      // Set dynamic time-of-day greeting
+      const greeting = getTimeBasedGreeting()
+      setActiveMessage(greeting)
 
       // Start docked in bottom-right corner with safe responsive margins
       const botW = isMobile ? 150 : 176
@@ -159,28 +277,15 @@ export default function RoamingCompanion3D() {
       const savedMute = safeGetItem('cyberbot_muted') === 'true'
       setIsMuted(savedMute)
       isMutedRef.current = savedMute
+
+      const savedVoice = safeGetItem('cyberbot_voice_enabled') === 'true'
+      setVoiceEnabled(savedVoice)
+      voiceEnabledRef.current = savedVoice
     }
 
     // Global listener for summon button in Hero or Navbar
     const handleSummon = () => {
-      setMode('roam')
-      setBubbleVisible(true)
-      setIsSpinning(true)
-      setMood('stunt')
-      playStuntChirp()
-      setActiveMessage("Hey there! 🤖 I'm CyberBot AI. I'm right here with you! Click me for flips or explore Durgesh's production systems!")
-      const width = window.innerWidth
-      const height = window.innerHeight
-      const botW = width < 768 ? 150 : 176
-      const botH = width < 768 ? 190 : 224
-      const centerX = Math.max(16, (width - botW) / 2)
-      const centerY = Math.max(80, (height - botH) / 2)
-      posRef.current = { x: centerX, y: centerY }
-      targetRef.current = { x: centerX, y: centerY }
-      if (containerRef.current) {
-        containerRef.current.style.transform = `translate3d(${centerX}px, ${centerY}px, 0)`
-      }
-      setTimeout(() => setMood('happy'), 950)
+      summonBotToCenter()
     }
     window.addEventListener('summon-cyberbot', handleSummon)
 
@@ -190,7 +295,7 @@ export default function RoamingCompanion3D() {
       setBubbleVisible(false)
     }, isMobileViewport ? 0 : 9000)
 
-    // Priority 3: Robust Real-Time Section Scroll Spy
+    // Real-Time Section Scroll Spy
     const SECTION_PROMPTS: { id: string; msg: string }[] = [
       { id: 'contact', msg: "📬 Ready to build next-gen AI? Send Durgesh a message or grab his resume above!" },
       { id: 'github-projects', msg: "💻 Real-time GitHub sync! Check out his open-source repositories and live stars." },
@@ -206,6 +311,8 @@ export default function RoamingCompanion3D() {
     let ticking = false
 
     const handleSectionScroll = () => {
+      // Do not interrupt active recruiter tour with scroll-spy triggers
+      if (tourActiveRef.current) return
       if (ticking) return
       ticking = true
 
@@ -225,6 +332,7 @@ export default function RoamingCompanion3D() {
                 setActiveMessage(msg)
                 setBubbleVisible(true)
                 playCyberChirp(580, 850)
+                speakVoiceLine(msg)
                 if (dismissTimer) clearTimeout(dismissTimer)
                 dismissTimer = setTimeout(() => {
                   setBubbleVisible(false)
@@ -252,18 +360,89 @@ export default function RoamingCompanion3D() {
     }
     window.addEventListener('cyberbot-mute-toggle', handleMuteToggle)
 
+    // Global Hotkey Suite: Alt+C (Summon), Alt+T (Tour), Escape (Dismiss)
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      // Ignore if user is currently typing inside an input, textarea, or contentEditable
+      const target = e.target as HTMLElement | null
+      const isInput = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)
+
+      if (e.altKey && (e.key === 'c' || e.key === 'C')) {
+        e.preventDefault()
+        summonBotToCenter()
+        return
+      }
+
+      if (e.altKey && (e.key === 't' || e.key === 'T')) {
+        e.preventDefault()
+        advanceTour(tourActiveRef.current ? (tourStepRef.current + 1) : 0)
+        return
+      }
+
+      if (e.key === 'Escape') {
+        if (tourActiveRef.current) {
+          stopTour()
+        } else {
+          setBubbleVisible(false)
+          CyberBotSpeechEngine.getInstance().cancel()
+          setIsSpeaking(false)
+        }
+      }
+
+      if (!isInput && containerRef.current && document.activeElement === containerRef.current) {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault()
+          triggerFlip()
+          const nextIndex = (voiceIndex + 1) % CYBERBOT_VOICELINES.length
+          setVoiceIndex(nextIndex)
+          setActiveMessage(CYBERBOT_VOICELINES[nextIndex])
+          setBubbleVisible(true)
+          speakVoiceLine(CYBERBOT_VOICELINES[nextIndex])
+        } else if (e.key === 'd' || e.key === 'D') {
+          e.preventDefault()
+          setMode((m) => (m === 'dock' ? 'roam' : m === 'roam' ? 'follow' : 'dock'))
+          playCyberChirp(550, 750)
+        } else if (e.key === 'm' || e.key === 'M') {
+          e.preventDefault()
+          const next = !isMutedRef.current
+          setIsMuted(next)
+          isMutedRef.current = next
+          safeSetItem('cyberbot_muted', String(next))
+          if (!next) playCyberChirp(600, 950)
+        } else if (e.key === 'v' || e.key === 'V') {
+          e.preventDefault()
+          const next = !voiceEnabledRef.current
+          setVoiceEnabled(next)
+          voiceEnabledRef.current = next
+          safeSetItem('cyberbot_voice_enabled', String(next))
+          if (next) {
+            speakVoiceLine("Voice synthesis active. CyberBot online!")
+          } else {
+            CyberBotSpeechEngine.getInstance().cancel()
+            setIsSpeaking(false)
+          }
+        } else if (e.key === 't' || e.key === 'T') {
+          e.preventDefault()
+          advanceTour(tourActiveRef.current ? (tourStepRef.current + 1) : 0)
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleGlobalKeyDown)
+
     return () => {
       clearTimeout(welcomeTimer)
       if (dismissTimer) clearTimeout(dismissTimer)
       window.removeEventListener('scroll', handleSectionScroll)
       window.removeEventListener('summon-cyberbot', handleSummon)
       window.removeEventListener('cyberbot-mute-toggle', handleMuteToggle)
+      window.removeEventListener('keydown', handleGlobalKeyDown)
+      CyberBotSpeechEngine.getInstance().cancel()
       if (audioCtxRef.current) {
         audioCtxRef.current.close().catch(() => {})
         audioCtxRef.current = null
       }
     }
-  }, [playCyberChirp, playStuntChirp])
+  }, [advanceTour, playCyberChirp, speakVoiceLine, stopTour, summonBotToCenter, triggerFlip, voiceIndex])
 
   // Global mouse tracking
   useEffect(() => {
@@ -271,6 +450,10 @@ export default function RoamingCompanion3D() {
       mouseScreenRef.current = { x: e.clientX, y: e.clientY }
 
       if (isDragging) {
+        // Stop tour on manual drag repositioning
+        if (tourActiveRef.current) {
+          stopTour()
+        }
         const maxX = window.innerWidth - 180
         const maxY = window.innerHeight - 250
         posRef.current = {
@@ -293,7 +476,7 @@ export default function RoamingCompanion3D() {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseup', handleMouseUp)
     }
-  }, [isDragging, playCyberChirp])
+  }, [isDragging, playCyberChirp, stopTour])
 
   // Inactivity tracking: 5000ms idle timer to throttle WebGL loops and save battery
   useEffect(() => {
@@ -428,19 +611,14 @@ export default function RoamingCompanion3D() {
   // Handle Click Interaction
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    setIsSpinning(true)
-    setMood('stunt')
-    playStuntChirp()
+    triggerFlip()
 
     const nextIndex = (voiceIndex + 1) % CYBERBOT_VOICELINES.length
     setVoiceIndex(nextIndex)
     setActiveMessage(CYBERBOT_VOICELINES[nextIndex])
     setBubbleVisible(true)
+    speakVoiceLine(CYBERBOT_VOICELINES[nextIndex])
     trackEvent('cyberbot_interact', { action: 'stunt_spin', line_index: nextIndex })
-
-    setTimeout(() => {
-      setMood('happy')
-    }, 950)
   }
 
   // Handle Hover Interaction
@@ -456,7 +634,9 @@ export default function RoamingCompanion3D() {
       setIsHovered(false)
       setMood('normal')
       setTimeout(() => {
-        setBubbleVisible(false)
+        if (!tourActiveRef.current) {
+          setBubbleVisible(false)
+        }
       }, 5000)
     }
   }
@@ -473,10 +653,7 @@ export default function RoamingCompanion3D() {
 
   const handleBubbleAction = (action: string) => {
     if (action === 'flip') {
-      setIsSpinning(true)
-      setMood('stunt')
-      playStuntChirp()
-      setTimeout(() => setMood('happy'), 950)
+      triggerFlip()
     } else if (action === 'projects') {
       const el = document.getElementById('projects') || document.getElementById('featured-projects')
       if (el) el.scrollIntoView({ behavior: 'smooth' })
@@ -486,6 +663,11 @@ export default function RoamingCompanion3D() {
       setVoiceIndex(nextIndex)
       setActiveMessage(CYBERBOT_VOICELINES[nextIndex])
       playCyberChirp(520, 980)
+      speakVoiceLine(CYBERBOT_VOICELINES[nextIndex])
+    } else if (action === 'tour-start' || action === 'tour-next') {
+      advanceTour(tourActive ? (tourStep + 1) : 0)
+    } else if (action === 'tour-stop') {
+      stopTour()
     }
   }
 
@@ -497,12 +679,23 @@ export default function RoamingCompanion3D() {
     y: (mouseScreenRef.current.y - posRef.current.y) / window.innerHeight,
   }
 
+  const currentTourStatus = tourActive
+    ? {
+        current: tourStep + 1,
+        total: TOUR_LANDMARKS.length,
+        title: TOUR_LANDMARKS[tourStep]?.title ?? 'Recruiter Tour',
+      }
+    : null
+
   return (
     <div className="fixed inset-0 pointer-events-none z-40 block">
       {/* 3D CyberBot Floating Anchor */}
       <div
         ref={containerRef}
-        className="absolute top-0 left-0 w-44 h-56 select-none will-change-transform"
+        tabIndex={0}
+        role="region"
+        aria-label="CyberBot 3D AI Companion. Hotkeys: Space to flip, T for Tour, V for Voice, M to Mute, Escape to dismiss."
+        className="absolute top-0 left-0 w-44 h-56 select-none will-change-transform rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
         style={{ touchAction: 'none' }}
       >
         {/* Quick Chat Callout Badge (visible when bubble is dismissed) */}
@@ -513,9 +706,10 @@ export default function RoamingCompanion3D() {
                 e.stopPropagation()
                 setBubbleVisible(true)
                 playCyberChirp(600, 1000)
+                speakVoiceLine(activeMessage)
               }}
               className="px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-[#120f1d]/90 border border-[#f59e0b]/70 text-[#f59e0b] shadow-[0_0_15px_rgba(245,158,11,0.3)] backdrop-blur-xl transition-all flex items-center gap-2 active:scale-95 hover:border-[#f59e0b]"
-              title="CyberBot AI Companion"
+              title="CyberBot AI Companion (Press Alt+C to summon)"
             >
               <span className="w-2 h-2 rounded-full bg-[#c084fc] shadow-[0_0_8px_#c084fc] animate-pulse" />
               <span>💬 CyberBot AI</span>
@@ -528,8 +722,14 @@ export default function RoamingCompanion3D() {
           message={activeMessage}
           visible={bubbleVisible}
           align={bubbleAlign}
+          tourStatus={currentTourStatus}
           onAction={handleBubbleAction}
-          onDismiss={() => setBubbleVisible(false)}
+          onDismiss={() => {
+            if (tourActive) stopTour()
+            setBubbleVisible(false)
+            CyberBotSpeechEngine.getInstance().cancel()
+            setIsSpeaking(false)
+          }}
         />
 
         {/* 3D Model Canvas Container */}
@@ -541,13 +741,15 @@ export default function RoamingCompanion3D() {
           className={`w-full h-full relative cursor-grab active:cursor-grabbing pointer-events-auto rounded-3xl transition-all duration-300 ${
             isHovered
               ? 'drop-shadow-[0_0_35px_rgba(244,63,94,0.7)] scale-105'
+              : isSpeaking
+              ? 'drop-shadow-[0_0_30px_rgba(245,158,11,0.6)] scale-102'
               : 'drop-shadow-[0_0_20px_rgba(168,85,247,0.4)]'
           }`}
-          title="Click to interact! Drag to toss! 🤖"
+          title="Click for acrobatic flip! Drag to move. Alt+C to summon, Alt+T for Tour."
         >
-          {/* Holographic Pulse Aura on Hover */}
-          {isHovered && (
-            <div className="absolute inset-x-2 bottom-0 h-16 rounded-full border border-purple-400/50 animate-ping pointer-events-none opacity-40" />
+          {/* Holographic Pulse Aura on Hover or Speaking */}
+          {(isHovered || isSpeaking) && (
+            <div className={`absolute inset-x-2 bottom-0 h-16 rounded-full border ${isSpeaking ? 'border-amber-400/60' : 'border-purple-400/50'} animate-ping pointer-events-none opacity-40`} />
           )}
 
           <Canvas
@@ -555,7 +757,7 @@ export default function RoamingCompanion3D() {
             camera={{ position: [0, 0, 3.2], fov: 45 }}
             dpr={[1, 1.5]}
             gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
-            frameloop={isIdle && !isHovered && !isSpinning && !isDragging ? 'demand' : 'always'}
+            frameloop={isIdle && !isHovered && !isSpinning && !isDragging && !isSpeaking ? 'demand' : 'always'}
             className="w-full h-full"
           >
             <Suspense fallback={null}>
@@ -565,38 +767,84 @@ export default function RoamingCompanion3D() {
                 spinProgress={spinProgress}
                 mousePos={relativeMouse}
                 mood={mood}
+                isSpeaking={isSpeaking}
               />
             </Suspense>
           </Canvas>
 
           {/* Mini Interactive Mode & Audio Controls Pill */}
           <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-auto flex items-center gap-1.5">
+            {/* Motion Mode Cycle */}
             <button
               onClick={(e) => {
                 e.stopPropagation()
                 setMode((m) => (m === 'dock' ? 'roam' : m === 'roam' ? 'follow' : 'dock'))
                 playCyberChirp(550, 750)
               }}
-              className="px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-[#120f1d]/90 border border-[#f59e0b]/60 text-[#f59e0b] shadow-[0_0_12px_rgba(245,158,11,0.2)] backdrop-blur-xl transition-all flex items-center gap-2 cursor-pointer hover:border-[#f59e0b]"
+              className="px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold bg-[#120f1d]/90 border border-[#f59e0b]/60 text-[#f59e0b] shadow-[0_0_12px_rgba(245,158,11,0.2)] backdrop-blur-xl transition-all flex items-center gap-1.5 cursor-pointer hover:border-[#f59e0b]"
+              title="Motion Mode (Key D)"
             >
               {mode === 'dock' && (
                 <>
                   <span className="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981] animate-pulse" />
-                  <span>💤 Docked</span>
+                  <span>💤 Dock</span>
                 </>
               )}
               {mode === 'roam' && (
                 <>
                   <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-ping" />
-                  <span>🟢 Roaming</span>
+                  <span>🟢 Roam</span>
                 </>
               )}
               {mode === 'follow' && (
                 <>
                   <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce" />
-                  <span>🧲 Following</span>
+                  <span>🧲 Follow</span>
                 </>
               )}
+            </button>
+
+            {/* Recruiter Guided Tour Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                advanceTour(tourActive ? (tourStep + 1) : 0)
+              }}
+              className={`px-2 py-1 rounded-full text-[10px] font-mono font-bold backdrop-blur-xl transition-all shadow-xl flex items-center gap-1 cursor-pointer ${
+                tourActive
+                  ? 'bg-amber-500/20 border border-amber-400 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.4)]'
+                  : 'bg-slate-950/90 border border-border-strong text-muted-foreground hover:text-amber-300'
+              }`}
+              title="Recruiter Guided Tour (Alt+T or Key T)"
+            >
+              <span>🧭</span>
+              <span className="hidden sm:inline">{tourActive ? `${tourStep + 1}/${TOUR_LANDMARKS.length}` : 'Tour'}</span>
+            </button>
+
+            {/* Synthetic Voice Engine Toggle */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                const next = !voiceEnabled
+                setVoiceEnabled(next)
+                voiceEnabledRef.current = next
+                safeSetItem('cyberbot_voice_enabled', String(next))
+                if (next) {
+                  speakVoiceLine("Voice synthesis activated.")
+                } else {
+                  CyberBotSpeechEngine.getInstance().cancel()
+                  setIsSpeaking(false)
+                }
+              }}
+              className={`px-2 py-1 rounded-full text-[10px] font-mono font-bold backdrop-blur-xl transition-all shadow-xl flex items-center gap-1 cursor-pointer ${
+                voiceEnabled
+                  ? 'bg-emerald-500/20 border border-emerald-400 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.35)]'
+                  : 'bg-slate-950/90 border border-border-strong text-muted-foreground hover:text-body'
+              }`}
+              title={voiceEnabled ? "Voice Synthesis Active (Key V to disable)" : "Enable Web Speech API Voice (Key V)"}
+            >
+              <span>{voiceEnabled ? '🎙️' : '🔇'}</span>
+              <span className="hidden sm:inline">{voiceEnabled ? 'Voice' : 'Voice'}</span>
             </button>
 
             {/* Audio Mute / Unmute Toggle */}
@@ -616,9 +864,9 @@ export default function RoamingCompanion3D() {
                   ? 'border-border-strong text-muted-foreground hover:text-body'
                   : 'border-rose-500/40 text-secondary hover:border-rose-400 shadow-black/20'
               }`}
-              title={isMuted ? "CyberBot Audio Muted (Click to enable futuristic chimes)" : "CyberBot Audio Active (Click to mute)"}
+              title={isMuted ? "CyberBot Audio Muted (Key M)" : "CyberBot Audio Active (Key M)"}
             >
-              <span>{isMuted ? '🔇' : '🔊'}</span>
+              <span>{isMuted ? '🔕' : '🔊'}</span>
             </button>
           </div>
         </div>
