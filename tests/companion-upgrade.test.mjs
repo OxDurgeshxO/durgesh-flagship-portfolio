@@ -33,3 +33,4 @@ test('CyberBotSpeechEngine safely handles SSR/Node environment without window.sp
   // Cancel should not throw
   assert.doesNotThrow(() => engine.cancel())
 })
+

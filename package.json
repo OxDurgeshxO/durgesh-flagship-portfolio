@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/fetch-github-cache.mjs",
     "build": "next build",
+    "sync:github": "node scripts/fetch-github-cache.mjs",
     "start": "npx serve@latest out -l 3000",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",

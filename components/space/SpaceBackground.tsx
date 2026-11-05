@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const READY_EVENT = "portfolio-ready";
 const READY_TIMEOUT_MS = 4000;
@@ -49,8 +49,45 @@ export default function SpaceBackground({
   active = true,
   className = "",
 }: SpaceBackgroundProps) {
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+
   useEffect(() => {
-    return armEntranceGate();
+    const unarm = armEntranceGate();
+    if (typeof window === "undefined") return unarm;
+
+    const isMobile = window.innerWidth < 768;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Respect reduced motion by keeping static poster image only
+    if (prefersReducedMotion) {
+      return unarm;
+    }
+
+    if (isMobile) {
+      // Defer video on mobile devices to protect LCP and prevent initial payload congestion
+      if ("requestIdleCallback" in window) {
+        const handle = (window as any).requestIdleCallback(
+          () => setShouldLoadVideo(true),
+          { timeout: 3500 }
+        );
+        return () => {
+          unarm();
+          if ("cancelIdleCallback" in window) {
+            (window as any).cancelIdleCallback(handle);
+          }
+        };
+      } else {
+        const timer = setTimeout(() => setShouldLoadVideo(true), 2500);
+        return () => {
+          unarm();
+          clearTimeout(timer);
+        };
+      }
+    } else {
+      setShouldLoadVideo(true);
+    }
+
+    return unarm;
   }, []);
 
   if (!active) {
@@ -66,17 +103,19 @@ export default function SpaceBackground({
         className="space-bg-sky"
         style={{ backgroundImage: `url('${EARTH_STILL}')` }}
       >
-        <video
-          className="space-bg-video is-active"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          src={EARTH_VIDEO}
-          poster={EARTH_STILL}
-          aria-hidden="true"
-        />
+        {shouldLoadVideo && (
+          <video
+            className="space-bg-video is-active"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            src={EARTH_VIDEO}
+            poster={EARTH_STILL}
+            aria-hidden="true"
+          />
+        )}
       </div>
 
       <div className="space-stars" />

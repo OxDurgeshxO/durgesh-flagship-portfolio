@@ -38,105 +38,105 @@ export const TOP_5_CURATED_METADATA: Record<string, {
   description: string
   highlights: string[]
   live_url: string | null
-  language: string
+  language?: string
 }> = {
-  'MarketMatch-AI': {
+  'RoleRadar': {
     priority: 1,
-    category: 'Customer Analytics & Recommenders',
-    description: 'End-to-end Machine Learning pipeline using K-Means and DBSCAN clustering with a Nearest Neighbors recommendation engine for retail customer targeting.',
-    highlights: ['K-Means & DBSCAN', 'Nearest Neighbors', 'Targeted Marketing'],
-    live_url: 'https://oxdurgeshxo-marketmatch-ai-app-y8ysbm.streamlit.app/',
-    language: 'Python',
-  },
-  'bank-churn-prediction-studio': {
-    priority: 2,
-    category: 'Financial AI & Predictive Analytics',
-    description: 'AI-Powered Customer Churn Prediction Dashboard built with Streamlit, Scikit-Learn, and SMOTE for handling class imbalance with real-time risk scoring.',
-    highlights: ['Streamlit Cloud', 'SMOTE Balancing', 'Real-time Risk Scoring'],
-    live_url: 'https://bank-churn-prediction-studio-mrl8whyxpnhkyfvfwmtqwq.streamlit.app/',
-    language: 'Python',
-  },
-  'jarvis-realtime-assistant': {
-    priority: 3,
-    category: 'Realtime AI Voice & WebSocket Systems',
-    description: 'Full-stack realtime AI voice assistant & Iron Man HUD with Gemini 2.0 Flash, Edge-TTS & Whisper STT — built with FastAPI, WebSockets, React & TypeScript.',
-    highlights: ['Gemini 2.0 Flash', 'Whisper STT', 'WebSockets HUD'],
-    live_url: 'https://oxdurgeshxo.github.io/jarvis-realtime-assistant/',
+    category: 'Full Stack AI & Career Tech',
+    description: 'AI-driven job fit & career analytics platform evaluating candidates across 16 core dimensions with multi-model scoring.',
+    highlights: ['Next.js 16', 'TypeScript', 'Drizzle ORM', 'Tailwind CSS v4'],
+    live_url: 'https://rolefit-2.vercel.app',
     language: 'TypeScript',
   },
-  'CNN-STREAMLIT': {
-    priority: 4,
-    category: 'Computer Vision & Deep Learning',
-    description: 'End-to-end Deep Learning Convolutional Neural Network trained on Fashion MNIST with 89.3% accuracy and interactive real-time Streamlit image classifier.',
-    highlights: ['CNN / PyTorch', '89.3% Accuracy', 'Interactive Inference'],
+  'ai-fitness-platform': {
+    priority: 2,
+    category: 'Computer Vision & Health Tech',
+    description: 'Real-time exercise posture tracking and automated repetition counter using MediaPipe pose landmarks and sub-50ms feedback loops.',
+    highlights: ['MediaPipe', 'OpenCV', 'Python', 'Real-time Audio'],
     live_url: null,
     language: 'Python',
   },
-  'RoleRadar': {
+  'MarketMatch-AI': {
+    priority: 3,
+    category: 'Data Science & Predictive ML',
+    description: 'Customer segmentation and behavioral clustering platform combining K-Means and DBSCAN algorithms for retail intelligence.',
+    highlights: ['Scikit-Learn', 'DBSCAN', 'Clustering', 'Python'],
+    live_url: null,
+    language: 'Python',
+  },
+  'jarvis-voice-assistant': {
+    priority: 4,
+    category: 'Conversational AI & Audio Systems',
+    description: 'Voice-controlled desktop automation assistant combining speech recognition, natural language command routing, and text-to-speech feedback.',
+    highlights: ['SpeechRecognition', 'pyttsx3', 'Python', 'Automation'],
+    live_url: null,
+    language: 'Python',
+  },
+  'CNN-Streamlit-Classifier': {
     priority: 5,
-    category: 'Full Stack AI & Career Tech',
-    description: 'AI-Powered Resume Analyzer & Career Intelligence Platform built with Next.js 16, TypeScript, Drizzle ORM, and Tailwind CSS v4 — live on Vercel.',
-    highlights: ['Next.js 16', 'Drizzle ORM', 'Tailwind CSS v4'],
-    live_url: 'https://rolefit-2.vercel.app',
-    language: 'TypeScript',
+    category: 'Deep Learning & Web Interface',
+    description: 'Interactive deep learning image classification system powered by custom Convolutional Neural Networks and Streamlit interface.',
+    highlights: ['TensorFlow', 'Streamlit', 'CNN', 'Deep Learning'],
+    live_url: null,
+    language: 'Python',
   },
 }
 
 export const FALLBACK_TOP_5_REPOS: GitHubRepo[] = [
   {
     id: 101,
+    name: 'ai-fitness-platform',
+    description: TOP_5_CURATED_METADATA['ai-fitness-platform'].description,
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'Python',
+    html_url: `https://github.com/${USERNAME}/ai-fitness-platform`,
+    topics: ['mediapipe', 'computer-vision', 'python', 'fitness-tracker'],
+    updated_at: '2026-10-15',
+    category: 'Computer Vision & Health Tech',
+    highlights: ['MediaPipe', 'OpenCV', 'Python', 'Real-time Audio'],
+    live_url: null,
+  },
+  {
+    id: 102,
     name: 'MarketMatch-AI',
     description: TOP_5_CURATED_METADATA['MarketMatch-AI'].description,
     stargazers_count: 0,
     forks_count: 0,
-    language: 'Python',
+    language: 'HTML',
     html_url: `https://github.com/${USERNAME}/MarketMatch-AI`,
-    topics: ['machine-learning', 'clustering', 'recommendation-engine'],
-    updated_at: '2026-08-02',
-    category: 'Customer Analytics & Recommenders',
-    highlights: ['K-Means & DBSCAN', 'Nearest Neighbors', 'Targeted Marketing'],
-    live_url: 'https://oxdurgeshxo-marketmatch-ai-app-y8ysbm.streamlit.app/',
-  },
-  {
-    id: 102,
-    name: 'bank-churn-prediction-studio',
-    description: TOP_5_CURATED_METADATA['bank-churn-prediction-studio'].description,
-    stargazers_count: 0,
-    forks_count: 0,
-    language: 'Python',
-    html_url: `https://github.com/${USERNAME}/bank-churn-prediction-studio`,
-    topics: ['streamlit', 'scikit-learn', 'smote', 'fintech'],
-    updated_at: '2026-08-02',
-    category: 'Financial AI & Predictive Analytics',
-    highlights: ['Streamlit Cloud', 'SMOTE Balancing', 'Real-time Risk Scoring'],
-    live_url: 'https://bank-churn-prediction-studio-mrl8whyxpnhkyfvfwmtqwq.streamlit.app/',
+    topics: ['machine-learning', 'clustering', 'kmeans', 'dbscan'],
+    updated_at: '2026-10-12',
+    category: 'Data Science & Predictive ML',
+    highlights: ['Scikit-Learn', 'DBSCAN', 'Clustering', 'Python'],
+    live_url: null,
   },
   {
     id: 103,
-    name: 'jarvis-realtime-assistant',
-    description: TOP_5_CURATED_METADATA['jarvis-realtime-assistant'].description,
-    stargazers_count: 1,
-    forks_count: 0,
-    language: 'TypeScript',
-    html_url: `https://github.com/${USERNAME}/jarvis-realtime-assistant`,
-    topics: ['gemini-2-flash', 'whisper', 'websockets', 'voice-assistant', 'fastapi'],
-    updated_at: '2026-09-10',
-    category: 'Realtime AI Voice & WebSocket Systems',
-    highlights: ['Gemini 2.0 Flash', 'Whisper STT', 'WebSockets HUD'],
-    live_url: 'https://oxdurgeshxo.github.io/jarvis-realtime-assistant/',
-  },
-  {
-    id: 104,
-    name: 'CNN-STREAMLIT',
-    description: TOP_5_CURATED_METADATA['CNN-STREAMLIT'].description,
+    name: 'jarvis-voice-assistant',
+    description: TOP_5_CURATED_METADATA['jarvis-voice-assistant'].description,
     stargazers_count: 0,
     forks_count: 0,
     language: 'Python',
-    html_url: `https://github.com/${USERNAME}/CNN-STREAMLIT`,
-    topics: ['deep-learning', 'cnn', 'pytorch', 'computer-vision'],
-    updated_at: '2026-07-25',
-    category: 'Computer Vision & Deep Learning',
-    highlights: ['CNN / PyTorch', '89.3% Accuracy', 'Interactive Inference'],
+    html_url: `https://github.com/${USERNAME}/jarvis-voice-assistant`,
+    topics: ['voice-assistant', 'nlp', 'automation', 'python'],
+    updated_at: '2026-10-01',
+    category: 'Conversational AI & Audio Systems',
+    highlights: ['SpeechRecognition', 'pyttsx3', 'Python', 'Automation'],
+    live_url: null,
+  },
+  {
+    id: 104,
+    name: 'CNN-Streamlit-Classifier',
+    description: TOP_5_CURATED_METADATA['CNN-Streamlit-Classifier'].description,
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'Python',
+    html_url: `https://github.com/${USERNAME}/CNN-Streamlit-Classifier`,
+    topics: ['deep-learning', 'cnn', 'streamlit', 'image-classification'],
+    updated_at: '2026-09-20',
+    category: 'Deep Learning & Web Interface',
+    highlights: ['TensorFlow', 'Streamlit', 'CNN', 'Deep Learning'],
     live_url: null,
   },
   {
@@ -155,53 +155,85 @@ export const FALLBACK_TOP_5_REPOS: GitHubRepo[] = [
   },
 ]
 
-export async function fetchGitHubProfile(): Promise<GitHubProfile> {
-  const res = await fetch(`https://api.github.com/users/${USERNAME}`, {
-    next: { revalidate: 3600 },
+export function processRawRepos(data: any[]): GitHubRepo[] {
+  // Filter out forks, dotfiles, meta-repos and the portfolio itself
+  const EXCLUDED_REPOS = ['durgesh-flagship-portfolio', 'durgesh-portfolio', 'durgesh-portfolio-v2']
+  const nonForkRepos = data.filter(
+    r => !r.fork && !r.name.startsWith('.') && !EXCLUDED_REPOS.includes(r.name)
+  )
+
+  // Enrich and rank repositories
+  const enrichedRepos = nonForkRepos.map(r => {
+    const meta = TOP_5_CURATED_METADATA[r.name]
+    return {
+      ...r,
+      priority: meta?.priority ?? 99,
+      category: meta?.category ?? (r.language ? `${r.language} Project` : 'Software Engineering'),
+      description: meta?.description ?? r.description ?? 'Project repository on GitHub',
+      highlights: meta?.highlights ?? (r.topics && r.topics.length ? r.topics : [r.language || 'Code']),
+      live_url: meta?.live_url ?? r.homepage ?? null,
+      language: r.language ?? meta?.language ?? 'Code',
+    }
   })
-  if (!res.ok) throw new Error('Failed to fetch GitHub profile')
-  return res.json()
+
+  // Sort by priority ascending and return strictly Top 5
+  enrichedRepos.sort((a, b) => (a.priority ?? 99) - (b.priority ?? 99))
+  return enrichedRepos.slice(0, 5) as GitHubRepo[]
+}
+
+export async function fetchGitHubProfile(): Promise<GitHubProfile> {
+  try {
+    const res = await fetch(`https://api.github.com/users/${USERNAME}`, {
+      next: { revalidate: 3600 },
+    })
+    if (res.ok) return await res.json()
+  } catch {}
+
+  return {
+    login: USERNAME,
+    name: 'Durgesh Sinha',
+    bio: 'MCA (AIML) @ SBU Pune | Autonomous Agent Developer | UNLOX AI Fellow',
+    avatar_url: 'https://avatars.githubusercontent.com/u/146377023?v=4',
+    public_repos: 9,
+    followers: 1,
+    following: 1,
+    html_url: `https://github.com/${USERNAME}`,
+    location: 'Pune, India',
+    blog: 'https://durgeshdsinha.com',
+  }
 }
 
 export async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
+  // 1. In Node environment (build-time / SSR), check for pre-cached static snapshot first
+  if (typeof window === 'undefined') {
+    try {
+      const fs = await import('node:fs')
+      const path = await import('node:path')
+      const cachePath = path.resolve(process.cwd(), 'public/data/github-cache.json')
+      if (fs.existsSync(cachePath)) {
+        const raw = fs.readFileSync(cachePath, 'utf8')
+        const parsed = JSON.parse(raw)
+        if (Array.isArray(parsed?.repos) && parsed.repos.length > 0) {
+          return processRawRepos(parsed.repos)
+        }
+      }
+    } catch {}
+  }
+
+  // 2. Fetch from GitHub API if cache not available
   try {
     const res = await fetch(
       `https://api.github.com/users/${USERNAME}/repos?per_page=100&type=public`,
       { next: { revalidate: 3600 } }
     )
-    if (!res.ok) return FALLBACK_TOP_5_REPOS
-
-    const data = await res.json()
-    if (!Array.isArray(data)) return FALLBACK_TOP_5_REPOS
-
-    // Filter out forks, dotfiles, meta-repos and the portfolio itself
-    const EXCLUDED_REPOS = ['durgesh-flagship-portfolio', 'durgesh-portfolio', 'durgesh-portfolio-v2']
-    const nonForkRepos = (data as any[]).filter(
-      r => !r.fork && !r.name.startsWith('.') && !EXCLUDED_REPOS.includes(r.name)
-    )
-
-    // Enrich and rank repositories
-    const enrichedRepos = nonForkRepos.map(r => {
-      const meta = TOP_5_CURATED_METADATA[r.name]
-      return {
-        ...r,
-        priority: meta?.priority ?? 99,
-        category: meta?.category ?? (r.language ? `${r.language} Project` : 'Software Engineering'),
-        description: meta?.description ?? r.description ?? 'Project repository on GitHub',
-        highlights: meta?.highlights ?? (r.topics && r.topics.length ? r.topics : [r.language || 'Code']),
-        live_url: meta?.live_url ?? r.homepage ?? null,
-        // Live API data wins over curated metadata. The curated map previously overrode
-        // `language`, which meant the site published a language the GitHub API contradicted
-        // (e.g. MarketMatch-AI rendered as Python while the API reports HTML). Curated values
-        // are now a fallback only, used when the API returns null.
-        language: r.language ?? meta?.language ?? 'Code',
+    if (res.ok) {
+      const data = await res.json()
+      if (Array.isArray(data) && data.length > 0) {
+        return processRawRepos(data)
       }
-    })
+    }
+  } catch {}
 
-    // Sort by priority ascending and return strictly Top 5
-    enrichedRepos.sort((a, b) => (a.priority ?? 99) - (b.priority ?? 99))
-    return enrichedRepos.slice(0, 5) as GitHubRepo[]
-  } catch {
-    return FALLBACK_TOP_5_REPOS
-  }
+  // 3. Fallback to curated production repository snapshot
+  return FALLBACK_TOP_5_REPOS
 }
