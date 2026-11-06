@@ -62,6 +62,27 @@ Full-Stack & Backend:  Next.js, React, FastAPI, Node.js, WebSockets, RESTful API
 Cloud & Databases:     PostgreSQL (Neon), Drizzle ORM, Docker, Cloudflare Pages, Git/GitHub, Linux
 
 ================================================================================
+FEATURED TECHNICAL PROJECTS
+================================================================================
+J.A.R.V.I.S. — Real-Time Multimodal AI Voice Assistant           Python, FastAPI, React
+GitHub: github.com/OxDurgeshxO/jarvis-realtime-assistant | Demo: oxdurgeshxo.github.io/jarvis-realtime-assistant
+• Engineered a full-duplex voice assistant streaming 16kHz audio over bi-directional WebSockets between React frontend and FastAPI backend, achieving <450ms turnaround latency.
+• Integrated Silero Voice Activity Detection (VAD) with Whisper STT and Gemini 2.0 Flash streaming API, paired with Edge-TTS for seamless real-time voice interruptions.
+• Developed real-time audio wave telemetry and exponential backoff WebSocket reconnection state machines, ensuring zero-crash streaming resilience across unstable networks.
+
+RoleRadar — AI Resume Intelligence & ATS Compatibility Engine    Next.js, TypeScript, PostgreSQL
+GitHub: github.com/OxDurgeshxO/RoleRadar | Demo: rolefit-2.vercel.app
+• Architected a full-stack resume analysis engine parsing PDF/DOCX files and scoring candidate alignment against 16 canonical engineering role taxonomies in under 1.2 seconds.
+• Implemented Google XYZ-formula scoring, ATS keyword density analyzers, and actionable gap audits; persisted candidate benchmark reports to Neon PostgreSQL via Drizzle ORM.
+• Designed a responsive, accessible user interface with real-time scoring feedback loops and zero-SSR cold starts on Cloudflare Pages edge runtime.
+
+MarketMatch-AI — Customer Segmentation & Lookalike Studio        Python, Scikit-Learn, Streamlit
+GitHub: github.com/OxDurgeshxO/MarketMatch-AI | Demo: oxdurgeshxo-marketmatch-ai-app-y8ysbm.streamlit.app
+• Developed an unsupervised machine learning pipeline clustering 4,300+ e-commerce transaction records using RFM (Recency, Frequency, Monetary) feature extraction.
+• Benchmarked K-Means clustering (Silhouette Score: 0.64, K=5) against DBSCAN for anomaly suppression; visualized high-dimensional clusters with interactive 3D Plotly projections.
+• Exported serialized model artifacts via Joblib, enabling instantaneous lookalike cohort scoring and dynamic cohort CSV exports in an interactive Streamlit UI.
+
+================================================================================
 EXPERIENCE & FELLOWSHIPS
 ================================================================================
 UNLOX® | Remote                                                  Jan 2026 – Present
@@ -77,29 +98,6 @@ AI Cohort Member & Prototype Builder
 InAmigos Foundation (IAF) | Remote                               Jun 2024 – Aug 2024
 Web Development Intern
 • Developed and maintained responsive web interfaces for non-profit initiatives using modern JavaScript and semantic HTML5/CSS3, improving mobile accessibility to WCAG 2.1 AA standards across 5,000+ monthly visitors.
-
-================================================================================
-FEATURED TECHNICAL PROJECTS
-================================================================================
-J.A.R.V.I.S. — Real-Time Multimodal AI Voice Assistant           Python, FastAPI, React
-GitHub: github.com/OxDurgeshxO/jarvis-realtime-assistant | Demo: oxdurgeshxo.github.io/jarvis-realtime-assistant
-• Engineered a full-duplex voice assistant streaming 16kHz audio over bi-directional WebSockets between React frontend and FastAPI backend, achieving <450ms turnaround latency.
-• Integrated Silero Voice Activity Detection (VAD) with Whisper STT and Gemini 2.0 Flash streaming API, paired with Edge-TTS for seamless real-time voice interruptions.
-
-RoleRadar — AI Resume Analyzer & Career Intelligence Platform    Next.js, TypeScript, PostgreSQL
-GitHub: github.com/OxDurgeshxO/RoleRadar | Demo: rolefit-2.vercel.app
-• Architected a full-stack resume analysis engine parsing PDF/DOCX files and scoring candidate alignment against 16 canonical engineering role taxonomies in under 1.2 seconds.
-• Implemented Google XYZ-formula scoring, ATS keyword density analyzers, and actionable gap audits; persisted candidate benchmark reports to Neon PostgreSQL via Drizzle ORM.
-
-MarketMatch-AI — Customer Segmentation Studio                    Python, Scikit-Learn, Streamlit
-GitHub: github.com/OxDurgeshxO/MarketMatch-AI | Demo: oxdurgeshxo-marketmatch-ai-app-y8ysbm.streamlit.app
-• Developed an unsupervised machine learning pipeline clustering 4,300+ e-commerce transaction records using RFM (Recency, Frequency, Monetary) feature extraction.
-• Benchmarked K-Means clustering (Silhouette Score: 0.64, K=5) against DBSCAN for anomaly suppression; visualized high-dimensional clusters with interactive 3D Plotly projections.
-
-Fashion-MNIST Classifier — Deep Learning CNN Streamlit App       PyTorch, Python, Streamlit
-GitHub: github.com/OxDurgeshxO/CNN-STREAMLIT | Demo: cnn-app-dmfd7b76fxyrnvrhzpkgay.streamlit.app
-• Trained custom multi-layer CNN in PyTorch on 70,000 Fashion-MNIST images, achieving 91.4% test accuracy with Batch Normalization and 0.25 Dropout regularization.
-• Deployed live inference dashboard in Streamlit providing sub-50ms inference latency, real-time image uploads, and softmax class probability distributions.
 
 ================================================================================
 EDUCATION

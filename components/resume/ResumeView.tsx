@@ -147,6 +147,77 @@ export default function ResumeView() {
           </div>
         </ResumeSection>
 
+        {/* Featured Technical Projects */}
+        <ResumeSection title="Featured Projects">
+          <div className="space-y-2">
+            {/* Project 1: J.A.R.V.I.S. */}
+            <div className="project-item avoid-break">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
+                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
+                  J.A.R.V.I.S. <span className="font-medium text-slate-600">— Real-Time Multimodal AI Voice Assistant</span>
+                </h3>
+                <div className="text-[11px] sm:text-xs text-blue-600 font-medium space-x-1.5 shrink-0">
+                  <a href="https://github.com/OxDurgeshxO/jarvis-realtime-assistant" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>
+                  <span>•</span>
+                  <a href="https://oxdurgeshxo.github.io/jarvis-realtime-assistant/" target="_blank" rel="noopener noreferrer" className="hover:underline">Live Demo</a>
+                </div>
+              </div>
+              <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
+                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("FastAPI • Python • WebSockets • React • TypeScript • Whisper STT • Gemini 2.0 Flash • Edge-TTS")}
+              </div>
+              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
+                <li>{highlightBulletText("Engineered a full-duplex voice assistant streaming 16kHz audio over bi-directional WebSockets between React frontend and FastAPI backend, achieving <450ms turnaround latency.")}</li>
+                <li>{highlightBulletText("Integrated Silero Voice Activity Detection (VAD) with Whisper STT and Gemini 2.0 Flash streaming API, paired with Edge-TTS for seamless real-time voice interruptions.")}</li>
+                <li>{highlightBulletText("Developed real-time audio wave telemetry and exponential backoff WebSocket reconnection state machines, ensuring zero-crash streaming resilience across unstable networks.")}</li>
+              </ul>
+            </div>
+
+            {/* Project 2: RoleRadar */}
+            <div className="project-item avoid-break">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
+                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
+                  RoleRadar <span className="font-medium text-slate-600">— AI Resume Analyzer & Career Intelligence Platform</span>
+                </h3>
+                <div className="text-[11px] sm:text-xs text-blue-600 font-medium space-x-1.5 shrink-0">
+                  <a href="https://github.com/OxDurgeshxO/RoleRadar" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>
+                  <span>•</span>
+                  <a href="https://rolefit-2.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:underline">Live Demo</a>
+                </div>
+              </div>
+              <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
+                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("Next.js • React • TypeScript • Drizzle ORM • PostgreSQL (Neon) • Tailwind CSS • pdf-parse")}
+              </div>
+              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
+                <li>{highlightBulletText("Architected full-stack resume analysis engine parsing PDF/DOCX files and scoring candidate alignment against 16 canonical engineering role taxonomies in under 1.2 seconds.")}</li>
+                <li>{highlightBulletText("Implemented Google XYZ-formula scoring, ATS keyword density analyzers, and actionable gap audits; persisted candidate benchmark reports to Neon PostgreSQL via Drizzle ORM.")}</li>
+                <li>{highlightBulletText("Designed a responsive, accessible user interface with real-time scoring feedback loops and zero-SSR cold starts on Cloudflare Pages edge runtime.")}</li>
+              </ul>
+            </div>
+
+            {/* Project 3: MarketMatch-AI */}
+            <div className="project-item avoid-break">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
+                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
+                  MarketMatch-AI <span className="font-medium text-slate-600">— Customer Segmentation & Lookalike Analytics Studio</span>
+                </h3>
+                <div className="text-[11px] sm:text-xs text-blue-600 font-medium space-x-1.5 shrink-0">
+                  <a href="https://github.com/OxDurgeshxO/MarketMatch-AI" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>
+                  <span>•</span>
+                  <a href="https://oxdurgeshxo-marketmatch-ai-app-y8ysbm.streamlit.app/" target="_blank" rel="noopener noreferrer" className="hover:underline">Live Demo</a>
+                </div>
+              </div>
+              <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
+                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("Python 3.11 • Scikit-Learn • Streamlit • Plotly 3D • Pandas & NumPy • Joblib")}
+              </div>
+              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
+                <li>{highlightBulletText("Developed unsupervised machine learning pipeline clustering 4,300+ e-commerce transaction records using RFM (Recency, Frequency, Monetary) feature extraction.")}</li>
+                <li>{highlightBulletText("Benchmarked K-Means clustering (Silhouette Score: 0.64, K=5) against DBSCAN for anomaly suppression; visualized high-dimensional clusters with interactive 3D Plotly projections.")}</li>
+                <li>{highlightBulletText("Exported serialized model artifacts via Joblib, enabling instantaneous lookalike cohort scoring and dynamic cohort CSV exports in an interactive Streamlit UI.")}</li>
+              </ul>
+            </div>
+          </div>
+        </ResumeSection>
+
         {/* Professional Experience & Fellowships */}
         <ResumeSection title="Experience & Fellowships">
           <div className="space-y-1.5">
@@ -185,95 +256,6 @@ export default function ResumeView() {
               </div>
               <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
                 <li>{highlightBulletText("Developed and maintained responsive web interfaces for non-profit initiatives using modern JavaScript and semantic HTML5/CSS3, improving mobile accessibility to WCAG 2.1 AA standards across 5,000+ monthly visitors.")}</li>
-              </ul>
-            </div>
-          </div>
-        </ResumeSection>
-
-        {/* Featured Technical Projects */}
-        <ResumeSection title="Featured Projects">
-          <div className="space-y-2">
-            {/* Project 1: J.A.R.V.I.S. */}
-            <div className="project-item avoid-break">
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
-                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
-                  J.A.R.V.I.S. <span className="font-medium text-slate-600">— Real-Time Multimodal AI Voice Assistant</span>
-                </h3>
-                <div className="text-[11px] sm:text-xs text-blue-600 font-medium space-x-1.5 shrink-0">
-                  <a href="https://github.com/OxDurgeshxO/jarvis-realtime-assistant" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>
-                  <span>•</span>
-                  <a href="https://oxdurgeshxo.github.io/jarvis-realtime-assistant/" target="_blank" rel="noopener noreferrer" className="hover:underline">Live Demo</a>
-                </div>
-              </div>
-              <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
-                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("FastAPI • Python • WebSockets • React • TypeScript • Whisper STT • Gemini 2.0 Flash • Edge-TTS")}
-              </div>
-              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>{highlightBulletText("Engineered a full-duplex voice assistant streaming 16kHz audio over bi-directional WebSockets between React frontend and FastAPI backend, achieving <450ms turnaround latency.")}</li>
-                <li>{highlightBulletText("Integrated Silero Voice Activity Detection (VAD) with Whisper STT and Gemini 2.0 Flash streaming API, paired with Edge-TTS for seamless real-time voice interruptions.")}</li>
-              </ul>
-            </div>
-
-            {/* Project 2: RoleRadar */}
-            <div className="project-item avoid-break">
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
-                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
-                  RoleRadar <span className="font-medium text-slate-600">— AI Resume Analyzer & Career Intelligence Platform</span>
-                </h3>
-                <div className="text-[11px] sm:text-xs text-blue-600 font-medium space-x-1.5 shrink-0">
-                  <a href="https://github.com/OxDurgeshxO/RoleRadar" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>
-                  <span>•</span>
-                  <a href="https://rolefit-2.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:underline">Live Demo</a>
-                </div>
-              </div>
-              <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
-                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("Next.js • React • TypeScript • Drizzle ORM • PostgreSQL (Neon) • Tailwind CSS • pdf-parse")}
-              </div>
-              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>{highlightBulletText("Architected full-stack resume analysis engine parsing PDF/DOCX files and scoring candidate alignment against 16 canonical engineering role taxonomies in under 1.2 seconds.")}</li>
-                <li>{highlightBulletText("Implemented Google XYZ-formula scoring, ATS keyword density analyzers, and actionable gap audits; persisted candidate benchmark reports to Neon PostgreSQL via Drizzle ORM.")}</li>
-              </ul>
-            </div>
-
-            {/* Project 3: MarketMatch-AI */}
-            <div className="project-item avoid-break">
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
-                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
-                  MarketMatch-AI <span className="font-medium text-slate-600">— Customer Segmentation & Lookalike Analytics Studio</span>
-                </h3>
-                <div className="text-[11px] sm:text-xs text-blue-600 font-medium space-x-1.5 shrink-0">
-                  <a href="https://github.com/OxDurgeshxO/MarketMatch-AI" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>
-                  <span>•</span>
-                  <a href="https://oxdurgeshxo-marketmatch-ai-app-y8ysbm.streamlit.app/" target="_blank" rel="noopener noreferrer" className="hover:underline">Live Demo</a>
-                </div>
-              </div>
-              <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
-                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("Python 3.11 • Scikit-Learn • Streamlit • Plotly 3D • Pandas & NumPy • Joblib")}
-              </div>
-              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>{highlightBulletText("Developed unsupervised machine learning pipeline clustering 4,300+ e-commerce transaction records using RFM (Recency, Frequency, Monetary) feature extraction.")}</li>
-                <li>{highlightBulletText("Benchmarked K-Means clustering (Silhouette Score: 0.64, K=5) against DBSCAN for anomaly suppression; visualized high-dimensional clusters with interactive 3D Plotly projections.")}</li>
-              </ul>
-            </div>
-
-            {/* Project 4: Fashion-MNIST CNN */}
-            <div className="project-item avoid-break">
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
-                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
-                  Fashion-MNIST Classifier <span className="font-medium text-slate-600">— Deep Learning CNN Streamlit App</span>
-                </h3>
-                <div className="text-[11px] sm:text-xs text-blue-600 font-medium space-x-1.5 shrink-0">
-                  <a href="https://github.com/OxDurgeshxO/CNN-STREAMLIT" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>
-                  <span>•</span>
-                  <a href="https://cnn-app-dmfd7b76fxyrnvrhzpkgay.streamlit.app/" target="_blank" rel="noopener noreferrer" className="hover:underline">Live Demo</a>
-                </div>
-              </div>
-              <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
-                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("PyTorch • Python • Streamlit • Computer Vision • NumPy")}
-              </div>
-              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>{highlightBulletText("Trained custom multi-layer CNN in PyTorch on 70,000 Fashion-MNIST images, achieving 91.4% test accuracy with Batch Normalization and 0.25 Dropout regularization.")}</li>
-                <li>{highlightBulletText("Deployed live inference dashboard in Streamlit providing sub-50ms inference latency, real-time image uploads, and softmax class probability distributions.")}</li>
               </ul>
             </div>
           </div>

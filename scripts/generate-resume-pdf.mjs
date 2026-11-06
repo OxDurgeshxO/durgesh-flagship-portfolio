@@ -20,12 +20,7 @@ async function main() {
     path: targetPdf,
     format: 'A4',
     printBackground: true,
-    margin: {
-      top: '8mm',
-      bottom: '8mm',
-      left: '10mm',
-      right: '10mm',
-    },
+    preferCSSPageSize: true,
   });
 
   const stats = fs.statSync(targetPdf);
