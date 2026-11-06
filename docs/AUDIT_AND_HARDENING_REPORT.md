@@ -278,6 +278,16 @@ Tested via Node HTTP client and browser automated session against `http://localh
 | `/work/cnn-streamlit` | `200 OK` | 102,341 bytes | CNN Streamlit deep learning case study renders. |
 | Runtime Console | `Clean` | 0 errors | Zero uncaught exceptions, zero form label warnings, zero missing autocompletes. |
 
+### 4.8 Milestone 5 Remediation Gate & Forensic Integrity Audit
+Following the initial Milestone 5 verification cycle where Challenger 1 flagged a React hydration discrepancy on `/spaceedu` (IMP-23), a formal remediation gate was executed with five independent verification subagents:
+- **Reviewer 1 (`reviewer_m5_rem_1`)**: **APPROVE** — Verified self-closing `<iframe>` and sibling `.sr-only` fallback; zero typecheck, lint, or link errors.
+- **Reviewer 2 (`reviewer_m5_rem_2`)**: **APPROVE** — Verified WCAG 2.1 AA screen-reader parity and full accessibility test compliance.
+- **Challenger 1 (`challenger_m5_rem_1`)**: **CONFIRMED** — Executed headless browser probe on `/spaceedu`; verified 0 hydration mismatches and 0 console warnings.
+- **Challenger 2 (`challenger_m5_rem_2`)**: **CONFIRMED** — Deep DOM structure inspection verified clean rawtext node parsing and exact client/server tree alignment.
+- **Forensic Auditor (`auditor_m5_rem`)**: **CLEAN** — Audited all 11 test suites; confirmed 212 explicit assertions across 77 declared test suites with zero mocked passes or skipped assertions.
+
+**Remediation Gate Verdict**: **UNANIMOUS PASS** across all 5 verification subagents.
+
 ---
 
 ## 5. Prioritized Roadmap for Further Enhancements
