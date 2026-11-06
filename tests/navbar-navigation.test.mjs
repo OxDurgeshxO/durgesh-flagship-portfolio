@@ -19,10 +19,9 @@ test('Navbar Navigation: all primary desktop and mobile links resolve to existin
   }
 })
 
-test('Navbar Specification: Navbar component source contains CyberBot 3D studio link', () => {
+test('Navbar Specification: Navbar is streamlined without redundant CyberBot 3D tab', () => {
   const navbarSource = fs.readFileSync(path.resolve(process.cwd(), 'components/sections/Navbar.tsx'), 'utf-8')
-  assert.ok(navbarSource.includes('/cyberbot'), 'Navbar must link to /cyberbot')
-  assert.ok(navbarSource.includes('CyberBot 3D'), 'Navbar must include CyberBot 3D text')
+  assert.ok(!navbarSource.includes('CyberBot 3D'), 'Navbar must not include redundant CyberBot 3D tab')
 })
 
 test('Hero Specification: HeroSection component source contains CyberBot summon action', () => {
