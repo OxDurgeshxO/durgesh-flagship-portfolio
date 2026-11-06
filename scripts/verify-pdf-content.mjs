@@ -64,6 +64,7 @@ const checks = [
   'IMP-01','IMP-02','IMP-03','IMP-04','IMP-05','IMP-06','IMP-07','IMP-08',
   'IMP-09','IMP-10','IMP-11','IMP-12','IMP-13','IMP-14','IMP-15','IMP-16',
   'IMP-17','IMP-18','IMP-19','IMP-20','IMP-21','IMP-22','IMP-23',
+  'IMP-24','IMP-25','IMP-26',
   // All 6 debt items
   'DEBT-01','DEBT-02','DEBT-03','DEBT-04','DEBT-05','DEBT-06',
   // Key metrics
