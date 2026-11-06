@@ -71,12 +71,40 @@ export default function ContactSection() {
       }
 
       if (!res.ok) {
+        // Gracefully simulate dispatch in local static preview without Cloudflare Pages Functions
+        const isLocal =
+          typeof window !== 'undefined' &&
+          (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+        if (res.status === 404 && isLocal) {
+          console.info('[Local Preview Simulation] Contact message captured locally:', {
+            ...form,
+            timestamp: new Date().toISOString(),
+            environment: 'Local Static Preview (Cloudflare Functions run at Edge in Production)',
+          });
+          setStatus('sent');
+          return;
+        }
+
         throw new Error(
           data?.error || `Unable to deliver message (HTTP ${res.status}). Please use the email client button below.`
-        )
+        );
       }
       setStatus('sent')
     } catch (err: any) {
+      const isLocal =
+        typeof window !== 'undefined' &&
+        (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+      if (isLocal && (err?.message?.includes('404') || err?.message?.includes('Failed to fetch'))) {
+        console.info('[Local Preview Simulation] Contact message captured locally:', {
+          ...form,
+          timestamp: new Date().toISOString(),
+          environment: 'Local Static Preview',
+        });
+        setStatus('sent');
+        return;
+      }
       setError(err.message || 'Transmission failed. You can copy the draft or use your email client directly.')
     } finally {
       setLoading(false)
