@@ -357,3 +357,8 @@ try { unlinkSync(tmpHtml); } catch {}
 const size = readFileSync(pdfOut).length;
 console.log(`PDF saved: ${pdfOut}`);
 console.log(`Size: ${(size/1024).toFixed(1)} KB`);
+
+// Mirror to docs/ for version tracking
+const docsPdf = join(ROOT, 'docs', 'V10_Audit_Hardening_Report.pdf');
+writeFileSync(docsPdf, readFileSync(pdfOut));
+console.log(`PDF mirrored to: ${docsPdf}`);

@@ -2,15 +2,15 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Sparkles, FileText, Activity, Users, ArrowUpRight, ShieldCheck, Zap, Lock } from 'lucide-react';
+import { Sparkles, FileText, Activity, Users, ArrowUpRight, ShieldCheck, Zap, Lock, Compass, Hash } from 'lucide-react';
 import ResumeAnalyzerDemo from './ResumeAnalyzerDemo';
 import { FitTrackDemo } from './FitTrackDemo';
 import MarketMatchDemo from './MarketMatchDemo';
 import TokenCounterDemo from './TokenCounterDemo';
-import { Hash } from 'lucide-react';
+import VectorEmbeddingSandbox from './VectorEmbeddingSandbox';
 import PrivacyNotice from './PrivacyNotice';
 
-type TabKey = 'resume' | 'fittrack' | 'marketmatch' | 'tokenizer';
+type TabKey = 'resume' | 'fittrack' | 'marketmatch' | 'tokenizer' | 'embeddings';
 
 export function AiLabShell() {
   const [activeTab, setActiveTab] = useState<TabKey>('resume');
@@ -46,6 +46,14 @@ export function AiLabShell() {
       subtitle: 'BPE Segmentation & Pricing',
       icon: Hash,
       badge: 'Client-Side Tokenizer',
+      caseStudy: '/work/roleradar',
+    },
+    {
+      id: 'embeddings' as TabKey,
+      name: 'Vector Embeddings',
+      subtitle: 'Cosine & 2D Vector Space',
+      icon: Compass,
+      badge: 'Vector Math / NLP',
       caseStudy: '/work/roleradar',
     },
   ];
@@ -129,7 +137,8 @@ export function AiLabShell() {
         {activeTab === 'resume' && <ResumeAnalyzerDemo />}
         {activeTab === 'fittrack' && <FitTrackDemo />}
         {activeTab === 'marketmatch' && <MarketMatchDemo />}
-      {activeTab === 'tokenizer' && <TokenCounterDemo />}
+        {activeTab === 'tokenizer' && <TokenCounterDemo />}
+        {activeTab === 'embeddings' && <VectorEmbeddingSandbox />}
       </div>
 
       {/* Privacy Notice Component */}

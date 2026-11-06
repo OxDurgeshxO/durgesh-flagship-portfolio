@@ -192,6 +192,7 @@ export default function AICoreScene() {
   const [isIntersecting, setIsIntersecting] = useState(true)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const [hasWebGL, setHasWebGL] = useState(false)
+  const [isLowBattery, setIsLowBattery] = useState(false)
 
   useEffect(() => {
     try {
@@ -200,6 +201,20 @@ export default function AICoreScene() {
       if (gl) setHasWebGL(true);
     } catch {
       setHasWebGL(false);
+    }
+
+    // Battery status listener: auto-throttle DPR and power preference on battery saver
+    if (typeof navigator !== 'undefined' && 'getBattery' in navigator) {
+      (navigator as any).getBattery().then((battery: any) => {
+        const updateBattery = () => {
+          const low = battery.level < 0.2 && !battery.charging
+          setIsLowBattery(low)
+          if (low) setDpr(1.0)
+        }
+        updateBattery()
+        battery.addEventListener('levelchange', updateBattery)
+        battery.addEventListener('chargingchange', updateBattery)
+      }).catch(() => {})
     }
     const handleMove = (e: PointerEvent) => {
       const { clientX, clientY } = e
@@ -264,7 +279,7 @@ export default function AICoreScene() {
         camera={{ position: [0, 0, 5], fov: 48 }}
         dpr={dpr}
         frameloop={shouldRenderLoop ? 'always' : 'never'}
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        gl={{ antialias: !isLowBattery, alpha: true, powerPreference: isLowBattery ? 'low-power' : 'high-performance' }}
       >
         <PerformanceMonitor
           onDecline={() => setDpr(1)}

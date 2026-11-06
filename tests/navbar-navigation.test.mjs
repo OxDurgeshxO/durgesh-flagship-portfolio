@@ -42,3 +42,11 @@ test('Telemetry & Health Specification: Components contain Sparkline and Audio W
   const telemetry = fs.readFileSync(path.resolve(process.cwd(), 'components/companion/CyberBotTelemetryOverlay.tsx'), 'utf-8')
   assert.ok(telemetry.includes('Neural Audio Waveform'), 'CyberBotTelemetryOverlay must render audio waveform spectrum')
 })
+
+test('Case Study Specification: ArchitectureDiagram contains interactive zoom and expansion controls', () => {
+  const diagSource = fs.readFileSync(path.resolve(process.cwd(), 'components/case-study/ArchitectureDiagram.tsx'), 'utf-8')
+  assert.ok(diagSource.includes('zoomLevel'), 'ArchitectureDiagram must maintain zoomLevel state')
+  assert.ok(diagSource.includes('ZoomIn'), 'ArchitectureDiagram must provide ZoomIn control')
+  assert.ok(diagSource.includes('ZoomOut'), 'ArchitectureDiagram must provide ZoomOut control')
+  assert.ok(diagSource.includes('isFullscreen'), 'ArchitectureDiagram must provide fullscreen expansion')
+})

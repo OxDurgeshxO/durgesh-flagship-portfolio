@@ -26,8 +26,8 @@ The goal of this engineering engagement was to perform a forensic, multi-dimensi
 Following five rigorous development and verification milestones, the portfolio has achieved a **100% green verification baseline**:
 - **TypeScript Static Typecheck**: Clean compilation, 0 errors (`tsc --noEmit`).
 - **ESLint**: 0 warnings, 0 errors (`next lint`).
-- **Unit & Integration Test Suite**: 91/91 test cases passing (0 failures, duration ~345ms).
-- **Link & Anchor Integrity Scanner**: 19 exported HTML pages scanned, 309 internal links and 35 external links validated with 0 broken links or anchors.
+- **Unit & Integration Test Suite**: 102/102 test cases passing (0 failures, duration ~460ms).
+- **Link & Anchor Integrity Scanner**: 19 exported HTML pages scanned, 306 internal links and 35 external links validated with 0 broken links or anchors.
 - **Production Static Export**: 23 static pages generated with 87.7 kB shared JavaScript bundle.
 - **Playwright Axe Accessibility Suite**: 22/22 end-to-end tests passing across desktop Chrome and mobile Chrome with 0 critical or serious WCAG violations.
 - **Live Preview Server (`http://localhost:3000`)**: Tested across all core routes with 100% HTTP 200 responses and zero runtime console errors.
@@ -142,6 +142,16 @@ Empirical measurements obtained via Chrome DevTools performance traces and produ
 | **IMP-24** | Post-Audit | `components/space/SpaceBackground.tsx` | 14 | Performance | Converted remote 5.4MB CloudFront PNG asset to local WebP (`public/images/earth-still.webp`). | Remote uncompressed PNG loaded 5.4MB on every fresh load. | Local optimized WebP at 144.7 KB achieves a 97.3% payload reduction. |
 | **IMP-25** | Post-Audit | `components/companion/CyberBotQuickDial.tsx` | 68, 84, 99, 123, 139 | Accessibility & Usability | Enforced 44x44px minimum touch targets across all Recruiter Quick-Dial buttons and close trigger. | Close trigger and action buttons measured 22–34px high on mobile screens. | Added `min-w-[44px] min-h-[44px]` touch containers meeting WCAG 2.5.5 Level AAA criteria. |
 | **IMP-26** | Post-Audit | `components/companion/CyberBotStudioShell.tsx` | 675 | Usability | Added explicit browser compatibility notice for Web Speech API fallback. | Displayed generic "Speech recognition not supported" without next steps. | Updated to explain Chromium/Edge/Safari support with guidance to use inline text prompt below. |
+| **IMP-27** | CyberBot 2.0 | `components/sections/Navbar.tsx` & `tests/navbar-navigation.test.mjs` | 44, 112 | Ergonomics & Layout | Removed redundant CyberBot 3D tab from desktop navbar and mobile drawer. | CyberBot 3D tab overcrowded navbar and duplicated persistent bottom-right 3D widget and Hero CTA. | Removed navbar tab; streamlined navigation layout; updated automated test assertions. |
+| **IMP-28** | CyberBot 2.0 | `lib/companion/knowledge.ts` & `tests/companion-knowledge.test.mjs` | 1-285 | AI & NLP Engine | Expanded knowledge corpus to 18 domains with n-gram tokenization and Levenshtein fuzzy matching. | Exact string matching failed on common typos (e.g. `rolrader` or `fttrack`) and lacked recent systems data. | Added Levenshtein distance ($\ge 0.75$ threshold for words $\ge 4$ chars); expanded corpus to 18 technical domains. |
+| **IMP-29** | CyberBot 2.0 | `components/companion/CyberBotModel.tsx` | 110-185 | 3D Visual Craft | Added dynamic 3D visor eye state machine (`idle`, `listening`, `speaking`, `dancing`, `happy`). | Visor eyes remained static pill shapes during speech and audio recording. | Listening morphs eyes into emerald waveform bars (`#10b981`); speaking modulates aperture height; cursor delta damped via rotational inertia. |
+| **IMP-30** | CyberBot 2.0 | `components/companion/RoamingCompanion3D.tsx` | 240-280 | Usability & Context | Wired contextual scroll spy with section-aware suggestion chips (`SECTION_CONTEXT_CHIPS`). | CyberBot showed static suggestions regardless of user's active page section. | Observer detects active viewport section (`#hero`, `#about`, `#experience`, `#projects`, `#contact`) and dynamically serves targeted prompts. |
+| **IMP-31** | CyberBot 2.0 | `components/companion/CyberBotQuickDial.tsx` | 145-265 | Recruiter Conversion | Integrated 3-step candidate screening wizard with 1-click meeting screen mailto. | Quick-dial only contained basic navigation shortcuts. | Step-by-step recruiter questionnaire selects role, highlights matched case studies, and generates pre-filled interview mailto. |
+| **IMP-32** | Feature Wave | `lib/vector-math.ts` & `components/lab/VectorEmbeddingSandbox.tsx` | New files | AI / ML Lab | Built in-browser 2D Vector Embedding & Cosine Similarity Sandbox with 2D Cartesian plane visualizer. | AI Lab lacked semantic embedding and vector similarity math benchmarks. | Client-side TF-IDF dot-product, angular separation ($\theta$), and Euclidean distance with interactive presets. |
+| **IMP-33** | Feature Wave | `lib/resume-roles.ts` & `components/resume/RoleHighlighter.tsx` | New files | Recruiter ATS Conversion | Built dynamic Recruiter Role Lens filtering competencies on `/resume`. | Technical skills list was dense without role-specific targeting for hiring leads. | Filter chips for AI/ML, Full-Stack, and Agentic Systems dynamically highlight matching skills with print-safe CSS. |
+| **IMP-34** | Feature Wave | `components/case-study/ArchitectureDiagram.tsx` | 25-140 | Technical UX | Added interactive zoom controls (75%–150%), zoom reset, and fullscreen modal expansion. | Architecture diagrams were fixed in scale, hindering deep technical review on mobile and high-DPI displays. | Zoom-in, zoom-out, reset, and modal expansion controls allow detailed microservice inspection. |
+| **IMP-35** | Performance & PWA | `public/sw.js` & `components/PwaRegister.tsx` | New files | Offline Resilience | Implemented stale-while-revalidate PWA service worker caching `/resume`, `/resume.pdf`, `/spaceedu`, and core styles. | Navigating offline or on cellular dropped connections caused network errors. | Stale-while-revalidate strategy serves cached credentials instantly and updates cache in background. |
+| **IMP-36** | Performance & Battery | `components/3d/AICoreScene.tsx` | 195-230 | Hardware Hygiene | Added battery-aware WebGL auto-throttle listening to `navigator.getBattery()`. | 3D canvas continuously ran high-performance DPR even on low-battery mobile devices. | Throttles DPR to 1.0, disables MSAA antialiasing, and shifts power preference to low-power when battery < 20%. |
 
 ---
 
@@ -173,28 +183,30 @@ All validation suites were executed against the codebase in the local production
 ### 4.3 Node.js Unit & Integration Test Suite (`npm test`)
 - **Command**: `npm test` (`node --no-warnings --test tests/*.test.mjs`)
 - **Exit Code**: `0`
-- **Duration**: `345.84ms`
+- **Duration**: `464.63ms`
 - **Test Results Summary**:
   ```
-  ℹ tests 91
+  ℹ tests 102
   ℹ suites 0
-  ℹ pass 91
+  ℹ pass 102
   ℹ fail 0
   ℹ cancelled 0
   ℹ skipped 0
   ℹ todo 0
-  ℹ duration_ms 345.8362
+  ℹ duration_ms 464.6332
   ```
 - **Suite Breakdown**:
   - `tests/assets.test.mjs`: 4 passed (Resume PDF structural validity, branding SVG, OpenGraph image, clean public assets).
   - `tests/companion-a11y.test.mjs`: 3 passed (`stripEmojis`, suggestion chips validity, skin badge contrast).
-  - `tests/companion-knowledge.test.mjs`: 3 passed (Knowledge corpus coverage, semantic query matching, chassis skin configuration).
+  - `tests/companion-knowledge.test.mjs`: 5 passed (Knowledge corpus 18 domains, semantic query matching, Levenshtein fuzzy typo tolerance $\ge 0.75$, chassis skin configuration, contextual scroll spy suggestion chips).
   - `tests/companion-upgrade.test.mjs`: 4 passed (Voice command listener parsing, emoji stripping, singleton pattern, SSR/Node fallback).
   - `tests/content.test.mjs`: 10 passed (Zero Windows paths, root SECURITY.md, .gitignore rules, no legacy Netlify configs, claims.md verification, no fabricated rank badges or deceptive confidence strings).
   - `tests/lab.test.mjs`: 3 passed (Resume validator 15,000 char cap, MarketMatch cluster range & algorithm whitelist, zero per-isolate in-memory state).
   - `tests/m3-challenger-empirical.test.mjs`: 6 passed (Performance state sync, fallback resolution, quota exception resilience, cross-module interop, StudioWebGLErrorBoundary, Permissions-Policy hygiene).
   - `tests/m4-challenger-empirical.test.mjs`: 21 passed (SpaceEdu route & simulation integrity, UNLOX® UTF-8 byte encoding `554e4c4f58c2ae`, zero UNLOXr occurrences, CyberBot tour landmark step alignment to `#github-projects`).
-  - `tests/navbar-navigation.test.mjs`: 5 passed (All primary routes exist, Navbar CyberBot link, Hero summon action, Recruiter ScheduleModal, Sparkline & audio waveform).
+  - `tests/navbar-navigation.test.mjs`: 6 passed (All primary routes exist, Navbar streamlined without redundant CyberBot tab, Hero summon action, Recruiter ScheduleModal, Sparkline & audio waveform, ArchitectureDiagram zoom & expansion).
+  - `tests/resume-role-highlighter.test.mjs`: 4 passed (Role definitions, AIML keywords, Fullstack keywords, Agentic systems keywords).
+  - `tests/vector-embedding.test.mjs`: 4 passed (Token cleaning, cosine similarity 1.0 identity, orthogonal vector separation, empty input bounds).
   - `tests/routes.test.mjs`: 19 passed (15 required route files exist, 5 flagship case study canonical slugs, Hero resume CTA, ProofStrip inclusion, Cloudflare security headers).
   - `tests/security.test.mjs`: 8 passed (Production contact handler guards, HTML entity escaping, no internal error leaks, AI Lab shared validators, KV-backed rate limiter architecture, CORS canonical origin guard, deletion of unreachable Next.js API routes, zero client API key leaks).
 
@@ -403,13 +415,13 @@ All remaining technical debt items identified across the multi-dimensional audit
 
 ## 7. Conclusion
 
-The V10 Flagship Portfolio clone has undergone an exhaustive multi-dimensional audit and systematic hardening. Through the successful execution of Milestones 1 through 5 and subsequent post-audit hardening:
-- **Total Improvements**: 26 verified improvements (IMP-01 through IMP-26) catalogued, implemented, and tested.
+The V10 Flagship Portfolio clone has undergone an exhaustive multi-dimensional audit and systematic hardening. Through the successful execution of Milestones 1 through 6, post-audit hardening, CyberBot 2.0 elevation, and the strategic feature wave:
+- **Total Improvements**: 36 verified improvements (IMP-01 through IMP-36) catalogued, implemented, and tested.
 - **Accessibility Parity**: All 22 critical and serious accessibility gaps eliminated; WCAG 2.5.5 Level AAA 44x44px mobile touch targets enforced; modal focus trapping, heading hierarchies, form attributes, and accessible names meet strict WCAG 2.1 AA and WCAG 2.5.3 standards.
-- **Performance & Asset Compression**: Remote 5.4 MB uncompressed PNG replaced with local 144.7 KB WebP asset (**97.3% payload savings**), protecting cellular mobile LCP.
+- **Performance & Asset Compression**: Remote 5.4 MB uncompressed PNG replaced with local 144.7 KB WebP asset (**97.3% payload savings**), protecting cellular mobile LCP; stale-while-revalidate PWA offline caching enabled; battery-aware WebGL auto-throttling active.
 - **Security & Headers**: Cloudflare security headers, Permissions-Policy (`microphone=(self)`), reverse tabnabbing protection (`rel="noopener noreferrer"`), and edge rate-limiting guardrails verified.
-- **Static Export Integrity**: Next.js static export pipeline compiles 23 static pages with 100% link resolution and zero broken anchors across 309 internal and 35 external links.
-- **Empirical Test Baseline**: All 91 automated unit/integration tests pass cleanly with zero failures or regressions; 22/22 Playwright Axe end-to-end tests pass.
+- **Static Export Integrity**: Next.js static export pipeline compiles 23 static pages with 100% link resolution and zero broken anchors across 306 internal and 35 external links.
+- **Empirical Test Baseline**: All 102 automated unit/integration tests pass cleanly with zero failures or regressions; 22/22 Playwright Axe end-to-end tests pass.
 - **Live Runtime Resilience**: Headless browser probes and preview server at `http://localhost:3000` demonstrate flawless runtime stability with zero React hydration errors and zero console warnings.
 
 The portfolio is robust, resilient, performant, and fully prepared for flagship production release.

@@ -4,10 +4,37 @@ import React, { useState } from "react";
 import ResumeHeader from "@/components/resume/ResumeHeader";
 import ResumeSection from "@/components/resume/ResumeSection";
 import ResumeActions, { ResumeTheme } from "@/components/resume/ResumeActions";
+import RoleHighlighter, { RoleCategory, ROLE_DEFINITIONS } from "@/components/resume/RoleHighlighter";
 import { EDUCATION, CERTIFICATIONS } from "@/lib/data";
 
 export default function ResumeView() {
   const [theme, setTheme] = useState<ResumeTheme>("pure-white");
+  const [activeRole, setActiveRole] = useState<RoleCategory>("all");
+
+  const renderHighlightedText = (text: string) => {
+    if (activeRole === "all") return text;
+    const keywords = ROLE_DEFINITIONS[activeRole].keywords;
+    const items = text.split(", ");
+    return items.map((item, idx) => {
+      const match = keywords.some(
+        (k) => item.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(item.toLowerCase())
+      );
+      return (
+        <React.Fragment key={idx}>
+          {idx > 0 && ", "}
+          <span
+            className={
+              match
+                ? "bg-amber-300/30 text-amber-950 font-bold px-1 py-0.5 rounded border border-amber-400/40 print:bg-transparent print:border-none print:p-0 transition-colors"
+                : ""
+            }
+          >
+            {item}
+          </span>
+        </React.Fragment>
+      );
+    });
+  };
 
   const themeStyles: Record<
     ResumeTheme,
@@ -47,6 +74,7 @@ export default function ResumeView() {
   return (
     <div className="max-w-4xl mx-auto">
       <ResumeActions currentTheme={theme} onThemeChange={setTheme} />
+      <RoleHighlighter activeRole={activeRole} onRoleChange={setActiveRole} />
 
       {/* Main Resume Sheet - Real Developer Data & ATS-Optimized 1-Page Format */}
       <article
@@ -67,19 +95,19 @@ export default function ResumeView() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs sm:text-[11.5px] leading-tight">
             <div>
               <span className="font-bold text-slate-950">Languages: </span>
-              <span className="text-slate-800">Python, TypeScript, JavaScript, SQL, HTML5, CSS3, C/C++</span>
+              <span className="text-slate-800">{renderHighlightedText("Python, TypeScript, JavaScript, SQL, HTML5, CSS3, C/C++")}</span>
             </div>
             <div>
               <span className="font-bold text-slate-950">AI & Machine Learning: </span>
-              <span className="text-slate-800">PyTorch, Scikit-Learn, Computer Vision (MediaPipe, CNN), Whisper STT, Gemini API, Pandas, NumPy, K-Means, DBSCAN</span>
+              <span className="text-slate-800">{renderHighlightedText("PyTorch, Scikit-Learn, Computer Vision (MediaPipe, CNN), Whisper STT, Gemini API, Pandas, NumPy, K-Means, DBSCAN")}</span>
             </div>
             <div>
               <span className="font-bold text-slate-950">Full-Stack & Backend: </span>
-              <span className="text-slate-800">Next.js, React, FastAPI, Streamlit, WebSockets, Node.js, RESTful APIs, Tailwind CSS</span>
+              <span className="text-slate-800">{renderHighlightedText("Next.js, React, FastAPI, Streamlit, WebSockets, Node.js, RESTful APIs, Tailwind CSS")}</span>
             </div>
             <div>
               <span className="font-bold text-slate-950">Cloud, Database & Tools: </span>
-              <span className="text-slate-800">PostgreSQL (Neon), Drizzle ORM, Docker, Cloudflare Pages, Git & GitHub, AWS Educate</span>
+              <span className="text-slate-800">{renderHighlightedText("PostgreSQL (Neon), Drizzle ORM, Docker, Cloudflare Pages, Git & GitHub, AWS Educate")}</span>
             </div>
           </div>
         </ResumeSection>

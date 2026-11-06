@@ -15,6 +15,7 @@ import '../styles/theme.css'
 import '../components/space/space-background.css'
 import { THEME_BOOT_SCRIPT } from '@/lib/themes/boot'
 import { ThemeProvider } from '@/lib/themes/provider'
+import { PwaRegister } from '@/components/PwaRegister'
 
 
 const inter = Inter({
@@ -251,6 +252,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             navbar contains the theme panel, which reads this context. */}
         <ThemeProvider>
           {children}
+          <PwaRegister />
         </ThemeProvider>
       </body>
     </html>
