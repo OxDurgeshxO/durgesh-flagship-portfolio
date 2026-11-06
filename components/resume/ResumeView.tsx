@@ -4,72 +4,10 @@ import React, { useState } from "react";
 import ResumeHeader from "@/components/resume/ResumeHeader";
 import ResumeSection from "@/components/resume/ResumeSection";
 import ResumeActions, { ResumeTheme } from "@/components/resume/ResumeActions";
-import RoleHighlighter, { RoleCategory, ROLE_DEFINITIONS } from "@/components/resume/RoleHighlighter";
 import { EDUCATION, CERTIFICATIONS } from "@/lib/data";
 
 export default function ResumeView() {
   const [theme, setTheme] = useState<ResumeTheme>("pure-white");
-  const [activeRole, setActiveRole] = useState<RoleCategory>("all");
-
-  const renderHighlightedText = (text: string) => {
-    if (activeRole === "all") return text;
-    const keywords = ROLE_DEFINITIONS[activeRole].keywords;
-    const items = text.split(", ");
-    return items.map((item, idx) => {
-      const match = keywords.some(
-        (k) => item.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(item.toLowerCase())
-      );
-      return (
-        <React.Fragment key={idx}>
-          {idx > 0 && ", "}
-          <span
-            className={
-              match
-                ? "bg-amber-300/30 text-amber-950 font-bold px-1 py-0.5 rounded border border-amber-400/40 print:bg-transparent print:border-none print:p-0 transition-colors"
-                : ""
-            }
-          >
-            {item}
-          </span>
-        </React.Fragment>
-      );
-    });
-  };
-
-  const highlightBulletText = (text: string) => {
-    if (activeRole === "all") return text;
-    const keywords = ROLE_DEFINITIONS[activeRole].keywords;
-    if (!keywords || keywords.length === 0) return text;
-
-    const validKeywords = keywords
-      .filter((k) => k && k.length > 1)
-      .sort((a, b) => b.length - a.length);
-
-    if (validKeywords.length === 0) return text;
-
-    const pattern = new RegExp(
-      `(${validKeywords.map((k) => k.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")).join("|")})`,
-      "gi"
-    );
-
-    const parts = text.split(pattern);
-    return parts.map((part, idx) => {
-      const isMatch = validKeywords.some(
-        (k) => k.toLowerCase() === part.toLowerCase()
-      );
-      if (isMatch) {
-        return (
-          <span
-            key={idx}
-            className="bg-amber-300/35 text-amber-950 font-bold px-0.5 rounded border border-amber-400/40 print:bg-transparent print:border-none print:p-0 transition-colors"
-          >
-            {part}
-          </span>
-        );
-      }
-      return part;
-    });
-  };
 
   const themeStyles: Record<
     ResumeTheme,
@@ -109,9 +47,8 @@ export default function ResumeView() {
   return (
     <div className="max-w-4xl mx-auto">
       <ResumeActions currentTheme={theme} onThemeChange={setTheme} />
-      <RoleHighlighter activeRole={activeRole} onRoleChange={setActiveRole} />
 
-      {/* Main Resume Sheet - Real Developer Data & ATS-Optimized 1-Page Format */}
+      {/* Main Resume Sheet - Clean Executive Anti-Gimmick 1-Page Layout */}
       <article
         aria-label="Official Resume of Durgesh Dutt Sinha"
         className={`resume-container resume-page ${current.container} border rounded-xl p-5 sm:p-7 transition-colors duration-200 text-left font-sans antialiased`}
@@ -130,19 +67,19 @@ export default function ResumeView() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs sm:text-[11.5px] leading-tight">
             <div>
               <span className="font-bold text-slate-950">Languages: </span>
-              <span className="text-slate-800">{renderHighlightedText("Python, TypeScript, JavaScript, SQL, C/C++, HTML5, CSS3")}</span>
+              <span className="text-slate-800">Python, TypeScript, JavaScript, SQL, C/C++, HTML5, CSS3</span>
             </div>
             <div>
               <span className="font-bold text-slate-950">AI & Machine Learning: </span>
-              <span className="text-slate-800">{renderHighlightedText("PyTorch, Scikit-Learn, Computer Vision (MediaPipe, OpenCV, CNN), Whisper STT, Gemini API, Gemini 2.0 Flash, RAG, Pandas, NumPy, K-Means, DBSCAN")}</span>
+              <span className="text-slate-800">PyTorch, Scikit-Learn, Computer Vision (MediaPipe, OpenCV, CNN), Whisper STT, Gemini API, Gemini 2.0 Flash, RAG, Pandas, NumPy, K-Means, DBSCAN</span>
             </div>
             <div>
               <span className="font-bold text-slate-950">Full-Stack & Backend: </span>
-              <span className="text-slate-800">{renderHighlightedText("Next.js, React, FastAPI, Node.js, WebSockets, RESTful APIs, Tailwind CSS, Streamlit")}</span>
+              <span className="text-slate-800">Next.js, React, FastAPI, Node.js, WebSockets, RESTful APIs, Tailwind CSS, Streamlit</span>
             </div>
             <div>
               <span className="font-bold text-slate-950">Cloud, Database & Tools: </span>
-              <span className="text-slate-800">{renderHighlightedText("PostgreSQL (Neon), Drizzle ORM, Docker, Cloudflare Pages, Git & GitHub, Linux, AWS Educate")}</span>
+              <span className="text-slate-800">PostgreSQL (Neon), Drizzle ORM, Docker, Cloudflare Pages, Git & GitHub, Linux, AWS Educate</span>
             </div>
           </div>
         </ResumeSection>
@@ -163,12 +100,12 @@ export default function ResumeView() {
                 </div>
               </div>
               <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
-                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("FastAPI • Python • WebSockets • React • TypeScript • Whisper STT • Gemini 2.0 Flash • Edge-TTS")}
+                <span className="font-semibold text-slate-900">Tech Stack:</span> FastAPI • Python • WebSockets • React • TypeScript • Whisper STT • Gemini 2.0 Flash • Edge-TTS
               </div>
               <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>{highlightBulletText("Engineered a full-duplex voice assistant streaming 16kHz audio over bi-directional WebSockets between React frontend and FastAPI backend, achieving <450ms turnaround latency.")}</li>
-                <li>{highlightBulletText("Integrated Silero Voice Activity Detection (VAD) with Whisper STT and Gemini 2.0 Flash streaming API, paired with Edge-TTS for seamless real-time voice interruptions.")}</li>
-                <li>{highlightBulletText("Developed real-time audio wave telemetry and exponential backoff WebSocket reconnection state machines, ensuring zero-crash streaming resilience across unstable networks.")}</li>
+                <li><strong className="font-semibold text-slate-950">Full-Duplex Voice Engine:</strong> Engineered a full-duplex voice assistant streaming 16kHz audio over bi-directional WebSockets between React frontend and FastAPI backend, achieving &lt;450ms turnaround latency.</li>
+                <li><strong className="font-semibold text-slate-950">Multimodal AI Integration:</strong> Combined Silero Voice Activity Detection (VAD) with Whisper STT and Gemini 2.0 Flash streaming API, paired with Edge-TTS for seamless real-time voice interruptions.</li>
+                <li><strong className="font-semibold text-slate-950">Fault-Tolerant Streaming:</strong> Developed real-time audio wave telemetry and exponential backoff WebSocket reconnection state machines, ensuring zero-crash streaming resilience across unstable networks.</li>
               </ul>
             </div>
 
@@ -185,12 +122,12 @@ export default function ResumeView() {
                 </div>
               </div>
               <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
-                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("Next.js • React • TypeScript • Drizzle ORM • PostgreSQL (Neon) • Tailwind CSS • pdf-parse")}
+                <span className="font-semibold text-slate-900">Tech Stack:</span> Next.js • React • TypeScript • Drizzle ORM • PostgreSQL (Neon) • Tailwind CSS • pdf-parse
               </div>
               <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>{highlightBulletText("Architected full-stack resume analysis engine parsing PDF/DOCX files and scoring candidate alignment against 16 canonical engineering role taxonomies in under 1.2 seconds.")}</li>
-                <li>{highlightBulletText("Implemented Google XYZ-formula scoring, ATS keyword density analyzers, and actionable gap audits; persisted candidate benchmark reports to Neon PostgreSQL via Drizzle ORM.")}</li>
-                <li>{highlightBulletText("Designed a responsive, accessible user interface with real-time scoring feedback loops and zero-SSR cold starts on Cloudflare Pages edge runtime.")}</li>
+                <li><strong className="font-semibold text-slate-950">Resume Parsing Engine:</strong> Architected full-stack resume analysis engine parsing PDF/DOCX files and scoring candidate alignment against 16 canonical engineering role taxonomies in under 1.2 seconds.</li>
+                <li><strong className="font-semibold text-slate-950">Google XYZ Scoring:</strong> Implemented Google XYZ-formula scoring, ATS keyword density analyzers, and actionable gap audits; persisted candidate benchmark reports to Neon PostgreSQL via Drizzle ORM.</li>
+                <li><strong className="font-semibold text-slate-950">Edge UI Architecture:</strong> Designed a responsive, accessible user interface with real-time scoring feedback loops and zero-SSR cold starts on Cloudflare Pages edge runtime.</li>
               </ul>
             </div>
 
@@ -207,12 +144,12 @@ export default function ResumeView() {
                 </div>
               </div>
               <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
-                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("Python 3.11 • Scikit-Learn • Streamlit • Plotly 3D • Pandas & NumPy • Joblib")}
+                <span className="font-semibold text-slate-900">Tech Stack:</span> Python 3.11 • Scikit-Learn • Streamlit • Plotly 3D • Pandas & NumPy • Joblib
               </div>
               <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>{highlightBulletText("Developed unsupervised machine learning pipeline clustering 4,300+ e-commerce transaction records using RFM (Recency, Frequency, Monetary) feature extraction.")}</li>
-                <li>{highlightBulletText("Benchmarked K-Means clustering (Silhouette Score: 0.64, K=5) against DBSCAN for anomaly suppression; visualized high-dimensional clusters with interactive 3D Plotly projections.")}</li>
-                <li>{highlightBulletText("Exported serialized model artifacts via Joblib, enabling instantaneous lookalike cohort scoring and dynamic cohort CSV exports in an interactive Streamlit UI.")}</li>
+                <li><strong className="font-semibold text-slate-950">Unsupervised ML Pipeline:</strong> Developed unsupervised machine learning pipeline clustering 4,300+ e-commerce transaction records using RFM (Recency, Frequency, Monetary) feature extraction.</li>
+                <li><strong className="font-semibold text-slate-950">Algorithm Benchmarking:</strong> Benchmarked K-Means clustering (Silhouette Score: 0.64, K=5) against DBSCAN for anomaly suppression; visualized high-dimensional clusters with interactive 3D Plotly projections.</li>
+                <li><strong className="font-semibold text-slate-950">Production Artifact Inference:</strong> Exported serialized model artifacts via Joblib, enabling instantaneous lookalike cohort scoring and dynamic cohort CSV exports in an interactive Streamlit UI.</li>
               </ul>
             </div>
           </div>
@@ -229,8 +166,8 @@ export default function ResumeView() {
                 <span className="text-[11px] sm:text-xs font-medium text-slate-600 shrink-0">Jan 2026 – Present • Remote</span>
               </div>
               <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>{highlightBulletText("Evaluated autonomous agent architectures, function-calling workflows, and LLM guardrails under senior technical mentorship.")}</li>
-                <li>{highlightBulletText("Containerized multi-service machine learning pipelines with Docker, reducing environment setup drift and accelerating model prototyping cycles by 40%.")}</li>
+                <li><strong className="font-semibold text-slate-950">Autonomous Agent Research:</strong> Evaluated autonomous agent architectures, function-calling workflows, and LLM guardrails under senior technical mentorship.</li>
+                <li><strong className="font-semibold text-slate-950">Dockerized ML Pipelines:</strong> Containerized multi-service machine learning pipelines with Docker, reducing environment setup drift and accelerating model prototyping cycles by 40%.</li>
               </ul>
             </div>
 
@@ -242,8 +179,8 @@ export default function ResumeView() {
                 <span className="text-[11px] sm:text-xs font-medium text-slate-600 shrink-0">Oct 2025 – Dec 2025 • India</span>
               </div>
               <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>{highlightBulletText("Designed prompt-chaining architectures and agentic automation workflows, optimizing token consumption across multi-step LLM tasks.")}</li>
-                <li>{highlightBulletText("Built functional proof-of-concept AI productivity automations, integrating structured JSON output schemas and multi-turn conversational memory.")}</li>
+                <li><strong className="font-semibold text-slate-950">Prompt-Chaining Workflows:</strong> Designed prompt-chaining architectures and agentic automation workflows, optimizing token consumption across multi-step LLM tasks.</li>
+                <li><strong className="font-semibold text-slate-950">AI Automation Prototypes:</strong> Built functional proof-of-concept AI productivity automations, integrating structured JSON output schemas and multi-turn conversational memory.</li>
               </ul>
             </div>
 
@@ -255,7 +192,7 @@ export default function ResumeView() {
                 <span className="text-[11px] sm:text-xs font-medium text-slate-600 shrink-0">Jun 2024 – Aug 2024 • Remote</span>
               </div>
               <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>{highlightBulletText("Developed and maintained responsive web interfaces for non-profit initiatives using modern JavaScript and semantic HTML5/CSS3, improving mobile accessibility to WCAG 2.1 AA standards across 5,000+ monthly visitors.")}</li>
+                <li><strong className="font-semibold text-slate-950">Accessible Web Interfaces:</strong> Developed and maintained responsive web interfaces for non-profit initiatives using modern JavaScript and semantic HTML5/CSS3, improving mobile accessibility to WCAG 2.1 AA standards across 5,000+ monthly visitors.</li>
               </ul>
             </div>
           </div>
