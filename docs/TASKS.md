@@ -14,7 +14,7 @@
   - [x] Built 3-step candidate qualification wizard in `CyberBotQuickDial.tsx`.
 - [x] **M7 Strategic Feature Wave & Vision Integration**:
   - [x] In-Browser 2D Vector Embedding & Cosine Similarity Sandbox (`lib/vector-math.ts` & `components/lab/VectorEmbeddingSandbox.tsx`).
-  - [x] Recruiter ATS Role Lens & Skill Tailoring Chips on `/resume` (`lib/resume-roles.ts` & `components/resume/RoleHighlighter.tsx`).
+  - [x] Executive Anti-Gimmick 1-Page Resume Elevation: Clean semantic layout prioritizing Featured Projects (J.A.R.V.I.S., RoleRadar, MarketMatch-AI) with bold technical lead-ins, 1-click ATS export, retired RoleHighlighter widget, and synchronized 1-page vector PDF.
   - [x] Interactive Architecture Diagram Zoom (75%–150%), Reset, and Fullscreen Modal Expansion (`components/case-study/ArchitectureDiagram.tsx`).
   - [x] Stale-while-revalidate PWA offline cache (`public/sw.js` & `components/PwaRegister.tsx`).
   - [x] Battery-aware WebGL frameloop auto-throttle via `navigator.getBattery()` (`components/3d/AICoreScene.tsx`).
