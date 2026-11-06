@@ -3,7 +3,7 @@
 import { copyToClipboard } from "@/lib/clipboard";
 import React, { useState } from "react";
 import Link from "next/link";
-import { Download, Printer, Copy, Check, ArrowLeft, Palette } from "lucide-react";
+import { Download, Printer, Copy, Check, ArrowLeft, Palette, FileText } from "lucide-react";
 import { OWNER } from "@/lib/data";
 
 export type ResumeTheme = "pure-white" | "warm-ivory" | "light-gray";
@@ -17,7 +17,8 @@ export default function ResumeActions({
   currentTheme = "pure-white",
   onThemeChange,
 }: ResumeActionsProps) {
-  const [copied, setCopied] = useState(false);
+  const [copiedSummary, setCopiedSummary] = useState(false);
+  const [copiedAts, setCopiedAts] = useState(false);
 
   const handlePrint = () => {
     window.print();
@@ -26,12 +27,100 @@ export default function ResumeActions({
   const handleCopySummary = async () => {
     const text = `${OWNER.name} — ${OWNER.title}
 MCA (AIML) at Sri Balaji University Pune (2025–2027) | UNLOX® AI Fellow | Be10x AI Cohort Member.
-Autonomous AI systems, Real-Time MediaPipe (<50ms), Next.js 16, TypeScript, Drizzle ORM, Scikit-Learn.
-Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
+Autonomous AI systems, Real-Time MediaPipe (<50ms), Next.js, React, TypeScript, Drizzle ORM, Scikit-Learn.
+Email: ${OWNER.email} | GitHub: ${OWNER.github} | Portfolio: https://durgesh-portfolio.pages.dev`;
     const ok = await copyToClipboard(text);
     if (ok) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setCopiedSummary(true);
+      setTimeout(() => setCopiedSummary(false), 2000);
+    }
+  };
+
+  const handleCopyFullAts = async () => {
+    const text = `DURGESH DUTT SINHA
+Pune, Maharashtra, India | +91 82353 08643 | durgeshdsinha@gmail.com
+LinkedIn: linkedin.com/in/durgesh-sinha | GitHub: github.com/OxDurgeshxO | Portfolio: durgesh-portfolio.pages.dev
+
+================================================================================
+PROFESSIONAL SUMMARY
+================================================================================
+Results-driven AI/ML Engineer & Full-Stack Architect with deep expertise in PyTorch,
+computer vision, real-time multimodal systems, and modern Next.js/FastAPI production
+architectures. Proven record architecting full-duplex WebSocket streaming assistants,
+unsupervised customer segmentation pipelines, and deep learning vision systems. Master
+of Computer Applications (AIML) candidate with experience deploying containerized AI
+pipelines and driving measurable performance optimizations.
+
+================================================================================
+TECHNICAL SKILLS
+================================================================================
+Languages:             Python, TypeScript, JavaScript, SQL, C/C++, HTML5, CSS3
+AI & Machine Learning: PyTorch, Scikit-Learn, Computer Vision (MediaPipe, OpenCV, CNN),
+                       Whisper STT, Gemini 2.0 Flash API, RAG, Pandas, NumPy, K-Means, DBSCAN
+Full-Stack & Backend:  Next.js, React, FastAPI, Node.js, WebSockets, RESTful APIs,
+                       Tailwind CSS, Streamlit
+Cloud & Databases:     PostgreSQL (Neon), Drizzle ORM, Docker, Cloudflare Pages, Git/GitHub, Linux
+
+================================================================================
+EXPERIENCE & FELLOWSHIPS
+================================================================================
+UNLOX® | Remote                                                  Jan 2026 – Present
+AI Program Fellow
+• Evaluated autonomous agent architectures, function-calling workflows, and LLM guardrails under senior technical mentorship.
+• Containerized multi-service machine learning pipelines with Docker, reducing environment setup drift and accelerating model prototyping cycles by 40%.
+
+Be10x | India                                                    Oct 2025 – Dec 2025
+AI Cohort Member & Prototype Builder
+• Designed prompt-chaining architectures and agentic automation workflows, optimizing token consumption across multi-step LLM tasks.
+• Built functional proof-of-concept AI productivity automations, integrating structured JSON output schemas and multi-turn conversational memory.
+
+InAmigos Foundation (IAF) | Remote                               Jun 2024 – Aug 2024
+Web Development Intern
+• Developed and maintained responsive web interfaces for non-profit initiatives using modern JavaScript and semantic HTML5/CSS3, improving mobile accessibility to WCAG 2.1 AA standards across 5,000+ monthly visitors.
+
+================================================================================
+FEATURED TECHNICAL PROJECTS
+================================================================================
+J.A.R.V.I.S. — Real-Time Multimodal AI Voice Assistant           Python, FastAPI, React
+GitHub: github.com/OxDurgeshxO/jarvis-realtime-assistant | Demo: oxdurgeshxo.github.io/jarvis-realtime-assistant
+• Engineered a full-duplex voice assistant streaming 16kHz audio over bi-directional WebSockets between React frontend and FastAPI backend, achieving <450ms turnaround latency.
+• Integrated Silero Voice Activity Detection (VAD) with Whisper STT and Gemini 2.0 Flash streaming API, paired with Edge-TTS for seamless real-time voice interruptions.
+
+RoleRadar — AI Resume Analyzer & Career Intelligence Platform    Next.js, TypeScript, PostgreSQL
+GitHub: github.com/OxDurgeshxO/RoleRadar | Demo: rolefit-2.vercel.app
+• Architected a full-stack resume analysis engine parsing PDF/DOCX files and scoring candidate alignment against 16 canonical engineering role taxonomies in under 1.2 seconds.
+• Implemented Google XYZ-formula scoring, ATS keyword density analyzers, and actionable gap audits; persisted candidate benchmark reports to Neon PostgreSQL via Drizzle ORM.
+
+MarketMatch-AI — Customer Segmentation Studio                    Python, Scikit-Learn, Streamlit
+GitHub: github.com/OxDurgeshxO/MarketMatch-AI | Demo: oxdurgeshxo-marketmatch-ai-app-y8ysbm.streamlit.app
+• Developed an unsupervised machine learning pipeline clustering 4,300+ e-commerce transaction records using RFM (Recency, Frequency, Monetary) feature extraction.
+• Benchmarked K-Means clustering (Silhouette Score: 0.64, K=5) against DBSCAN for anomaly suppression; visualized high-dimensional clusters with interactive 3D Plotly projections.
+
+Fashion-MNIST Classifier — Deep Learning CNN Streamlit App       PyTorch, Python, Streamlit
+GitHub: github.com/OxDurgeshxO/CNN-STREAMLIT | Demo: cnn-app-dmfd7b76fxyrnvrhzpkgay.streamlit.app
+• Trained custom multi-layer CNN in PyTorch on 70,000 Fashion-MNIST images, achieving 91.4% test accuracy with Batch Normalization and 0.25 Dropout regularization.
+• Deployed live inference dashboard in Streamlit providing sub-50ms inference latency, real-time image uploads, and softmax class probability distributions.
+
+================================================================================
+EDUCATION
+================================================================================
+Sri Balaji University, Pune (SBUP) | Pune, India                 Jul 2025 – Jun 2027
+Master of Computer Applications (MCA) — Artificial Intelligence & Machine Learning
+
+Sri Balaji University, Pune (SBUP) | Pune, India                 Aug 2022 – Apr 2025
+Bachelor of Computer Applications (BCA) — Computer Applications
+
+================================================================================
+CERTIFICATIONS & HONORS
+================================================================================
+• AWS Educate: Machine Learning Foundations — Amazon Web Services (2025)
+• AWS Educate: Emerging Talent Community Member — Amazon Web Services (2025)
+• Central Coordination Team Leader — School of Computer Studies, SBUP (2026)`;
+
+    const ok = await copyToClipboard(text);
+    if (ok) {
+      setCopiedAts(true);
+      setTimeout(() => setCopiedAts(false), 2000);
     }
   };
 
@@ -94,11 +183,21 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
 
       <div className="flex flex-wrap items-center gap-2">
         <button
-          onClick={handleCopySummary}
+          onClick={handleCopyFullAts}
+          title="Copy complete ATS-optimized plaintext resume to clipboard"
           className="px-3 py-1.5 rounded-xl border border-border bg-muted hover:bg-accent text-xs text-body font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
         >
-          {copied ? <Check className="size-3.5 text-[var(--accent-lab)]" /> : <Copy className="size-3.5" />}
-          <span>{copied ? "Copied!" : "Copy Summary"}</span>
+          {copiedAts ? <Check className="size-3.5 text-[var(--accent-lab)]" /> : <FileText className="size-3.5 text-primary" />}
+          <span>{copiedAts ? "ATS Text Copied!" : "Copy Full ATS"}</span>
+        </button>
+
+        <button
+          onClick={handleCopySummary}
+          title="Copy short executive summary"
+          className="px-3 py-1.5 rounded-xl border border-border bg-muted hover:bg-accent text-xs text-body font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
+        >
+          {copiedSummary ? <Check className="size-3.5 text-[var(--accent-lab)]" /> : <Copy className="size-3.5" />}
+          <span>{copiedSummary ? "Copied!" : "Copy Summary"}</span>
         </button>
 
         <button

@@ -7,6 +7,7 @@
     "prebuild": "node scripts/fetch-github-cache.mjs",
     "build": "next build",
     "sync:github": "node scripts/fetch-github-cache.mjs",
+    "sync:resume": "node scripts/generate-resume-pdf.mjs",
     "start": "npx serve@latest out -l 3000",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",

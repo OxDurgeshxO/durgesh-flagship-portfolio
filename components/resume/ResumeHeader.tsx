@@ -70,10 +70,11 @@ export default function ResumeHeader() {
           href="https://durgesh-portfolio.pages.dev"
           target="_blank"
           rel="noopener noreferrer"
+          title="Official Portfolio (durgesh-portfolio.pages.dev)"
           className="hover:text-blue-600 hover:underline flex items-center gap-1 font-medium transition-colors"
         >
           <Globe className="size-3 text-slate-600" aria-hidden="true" />
-          <span>durgesh-portfolio.pages.dev</span>
+          <span>Portfolio</span>
         </a>
       </div>
     </header>

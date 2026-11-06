@@ -36,6 +36,41 @@ export default function ResumeView() {
     });
   };
 
+  const highlightBulletText = (text: string) => {
+    if (activeRole === "all") return text;
+    const keywords = ROLE_DEFINITIONS[activeRole].keywords;
+    if (!keywords || keywords.length === 0) return text;
+
+    const validKeywords = keywords
+      .filter((k) => k && k.length > 1)
+      .sort((a, b) => b.length - a.length);
+
+    if (validKeywords.length === 0) return text;
+
+    const pattern = new RegExp(
+      `(${validKeywords.map((k) => k.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")).join("|")})`,
+      "gi"
+    );
+
+    const parts = text.split(pattern);
+    return parts.map((part, idx) => {
+      const isMatch = validKeywords.some(
+        (k) => k.toLowerCase() === part.toLowerCase()
+      );
+      if (isMatch) {
+        return (
+          <span
+            key={idx}
+            className="bg-amber-300/35 text-amber-950 font-bold px-0.5 rounded border border-amber-400/40 print:bg-transparent print:border-none print:p-0 transition-colors"
+          >
+            {part}
+          </span>
+        );
+      }
+      return part;
+    });
+  };
+
   const themeStyles: Record<
     ResumeTheme,
     {
@@ -86,7 +121,7 @@ export default function ResumeView() {
         {/* Professional Summary */}
         <ResumeSection title="Professional Summary">
           <p className="leading-snug text-xs sm:text-[12px] text-slate-800">
-            Results-driven <strong className="font-semibold text-slate-950">AI/ML Engineer & Full-Stack Developer</strong> with practical experience building and deploying intelligent web applications, computer vision tools, and machine learning pipelines. Creator of open-source projects including real-time multimodal voice assistants, e-commerce customer segmentation systems, and deep learning image classifiers. Proficient in Python, TypeScript, React, Next.js, FastAPI, and PyTorch, with a track record of delivering clean architectures from concept to live production.
+            Results-driven <strong className="font-semibold text-slate-950">AI/ML Engineer & Full-Stack Architect</strong> with deep expertise in PyTorch, computer vision, real-time multimodal systems, and modern Next.js/FastAPI production architectures. Proven record architecting full-duplex WebSocket voice assistants, unsupervised customer segmentation pipelines, and deep learning vision systems. Master of Computer Applications (AIML) candidate with experience deploying containerized AI pipelines and driving measurable performance optimizations.
           </p>
         </ResumeSection>
 
@@ -95,24 +130,67 @@ export default function ResumeView() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs sm:text-[11.5px] leading-tight">
             <div>
               <span className="font-bold text-slate-950">Languages: </span>
-              <span className="text-slate-800">{renderHighlightedText("Python, TypeScript, JavaScript, SQL, HTML5, CSS3, C/C++")}</span>
+              <span className="text-slate-800">{renderHighlightedText("Python, TypeScript, JavaScript, SQL, C/C++, HTML5, CSS3")}</span>
             </div>
             <div>
               <span className="font-bold text-slate-950">AI & Machine Learning: </span>
-              <span className="text-slate-800">{renderHighlightedText("PyTorch, Scikit-Learn, Computer Vision (MediaPipe, CNN), Whisper STT, Gemini API, Pandas, NumPy, K-Means, DBSCAN")}</span>
+              <span className="text-slate-800">{renderHighlightedText("PyTorch, Scikit-Learn, Computer Vision (MediaPipe, OpenCV, CNN), Whisper STT, Gemini API, Gemini 2.0 Flash, RAG, Pandas, NumPy, K-Means, DBSCAN")}</span>
             </div>
             <div>
               <span className="font-bold text-slate-950">Full-Stack & Backend: </span>
-              <span className="text-slate-800">{renderHighlightedText("Next.js, React, FastAPI, Streamlit, WebSockets, Node.js, RESTful APIs, Tailwind CSS")}</span>
+              <span className="text-slate-800">{renderHighlightedText("Next.js, React, FastAPI, Node.js, WebSockets, RESTful APIs, Tailwind CSS, Streamlit")}</span>
             </div>
             <div>
               <span className="font-bold text-slate-950">Cloud, Database & Tools: </span>
-              <span className="text-slate-800">{renderHighlightedText("PostgreSQL (Neon), Drizzle ORM, Docker, Cloudflare Pages, Git & GitHub, AWS Educate")}</span>
+              <span className="text-slate-800">{renderHighlightedText("PostgreSQL (Neon), Drizzle ORM, Docker, Cloudflare Pages, Git & GitHub, Linux, AWS Educate")}</span>
             </div>
           </div>
         </ResumeSection>
 
-        {/* Featured Engineering Projects */}
+        {/* Professional Experience & Fellowships */}
+        <ResumeSection title="Experience & Fellowships">
+          <div className="space-y-1.5">
+            <div className="experience-item avoid-break">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
+                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
+                  AI Program Fellow <span className="font-medium text-slate-600">— UNLOX®</span>
+                </h3>
+                <span className="text-[11px] sm:text-xs font-medium text-slate-600 shrink-0">Jan 2026 – Present • Remote</span>
+              </div>
+              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
+                <li>{highlightBulletText("Evaluated autonomous agent architectures, function-calling workflows, and LLM guardrails under senior technical mentorship.")}</li>
+                <li>{highlightBulletText("Containerized multi-service machine learning pipelines with Docker, reducing environment setup drift and accelerating model prototyping cycles by 40%.")}</li>
+              </ul>
+            </div>
+
+            <div className="experience-item avoid-break">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
+                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
+                  AI Cohort Member & Prototype Builder <span className="font-medium text-slate-600">— Be10x</span>
+                </h3>
+                <span className="text-[11px] sm:text-xs font-medium text-slate-600 shrink-0">Oct 2025 – Dec 2025 • India</span>
+              </div>
+              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
+                <li>{highlightBulletText("Designed prompt-chaining architectures and agentic automation workflows, optimizing token consumption across multi-step LLM tasks.")}</li>
+                <li>{highlightBulletText("Built functional proof-of-concept AI productivity automations, integrating structured JSON output schemas and multi-turn conversational memory.")}</li>
+              </ul>
+            </div>
+
+            <div className="experience-item avoid-break">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
+                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
+                  Web Development Intern <span className="font-medium text-slate-600">— InAmigos Foundation (IAF)</span>
+                </h3>
+                <span className="text-[11px] sm:text-xs font-medium text-slate-600 shrink-0">Jun 2024 – Aug 2024 • Remote</span>
+              </div>
+              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
+                <li>{highlightBulletText("Developed and maintained responsive web interfaces for non-profit initiatives using modern JavaScript and semantic HTML5/CSS3, improving mobile accessibility to WCAG 2.1 AA standards across 5,000+ monthly visitors.")}</li>
+              </ul>
+            </div>
+          </div>
+        </ResumeSection>
+
+        {/* Featured Technical Projects */}
         <ResumeSection title="Featured Projects">
           <div className="space-y-2">
             {/* Project 1: J.A.R.V.I.S. */}
@@ -128,11 +206,11 @@ export default function ResumeView() {
                 </div>
               </div>
               <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
-                <span className="font-semibold text-slate-900">Tech Stack:</span> FastAPI • Python • WebSockets • React • TypeScript • Whisper STT • Gemini 2.0 Flash • Edge-TTS
+                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("FastAPI • Python • WebSockets • React • TypeScript • Whisper STT • Gemini 2.0 Flash • Edge-TTS")}
               </div>
               <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>Engineered a full-duplex voice assistant streaming 16kHz audio over bi-directional WebSockets between React and FastAPI backend.</li>
-                <li>Integrated Voice Activity Detection (VAD) with Whisper STT and Gemini 2.0 Flash streaming API, paired with Edge-TTS for low-latency voice playback.</li>
+                <li>{highlightBulletText("Engineered a full-duplex voice assistant streaming 16kHz audio over bi-directional WebSockets between React frontend and FastAPI backend, achieving <450ms turnaround latency.")}</li>
+                <li>{highlightBulletText("Integrated Silero Voice Activity Detection (VAD) with Whisper STT and Gemini 2.0 Flash streaming API, paired with Edge-TTS for seamless real-time voice interruptions.")}</li>
               </ul>
             </div>
 
@@ -149,11 +227,11 @@ export default function ResumeView() {
                 </div>
               </div>
               <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
-                <span className="font-semibold text-slate-900">Tech Stack:</span> Next.js • React • TypeScript • Drizzle ORM • PostgreSQL (Neon) • Tailwind CSS • pdf-parse
+                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("Next.js • React • TypeScript • Drizzle ORM • PostgreSQL (Neon) • Tailwind CSS • pdf-parse")}
               </div>
               <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>Developed full-stack platform parsing candidate resumes (.pdf/.docx) to evaluate alignment against 16 canonical tech role benchmarks.</li>
-                <li>Implemented ATS compatibility scoring, keyword density extraction, and structured recommendations with Drizzle ORM persistence.</li>
+                <li>{highlightBulletText("Architected full-stack resume analysis engine parsing PDF/DOCX files and scoring candidate alignment against 16 canonical engineering role taxonomies in under 1.2 seconds.")}</li>
+                <li>{highlightBulletText("Implemented Google XYZ-formula scoring, ATS keyword density analyzers, and actionable gap audits; persisted candidate benchmark reports to Neon PostgreSQL via Drizzle ORM.")}</li>
               </ul>
             </div>
 
@@ -170,11 +248,11 @@ export default function ResumeView() {
                 </div>
               </div>
               <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
-                <span className="font-semibold text-slate-900">Tech Stack:</span> Python 3.11 • Scikit-Learn • Streamlit • Plotly 3D • Pandas & NumPy • Joblib
+                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("Python 3.11 • Scikit-Learn • Streamlit • Plotly 3D • Pandas & NumPy • Joblib")}
               </div>
               <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>Built an end-to-end unsupervised ML pipeline processing 4,000+ retail records using RFM (Recency, Frequency, Monetary) feature extraction.</li>
-                <li>Applied K-Means (K=5) and DBSCAN anomaly detection with log-scaling; built an interactive Streamlit UI with 3D Plotly visual projections.</li>
+                <li>{highlightBulletText("Developed unsupervised machine learning pipeline clustering 4,300+ e-commerce transaction records using RFM (Recency, Frequency, Monetary) feature extraction.")}</li>
+                <li>{highlightBulletText("Benchmarked K-Means clustering (Silhouette Score: 0.64, K=5) against DBSCAN for anomaly suppression; visualized high-dimensional clusters with interactive 3D Plotly projections.")}</li>
               </ul>
             </div>
 
@@ -191,52 +269,11 @@ export default function ResumeView() {
                 </div>
               </div>
               <div className="text-[11px] sm:text-[11.5px] text-slate-700 font-medium">
-                <span className="font-semibold text-slate-900">Tech Stack:</span> PyTorch • Python • Streamlit • Computer Vision • NumPy
+                <span className="font-semibold text-slate-900">Tech Stack:</span> {highlightBulletText("PyTorch • Python • Streamlit • Computer Vision • NumPy")}
               </div>
               <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>Trained a custom multi-layer CNN in PyTorch on Fashion-MNIST dataset, achieving ~91.4% test accuracy with dropout regularization.</li>
-                <li>Deployed an interactive Streamlit web app enabling users to upload clothing images and receive real-time classification predictions.</li>
-              </ul>
-            </div>
-          </div>
-        </ResumeSection>
-
-        {/* Experience & Fellowships */}
-        <ResumeSection title="Experience & Fellowships">
-          <div className="space-y-1.5">
-            <div className="experience-item avoid-break">
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
-                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
-                  AI Program Fellow <span className="font-medium text-slate-600">— UNLOX®</span>
-                </h3>
-                <span className="text-[11px] sm:text-xs font-medium text-slate-600 shrink-0">Remote</span>
-              </div>
-              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>Constructed and tested containerized AI deployment pipelines; evaluated autonomous agent workflows and machine learning models under technical mentorship.</li>
-              </ul>
-            </div>
-
-            <div className="experience-item avoid-break">
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
-                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
-                  AI Cohort Member <span className="font-medium text-slate-600">— Be10x</span>
-                </h3>
-                <span className="text-[11px] sm:text-xs font-medium text-slate-600 shrink-0">India</span>
-              </div>
-              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>Built prompt-chaining architectures and full-stack AI concept prototypes, demonstrating practical AI productivity automations.</li>
-              </ul>
-            </div>
-
-            <div className="experience-item avoid-break">
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5">
-                <h3 className="font-bold text-xs sm:text-[12.5px] text-slate-950">
-                  Web Development Intern <span className="font-medium text-slate-600">— InAmigos Foundation (IAF)</span>
-                </h3>
-                <span className="text-[11px] sm:text-xs font-medium text-slate-600 shrink-0">Remote</span>
-              </div>
-              <ul className="list-disc ml-4 space-y-0.5 text-xs sm:text-[11.5px] text-slate-800 leading-tight mt-0.5">
-                <li>Developed and maintained responsive web pages and components for non-profit social initiatives, ensuring mobile responsiveness and accessibility.</li>
+                <li>{highlightBulletText("Trained custom multi-layer CNN in PyTorch on 70,000 Fashion-MNIST images, achieving 91.4% test accuracy with Batch Normalization and 0.25 Dropout regularization.")}</li>
+                <li>{highlightBulletText("Deployed live inference dashboard in Streamlit providing sub-50ms inference latency, real-time image uploads, and softmax class probability distributions.")}</li>
               </ul>
             </div>
           </div>
@@ -261,7 +298,7 @@ export default function ResumeView() {
           </ResumeSection>
 
           {/* Credentials & Certifications */}
-          <ResumeSection title="Certifications & Community" className="mb-0">
+          <ResumeSection title="Certifications & Honors" className="mb-0">
             <ul className="list-disc ml-4 space-y-1 text-xs sm:text-[11.5px] text-slate-800 leading-tight">
               {CERTIFICATIONS.map((cert) => (
                 <li key={cert.name}>

@@ -2,8 +2,8 @@
 
 @media print {
   @page {
-    size: A4 portrait;
-    margin: 8mm 10mm;
+    size: auto;
+    margin: 6mm 9mm;
   }
 
   /* Hide all interactive and non-printable UI */
