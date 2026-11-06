@@ -123,9 +123,22 @@ export function FitTrackDemo() {
 
   const drawFrame = useCallback(
     (ctx: CanvasRenderingContext2D, width: number, height: number, frame: PoseFrame) => {
-      // Clear background
-      ctx.fillStyle = '#090d16';
-      ctx.fillRect(0, 0, width, height);
+      // Clear background or render active camera feed
+      if (useCamera && videoRef.current && videoRef.current.readyState >= 2) {
+        ctx.save();
+        // Mirror video horizontally for natural webcam interaction
+        ctx.translate(width, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(videoRef.current, 0, 0, width, height);
+        ctx.restore();
+
+        // Dark contrast veil so neon joint markers pop
+        ctx.fillStyle = 'rgba(9, 13, 22, 0.65)';
+        ctx.fillRect(0, 0, width, height);
+      } else {
+        ctx.fillStyle = '#090d16';
+        ctx.fillRect(0, 0, width, height);
+      }
 
       // Grid overlay
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
@@ -245,7 +258,7 @@ export function FitTrackDemo() {
       ctx.font = '10px monospace';
       ctx.fillText(`PHASE: ${frame.phase.toUpperCase()}`, 24, 74);
     },
-    [exercise]
+    [exercise, useCamera]
   );
 
   // Clean up camera stream on unmount

@@ -65,11 +65,11 @@ const checks = [
   'IMP-09','IMP-10','IMP-11','IMP-12','IMP-13','IMP-14','IMP-15','IMP-16',
   'IMP-17','IMP-18','IMP-19','IMP-20','IMP-21','IMP-22','IMP-23',
   'IMP-24','IMP-25','IMP-26','IMP-27','IMP-28','IMP-29','IMP-30','IMP-31',
-  'IMP-32','IMP-33','IMP-34','IMP-35','IMP-36',
+  'IMP-32','IMP-33','IMP-34','IMP-35','IMP-36','IMP-37','IMP-38',
   // All 6 debt items
   'DEBT-01','DEBT-02','DEBT-03','DEBT-04','DEBT-05','DEBT-06',
   // Key metrics
-  '102','22/22','306 internal links','23 static pages',
+  '103','22/22','306 internal links','23 static pages',
   // Routes
   '/spaceedu','/cyberbot','/recruiter','/work/roleradar','/work/fittrack',
   // Key terms

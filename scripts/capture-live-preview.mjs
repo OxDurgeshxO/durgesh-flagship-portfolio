@@ -1,7 +1,10 @@
 import { chromium } from '@playwright/test';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-const ARTIFACT_DIR = 'C:/Users/Durgesh/.gemini/antigravity/brain/4113781b-a78b-4ce3-ad1d-f1484a6cfc21';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, '..');
+const ARTIFACT_DIR = process.env.ARTIFACT_DIR || join(ROOT, 'out');
 
 async function main() {
   console.log('Launching Chromium for live preview verification...');
@@ -47,6 +50,24 @@ async function main() {
   const archPath = join(ARTIFACT_DIR, 'live_preview_architecture_zoom.png');
   await page.screenshot({ path: archPath, fullPage: false });
   console.log('Saved Architecture Zoom screenshot:', archPath);
+
+  // 4. Verify FitTrack Camera & Pose Canvas
+  console.log('Navigating to FitTrack in http://localhost:3000/lab ...');
+  await page.goto('http://localhost:3000/lab', { waitUntil: 'networkidle' });
+  const fitTab = page.locator('button:has-text("FitTrack Kinematics")');
+  await fitTab.click();
+  await page.waitForTimeout(600);
+  const fitPath = join(ARTIFACT_DIR, 'live_preview_fittrack.png');
+  await page.screenshot({ path: fitPath, fullPage: false });
+  console.log('Saved FitTrack screenshot:', fitPath);
+
+  // 5. Verify Home Page
+  console.log('Navigating to http://localhost:3000 ...');
+  await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(600);
+  const homePath = join(ARTIFACT_DIR, 'live_preview_home.png');
+  await page.screenshot({ path: homePath, fullPage: false });
+  console.log('Saved Home screenshot:', homePath);
 
   await browser.close();
   console.log('Live preview verification complete.');

@@ -68,4 +68,12 @@ test('Required Routes Specification Verification', async (t) => {
     assert.ok(headersContent.includes('X-Frame-Options: DENY'), 'Must configure X-Frame-Options');
     assert.ok(headersContent.includes('X-Content-Type-Options: nosniff'), 'Must configure X-Content-Type-Options');
   });
+
+  await t.test('All flagship case studies have dedicated OpenGraph cards', () => {
+    const slugs = ['roleradar', 'fittrack', 'marketmatch-ai', 'jarvis-realtime-assistant', 'cnn-streamlit'];
+    slugs.forEach((slug) => {
+      const ogPath = path.join(ROOT_DIR, `public/images/og/${slug}.svg`);
+      assert.ok(fs.existsSync(ogPath), `Dedicated OpenGraph card for ${slug} must exist on disk`);
+    });
+  });
 });

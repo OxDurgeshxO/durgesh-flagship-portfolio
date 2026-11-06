@@ -27,6 +27,11 @@ export function generateMetadata({ params }: Props): Metadata {
   if (!caseStudy) {
     return { title: "Case Study Not Found" };
   }
+
+  // Canonical base slug for OG image resolution
+  const baseSlug = (slug === 'fitness-platform' || slug === 'fittrack-ai') ? 'fittrack' : slug;
+  const ogImageUrl = `/images/og/${baseSlug}.svg`;
+
   return {
     title: `${caseStudy.title} — Deep Engineering Case Study | Durgesh Dutt Sinha`,
     alternates: {
@@ -41,10 +46,10 @@ export function generateMetadata({ params }: Props): Metadata {
       siteName: 'Durgesh Dutt Sinha Flagship Portfolio',
       images: [
         {
-          url: '/og-image.png',
+          url: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: caseStudy.title,
+          alt: `${caseStudy.title} Architecture Preview`,
         },
       ],
       type: 'article',
@@ -53,7 +58,7 @@ export function generateMetadata({ params }: Props): Metadata {
       card: 'summary_large_image',
       title: `${caseStudy.title} — Technical Case Study`,
       description: caseStudy.overview,
-      images: ['/og-image.png'],
+      images: [ogImageUrl],
     },
   };
 }
