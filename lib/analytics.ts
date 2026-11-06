@@ -12,6 +12,7 @@ export type AnalyticsEvent =
   | "cyberbot_tour"
   | "command_palette_open"
   | "filter_category_click"
+  | "schedule_interview_click"
   | "copy_email";
 
 export function trackEvent(name: AnalyticsEvent, properties?: Record<string, unknown>) {

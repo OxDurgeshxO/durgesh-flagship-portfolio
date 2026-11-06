@@ -13,6 +13,7 @@ interface CyberBotProps {
   mood: 'normal' | 'happy' | 'stunt'
   isSpeaking?: boolean
   isDancing?: boolean
+  isListening?: boolean
   skin?: CyberBotSkinId
 }
 
@@ -24,6 +25,7 @@ export default function CyberBotModel({
   mood,
   isSpeaking = false,
   isDancing = false,
+  isListening = false,
   skin = 'cobalt-prime',
 }: CyberBotProps) {
   const groupRef = useRef<THREE.Group>(null)
@@ -35,6 +37,9 @@ export default function CyberBotModel({
   const leftHandRef = useRef<THREE.Group>(null)
   const rightHandRef = useRef<THREE.Group>(null)
   const thrusterFlameRef = useRef<THREE.Mesh>(null)
+
+  const prevMouseRef = useRef({ x: 0.5, y: 0.5 })
+  const velocityRef = useRef({ vx: 0, vy: 0 })
 
   const skinConfig = CYBERBOT_SKINS[skin] || CYBERBOT_SKINS['cobalt-prime']
 
@@ -71,12 +76,21 @@ export default function CyberBotModel({
         groupRef.current.rotation.y = Math.sin(time * 4) * 0.2
         groupRef.current.rotation.x = -0.05 + Math.sin(time * 8) * 0.08
       } else {
-        // Natural lean & look towards cursor
-        const targetRotY = (mousePos.x - 0.5) * 1.0
-        const targetRotX = -(mousePos.y - 0.5) * 0.7
+        // Cursor velocity tracking with spring damping
+        const dx = mousePos.x - prevMouseRef.current.x
+        const dy = mousePos.y - prevMouseRef.current.y
+        prevMouseRef.current = { x: mousePos.x, y: mousePos.y }
+        velocityRef.current.vx = THREE.MathUtils.lerp(velocityRef.current.vx, dx * 6, 0.12)
+        velocityRef.current.vy = THREE.MathUtils.lerp(velocityRef.current.vy, dy * 6, 0.12)
+
+        // Natural lean, look towards cursor, plus velocity inertia banking
+        const targetRotY = (mousePos.x - 0.5) * 1.0 + velocityRef.current.vx * 0.3
+        const targetRotX = -(mousePos.y - 0.5) * 0.7 + velocityRef.current.vy * 0.2
+        const targetRotZ = (mousePos.x - 0.5) * -0.4 - velocityRef.current.vx * 0.45
+
         groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, 0.1)
         groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, 0.1)
-        groupRef.current.rotation.z = THREE.MathUtils.lerp(groupRef.current.rotation.z, (mousePos.x - 0.5) * -0.4, 0.1)
+        groupRef.current.rotation.z = THREE.MathUtils.lerp(groupRef.current.rotation.z, targetRotZ, 0.1)
       }
     }
 
@@ -123,12 +137,33 @@ export default function CyberBotModel({
       thrusterFlameRef.current.scale.set(1, flameScale, 1)
     }
 
-    // Eye blinking / expression
+    // Visor Eye State Machine: idle, listening, speaking, dancing, happy
     if (eyeLeftRef.current && eyeRightRef.current) {
-      const blink = Math.sin(time * 0.7) > 0.96 ? 0.1 : 1
-      const scaleY = mood === 'happy' || isSpeaking || isDancing ? 0.35 : blink
-      eyeLeftRef.current.scale.y = scaleY
-      eyeRightRef.current.scale.y = scaleY
+      if (isListening) {
+        // Listening: horizontal waveform slit pulsing with audio mic frequency
+        const waveScale = 0.22 + Math.abs(Math.sin(time * 14)) * 0.35
+        eyeLeftRef.current.scale.set(1.6, waveScale, 1.0)
+        eyeRightRef.current.scale.set(1.6, waveScale, 1.0)
+      } else if (isSpeaking) {
+        // Speaking: rhythmic speech cadence modulation
+        const speechScale = 0.35 + Math.abs(Math.sin(time * 11)) * 0.65
+        eyeLeftRef.current.scale.set(1.0, speechScale, 1.0)
+        eyeRightRef.current.scale.set(1.0, speechScale, 1.0)
+      } else if (isDancing) {
+        // Dancing: rhythmic joyful arc
+        const danceScale = 0.3 + Math.sin(time * 8) * 0.15
+        eyeLeftRef.current.scale.set(1.1, danceScale, 1.0)
+        eyeRightRef.current.scale.set(1.1, danceScale, 1.0)
+      } else if (mood === 'happy') {
+        eyeLeftRef.current.scale.set(1.1, 0.35, 1.0)
+        eyeRightRef.current.scale.set(1.1, 0.35, 1.0)
+      } else {
+        // Idle: natural eye blink interval
+        const isBlinking = Math.sin(time * 0.7) > 0.96
+        const blink = isBlinking ? 0.08 : 1.0
+        eyeLeftRef.current.scale.set(1.0, blink, 1.0)
+        eyeRightRef.current.scale.set(1.0, blink, 1.0)
+      }
     }
   })
 
@@ -235,6 +270,8 @@ export default function CyberBotModel({
           <sphereGeometry args={[0.32, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.45]} />
           <meshStandardMaterial
             color={skinConfig.visorColor}
+            emissive={isListening ? '#10b981' : isSpeaking ? skinConfig.antennaEmissive : skinConfig.visorColor}
+            emissiveIntensity={isListening ? 0.8 : isSpeaking ? 0.4 : 0.05}
             roughness={0.05}
             metalness={0.95}
           />
@@ -244,17 +281,17 @@ export default function CyberBotModel({
         <mesh ref={eyeLeftRef} position={[-0.12, 0.02, 0.48]}>
           <capsuleGeometry args={[0.035, 0.06, 8, 16]} />
           <meshStandardMaterial
-            color={skinConfig.visorEmissive}
-            emissive={skinConfig.visorEmissive}
-            emissiveIntensity={4.8}
+            color={isListening ? '#10b981' : skinConfig.visorEmissive}
+            emissive={isListening ? '#10b981' : skinConfig.visorEmissive}
+            emissiveIntensity={isListening ? 7.5 : isSpeaking ? 6.5 : 4.8}
           />
         </mesh>
         <mesh ref={eyeRightRef} position={[0.12, 0.02, 0.48]}>
           <capsuleGeometry args={[0.035, 0.06, 8, 16]} />
           <meshStandardMaterial
-            color={skinConfig.visorEmissive}
-            emissive={skinConfig.visorEmissive}
-            emissiveIntensity={4.8}
+            color={isListening ? '#10b981' : skinConfig.visorEmissive}
+            emissive={isListening ? '#10b981' : skinConfig.visorEmissive}
+            emissiveIntensity={isListening ? 7.5 : isSpeaking ? 6.5 : 4.8}
           />
         </mesh>
 

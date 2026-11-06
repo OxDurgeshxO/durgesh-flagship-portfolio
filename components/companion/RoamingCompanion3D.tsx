@@ -8,7 +8,7 @@ import CyberBotQuickDial from './CyberBotQuickDial'
 import CyberBotTelemetryOverlay from './CyberBotTelemetryOverlay'
 import { trackEvent } from '@/lib/analytics'
 import { CyberBotSpeechEngine, stripEmojis } from '@/lib/companion/speech'
-import { searchKnowledge, SUGGESTED_QUESTION_CHIPS } from '@/lib/companion/knowledge'
+import { searchKnowledge, SUGGESTED_QUESTION_CHIPS, SECTION_CONTEXT_CHIPS } from '@/lib/companion/knowledge'
 import { CyberBotVoiceListener, VoiceCommandResult } from '@/lib/companion/voice-recognition'
 import { CyberBotSkinId, CYBERBOT_SKINS, getNextSkinId } from '@/lib/companion/skins'
 
@@ -79,6 +79,7 @@ export default function RoamingCompanion3D() {
 
   // Ultimate features states
   const [skin, setSkin] = useState<CyberBotSkinId>('cobalt-prime')
+  const [activeSection, setActiveSection] = useState<string>('hero')
   const [isDancing, setIsDancing] = useState(false)
   const [isListening, setIsListening] = useState(false)
   const [quickDialOpen, setQuickDialOpen] = useState(false)
@@ -528,6 +529,7 @@ export default function RoamingCompanion3D() {
       { id: 'contact', msg: "📬 Ready to build next-gen AI? Send Durgesh a message or grab his resume above!" },
       { id: 'github-projects', msg: "💻 Real-time GitHub sync! Check out his open-source repositories and live stars." },
       { id: 'projects', msg: "🚀 Featured: RoleRadar AI Career Platform, AI Fitness MediaPipe & MarketMatch-AI!" },
+      { id: 'featured-projects', msg: "🚀 Featured: RoleRadar AI Career Platform, AI Fitness MediaPipe & MarketMatch-AI!" },
       { id: 'education', msg: "🏛️ MCA in AIML (2025–2027) & BCA (8.9 CGPA) with AWS & UNLOX certifications!" },
       { id: 'experience', msg: "💼 Enterprise GenAI, LLM agents, and cloud architectures built for production scale!" },
       { id: 'about', msg: "🎓 Durgesh is an MCA (AIML) candidate with expertise in autonomous AI & deep learning!" },
@@ -555,6 +557,7 @@ export default function RoamingCompanion3D() {
             if (scrollCheckY >= elemTop && scrollCheckY <= elemBottom) {
               if (lastDetectedSection !== id) {
                 lastDetectedSection = id
+                setActiveSection(id)
                 setActiveMessage(msg)
                 setKnowledgeAction(null)
                 setBubbleVisible(true)
@@ -998,7 +1001,7 @@ export default function RoamingCompanion3D() {
           tourStatus={currentTourStatus}
           knowledgeAction={knowledgeAction}
           isListening={isListening}
-          suggestedChips={SUGGESTED_QUESTION_CHIPS}
+          suggestedChips={SECTION_CONTEXT_CHIPS[activeSection] || SUGGESTED_QUESTION_CHIPS}
           onSelectChip={(chip) => handleAskQuestion(chip)}
           onAskQuestion={(q) => handleAskQuestion(q)}
           onAction={handleBubbleAction}
@@ -1063,6 +1066,7 @@ export default function RoamingCompanion3D() {
                 mood={mood}
                 isSpeaking={isSpeaking}
                 isDancing={isDancing}
+                isListening={isListening}
                 skin={skin}
               />
             </Suspense>
