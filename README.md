@@ -11,6 +11,18 @@
 > 🚀 **Live Production Deployment**: **[https://durgesh-portfolio.pages.dev](https://durgesh-portfolio.pages.dev/)**  
 > ⚡ Engineered for **Cloudflare Pages Anycast CDN** with sub-second global edge delivery, interactive WebGL shaders, client-side computer vision kinematics, and 0-WebGL graceful fallbacks.
 
+### 🌐 Live Branch Deployments & Previews
+
+All active branches for [**OxDurgeshxO/durgesh-flagship-portfolio**](https://github.com/OxDurgeshxO/durgesh-flagship-portfolio) are continuously deployed via Cloudflare Pages:
+
+| Branch | Deployment Status | Live Deployed URL | Core Focus & Features |
+| :--- | :--- | :--- | :--- |
+| [`main`](https://github.com/OxDurgeshxO/durgesh-flagship-portfolio/tree/main) | **Production** | [https://durgesh-portfolio.pages.dev](https://durgesh-portfolio.pages.dev/) | Canonical production release: 3D CyberBot companion, AI Lab kinema, live GitHub health telemetry. |
+| [`V10`](https://github.com/OxDurgeshxO/durgesh-flagship-portfolio/tree/V10) | **Active Development** | [https://v10.durgesh-portfolio.pages.dev](https://v10.durgesh-portfolio.pages.dev/) | Streamlined executive 1-page ATS resume, bold technical lead-ins, updated regression tests, dead-code cleanup. |
+| [`v8`](https://github.com/OxDurgeshxO/durgesh-flagship-portfolio/tree/v8) | **Feature Preview** | [https://v8.durgesh-portfolio.pages.dev](https://v8.durgesh-portfolio.pages.dev/) | Six selectable dark themes (Cobalt Blueprint default), theme registry, contrast & preview tooling. |
+| [`v6`](https://github.com/OxDurgeshxO/durgesh-flagship-portfolio/tree/v6) | **Staging Preview** | [https://v6.durgesh-portfolio.pages.dev](https://v6.durgesh-portfolio.pages.dev/) | Authentic GitHub and LinkedIn profile data integration, automated repo health metrics. |
+| [`V4`](https://github.com/OxDurgeshxO/durgesh-flagship-portfolio/tree/V4) | **Visual Milestone** | [https://v4.durgesh-portfolio.pages.dev](https://v4.durgesh-portfolio.pages.dev/) | SpaceEdu planetary orbital background system and Cyber Ronin neural edge animation canvas. |
+
 A production-grade engineering showcase communicating:
 > **Durgesh Dutt Sinha is an AI/ML engineer and full-stack developer who builds production-oriented AI systems, computer-vision tools, and modern web platforms.**
 
@@ -178,7 +190,20 @@ See [docs/testing.md](docs/testing.md) for the complete verification architectur
 
 ## 🚀 Cloudflare Pages Deployment Runbook
 
-The application is deployed using Cloudflare Pages with Git integration on branch `main` (there is no `v2` branch on the remote):
+The application is deployed using Cloudflare Pages with Git integration across all branches:
+- **Production (`main`)**: [https://durgesh-portfolio.pages.dev](https://durgesh-portfolio.pages.dev/)
+- **Branch Previews**: Automatically built for all pushed branches at `https://<branch>.durgesh-portfolio.pages.dev` (e.g. `V10`, `v8`, `v6`, `V4`).
+
+### 🎛️ Cloudflare Dashboard & Project Controls
+
+| Management Console | Target / Scope | Direct Dashboard URL |
+| :--- | :--- | :--- |
+| **Pages Project Overview** | `durgesh-portfolio` deployment history & settings | [dash.cloudflare.com/.../pages/view/durgesh-portfolio](https://dash.cloudflare.com/8123c83f7a3dcece2e5503fbf437bab0/pages/view/durgesh-portfolio) |
+| **Workers & Pages Hub** | Central Workers & Pages service listing | [dash.cloudflare.com/.../workers-and-pages](https://dash.cloudflare.com/8123c83f7a3dcece2e5503fbf437bab0/workers-and-pages) |
+| **Worker Service View** | `durgesh-flagship-portfolio` build telemetry | [dash.cloudflare.com/.../workers/services/view/durgesh-flagship-portfolio](https://dash.cloudflare.com/?to=/8123c83f7a3dcece2e5503fbf437bab0/workers/services/view/durgesh-flagship-portfolio) |
+| **Root Cloudflare Console** | Account-level settings & domains | [dash.cloudflare.com](https://dash.cloudflare.com/) |
+
+- **Cloudflare Account ID**: `8123c83f7a3dcece2e5503fbf437bab0`
 
 - **Framework Preset**: `Next.js (Static Export)`
 - **Build Command**: `npm run build`
