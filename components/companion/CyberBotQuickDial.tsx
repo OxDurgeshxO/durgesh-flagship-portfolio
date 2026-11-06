@@ -65,11 +65,11 @@ export default function CyberBotQuickDial({
                   e.stopPropagation()
                   onClose()
                 }}
-                className="text-slate-400 hover:text-white text-xs p-1 rounded-lg hover:bg-white/10 transition-colors"
+                className="text-slate-400 hover:text-white text-xs min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
                 title="Close Quick-Dial (Esc)"
                 aria-label="Close Quick Dial"
               >
-                <X className="size-3.5" />
+                <X className="size-4" />
               </button>
             </div>
 
@@ -81,7 +81,7 @@ export default function CyberBotQuickDial({
                   e.stopPropagation()
                   downloadResume()
                 }}
-                className="w-full px-3 py-2 rounded-xl text-xs font-semibold bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 flex items-center justify-between transition-all active:scale-95"
+                className="w-full px-3 py-2 min-h-[44px] rounded-xl text-xs font-semibold bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 flex items-center justify-between transition-all active:scale-95"
               >
                 <div className="flex items-center gap-2">
                   <FileDown className="size-3.5 text-emerald-400" />
@@ -96,7 +96,7 @@ export default function CyberBotQuickDial({
                   e.stopPropagation()
                   copyEmail()
                 }}
-                className="w-full px-3 py-2 rounded-xl text-xs font-semibold bg-purple-500/15 hover:bg-purple-500/25 text-purple-200 border border-purple-500/40 flex items-center justify-between transition-all active:scale-95"
+                className="w-full px-3 py-2 min-h-[44px] rounded-xl text-xs font-semibold bg-purple-500/15 hover:bg-purple-500/25 text-purple-200 border border-purple-500/40 flex items-center justify-between transition-all active:scale-95"
               >
                 <div className="flex items-center gap-2">
                   {copied ? (
@@ -113,14 +113,14 @@ export default function CyberBotQuickDial({
 
               {/* 3. Verified Audit PDF */}
               <a
-                href="/technical_audit_report.pdf"
+                href="/V10_Audit_Hardening_Report.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => {
                   e.stopPropagation()
                   onPlayChime?.(600, 950)
                 }}
-                className="w-full px-3 py-2 rounded-xl text-xs font-semibold bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 flex items-center justify-between transition-all active:scale-95 block"
+                className="w-full px-3 py-2 min-h-[44px] rounded-xl text-xs font-semibold bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 flex items-center justify-between transition-all active:scale-95 block"
               >
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="size-3.5 text-amber-400" />
@@ -136,7 +136,7 @@ export default function CyberBotQuickDial({
                   onClose()
                   onStartTour()
                 }}
-                className="w-full px-3 py-2 rounded-xl text-xs font-semibold bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/40 flex items-center justify-between transition-all active:scale-95"
+                className="w-full px-3 py-2 min-h-[44px] rounded-xl text-xs font-semibold bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/40 flex items-center justify-between transition-all active:scale-95"
               >
                 <div className="flex items-center gap-2">
                   <Compass className="size-3.5 text-sky-400" />

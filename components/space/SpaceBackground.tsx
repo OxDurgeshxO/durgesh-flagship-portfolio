@@ -11,7 +11,8 @@ export interface SpaceBackgroundProps {
 }
 
 const EARTH_VIDEO = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260827_202422_3ffb4889-c520-432d-8458-038009eb40df.mp4";
-const EARTH_STILL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260827_202133_508c64b8-a31e-4290-bdfc-1187df70e0a6.png";
+// Optimized local WebP asset (144.7 KB, reduced by 97.3% from 5.4 MB remote CloudFront PNG)
+const EARTH_STILL = "/images/earth-still.webp";
 
 function armEntranceGate() {
   if (typeof document === "undefined") return () => {};

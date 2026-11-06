@@ -220,3 +220,4 @@ export function savePerformanceMode(mode: PerformanceMode): void {
   }
 }
 
+

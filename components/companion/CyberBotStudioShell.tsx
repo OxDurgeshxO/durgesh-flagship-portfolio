@@ -672,7 +672,7 @@ export default function CyberBotStudioShell() {
                   (active) => setIsListening(active)
                 )
               } else {
-                setActiveMessage("Speech recognition not supported in this browser.")
+                setActiveMessage("Voice commands require Chromium, Edge, or Safari (Web Speech API). Please use the text input below!")
                 setBubbleVisible(true)
               }
             }}
