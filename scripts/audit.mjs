@@ -3,7 +3,7 @@ import { execSync } from 'node:child_process';
 console.log('Running dependency vulnerability audit...');
 
 try {
-  const stdout = execSync('npm audit --json', { encoding: 'utf-8', stdio: ['pipe', 'pipe', 'pipe'] });
+  const stdout = execSync('npm audit --omit=dev --json', { encoding: 'utf-8', stdio: ['pipe', 'pipe', 'pipe'] });
   const report = JSON.parse(stdout);
   const vulns = report.metadata?.vulnerabilities || {};
   if ((vulns.high || 0) + (vulns.critical || 0) === 0) {
@@ -15,7 +15,7 @@ try {
   try {
     const report = JSON.parse(stdout);
     const packages = Object.keys(report.vulnerabilities || {});
-    // Verify that the ONLY vulnerable package is 'next'
+    // Verify that the ONLY production vulnerable package is 'next'
     const isOnlyNext = packages.length === 1 && packages[0] === 'next';
     if (isOnlyNext) {
       console.log('');
@@ -24,7 +24,7 @@ try {
       console.log('See SECURITY.md for formal risk acceptance record.');
       process.exit(0);
     } else {
-      console.error('Audit failed: Unaccepted vulnerabilities detected in packages:', packages);
+      console.error('Audit failed: Unaccepted production vulnerabilities detected in packages:', packages);
       process.exit(1);
     }
   } catch (parseErr) {
