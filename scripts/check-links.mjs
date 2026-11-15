@@ -92,7 +92,8 @@ for (const [pagePath, page] of pages) {
       href.startsWith('mailto:') ||
       href.startsWith('tel:') ||
       href.startsWith('data:') ||
-      href.startsWith('javascript:')
+      href.startsWith('javascript:') ||
+      href.startsWith('vbscript:')
     ) {
       continue;
     }
