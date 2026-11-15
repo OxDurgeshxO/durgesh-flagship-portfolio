@@ -131,11 +131,15 @@ for (const [pagePath, page] of pages) {
       resolvedPath = path.posix.normalize(baseDir + targetPath).replace(/\/+$/, '') || '/';
     }
 
-    const targetPage = pages.get(resolvedPath) ?? pages.get(resolvedPath + '/');
+    const targetPage =
+      pages.get(resolvedPath) ??
+      pages.get(resolvedPath + '/') ??
+      pages.get(resolvedPath.replace(/\.html$/, ''));
     const isAsset =
       emittedAssets.has(targetPath) ||
       emittedAssets.has(targetPath + '/') ||
-      emittedAssets.has(resolvedPath);
+      emittedAssets.has(resolvedPath) ||
+      fs.existsSync(path.join(OUT_DIR, resolvedPath.replace(/^\//, '')));
 
     if (!targetPage && !isAsset) {
       brokenInternal.push({ pagePath, href, resolvedPath });

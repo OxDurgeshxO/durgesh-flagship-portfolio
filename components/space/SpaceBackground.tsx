@@ -149,7 +149,7 @@ export default function SpaceBackground({
           </button>
         ))}
         <a
-          href="/spaceedu.html"
+          href="/spaceedu"
           className="space-dock-link"
           target="_blank"
           rel="noopener noreferrer"
