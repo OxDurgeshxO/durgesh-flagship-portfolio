@@ -15,6 +15,10 @@
 A production-grade engineering showcase communicating:
 > **Durgesh Dutt Sinha is an AI/ML engineer and full-stack developer who builds production-oriented AI systems, computer-vision tools, and modern web platforms.**
 
+<p align="center">
+  <img src="public/og-image.png" alt="Durgesh Dutt Sinha AI/ML Flagship Portfolio" width="100%" />
+</p>
+
 ---
 
 ## 🏛️ System Architecture
