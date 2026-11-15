@@ -41,6 +41,7 @@ export default function RoamingCompanion3D() {
   const [isDragging, setIsDragging] = useState(false)
   const [bubbleAlign, setBubbleAlign] = useState<'left' | 'right' | 'center'>('left')
   const [isMuted, setIsMuted] = useState(false)
+  const [isDocVisible, setIsDocVisible] = useState(true)
   const isMutedRef = useRef(false)
   isMutedRef.current = isMuted
 
@@ -170,13 +171,18 @@ export default function RoamingCompanion3D() {
         isMutedRef.current = saved
       }
     }
+    const handleVisibility = () => {
+      setIsDocVisible(!document.hidden)
+    }
     window.addEventListener('cyberbot-mute-toggle', handleMuteToggle)
+    document.addEventListener('visibilitychange', handleVisibility)
 
     return () => {
       clearTimeout(welcomeTimer)
       if (dismissTimer) clearTimeout(dismissTimer)
       window.removeEventListener('scroll', handleSectionScroll)
       window.removeEventListener('cyberbot-mute-toggle', handleMuteToggle)
+      document.removeEventListener('visibilitychange', handleVisibility)
     }
   }, [playCyberChirp])
 
@@ -420,6 +426,7 @@ export default function RoamingCompanion3D() {
           <Canvas
             camera={{ position: [0, 0, 3.2], fov: 45 }}
             dpr={[1, 1.5]}
+            frameloop={isDocVisible ? 'always' : 'never'}
             gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
             className="w-full h-full"
           >

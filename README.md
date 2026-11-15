@@ -9,7 +9,8 @@
 [![Tests Passing](https://img.shields.io/badge/Tests-42%20Unit%20%7C%2082%20Playwright-emerald?style=for-the-badge&logo=githubactions&logoColor=white)](docs/testing.md)
 
 > 🚀 **Live Production Deployment**: **[https://durgesh-portfolio.pages.dev](https://durgesh-portfolio.pages.dev/)**  
-> ⚡ Engineered for **Cloudflare Pages Anycast CDN** with sub-second global edge delivery, interactive WebGL shaders, client-side computer vision kinematics, and 0-WebGL graceful fallbacks.
+> ⚡ Engineered for **Cloudflare Pages Anycast CDN** with sub-second global edge delivery, interactive WebGL shaders, client-side computer vision kinematics, and 0-WebGL graceful fallbacks.  
+> 📖 **Deep Technical Case Study**: Read the 3D GPU optimization analysis in [docs/CASE_STUDY_3D_CYBERBOT.md](docs/CASE_STUDY_3D_CYBERBOT.md) for WebGL shader pipeline design, batched buffer geometries, and zero-idle battery savings.
 
 A production-grade engineering showcase communicating:
 > **Durgesh Dutt Sinha is an AI/ML engineer and full-stack developer who builds production-oriented AI systems, computer-vision tools, and modern web platforms.**
