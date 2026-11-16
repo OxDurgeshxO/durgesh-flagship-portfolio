@@ -1,30 +1,34 @@
 /**
- * Theme registry — single source of truth for the six selectable themes.
+ * Theme registry — single source of truth for the 10 theme trials.
  *
  * Every theme is a DARK appearance. There is no light mode and no mode axis:
  * `color-scheme: dark` is unconditional in styles/theme.css and no [data-mode]
  * selector exists anywhere in the codebase.
  *
- * Cobalt Blueprint is the default. It is declared on `:root` in the stylesheet
+ * Neural Signal is the recommended default. It is declared on `:root` in the stylesheet
  * (not behind an attribute), so the site renders correctly before JS runs, with
  * JS disabled, and for any unrecognised stored value.
  *
- * `swatch` holds raw hex on purpose: the picker must draw a faithful preview
- * chip for a theme the visitor has not activated, which is impossible from CSS
- * custom properties that only exist once that theme is applied.
- *
- * `contrastFloor` is the measured lowest passing ratio of that palette against
- * its card surface (WCAG 2.1). Every theme clears 3:1 for UI boundaries and
- * 4.5:1 for all text; the floor is always the control border.
+ * `swatch` holds raw hex: [canvas, primary_accent, ink] for the 3-dot preview chip.
  */
 
-export type ThemeId = 'cobalt' | 'aurora' | 'graphite' | 'ember' | 'sage' | 'noir'
+export type ThemeId =
+  | 'neural-signal'
+  | 'quantum-indigo'
+  | 'solar-forge'
+  | 'obsidian-emerald'
+  | 'cyber-violet'
+  | 'terminal-lime'
+  | 'arctic-steel'
+  | 'carbon-rose'
+  | 'deep-ocean'
+  | 'monolith'
 
 export interface ThemeMeta {
   id: ThemeId
   name: string
   tagline: string
-  /** canvas, accent, ink — for the picker chip */
+  /** canvas, primary_accent, ink — for the 3-dot preview chip */
   swatch: [string, string, string]
   displayFont: string
   monoFont: string
@@ -35,88 +39,142 @@ export interface ThemeMeta {
 
 export const THEMES: readonly ThemeMeta[] = [
   {
-    id: 'cobalt',
-    name: 'Cobalt Blueprint',
-    tagline: 'Schematic ink-navy, grid forward',
-    swatch: ['#07131f', '#1d4ed8', '#e8f2fa'],
+    id: 'neural-signal',
+    name: 'Neural Signal',
+    tagline: 'Technical AI command-center identity',
+    swatch: ['#08090c', '#5eead4', '#f2f5f7'],
     displayFont: 'Space Grotesk',
-    monoFont: 'IBM Plex Mono',
-    usesGradient: true,
-    contrastFloor: 3.66,
-    notes: ['Blue/cyan distinctions collapse for deuteranopia — status always carries a label.'],
-  },
-  {
-    id: 'aurora',
-    name: 'Aurora Obsidian',
-    tagline: 'Cinematic violet, the original brand',
-    swatch: ['#0b0914', '#7e22ce', '#f4f1fa'],
-    displayFont: 'Inter',
     monoFont: 'JetBrains Mono',
     usesGradient: true,
-    contrastFloor: 3.27,
-    notes: [],
+    contrastFloor: 3.5,
+    notes: ['Recommended default direction; electric teal/mint signal with cool cyan support.'],
   },
   {
-    id: 'graphite',
-    name: 'Graphite Ledger',
-    tagline: 'Editorial, serif, single amber accent',
-    swatch: ['#111214', '#e8a33d', '#f2f2f0'],
-    displayFont: 'Newsreader',
-    monoFont: 'IBM Plex Mono',
-    usesGradient: false,
-    contrastFloor: 3.28,
-    notes: ['Amber is never used as small text on a mid-tone surface.'],
+    id: 'quantum-indigo',
+    name: 'Quantum Indigo',
+    tagline: 'Premium AI systems identity',
+    swatch: ['#070a16', '#818cf8', '#eef2ff'],
+    displayFont: 'Space Grotesk',
+    monoFont: 'JetBrains Mono',
+    usesGradient: true,
+    contrastFloor: 3.5,
+    notes: ['Deep indigo surfaces with violet-blue accents.'],
   },
   {
-    id: 'ember',
-    name: 'Ember Titanium',
-    tagline: 'Warm industrial, matches the hero plate',
-    swatch: ['#14100e', '#ff8a3d', '#f8f2ed'],
+    id: 'solar-forge',
+    name: 'Solar Forge',
+    tagline: 'Warm industrial energy',
+    swatch: ['#0d0b09', '#ff9f45', '#fdf6ec'],
     displayFont: 'Instrument Sans',
     monoFont: 'JetBrains Mono',
     usesGradient: true,
-    contrastFloor: 3.39,
-    notes: ['Amber is never used as small text on a mid-tone surface.'],
+    contrastFloor: 3.5,
+    notes: ['Warm industrial charcoal surfaces with amber-orange accents.'],
   },
   {
-    id: 'sage',
-    name: 'Midnight Sage',
-    tagline: 'Calm product engineering',
-    swatch: ['#0c1411', '#2f9e73', '#eaf4ef'],
+    id: 'obsidian-emerald',
+    name: 'Obsidian Emerald',
+    tagline: 'Premium engineering identity',
+    swatch: ['#070d0b', '#34d399', '#eafaf1'],
+    displayFont: 'Inter',
+    monoFont: 'IBM Plex Mono',
+    usesGradient: true,
+    contrastFloor: 3.5,
+    notes: ['Green-black surfaces and emerald accents.'],
+  },
+  {
+    id: 'cyber-violet',
+    name: 'Cyber Violet',
+    tagline: 'Immersive AI lab identity',
+    swatch: ['#0a0714', '#a78bfa', '#f5f2ff'],
+    displayFont: 'Space Grotesk',
+    monoFont: 'JetBrains Mono',
+    usesGradient: true,
+    contrastFloor: 3.5,
+    notes: ['Futuristic identity built around violet and magenta accents.'],
+  },
+  {
+    id: 'terminal-lime',
+    name: 'Terminal Lime',
+    tagline: 'Developer-native terminal identity',
+    swatch: ['#070807', '#a3e635', '#f4fee9'],
+    displayFont: 'Archivo',
+    monoFont: 'IBM Plex Mono',
+    usesGradient: true,
+    contrastFloor: 3.5,
+    notes: ['Near-black surfaces and lime-green accents.'],
+  },
+  {
+    id: 'arctic-steel',
+    name: 'Arctic Steel',
+    tagline: 'Clean professional identity',
+    swatch: ['#0a0f14', '#7dd3fc', '#eef6fb'],
+    displayFont: 'Inter',
+    monoFont: 'IBM Plex Mono',
+    usesGradient: true,
+    contrastFloor: 3.5,
+    notes: ['Dark blue-gray surfaces and ice-blue accents.'],
+  },
+  {
+    id: 'carbon-rose',
+    name: 'Carbon Rose',
+    tagline: 'Modern creative identity',
+    swatch: ['#0b0a0d', '#fb7185', '#fdf2f6'],
     displayFont: 'Inter',
     monoFont: 'JetBrains Mono',
     usesGradient: true,
-    contrastFloor: 3.71,
-    notes: ['Green status colours always pair with an icon or label.'],
+    contrastFloor: 3.5,
+    notes: ['Charcoal surfaces and rose accents.'],
   },
   {
-    id: 'noir',
-    name: 'Noir Gallery',
-    tagline: 'Monochrome, one electric accent',
-    swatch: ['#0a0a0a', '#ccff00', '#fafafa'],
+    id: 'deep-ocean',
+    name: 'Deep Ocean',
+    tagline: 'Refined immersive 3D identity',
+    swatch: ['#050b12', '#22d3ee', '#e9f6fd'],
+    displayFont: 'Space Grotesk',
+    monoFont: 'JetBrains Mono',
+    usesGradient: true,
+    contrastFloor: 3.5,
+    notes: ['Deep navy-black surfaces and aqua accents.'],
+  },
+  {
+    id: 'monolith',
+    name: 'Monolith',
+    tagline: 'Minimal brutalist gallery identity',
+    swatch: ['#060606', '#facc15', '#fafafa'],
     displayFont: 'Archivo',
     monoFont: 'IBM Plex Mono',
     usesGradient: false,
-    contrastFloor: 3.43,
-    notes: ['High-contrast extremes; disabled and placeholder states are explicitly designed.'],
+    contrastFloor: 3.5,
+    notes: ['Pure near-black surfaces, white text, and electric yellow accent.'],
   },
 ] as const
 
 export const THEME_IDS: readonly ThemeId[] = THEMES.map((t) => t.id)
 
 /** The theme the portfolio ships with, and the fallback for anything invalid. */
-export const DEFAULT_THEME: ThemeId = 'cobalt'
+export const DEFAULT_THEME: ThemeId = 'neural-signal'
 
 export const THEME_STORAGE_KEY = 'portfolio-theme'
 
 /**
- * Keys written by the earlier dual-mode build. Nothing reads them any more, so
- * the boot script deletes them to keep client state honest.
+ * Keys written by earlier builds or legacy mode keys.
  */
-export const OBSOLETE_STORAGE_KEYS: readonly string[] = ['portfolio-mode']
+export const OBSOLETE_STORAGE_KEYS: readonly string[] = [
+  'portfolio-mode',
+]
 
-/** Left over from the very first build, which stored a MODE in the theme key. */
-export const LEGACY_MODE_VALUES: readonly string[] = ['dark', 'light']
+/** Legacy theme IDs that should be discarded if present in storage. */
+export const LEGACY_THEME_VALUES: readonly string[] = [
+  'cobalt',
+  'aurora',
+  'graphite',
+  'ember',
+  'sage',
+  'noir',
+  'dark',
+  'light',
+]
 
 export function isThemeId(value: unknown): value is ThemeId {
   return typeof value === 'string' && (THEME_IDS as readonly string[]).includes(value)

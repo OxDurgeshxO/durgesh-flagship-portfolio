@@ -4,14 +4,12 @@ import {
   JetBrains_Mono,
   IBM_Plex_Mono,
   Space_Grotesk,
-  Newsreader,
   Instrument_Sans,
   Archivo,
 } from 'next/font/google'
 import '../styles/globals.css'
-// Portfolio theme: Cobalt Blueprint, dark only.
-// One flat token sheet scoped to :root — no theme switching, no light mode and
-// no attribute scoping. See styles/theme.css for the palette and measured floors.
+// Portfolio theme trials: 10 selectable themes, dark only (Neural Signal default).
+// Flat token sheet scoped to :root and [data-theme]. See styles/theme.css.
 import '../styles/theme.css'
 // Cyber Ronin // Neural Edges hero background layer (own namespaced stylesheet).
 import '../components/cyber-ronin/cyber-ronin.css'
@@ -48,20 +46,12 @@ const ibmPlexMono = IBM_Plex_Mono({
   variable: '--font-ibm-plex-mono',
 })
 
-/* Display faces for Graphite Ledger, Ember Titanium and Noir Gallery.
+/* Display faces for theme trials.
    preload:false — only one theme is active at a time, so preloading these would
    cost every visitor bandwidth for fonts they may never render.
    adjustFontFallback:false — Next 14.2 has no bundled metric-override data for
    these faces and that lookup is what fails the build; it is the computation
    being disabled, not the font. */
-const newsreader = Newsreader({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-newsreader',
-  preload: false,
-  adjustFontFallback: false,
-})
-
 const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
   display: 'swap',
@@ -223,23 +213,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <html lang="en" data-theme="cobalt" suppressHydrationWarning>
+    <html lang="en" data-theme="neural-signal" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* Anti-FOUC boot script: applies the stored or URL-selected theme before
             the first paint, so a visitor who chose another theme never sees a
             flash of the default. It MUST stay inline, synchronous and in <head>.
-            The static data-theme="cobalt" on <html> is the JS-disabled baseline. */}
+            The static data-theme="neural-signal" on <html> is the JS-disabled baseline. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
-        <meta name="theme-color" content="#07131f" />
+        <meta name="theme-color" content="#08090c" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }}
         />
       </head>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable} ${newsreader.variable} ${instrumentSans.variable} ${archivo.variable}`}
+        className={`${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable} ${instrumentSans.variable} ${archivo.variable}`}
       >
         {/* Global skip link (WCAG 2.4.1). Every route renders a
             <main id="main-content">, so a single link in the root layout covers

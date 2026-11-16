@@ -8,12 +8,12 @@ import { THEMES, THEME_IDS, getTheme, ThemeId } from '@/lib/themes/registry'
 import { trackEvent } from '@/lib/analytics'
 
 /**
- * Theme selection panel.
+ * Theme selection panel matching the trial-plan layout and styling.
  *
- * Six themes, all dark appearances — there is no day/night control because there
- * is no light mode. Accessibility:
- *  - the trigger is a button with aria-expanded / aria-haspopup
- *  - the list is a radiogroup with roving tabindex and arrow-key navigation
+ * 10 theme trials, all dark appearances — displayed within one unified panel.
+ * Accessibility:
+ *  - trigger is a button with aria-expanded / aria-haspopup
+ *  - list is a radiogroup with roving tabindex and arrow-key navigation
  *  - Escape closes and returns focus to the trigger
  *  - every change is announced through a polite live region
  */
@@ -105,18 +105,20 @@ export default function ThemeControl() {
               exit={{ opacity: 0, y: 4, scale: 0.97 }}
               transition={{ duration: 0.16 }}
               onKeyDown={onListKeyDown}
-              className="absolute top-11 right-0 z-50 w-[20rem] p-3 rounded-2xl glass border-border bg-popover/95 shadow-xl"
+              className="absolute top-11 right-0 z-50 w-[21.5rem] p-3 rounded-2xl glass border-border bg-popover/95 shadow-2xl max-h-[82vh] overflow-y-auto"
             >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
-                  Theme
+              {/* Header matching reference layout */}
+              <div className="flex items-center justify-between mb-2.5 px-1 pt-0.5">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
+                  THEME
                 </span>
-                <span className="text-[10px] font-mono text-muted-foreground">
+                <span className="text-[11px] font-mono text-muted-foreground">
                   {urlPinned ? 'URL preview · not saved' : 'dark appearances only'}
                 </span>
               </div>
 
-              <div role="radiogroup" aria-label="Select a theme" className="space-y-1">
+              {/* Theme Trials Options List */}
+              <div role="radiogroup" aria-label="Select a theme trial" className="space-y-1">
                 {THEMES.map((t) => {
                   const active = t.id === theme
                   return (
@@ -127,42 +129,40 @@ export default function ThemeControl() {
                       aria-checked={active}
                       tabIndex={active ? 0 : -1}
                       onClick={() => choose(t.id)}
-                      className={`w-full text-left px-2.5 py-2 rounded-xl flex items-center gap-2.5 transition-colors cursor-pointer ${
+                      className={`w-full text-left px-3 py-2 rounded-xl flex items-center gap-2.5 transition-all cursor-pointer ${
                         active
-                          ? 'bg-primary/10 border border-primary/40'
-                          : 'hover:bg-muted border border-transparent'
+                          ? 'bg-primary/10 border border-primary/40 shadow-sm'
+                          : 'hover:bg-muted/70 border border-transparent'
                       }`}
                     >
+                      {/* 3-Dot Color Swatch Preview */}
                       <span className="flex gap-1 shrink-0" aria-hidden>
                         {t.swatch.map((c, i) => (
                           <span
                             key={i}
-                            className="w-3 h-3 rounded-full border border-border-strong"
+                            className="w-3 h-3 rounded-full border border-white/10"
                             style={{ backgroundColor: c }}
                           />
                         ))}
                       </span>
+
+                      {/* Theme Name & Tagline */}
                       <span className="min-w-0 flex-1">
                         <span className="block text-xs font-semibold text-ink truncate">
                           {t.name}
                         </span>
-                        <span className="block text-[10px] text-muted-foreground truncate">
+                        <span className="block text-[10.5px] text-muted-foreground truncate mt-0.5">
                           {t.tagline} · {t.displayFont}
                         </span>
                       </span>
-                      {active && <Check className="size-3.5 text-[var(--primary)] shrink-0" />}
+
+                      {/* Active Checkmark Icon */}
+                      {active && (
+                        <Check className="size-3.5 text-[var(--primary)] shrink-0 ml-1" strokeWidth={2.5} />
+                      )}
                     </button>
                   )
                 })}
-              </div>
-
-              <div className="mt-3 pt-2.5 border-t border-border flex items-center justify-between">
-                <span className="text-[10px] text-muted-foreground font-mono">
-                  AA floor {meta.contrastFloor.toFixed(2)}:1
-                </span>
-                <span className="text-[10px] text-muted-foreground font-mono">
-                  {meta.usesGradient ? 'gradient headline' : 'solid headline'}
-                </span>
               </div>
             </motion.div>
           </>
