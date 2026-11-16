@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "type-check": "tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
-    "verify": "npm run lint && npm run typecheck && npm run build && npm test",
+    "verify": "npm run lint && npm run typecheck && npm run audit && npm run build && npm test && npm run check:links",
     "audit": "node scripts/audit.mjs",
     "test:watch": "node --test --watch tests/*.test.mjs",
     "preview": "npx serve@latest out -l 3000",
