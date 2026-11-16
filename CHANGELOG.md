@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [2.0.1] - 2026-11-16
+
+### Summary
+Quality gate synchronization and dependency hardening patch. Aligned local `npm run verify` with CI workflow, resolved static HTML route checking in link validator, and hardened production audit script.
+
+### Changed
+- **Quality Gate Alignment**: Updated `"verify"` script in `package.json` to include `npm run audit` and `npm run check:links` for complete local parity with GitHub Actions CI.
+- **Link Validator Hardening**: Enhanced `scripts/check-links.mjs` to support `.html` static assets and clean URL route mapping.
+- **Production Audit Hardening**: Updated `scripts/audit.mjs` with `--omit=dev` to isolate production dependencies, matching documented Next.js risk acceptance in `SECURITY.md`.
+- **Dependency Update**: Updated transitive `source-map-js` dependency to clean build-time vulnerability.
+
+---
+
 ## [2.0.0] - 2026-09-22
 
 ### Summary
