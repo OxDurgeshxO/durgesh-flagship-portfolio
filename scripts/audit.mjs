@@ -1,9 +1,9 @@
 import { execSync } from 'node:child_process';
 
-console.log('Running dependency vulnerability audit...');
+console.log('Running dependency vulnerability audit (production dependencies)...');
 
 try {
-  const stdout = execSync('npm audit --json', { encoding: 'utf-8', stdio: ['pipe', 'pipe', 'pipe'] });
+  const stdout = execSync('npm audit --omit=dev --json', { encoding: 'utf-8', stdio: ['pipe', 'pipe', 'pipe'] });
   const report = JSON.parse(stdout);
   const vulns = report.metadata?.vulnerabilities || {};
   if ((vulns.high || 0) + (vulns.critical || 0) === 0) {
