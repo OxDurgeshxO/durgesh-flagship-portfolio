@@ -16,6 +16,7 @@ import '../components/cyber-ronin/cyber-ronin.css'
 import '../components/space/space-background.css'
 import { THEME_BOOT_SCRIPT } from '@/lib/themes/boot'
 import { ThemeProvider } from '@/lib/themes/provider'
+import { SwissStudioProvider, SwissUniversalBackground } from '@/components/3d/swiss-hero/SwissUniversalBackground'
 
 
 const inter = Inter({
@@ -242,7 +243,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             the secondary routes render this layout plus <Navbar /> — and the
             navbar contains the theme panel, which reads this context. */}
         <ThemeProvider>
-          {children}
+          <SwissStudioProvider>
+            <SwissUniversalBackground />
+            <div className="relative z-10 min-h-screen">
+              {children}
+            </div>
+          </SwissStudioProvider>
         </ThemeProvider>
       </body>
     </html>

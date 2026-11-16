@@ -17,7 +17,7 @@
 .space-cosmos-wrapper {
   position: relative;
   width: 100%;
-  background: var(--space-bg, #04101f);
+  background: transparent;
 }
 
 .space-bg-root {
