@@ -18,23 +18,22 @@ export const SwissStudioControls: React.FC<SwissStudioControlsProps> = ({
 }) => {
   const isCream = studioTheme === 'cream'
 
-  // Outer pill container styling
   const pillBg = isCream
-    ? 'bg-[#121316]/8 border-[#121316]/15 text-[#121316]'
-    : 'bg-[#181A20]/80 border-white/15 text-[#F4F0E8]'
+    ? 'bg-white/90 border-black/15 text-[#111215] shadow-lg shadow-black/5'
+    : 'bg-[#14161D]/90 border-white/20 text-[#EDEDED] shadow-xl shadow-black/40'
 
   const activeSegmentBg = isCream
-    ? 'bg-white shadow-sm text-[#111215] font-semibold'
-    : 'bg-white/15 text-white font-semibold'
+    ? 'bg-[#111215] text-[#F4F0E8] font-bold shadow-sm'
+    : 'bg-white text-[#111215] font-bold shadow-sm'
 
   const inactiveSegmentText = isCream
-    ? 'text-[#111215]/60 hover:text-[#111215]'
-    : 'text-[#F4F0E8]/60 hover:text-[#F4F0E8]'
+    ? 'text-[#111215]/65 hover:text-[#111215] hover:bg-black/5'
+    : 'text-[#EDEDED]/65 hover:text-[#EDEDED] hover:bg-white/10'
 
   return (
-    <div className="absolute top-6 left-1/2 -translate-x-1/2 z-30 pointer-events-auto">
+    <div className="absolute top-20 left-1/2 -translate-x-1/2 z-30 pointer-events-auto">
       <div
-        className={`flex items-center gap-1 p-1 rounded-full border backdrop-blur-md transition-colors ${pillBg}`}
+        className={`flex items-center gap-1 p-1 rounded-full border backdrop-blur-xl transition-all ${pillBg}`}
         role="toolbar"
         aria-label="Studio lighting and inspection controls"
       >
@@ -42,7 +41,7 @@ export const SwissStudioControls: React.FC<SwissStudioControlsProps> = ({
         <button
           type="button"
           onClick={() => onThemeChange('cream')}
-          className={`flex items-center gap-1.5 px-3 py-1 rounded-full font-mono text-[10px] tracking-wider uppercase transition-all ${
+          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-mono text-[10px] tracking-wider uppercase transition-all ${
             studioTheme === 'cream' ? activeSegmentBg : inactiveSegmentText
           }`}
           aria-pressed={studioTheme === 'cream'}
@@ -55,7 +54,7 @@ export const SwissStudioControls: React.FC<SwissStudioControlsProps> = ({
         <button
           type="button"
           onClick={() => onThemeChange('darkroom')}
-          className={`flex items-center gap-1.5 px-3 py-1 rounded-full font-mono text-[10px] tracking-wider uppercase transition-all ${
+          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-mono text-[10px] tracking-wider uppercase transition-all ${
             studioTheme === 'darkroom' ? activeSegmentBg : inactiveSegmentText
           }`}
           aria-pressed={studioTheme === 'darkroom'}
@@ -65,8 +64,8 @@ export const SwissStudioControls: React.FC<SwissStudioControlsProps> = ({
         </button>
 
         <span
-          className={`w-[1px] h-3 mx-0.5 ${
-            isCream ? 'bg-[#121316]/15' : 'bg-white/15'
+          className={`w-[1px] h-3.5 mx-0.5 ${
+            isCream ? 'bg-black/15' : 'bg-white/20'
           }`}
         />
 
@@ -74,16 +73,16 @@ export const SwissStudioControls: React.FC<SwissStudioControlsProps> = ({
         <button
           type="button"
           onClick={() => onXRayToggle(!isXRay)}
-          className={`flex items-center gap-1.5 px-3 py-1 rounded-full font-mono text-[10px] tracking-wider uppercase transition-all ${
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-mono text-[10px] tracking-wider uppercase transition-all ${
             isXRay
-              ? 'bg-amber-500/20 text-amber-500 border border-amber-500/40 font-bold'
+              ? 'bg-amber-500 text-black font-bold shadow-sm'
               : inactiveSegmentText
           }`}
           aria-pressed={isXRay}
         >
           <span
             className={`w-1.5 h-1.5 rounded-sm ${
-              isXRay ? 'bg-amber-500 animate-pulse' : 'bg-current opacity-40'
+              isXRay ? 'bg-black' : 'bg-current opacity-50'
             }`}
           />
           <span>[X-RAY]</span>

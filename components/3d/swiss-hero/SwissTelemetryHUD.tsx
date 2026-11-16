@@ -70,63 +70,59 @@ export const SwissTelemetryHUD: React.FC<SwissTelemetryHUDProps> = ({
   }, [])
 
   const isCream = studioTheme === 'cream'
-  const textClass = isCream ? 'text-[#121316]' : 'text-[#EDEDED]'
-  const subtextClass = isCream ? 'text-[#121316]/60' : 'text-[#EDEDED]/60'
-  const borderClass = isCream ? 'border-[#121316]/20' : 'border-[#EDEDED]/20'
-  const badgeBg = isCream ? 'bg-[#121316]/5' : 'bg-white/5'
+  const textClass = isCream ? 'text-[#111215]' : 'text-[#EDEDED]'
+  const subtextClass = isCream ? 'text-[#111215]/65' : 'text-[#EDEDED]/65'
+  const borderClass = isCream ? 'border-black/15' : 'border-white/20'
+  const badgeBg = isCream ? 'bg-black/5' : 'bg-white/10'
 
-  // Computed state label
   const stateLabel =
     explodeProgress > 0.1
       ? HERO_CONSTANTS.STATUS_EXPLODED
       : HERO_CONSTANTS.STATUS_HOLD
 
-  // Dynamic camera approximation
   const camZ = (6.0 + explodeProgress * 4.2).toFixed(2)
   const turntableAngle = (explodeProgress * 360).toFixed(0)
 
   return (
     <div
-      className="pointer-events-none absolute inset-0 z-20 overflow-hidden font-mono text-[10px] sm:text-[11px] tracking-wider select-none"
+      className="pointer-events-none absolute inset-0 z-20 overflow-hidden font-mono text-[9.5px] sm:text-[10.5px] tracking-wider select-none"
       aria-hidden="true"
     >
-      {/* Corner Registration Crosshairs */}
-      <div className={`absolute top-4 left-4 ${subtextClass}`}>+</div>
-      <div className={`absolute top-4 right-4 ${subtextClass}`}>+</div>
+      {/* Corner Crosshairs */}
+      <div className={`absolute top-20 left-4 ${subtextClass}`}>+</div>
+      <div className={`absolute top-20 right-4 ${subtextClass}`}>+</div>
       <div className={`absolute bottom-4 left-4 ${subtextClass}`}>+</div>
       <div className={`absolute bottom-4 right-4 ${subtextClass}`}>+</div>
 
-      {/* TOP LEFT: State, Tagline & Architecture Code */}
-      <div className="absolute top-6 left-6 max-w-xs space-y-1">
+      {/* TOP LEFT: State, Tagline (Offset below navbar) */}
+      <div className="absolute top-24 left-6 sm:left-10 max-w-xs space-y-1">
         <div className="flex items-center gap-2">
           <span
-            className={`inline-block px-1.5 py-0.5 rounded border ${borderClass} ${badgeBg} ${textClass} font-semibold`}
+            className={`inline-block px-2 py-0.5 rounded border ${borderClass} ${badgeBg} ${textClass} font-bold`}
           >
             {stateLabel}
           </span>
           {isXRay && (
-            <span className="inline-block px-1.5 py-0.5 rounded border border-amber-500/40 bg-amber-500/10 text-amber-500 font-semibold animate-pulse">
+            <span className="inline-block px-1.5 py-0.5 rounded border border-amber-500/50 bg-amber-500/15 text-amber-600 font-bold animate-pulse">
               [CAD_WIREFRAME]
             </span>
           )}
         </div>
-        <p className={`${subtextClass} uppercase text-[9px] sm:text-[10px]`}>
+        <p className={`${subtextClass} uppercase text-[8.5px] sm:text-[9.5px]`}>
           {HERO_CONSTANTS.TAGLINE}
         </p>
-        <p className={`${subtextClass} text-[9px]`}>{HERO_CONSTANTS.BUILD}</p>
+        <p className={`${subtextClass} text-[8.5px]`}>{HERO_CONSTANTS.BUILD}</p>
       </div>
 
-      {/* TOP RIGHT: Camera Coordinates & Optics Telemetry */}
-      <div className="absolute top-6 right-6 text-right space-y-1">
+      {/* TOP RIGHT: Camera Coordinates (Offset below navbar) */}
+      <div className="absolute top-24 right-6 sm:right-10 text-right space-y-1">
         <div className="flex items-center justify-end gap-2">
           <span className={subtextClass}>OPTICS:</span>
-          <span className={`${textClass} font-semibold`}>50mm F/1.8 PBR</span>
+          <span className={`${textClass} font-bold`}>50mm F/1.8 PBR</span>
         </div>
         <div className="flex items-center justify-end gap-2">
           <span className={subtextClass}>CAM_VEC:</span>
-          <span className={`${textClass}`}>
-            [0.0, 0.4, {camZ}]
-          </span>
+          <span className={`${textClass}`}>[0.0, 0.4, {camZ}]</span>
         </div>
         <div className="flex items-center justify-end gap-2">
           <span className={subtextClass}>AZIMUTH:</span>
@@ -135,8 +131,8 @@ export const SwissTelemetryHUD: React.FC<SwissTelemetryHUDProps> = ({
       </div>
 
       {/* BOTTOM LEFT: Frame Counter & Live FPS */}
-      <div className="absolute bottom-6 left-6 space-y-1">
-        <div className="flex items-center gap-3">
+      <div className="absolute bottom-6 left-6 sm:left-10 space-y-1">
+        <div className="flex items-center gap-2.5">
           <span className={`${textClass} font-bold`}>
             FPS {fps.toString().padStart(2, '0')}
           </span>
@@ -145,14 +141,14 @@ export const SwissTelemetryHUD: React.FC<SwissTelemetryHUDProps> = ({
             FRM #{frame.toString().padStart(6, '0')}
           </span>
         </div>
-        <div className={`flex items-center gap-2 ${subtextClass} text-[9px]`}>
+        <div className={`flex items-center gap-2 ${subtextClass} text-[8.5px]`}>
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
           <span>{'PCF_SOFT_SHADOWS // PMREM_ACTIVE'}</span>
         </div>
       </div>
 
       {/* BOTTOM RIGHT: Cursor Dynamics & Assembly Matrix */}
-      <div className="absolute bottom-6 right-6 text-right space-y-1">
+      <div className="absolute bottom-6 right-6 sm:right-10 text-right space-y-1">
         <div className="flex items-center justify-end gap-2">
           <span className={subtextClass}>CRS:</span>
           <span className={textClass}>
@@ -161,7 +157,7 @@ export const SwissTelemetryHUD: React.FC<SwissTelemetryHUDProps> = ({
           </span>
           <span className={subtextClass}>V:{cursor.vel.toFixed(2)}</span>
         </div>
-        <div className={`flex items-center justify-end gap-2 ${subtextClass} text-[9px]`}>
+        <div className={`flex items-center justify-end gap-2 ${subtextClass} text-[8.5px]`}>
           <span>ASSEMBLIES: 6/6 COUPLED</span>
           <span className="w-1.5 h-1.5 rounded-sm bg-neutral-400 inline-block" />
         </div>

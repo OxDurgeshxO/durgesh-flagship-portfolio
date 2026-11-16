@@ -15,27 +15,27 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
   studioTheme,
 }) => {
   const isCream = studioTheme === 'cream'
-  const textColor = isCream ? 'text-[#121316]' : 'text-[#EDEDED]'
-  const subtextColor = isCream ? 'text-[#121316]/60' : 'text-[#EDEDED]/60'
-  const trackBg = isCream ? 'bg-[#121316]/15' : 'bg-white/15'
-  const fillBg = isCream ? 'bg-[#121316]' : 'bg-white'
+  const textColor = isCream ? 'text-[#111215]' : 'text-[#EDEDED]'
+  const subtextColor = isCream ? 'text-[#111215]/60' : 'text-[#EDEDED]/60'
+  const trackBg = isCream ? 'bg-black/10' : 'bg-white/15'
+  const fillBg = isCream ? 'bg-[#111215]' : 'bg-white'
   const containerBg = isCream
-    ? 'bg-[#F4F0E8]/85 border-[#121316]/15'
-    : 'bg-[#0D0E11]/85 border-white/15'
+    ? 'bg-white/90 border-black/15 shadow-xl shadow-black/5'
+    : 'bg-[#14161D]/90 border-white/20 shadow-2xl shadow-black/40'
 
   const pct = Math.round(progress * 100)
 
   return (
-    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-auto w-[90%] max-w-md">
+    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-auto w-[90%] max-w-sm sm:max-w-md">
       <div
-        className={`px-4 py-2.5 rounded-xl border backdrop-blur-md shadow-lg ${containerBg} transition-colors`}
+        className={`px-4 py-2 rounded-xl border backdrop-blur-xl ${containerBg} transition-all`}
       >
         {/* Header row */}
         <div className="flex items-center justify-between font-mono text-[9px] sm:text-[10px] tracking-widest uppercase mb-1.5 select-none">
-          <div className="flex items-center gap-2">
-            <span className={`font-semibold ${textColor}`}>TIMELINE CHOREOGRAPHY</span>
+          <div className="flex items-center gap-1.5">
+            <span className={`font-bold ${textColor}`}>CHOREOGRAPHY</span>
             <span className={subtextColor}>{'//'}</span>
-            <span className={subtextColor}>
+            <span className="font-semibold text-amber-500">
               {progress < 0.1 ? 'HOLD' : progress > 0.85 ? 'ZERO-G' : 'EXPLODING'}
             </span>
           </div>
@@ -43,18 +43,18 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
             <button
               type="button"
               onClick={() => onScrubChange(0)}
-              className={`hover:underline transition-opacity ${
-                progress === 0 ? 'opacity-100 font-bold' : 'opacity-60'
+              className={`hover:opacity-100 transition-opacity ${
+                progress === 0 ? 'opacity-100 font-bold' : 'opacity-50'
               } ${textColor}`}
             >
-              [RESET]
+              [ASSEMBLE]
             </button>
             <span className={subtextColor}>|</span>
             <button
               type="button"
               onClick={() => onScrubChange(1)}
-              className={`hover:underline transition-opacity ${
-                progress === 1 ? 'opacity-100 font-bold' : 'opacity-60'
+              className={`hover:opacity-100 transition-opacity ${
+                progress === 1 ? 'opacity-100 font-bold' : 'opacity-50'
               } ${textColor}`}
             >
               [EXPLODE]
@@ -64,7 +64,7 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
         </div>
 
         {/* Scrubber slider track */}
-        <div className="relative flex items-center h-4">
+        <div className="relative flex items-center h-3.5">
           <input
             type="range"
             min={0}
@@ -89,7 +89,7 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
 
         {/* Milestone ticks */}
         <div
-          className={`flex justify-between items-center font-mono text-[8px] tracking-wider uppercase select-none ${subtextColor} mt-1`}
+          className={`flex justify-between items-center font-mono text-[7.5px] sm:text-[8.5px] tracking-wider uppercase select-none ${subtextColor} mt-1`}
         >
           <span>{'00 // ASSEMBLED'}</span>
           <span>{'50 // TURNTABLE'}</span>

@@ -70,7 +70,7 @@ export default function KineticSculpture({
   })
 
   return (
-    <group ref={rootGroupRef} position={[0, 0, 0]}>
+    <group ref={rootGroupRef} position={[0, 0.35, 0]} scale={[1.1, 1.1, 1.1]}>
       {/* 1. Outer Acoustic Shells */}
       <AcousticShells
         explodeProgress={explodeProgress}

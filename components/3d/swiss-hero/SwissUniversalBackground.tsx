@@ -63,8 +63,9 @@ export function SwissUniversalBackground() {
   if (!isMounted) return null
 
   const isHome = pathname === '/'
-  // Secondary pages maintain an ambient zero-gravity float
-  const activeExplode = isHome ? explodeProgress : 0.05
+  // On homepage, HeroSection directly hosts the primary interactive 3D canvas
+  if (isHome) return null
+
   const isDark = studioTheme === 'darkroom'
 
   return (
@@ -74,7 +75,7 @@ export function SwissUniversalBackground() {
     >
       {/* 3D WebGL Studio Cyclorama */}
       <SwissStudioCanvas
-        explodeProgress={activeExplode}
+        explodeProgress={0.05}
         isXRay={isXRay}
         studioTheme={studioTheme}
       />
