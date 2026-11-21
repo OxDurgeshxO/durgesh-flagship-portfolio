@@ -1,7 +1,7 @@
 # DURGESH FLAGSHIP PORTFOLIO // MASTER CONSOLIDATION & OPERATIONAL MANUAL
 
 > **Target Repository**: [https://github.com/OxDurgeshxO/durgesh-flagship-portfolio](https://github.com/OxDurgeshxO/durgesh-flagship-portfolio)  
-> **Local Working Directory**: `C:\Users\Durgesh\.gemini\antigravity\scratch\durgesh-flav6-portfolio-blind-trial`  
+> **Local Working Directory**: `./durgesh-flagship-portfolio`  
 > **Active Target Branch**: `main`  
 > **Production Deployment Target**: Cloudflare Pages (`https://durgesh-portfolio.pages.dev`)  
 > **Verification Status**: 42/42 Unit & A11y Tests Passing (100% Green) | 0 TypeScript Errors | 20/20 Static Pages Compiled
@@ -59,7 +59,7 @@ Every architectural concept, mathematical model, and implementation detail from 
   * **`components/LiquidGlassCard.tsx`**: Implements realistic optical glass refraction using SVG chromatic aberration filters (`<feTurbulence>` + `<feDisplacementMap>`). Warps underlying DOM elements with zero WebGL overhead.
   * **`components/ThinkingOrb.tsx`**: Autonomous 60 FPS HTML5 Canvas particle orb. 250 micro-dots orbit in spherical harmonic trajectories $(\rho, \theta, \phi)$, expanding when hovered and pulsing when clicked.
   * **`docs/DESIGN_TOKENS.md`**: Master token specifications declaring glass elevation tiers, blur radii (`12px` to `24px`), and studio theme palettes.
-* **Current Status**: Preserved and merged directly into `main` ([commit `4c239f8`](file:///C:/Users/Durgesh/.gemini/antigravity/scratch/durgesh-flav6-portfolio-blind-trial)).
+* **Current Status**: Preserved and merged directly into `main` (commit `4c239f8`).
 
 ### 6. `archive/V10` (Commit `f4bff87` — Nov 6, 2026)
 * **Theme**: Interactive AI Laboratory, Recruiter Screening Wizard, & Automated Asset Generation.
@@ -71,7 +71,7 @@ Every architectural concept, mathematical model, and implementation detail from 
   * **Automated Asset Generators (`scripts/*`)**:
     * `scripts/generate-og-cards.mjs`: Programmatic script that generates 1200x630 SVG/PNG preview banners for LinkedIn, Twitter, and WhatsApp sharing.
     * `scripts/generate-resume-pdf.mjs`: Automated Puppeteer headless browser script that compiles `public/resume.pdf` directly from the web route.
-* **Current Status**: Preserved and merged directly into `main` ([commit `4c239f8`](file:///C:/Users/Durgesh/.gemini/antigravity/scratch/durgesh-flav6-portfolio-blind-trial)).
+* **Current Status**: Preserved and merged directly into `main` (commit `4c239f8`).
 
 ---
 
@@ -137,7 +137,7 @@ node scripts/generate-resume-pdf.mjs
 Before deploying or deleting anything, run the 3-tier local verification sequence:
 
 ```powershell
-cd C:\Users\Durgesh\.gemini\antigravity\scratch\durgesh-flav6-portfolio-blind-trial
+cd durgesh-flagship-portfolio
 
 # 1. Typecheck (Must return 0 errors)
 npm run typecheck
@@ -157,7 +157,7 @@ Once you give explicit approval, execute the following commands in order.
 
 ### Step 1: Push the Elevated `main` Branch to GitHub
 ```powershell
-cd C:\Users\Durgesh\.gemini\antigravity\scratch\durgesh-flav6-portfolio-blind-trial
+cd durgesh-flagship-portfolio
 git push origin main
 ```
 *Result*: GitHub `main` now contains all Swiss hero typography, WebGPU particle compute shaders, Liquid Glass components, AI Labs, and PDF generators.

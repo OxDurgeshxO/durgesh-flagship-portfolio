@@ -62,6 +62,10 @@ export default function VectorEmbeddingSandbox() {
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--accent-lab)]">
             <Compass className="h-4 w-4" />
             <span>Interactive Vector Space Engine</span>
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono font-bold text-emerald-400">
+              <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              BETA • 2D VECTOR LAB
+            </span>
           </div>
           <h2 className="text-2xl font-bold text-foreground mt-1">In-Browser Vector Embedding & Cosine Lab</h2>
           <p className="text-sm text-muted-foreground mt-1 max-w-2xl">

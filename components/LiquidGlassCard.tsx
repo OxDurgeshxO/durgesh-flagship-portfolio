@@ -5,12 +5,14 @@ interface LiquidGlassCardProps {
   children: React.ReactNode;
   className?: string;
   glowColor?: string;
+  showBetaBadge?: boolean;
 }
 
 export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({
   children,
   className = '',
-  glowColor = 'rgba(6, 182, 212, 0.15)'
+  glowColor = 'rgba(6, 182, 212, 0.15)',
+  showBetaBadge = true
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
@@ -59,6 +61,14 @@ export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({
       
       {/* Card Content with 3D Z-elevation */}
       <div className="relative z-10 p-6" style={{ transform: 'translateZ(20px)' }}>
+        {showBetaBadge && (
+          <div className="mb-3 flex justify-end">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-2.5 py-0.5 text-[10px] font-mono font-bold tracking-wider text-cyan-400 shadow-sm shadow-cyan-500/20">
+              <span className="size-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              BETA • LIQUID GLASS
+            </span>
+          </div>
+        )}
         {children}
       </div>
     </motion.div>

@@ -4,11 +4,13 @@ import { motion } from 'framer-motion';
 interface ThinkingOrbProps {
   status?: 'idle' | 'listening' | 'thinking' | 'speaking';
   size?: number;
+  showBetaBadge?: boolean;
 }
 
 export const ThinkingOrb: React.FC<ThinkingOrbProps> = ({
   status = 'thinking',
-  size = 120
+  size = 120,
+  showBetaBadge = false
 }) => {
   const getGlow = () => {
     switch (status) {
@@ -55,6 +57,15 @@ export const ThinkingOrb: React.FC<ThinkingOrbProps> = ({
         {/* Core center dot */}
         <div className="w-3 h-3 rounded-full bg-white shadow-lg animate-ping" />
       </motion.div>
+
+      {showBetaBadge && (
+        <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
+          <span className="inline-flex items-center gap-1 rounded-full border border-purple-500/40 bg-purple-500/10 px-2 py-0.5 text-[9px] font-mono font-bold tracking-wider text-purple-300">
+            <span className="size-1 rounded-full bg-purple-400 animate-pulse" />
+            BETA • THINKING ORB
+          </span>
+        </div>
+      )}
     </div>
   );
 };

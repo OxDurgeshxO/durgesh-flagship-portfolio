@@ -1,4 +1,5 @@
 # Modern Craft Design Tokens & Anti-Slop Guidelines
+`[BETA • ARCHIVE/V2 CRAFT & SHADER SYSTEM SPECIFICATION]`
 
 **Governing Skills**: `taste-skill`, `ui-motion-primitives`, `awesome-design-md`  
 **Targets**: `durgesh-portfolio-2026`, `GYM-PROJ-TRIAL-1`

@@ -367,9 +367,15 @@ export function FitTrackDemo() {
     <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-xl space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/60 pb-4">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-lab-bg)] px-3 py-1 text-xs font-semibold text-[var(--accent-lab)] border border-emerald-500/20 mb-2">
-            <Activity className="h-3.5 w-3.5" />
-            FitTrack Kinematics Engine
+          <div className="flex items-center gap-2 mb-2">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-lab-bg)] px-3 py-1 text-xs font-semibold text-[var(--accent-lab)] border border-emerald-500/20">
+              <Activity className="h-3.5 w-3.5" />
+              FitTrack Kinematics Engine
+            </div>
+            <span className="inline-flex items-center gap-1 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-2 py-0.5 text-[10px] font-mono font-bold text-cyan-400">
+              <span className="size-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              BETA • KINEMATICS MIRROR
+            </span>
           </div>
           <h2 className="text-2xl font-bold tracking-tight text-foreground">Computer Vision Pose & Rep Counter</h2>
           <p className="text-sm text-muted-foreground">

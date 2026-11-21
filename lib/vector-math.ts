@@ -1,7 +1,10 @@
 /**
  * Vector Math & Semantic Similarity Utilities
  * Zero runtime dependencies. Client-side ephemeral execution.
+ * [BETA • VECTOR MATH ENGINE v1.0.0 (archive/V10)]
  */
+
+export const VECTOR_ENGINE_TAG = 'BETA • CLIENT-SIDE VECTOR ENGINE';
 
 export interface VectorMetrics {
   cosine: number;

@@ -116,6 +116,9 @@ Email: ${OWNER.email} | GitHub: ${OWNER.github}`;
         >
           <Download className="size-3.5" />
           <span>Official PDF</span>
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-white/20 text-white border border-white/30">
+            BETA
+          </span>
         </a>
       </div>
     </div>

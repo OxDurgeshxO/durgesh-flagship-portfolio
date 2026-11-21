@@ -7,10 +7,12 @@ import ResumeAnalyzerDemo from './ResumeAnalyzerDemo';
 import { FitTrackDemo } from './FitTrackDemo';
 import MarketMatchDemo from './MarketMatchDemo';
 import TokenCounterDemo from './TokenCounterDemo';
-import { Hash } from 'lucide-react';
+import VectorEmbeddingSandbox from './VectorEmbeddingSandbox';
+import { CraftShowcaseDemo } from './CraftShowcaseDemo';
+import { Hash, Compass, Palette } from 'lucide-react';
 import PrivacyNotice from './PrivacyNotice';
 
-type TabKey = 'resume' | 'fittrack' | 'marketmatch' | 'tokenizer';
+type TabKey = 'resume' | 'fittrack' | 'vectors' | 'craft' | 'marketmatch' | 'tokenizer';
 
 export function AiLabShell() {
   const [activeTab, setActiveTab] = useState<TabKey>('resume');
@@ -29,8 +31,24 @@ export function AiLabShell() {
       name: 'FitTrack Kinematics',
       subtitle: 'Pose Angle & Rep Counter',
       icon: Activity,
-      badge: 'Edge Computer Vision',
+      badge: 'BETA • Kinematics',
       caseStudy: '/work/fittrack',
+    },
+    {
+      id: 'vectors' as TabKey,
+      name: 'Vector Embeddings',
+      subtitle: '2D Cosine & Euclidean Lab',
+      icon: Compass,
+      badge: 'BETA • Vector Space',
+      caseStudy: '/work/roleradar',
+    },
+    {
+      id: 'craft' as TabKey,
+      name: 'Craft & Shaders',
+      subtitle: 'Liquid Glass & Thinking Orb',
+      icon: Palette,
+      badge: 'BETA • 3D Motion',
+      caseStudy: '/work/roleradar',
     },
     {
       id: 'marketmatch' as TabKey,
@@ -128,8 +146,10 @@ export function AiLabShell() {
       <div className="transition-opacity duration-200">
         {activeTab === 'resume' && <ResumeAnalyzerDemo />}
         {activeTab === 'fittrack' && <FitTrackDemo />}
+        {activeTab === 'vectors' && <VectorEmbeddingSandbox />}
+        {activeTab === 'craft' && <CraftShowcaseDemo />}
         {activeTab === 'marketmatch' && <MarketMatchDemo />}
-      {activeTab === 'tokenizer' && <TokenCounterDemo />}
+        {activeTab === 'tokenizer' && <TokenCounterDemo />}
       </div>
 
       {/* Privacy Notice Component */}

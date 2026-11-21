@@ -82,6 +82,12 @@ function generateSvgCard(card) {
     DURGESH DUTT SINHA • AI/ML ENGINEERING FLAGSHIP
   </text>
 
+  <!-- Beta Badge -->
+  <g transform="translate(1010, 88)">
+    <rect width="90" height="28" rx="14" fill="${card.accent}" fill-opacity="0.15" stroke="${card.accent}" stroke-width="1.5"/>
+    <text x="45" y="18" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" font-weight="800" fill="${card.accent}" text-anchor="middle" letter-spacing="1">BETA</text>
+  </g>
+
   <!-- Title -->
   <text x="80" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="56" font-weight="800" fill="#ffffff" letter-spacing="-1">
     ${card.title}
