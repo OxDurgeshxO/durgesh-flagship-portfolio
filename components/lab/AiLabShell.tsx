@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Sparkles, FileText, Activity, Users, ArrowUpRight, ShieldCheck, Zap, Lock } from 'lucide-react';
 import ResumeAnalyzerDemo from './ResumeAnalyzerDemo';
@@ -16,6 +16,18 @@ type TabKey = 'resume' | 'fittrack' | 'vectors' | 'craft' | 'marketmatch' | 'tok
 
 export function AiLabShell() {
   const [activeTab, setActiveTab] = useState<TabKey>('resume');
+
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.replace('#', '') as TabKey;
+      if (['resume', 'fittrack', 'vectors', 'craft', 'marketmatch', 'tokenizer'].includes(hash)) {
+        setActiveTab(hash);
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
 
   const tabs = [
     {

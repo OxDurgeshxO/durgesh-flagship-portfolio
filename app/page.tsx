@@ -4,6 +4,7 @@ import Navbar from '@/components/sections/Navbar'
 import HeroClientWrapper from '@/components/sections/HeroClientWrapper'
 import { PortfolioShell } from '@/components/PortfolioShell'
 import ProofStrip from '@/components/sections/ProofStrip'
+import BetaCrownJewelsDashboard from '@/components/sections/BetaCrownJewelsDashboard'
 import SpaceClientWrapper from '@/components/space/SpaceClientWrapper'
 import AboutSection from '@/components/sections/AboutSection'
 import ExperienceSection from '@/components/sections/ExperienceSection'
@@ -38,6 +39,7 @@ export default async function Home() {
         <Navbar />
         <HeroClientWrapper />
         <ProofStrip />
+        <BetaCrownJewelsDashboard />
 
         {/* SpaceEdu Cosmic Planetary Atmosphere — extends from About Me through Footer */}
         <div className="space-cosmos-wrapper relative">
