@@ -31,11 +31,6 @@ export default function AiLabPage() {
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
             <span>Back to Main Portfolio</span>
           </Link>
-
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-mono text-primary">
-            <Terminal className="h-3 w-3" />
-            <span>LIVE EDGE RUNTIME</span>
-          </div>
         </div>
 
         {/* Header Section */}

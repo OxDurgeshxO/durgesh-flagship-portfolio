@@ -2,17 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Sparkles, FileText, Activity, Users, ArrowUpRight, ShieldCheck, Zap, Lock } from 'lucide-react';
+import { Sparkles, FileText, Activity, Users, ArrowUpRight, ShieldCheck, Zap, Lock, Hash } from 'lucide-react';
 import ResumeAnalyzerDemo from './ResumeAnalyzerDemo';
 import { FitTrackDemo } from './FitTrackDemo';
 import MarketMatchDemo from './MarketMatchDemo';
 import TokenCounterDemo from './TokenCounterDemo';
-import VectorEmbeddingSandbox from './VectorEmbeddingSandbox';
-import { CraftShowcaseDemo } from './CraftShowcaseDemo';
-import { Hash, Compass, Palette } from 'lucide-react';
 import PrivacyNotice from './PrivacyNotice';
 
-type TabKey = 'resume' | 'fittrack' | 'vectors' | 'craft' | 'marketmatch' | 'tokenizer';
+type TabKey = 'resume' | 'fittrack' | 'marketmatch' | 'tokenizer';
 
 export function AiLabShell() {
   const [activeTab, setActiveTab] = useState<TabKey>('resume');
@@ -20,7 +17,7 @@ export function AiLabShell() {
   useEffect(() => {
     const handleHash = () => {
       const hash = window.location.hash.replace('#', '') as TabKey;
-      if (['resume', 'fittrack', 'vectors', 'craft', 'marketmatch', 'tokenizer'].includes(hash)) {
+      if (['resume', 'fittrack', 'marketmatch', 'tokenizer'].includes(hash)) {
         setActiveTab(hash);
       }
     };
@@ -43,24 +40,8 @@ export function AiLabShell() {
       name: 'FitTrack Kinematics',
       subtitle: 'Pose Angle & Rep Counter',
       icon: Activity,
-      badge: 'BETA • Kinematics',
+      badge: 'Edge Computer Vision',
       caseStudy: '/work/fittrack',
-    },
-    {
-      id: 'vectors' as TabKey,
-      name: 'Vector Embeddings',
-      subtitle: '2D Cosine & Euclidean Lab',
-      icon: Compass,
-      badge: 'BETA • Vector Space',
-      caseStudy: '/work/roleradar',
-    },
-    {
-      id: 'craft' as TabKey,
-      name: 'Craft & Shaders',
-      subtitle: 'Liquid Glass & Thinking Orb',
-      icon: Palette,
-      badge: 'BETA • 3D Motion',
-      caseStudy: '/work/roleradar',
     },
     {
       id: 'marketmatch' as TabKey,
@@ -158,8 +139,6 @@ export function AiLabShell() {
       <div className="transition-opacity duration-200">
         {activeTab === 'resume' && <ResumeAnalyzerDemo />}
         {activeTab === 'fittrack' && <FitTrackDemo />}
-        {activeTab === 'vectors' && <VectorEmbeddingSandbox />}
-        {activeTab === 'craft' && <CraftShowcaseDemo />}
         {activeTab === 'marketmatch' && <MarketMatchDemo />}
         {activeTab === 'tokenizer' && <TokenCounterDemo />}
       </div>
